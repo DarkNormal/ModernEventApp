@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Posse Up!"
+        android:text="@string/app_name"
         android:id="@+id/signin_header"
         android:layout_marginTop="148dp"
         android:textColor="#FFF8F8"
@@ -20,7 +20,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Form groups and make new friends, whatever the event! You can join in on public events, or create your own private sessions for you and your friends"
+        android:text="@string/app_basic_info"
         android:id="@+id/signin_desc"
         android:textColor="#FFF8F8"
         android:paddingLeft="35dp"
@@ -36,11 +36,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Username / Email"
+        android:hint="@string/username_field"
         android:ems="10"
         android:id="@+id/username_email"
         android:textSize="12dp"
-        android:textColor="#FFF8F8"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
         android:minWidth="200dp"
         android:layout_below="@+id/signin_desc"
         android:layout_centerHorizontal="true"
@@ -54,16 +55,18 @@
         android:layout_below="@+id/username_email"
         android:layout_alignStart="@+id/username_email"
         android:layout_marginTop="19dp"
-        android:text="Password"
+        android:hint="@string/password_field"
         android:textSize="12dp"
-        android:textColor="#FFF8F8"
-        android:inputType="text"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:inputType="textPassword"
+        android:fontFamily="sans-serif"
         android:minWidth="200dp" />
 
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Sign in"
+        android:text="@string/sign_in_button"
         android:id="@+id/signin_button"
         android:textSize="12dp"
         android:background="#FF3366"
@@ -78,12 +81,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Forgot Password?"
+        android:text="@string/forgot_password"
         android:id="@+id/forgot_password"
         android:layout_below="@+id/password"
         android:layout_alignEnd="@+id/password"
         android:textSize="9dp"
-        android:textColor="#99FFF8F8" />
+        android:textColor="#99FFF8F8"
+        android:layout_marginTop="5dp" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -96,7 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Don&apos;t have an account? "
+            android:text="@string/no_account_prompt"
             android:id="@+id/no_account"
             android:textSize="10dp"
             android:textColor="#99FFF8F8"
@@ -108,12 +112,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Sign Up"
+            android:text="@string/sign_up"
             android:id="@+id/signup_text"
             android:textColor="#FFF8F8"
             android:textSize="10dp"
             android:layout_alignTop="@+id/no_account"
-            android:layout_alignEnd="@+id/signin_header" />
+            android:layout_alignEnd="@+id/signin_header"
+            android:layout_marginLeft="4dp" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -13,10 +13,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
 
 public class Tab1 extends Fragment {
-    ViewPager viewPager;
+    private ViewPager viewPager;
     private static final String TAG = "RecyclerViewFragment";
     private static final String KEY_LAYOUT_MANAGER = "layoutManager";
     private static final int SPAN_COUNT = 2;
@@ -26,11 +25,11 @@ public class Tab1 extends Fragment {
         LINEAR_LAYOUT_MANAGER
     }
 
-    protected LayoutManagerType mCurrentLayoutManagerType;
-    protected RecyclerView mRecyclerView;
-    protected CustomAdapter mAdapter;
-    protected RecyclerView.LayoutManager mLayoutManager;
-    protected String[] mDataset;
+    private LayoutManagerType mCurrentLayoutManagerType;
+    private RecyclerView mRecyclerView;
+    private CustomAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private String[] mDataset;
 
 
 
@@ -77,7 +76,7 @@ public class Tab1 extends Fragment {
      *
      * @param layoutManagerType Type of layout manager to switch to.
      */
-    public void setRecyclerViewLayoutManager(LayoutManagerType layoutManagerType) {
+    private void setRecyclerViewLayoutManager(LayoutManagerType layoutManagerType) {
         int scrollPosition = 0;
 
         // If a layout manager has already been set, get current scroll position.

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">/
+    tools:context=".MainActivity">
 
     <com.astuetz.PagerSlidingTabStrip
         android:id="@+id/tabs"
@@ -19,7 +19,7 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
 
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_width="match_parent"
         android:layout_weight="1"
         ></android.support.v4.view.ViewPager>

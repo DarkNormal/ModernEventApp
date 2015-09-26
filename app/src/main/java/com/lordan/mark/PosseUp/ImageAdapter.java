@@ -11,7 +11,7 @@ import android.widget.ImageView;
  * Created by Mark on 7/18/2015.
  */
 public class ImageAdapter extends PagerAdapter {
-    Context context;
+    private Context context;
 
     private int[] GalImages = new int[] {
             R.drawable.slide1,

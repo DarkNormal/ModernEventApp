@@ -15,8 +15,8 @@ import com.lordan.mark.PosseUp.Tab4;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
-    CharSequence Titles[];      //Stores the titles of all tabs
-    int NumTabs;
+    private CharSequence Titles[];      //Stores the titles of all tabs
+    private int NumTabs;
 
     public ViewPagerAdapter(FragmentManager fm,CharSequence mTitles[], int mNumTabs) {
         super(fm);
