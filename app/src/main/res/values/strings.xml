@@ -17,4 +17,7 @@
     <string name="element_text">Element</string>
     <string name="grid_layout_manager">Grid Layout Manager</string>
     <string name="linear_layout_manager">Linear Layout Manager</string>
+
+    <string name="full_name">Full Name</string>
+    <string name="already_account">Already have an account? Sign in</string>
 </resources>

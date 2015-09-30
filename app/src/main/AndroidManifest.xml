@@ -21,11 +21,17 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
             android:name="com.lordan.mark.PosseUp.SigninActivity"
             android:label="Posse Up"
-            android:theme="@style/fullscreenStartPage">
+            android:theme="@style/AppTheme">
+
+        </activity>
+        <activity android:name=".RegisterActivity"
+            android:label="Posse Up"
+            android:theme="@style/AppTheme">
 
         </activity>
 

@@ -20,6 +20,7 @@ public class StartActivity extends AbstractActivity {
             public void run() {
                 Intent intent = new Intent(StartActivity.this, SigninActivity.class);
                 startActivity(intent);
+                finish();   //finish the activity, don't want users going back to this screen
             }
         }, 2500);
 

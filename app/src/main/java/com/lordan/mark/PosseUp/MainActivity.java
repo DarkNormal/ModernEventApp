@@ -41,7 +41,7 @@ public class MainActivity extends AbstractActivity {
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         try {
             mClient = new MobileServiceClient(
-                    "AZURE LINK",
+                    "AZURE URL",
                     "AZURE KEY",
                     this);
                     // .withFilter(new ProgressFilter());
@@ -60,35 +60,35 @@ public class MainActivity extends AbstractActivity {
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabs.setViewPager(pager);
 
-        final Item item = new Item();
-        item.Text = "yet another Awesome item!";
-        // Insert the new item
-        AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
-            @Override
-            protected Void doInBackground(Void... params) {
-                try {
-                    final Item entity = addItemInTable(item);
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if(!entity.isComplete()){
-                                Context context = getApplicationContext();
-                                CharSequence text = "Posted to DB!";
-                                int duration = Toast.LENGTH_SHORT;
-                                Toast toast = Toast.makeText(context, text, duration);
-                                toast.show();
-                            }
-                        }
-                    });
-                } catch (final Exception e) {
-                    createAndShowDialog(e, "Error");
-                }
-                return null;
-            }
-        };
-
-        //runAsyncTask(task);
+//        final Item item = new Item();
+//        item.Text = "yet another v awesome item!";
+//        // Insert the new item
+//        AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>(){
+//            @Override
+//            protected Void doInBackground(Void... params) {
+//                try {
+//                    final Item entity = addItemInTable(item);
+//
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            if(!entity.isComplete()){
+//                                Context context = getApplicationContext();
+//                                CharSequence text = "Posted to DB!";
+//                                int duration = Toast.LENGTH_SHORT;
+//                                Toast toast = Toast.makeText(context, text, duration);
+//                                toast.show();
+//                            }
+//                        }
+//                    });
+//                } catch (final Exception e) {
+//                    createAndShowDialog(e, "Error");
+//                }
+//                return null;
+//            }
+//        };
+//
+//        runAsyncTask(task);
 
 
 

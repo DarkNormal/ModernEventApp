@@ -3,6 +3,7 @@ package com.lordan.mark.PosseUp;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.TextUtils;
 
 /**
  * Created by Mark on 7/18/2015.
@@ -15,5 +16,18 @@ public abstract class AbstractActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    }
+    protected boolean isValidEmail(CharSequence target){
+        if (TextUtils.isEmpty(target)) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
+    };
+    protected boolean isValidPassword(String target) {
+        if(target.isEmpty() == false && target.length() > 6){
+            return true;
+        }
+        else return false;
     }
 }
