@@ -1,4 +1,4 @@
-package com.lordan.mark.PosseUp;
+package com.lordan.mark.PosseUp.UI;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -8,6 +8,9 @@ import android.support.v4.view.ViewPager;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
+import com.lordan.mark.PosseUp.AbstractActivity;
+import com.lordan.mark.PosseUp.Item;
+import com.lordan.mark.PosseUp.R;
 import com.microsoft.windowsazure.mobileservices.*;
 import android.os.Bundle;
 import android.view.Menu;

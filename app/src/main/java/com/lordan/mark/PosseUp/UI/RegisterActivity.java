@@ -1,25 +1,32 @@
-package com.lordan.mark.PosseUp;
+package com.lordan.mark.PosseUp.UI;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.lordan.mark.PosseUp.AbstractActivity;
+import com.lordan.mark.PosseUp.ConfigureAccount;
 import com.lordan.mark.PosseUp.Model.User;
+import com.lordan.mark.PosseUp.R;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
+import com.microsoft.windowsazure.mobileservices.authentication.MobileServiceUser;
 
 import java.net.MalformedURLException;
 
 /**
  * Created by Mark on 9/30/2015.
  */
-public class RegisterActivity extends AbstractActivity{
+public class RegisterActivity extends AbstractActivity {
 
     private MobileServiceClient mobileServiceClient;
     private ProgressDialog mProgressDialog;
@@ -32,7 +39,7 @@ public class RegisterActivity extends AbstractActivity{
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //finish();
+
                 registerUser();
             }
         });
@@ -41,6 +48,14 @@ public class RegisterActivity extends AbstractActivity{
             @Override
             public void onClick(View v) {
                 finish();       //finish the current activity, goes to last activity in stack (sign in activity)
+            }
+        });
+        FloatingActionButton addImage = (FloatingActionButton) findViewById(R.id.addImage_Button);
+        addImage.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Toast toast = Toast.makeText(getApplicationContext(), "Functionality coming soon!", Toast.LENGTH_SHORT);
+                toast.show();
             }
         });
     }
@@ -59,7 +74,7 @@ public class RegisterActivity extends AbstractActivity{
             password.setError("Invalid Password");
         }
         else{
-            User newUser = new User(email.getText().toString(), password.getText().toString(), fullName.getText().toString());
+            final User newUser = new User(email.getText().toString(), password.getText().toString(), fullName.getText().toString());
             boolean connected = true;
             try {
                 mobileServiceClient = new MobileServiceClient(
@@ -72,8 +87,8 @@ public class RegisterActivity extends AbstractActivity{
                 connected = false;
             }
             if(connected){
-                mProgressDialog = ProgressDialog.show(this, "dialog title",
-                        "dialog message", true);
+                mProgressDialog = ProgressDialog.show(this, "Registering",
+                        "Pretending to look busy...", true);
 
 
                 ListenableFuture<User> result = mobileServiceClient.invokeApi( "register", newUser, User.class );
@@ -86,13 +101,28 @@ public class RegisterActivity extends AbstractActivity{
 
                     @Override
                     public void onSuccess(User result) {
-                        //createAndShowDialog(result.isRegistered() + " is registered", "Completed Items");
                         mProgressDialog.dismiss();
+                        if(result.isRegistered()){
+                            newUser.setToken(result.getToken());
+                            newUser.setUserId(result.getUserId());
+                            MobileServiceUser user = new MobileServiceUser(result.getUserId());
+                            user.setAuthenticationToken(result.getToken());
+                            mobileServiceClient.setCurrentUser(user);
+                            Intent intent = new Intent(RegisterActivity.this, ConfigureAccount.class);
+                            intent.putExtra("name", newUser.getFullname());
+                            startActivity(intent);
+                            finish();
+                        }
+                        else{
+                            email.setError("This email already has an account");
+                        }
                     }
                 });
             }
             }
         }
+
+
     private void createAndShowDialog(Exception e, String title){
         createAndShowDialog(e.toString(), title);
     }

@@ -1,4 +1,4 @@
-package com.lordan.mark.PosseUp;
+package com.lordan.mark.PosseUp.UI;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -13,6 +13,8 @@ import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.util.AttributeSet;
 import android.widget.ImageView;
+
+import com.lordan.mark.PosseUp.R;
 /* CircularImageView - Lopez Mikhael (lopspower) - modified
 *   Used to apply a circular effect to certain ImageViews
 *  Source -  https://github.com/lopspower/CircularImageView

@@ -1,4 +1,4 @@
-package com.lordan.mark.PosseUp;
+package com.lordan.mark.PosseUp.UI;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.lordan.mark.PosseUp.AbstractActivity;
+import com.lordan.mark.PosseUp.LanguageHelper;
+import com.lordan.mark.PosseUp.R;
 
 /**
  * Created by Mark on 8/31/2015.

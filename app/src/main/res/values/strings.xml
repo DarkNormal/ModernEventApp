@@ -20,4 +20,6 @@
 
     <string name="full_name">Full Name</string>
     <string name="already_account">Already have an account? Sign in</string>
+
+    <string name="hi">Hi </string>
 </resources>

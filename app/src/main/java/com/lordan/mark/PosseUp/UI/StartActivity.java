@@ -1,8 +1,11 @@
-package com.lordan.mark.PosseUp;
+package com.lordan.mark.PosseUp.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import com.lordan.mark.PosseUp.AbstractActivity;
+import com.lordan.mark.PosseUp.R;
 
 /**
  * Created by Mark on 8/31/2015.

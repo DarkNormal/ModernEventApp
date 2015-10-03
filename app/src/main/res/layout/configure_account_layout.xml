@@ -2,45 +2,37 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:background="@drawable/gradient_background">
 
-    <com.lordan.mark.PosseUp.UI.CircularImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:src="@drawable/profiler"
-        app:border_color="#EEEEEE"
-        app:border_width="0dp"
-        app:shadow="false"
-        android:layout_below="@+id/signup_header"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="42dp"
-        android:id="@+id/view" />
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/addImage_Button"
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:backgroundTint="@color/primaryThemeColor"
-        android:src="@drawable/ic_add"
-        android:clickable="true"
-        app:fabSize="mini"
-        android:layout_marginRight="16dp"
-        android:layout_alignTop="@+id/view"
-        android:layout_toEndOf="@+id/signup_header">
-
-    </android.support.design.widget.FloatingActionButton>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/sign_up"
-        android:id="@+id/signup_header"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:textColor="#FFF8F8"
-        android:layout_marginTop="38dp" />
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hi"
+            android:id="@+id/configure_welcome"
+            android:textColor="@color/white"
+            android:layout_marginTop="38dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/linearLayout" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/welcome_name"
+            android:textColor="@color/white"
+            android:layout_marginTop="38dp"
+            android:layout_alignBottom="@+id/configure_welcome"
+            android:layout_centerHorizontal="true" />
+    </LinearLayout>
 
 
     <EditText
@@ -107,7 +99,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:id="@+id/linearLayout">
 
         <TextView
             android:layout_width="wrap_content"
