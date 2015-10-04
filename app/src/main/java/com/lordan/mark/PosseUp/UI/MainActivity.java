@@ -1,9 +1,7 @@
 package com.lordan.mark.PosseUp.UI;
 
 import android.app.AlertDialog;
-import android.content.Context;
-import android.os.AsyncTask;
-import android.os.Build;
+
 import android.support.v4.view.ViewPager;
 
 import com.google.common.util.concurrent.ListenableFuture;
@@ -16,7 +14,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.lordan.mark.PosseUp.SlidingTabs.ViewPagerAdapter;
@@ -26,8 +23,6 @@ import com.microsoft.windowsazure.mobileservices.http.ServiceFilterRequest;
 import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 
-import java.net.MalformedURLException;
-import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AbstractActivity {
     private MobileServiceClient mClient;
@@ -40,18 +35,6 @@ public class MainActivity extends AbstractActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
-        try {
-            mClient = new MobileServiceClient(
-                    "AZURE URL",
-                    "AZURE KEY",
-                    this);
-                    // .withFilter(new ProgressFilter());
-            itemTable = mClient.getTable(Item.class);
-        } catch (MalformedURLException e) {
-            createAndShowDialog("there was an error creating the Mobile Service. verify the URL", "Error");
-        }
 
 
 
@@ -99,17 +82,17 @@ public class MainActivity extends AbstractActivity {
 
     }
 
-    public Item addItemInTable(Item item) throws ExecutionException, InterruptedException {
-        Item entity = itemTable.insert(item).get();
-        return entity;
-    }
-    private AsyncTask<Void, Void, Void> runAsyncTask(AsyncTask<Void, Void, Void> task) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        } else {
-            return task.execute();
-        }
-    }
+//    public Item addItemInTable(Item item) throws ExecutionException, InterruptedException {
+//        Item entity = itemTable.insert(item).get();
+//        return entity;
+//    }
+//    private AsyncTask<Void, Void, Void> runAsyncTask(AsyncTask<Void, Void, Void> task) {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+//            return task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+//        } else {
+//            return task.execute();
+//        }
+//    }
 
 
     @Override

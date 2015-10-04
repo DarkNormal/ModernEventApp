@@ -14,10 +14,16 @@ public class User {
     @SerializedName("password")
     private String password;
 
+    @SerializedName("username")
     private String username;
 
     @SerializedName("isRegistered")
     private boolean isRegistered;
+
+
+
+    @SerializedName("emailOrUsername")
+    private String emailOrUsername;
 
 
 
@@ -90,5 +96,13 @@ public class User {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getEmailOrUsername() {
+        return emailOrUsername;
+    }
+
+    public void setEmailOrUsername(String emailOrUsername) {
+        this.emailOrUsername = emailOrUsername;
     }
 }

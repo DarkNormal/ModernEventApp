@@ -11,5 +11,5 @@
     <string name="sign_in_button">Anmelden</string>
     <string name="forgot_password">Passwort vergessen?</string>
     <string name="no_account_prompt">Nicht über ein Konto? </string>
-    <string name="sign_up">Benutzerkonto erstellen</string>
+    <string name="sign_up">Nicht über ein Konto? Benutzerkonto erstellen</string>
 </resources>

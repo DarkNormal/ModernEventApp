@@ -16,7 +16,7 @@ public class AzureService {
     public void saveUserData(Context context, MobileServiceClient mClient, String mUsername, String mEmail) {
         SharedPreferences settings = context.getSharedPreferences("PosseUpData", Context.MODE_PRIVATE);
         SharedPreferences.Editor preferencesEditor = settings.edit();
-        preferencesEditor.putString("userid", mClient.getCurrentUser().getUserId());
+        preferencesEditor.putString("userId", mClient.getCurrentUser().getUserId());
         preferencesEditor.putString("token", mClient.getCurrentUser().getAuthenticationToken());
         preferencesEditor.putString("username", mUsername);
         preferencesEditor.putString("email", mEmail);

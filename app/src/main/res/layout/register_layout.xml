@@ -54,8 +54,9 @@
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:minWidth="200dp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -70,14 +71,14 @@
         android:minWidth="200dp"
         android:layout_alignStart="@+id/fullname"
         android:hint="Email"
-        android:layout_marginTop="27dp" />
+        android:layout_marginTop="22dp" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:id="@+id/password_signup"
-        android:layout_marginTop="27dp"
+        android:layout_marginTop="22dp"
         android:hint="@string/password_field"
         android:textSize="12dp"
         android:textColor="@color/white"
@@ -109,18 +110,18 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="@string/already_account"
-            android:id="@+id/signin_text"
-            android:textColor="#FFF8F8"
-            android:textSize="10dp"
-            android:layout_marginBottom="6dp" />
     </LinearLayout>
 
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/already_account"
+        android:id="@+id/signin_text"
+        android:textColor="#FFF8F8"
+        android:textSize="10dp"
+        android:layout_below="@+id/password_signup"
+        android:layout_alignEnd="@+id/password_signup" />
 
 
 </RelativeLayout>

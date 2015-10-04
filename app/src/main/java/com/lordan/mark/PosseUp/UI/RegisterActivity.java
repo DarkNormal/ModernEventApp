@@ -3,6 +3,7 @@ package com.lordan.mark.PosseUp.UI;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.lordan.mark.PosseUp.AbstractActivity;
 import com.lordan.mark.PosseUp.ConfigureAccount;
+import com.lordan.mark.PosseUp.DataOperations.AzureService;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
@@ -74,7 +76,7 @@ public class RegisterActivity extends AbstractActivity {
             password.setError("Invalid Password");
         }
         else{
-            final User newUser = new User(email.getText().toString(), password.getText().toString(), fullName.getText().toString());
+            final User newUser = new User(email.getText().toString(), password.getText().toString(), fullName.getText().toString() );
             boolean connected = true;
             try {
                 mobileServiceClient = new MobileServiceClient(
@@ -96,6 +98,7 @@ public class RegisterActivity extends AbstractActivity {
                 Futures.addCallback(result, new FutureCallback<User>() {
                     @Override
                     public void onFailure(Throwable exc) {
+                        mProgressDialog.dismiss();
                         createAndShowDialog((Exception) exc, "Error");
                     }
 
@@ -108,6 +111,14 @@ public class RegisterActivity extends AbstractActivity {
                             MobileServiceUser user = new MobileServiceUser(result.getUserId());
                             user.setAuthenticationToken(result.getToken());
                             mobileServiceClient.setCurrentUser(user);
+                            AzureService az = new AzureService();
+                            az.saveUserData(getApplicationContext(), mobileServiceClient, newUser.getUsername(), newUser.getEmail());
+                            SharedPreferences settings = getApplicationContext().getSharedPreferences("PosseUpData", MODE_PRIVATE);
+                            String userId;
+                            if(settings != null){
+                                userId = settings.getString("userId", null);
+                                System.out.println(userId + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                            }
                             Intent intent = new Intent(RegisterActivity.this, ConfigureAccount.class);
                             intent.putExtra("name", newUser.getFullname());
                             startActivity(intent);
