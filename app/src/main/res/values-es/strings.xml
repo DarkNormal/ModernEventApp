@@ -9,6 +9,5 @@
     <string name="password_field">Clave</string>
     <string name="sign_in_button">Ingresar</string>
     <string name="forgot_password">Se te olvidó tu contraseña?</string>
-    <string name="no_account_prompt">No tienen una cuenta? </string>
     <string name="sign_up">No tienen una cuenta? Contratar</string>
 </resources>

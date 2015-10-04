@@ -9,6 +9,5 @@
     <string name="password_field">Mot de passe</string>
     <string name="sign_in_button">S\'inscrire</string>
     <string name="forgot_password">Mot de passe oublié?</string>
-    <string name="no_account_prompt">Ne pas avoir un compte? </string>
     <string name="sign_up">Ne pas avoir un compte? Signer</string>
 </resources>

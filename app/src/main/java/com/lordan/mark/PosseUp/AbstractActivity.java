@@ -23,11 +23,9 @@ public abstract class AbstractActivity extends ActionBarActivity {
         } else {
             return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
         }
-    };
+    }
+
     protected boolean isValidPassword(String target) {
-        if(target.isEmpty() == false && target.length() > 6){
-            return true;
-        }
-        else return false;
+        return target.isEmpty() == false && target.length() > 6;
     }
 }

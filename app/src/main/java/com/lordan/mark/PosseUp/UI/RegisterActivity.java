@@ -18,6 +18,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.lordan.mark.PosseUp.AbstractActivity;
 import com.lordan.mark.PosseUp.ConfigureAccount;
 import com.lordan.mark.PosseUp.DataOperations.AzureService;
+import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
@@ -80,8 +81,8 @@ public class RegisterActivity extends AbstractActivity {
             boolean connected = true;
             try {
                 mobileServiceClient = new MobileServiceClient(
-                        "https://markrecipe.azure-mobile.net/",
-                        "PARUUkHfFBFlppgVDdVjorhICtRehq99",
+                        Constants.MOBILE_SERVICE_URL,
+                        Constants.MOBILE_SERVICE_APPLICATION_KEY,
                         this);
                 // .withFilter(new ProgressFilter());
             } catch (MalformedURLException e) {
