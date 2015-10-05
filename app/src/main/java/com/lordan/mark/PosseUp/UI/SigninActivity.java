@@ -31,6 +31,7 @@ public class SigninActivity extends AbstractActivity {
 
     public static MobileServiceClient mobileServiceClient;
     private ProgressDialog mProgressDialog;
+    private TextView username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +55,23 @@ public class SigninActivity extends AbstractActivity {
             @Override
             public void onClick(View v) {
                 if(connectMobileService()){
-                    TextView username = (TextView) findViewById(R.id.username_email);
+
+                    username = (TextView) findViewById(R.id.username_email);
                     TextView password = (TextView) findViewById(R.id.password);
-                    login(username.getText().toString(), password.getText().toString());
+                    if(!username.getText().toString().isEmpty() && !password.getText().toString().isEmpty()) {
+                        mProgressDialog = ProgressDialog.show(SigninActivity.this, "Logging in",
+                                "Please wait...", true);
+                        login(username.getText().toString(), password.getText().toString());
+                    }
+                    else{
+                        if(username.getText().toString().isEmpty()){
+                            username.setError("Cannot be blank");
+                        }
+                        if(password.getText().toString().isEmpty()){
+                            password.setError("Cannot be blank");
+                        }
+                    }
+
                 }
                 else{
                     System.out.println("dang");
@@ -101,10 +116,8 @@ public class SigninActivity extends AbstractActivity {
 
     }
 
-    private boolean login(String usernameOrEmail, String password) {
-        mProgressDialog = ProgressDialog.show(this, "Registering",
-                "Pretending to look busy...", true);
-        boolean loginSuccess = false;
+    private void login(String usernameOrEmail, String password) {
+
         User user = new User();
         user.setEmailOrUsername(usernameOrEmail);
         user.setPassword(password);
@@ -114,17 +127,21 @@ public class SigninActivity extends AbstractActivity {
             @Override
             public void onSuccess(JsonElement result) {
                 System.out.println("hooray!");
-                if(result.isJsonObject()){
+                if (result.isJsonObject()) {
                     JsonObject resultObj = result.getAsJsonObject();
-                    if(resultObj.get("status").getAsString().equals("SUCCESS")){
+                    if (resultObj.get("status").getAsString().equals("SUCCESS")) {
                         Intent intent = new Intent(SigninActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
+                    } else {
+                        //incorrect username/password
+                        username.setError("Incorrect username or password");
+                        mProgressDialog.dismiss();
                     }
-                    System.out.println("woop");
-                }
-                else{
+
+                } else {
                     System.out.println("dang");
+                    mProgressDialog.dismiss();
                 }
 
             }
@@ -132,12 +149,10 @@ public class SigninActivity extends AbstractActivity {
             @Override
             public void onFailure(Throwable exc) {
                 System.out.println("boo-urns!");
+                mProgressDialog.dismiss();
             }
 
 
         });
-        mProgressDialog.dismiss();
-        return loginSuccess;
-
     }
 }
