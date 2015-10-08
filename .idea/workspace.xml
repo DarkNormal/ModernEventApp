@@ -32,15 +32,8 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e1c730eb-9cae-4c6d-9cf1-556f33a9baf3" name="Default" comment="Sign in / out steps complete&#10;Sharedprefs removed">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/lordan/mark/PosseUp/AbstractActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/lordan/mark/PosseUp/AbstractActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/lordan/mark/PosseUp/UI/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/lordan/mark/PosseUp/UI/MainActivity.java" />
+    <list default="true" id="e1c730eb-9cae-4c6d-9cf1-556f33a9baf3" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/lordan/mark/PosseUp/UI/RegisterActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/lordan/mark/PosseUp/UI/RegisterActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/lordan/mark/PosseUp/UI/StartActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/lordan/mark/PosseUp/UI/StartActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/local.properties" afterPath="$PROJECT_DIR$/local.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu_main.xml" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_main.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/signin_layout.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/signin_layout.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="a7ebf26f-dd0f-4eb0-b16f-a3df5a969f85" name="Failed commit: Default" comment="Cofigure Account class" />
@@ -133,7 +126,7 @@
       <file leaf-file-name="Constants.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lordan/mark/PosseUp/Model/Constants.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.17418352">
+            <state vertical-scroll-proportion="0.12858783">
               <caret line="7" column="70" selection-start-line="7" selection-start-column="70" selection-end-line="7" selection-end-column="70" />
               <folding />
             </state>
@@ -182,7 +175,7 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lordan/mark/PosseUp/UI/RegisterActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="117" column="37" selection-start-line="117" selection-start-column="37" selection-end-line="117" selection-end-column="37" />
+              <caret line="22" column="82" selection-start-line="22" selection-start-column="82" selection-end-line="22" selection-end-column="82" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#createAndShowDialog#0;class#RegisterActivity#0" expanded="false" />
@@ -1756,11 +1749,11 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/lordan/mark/PosseUp/UI/SigninActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/menu_main.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lordan/mark/PosseUp/AbstractActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/lordan/mark/PosseUp/UI/RegisterActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lordan/mark/PosseUp/UI/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lordan/mark/PosseUp/UI/StartActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/signin_layout.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/lordan/mark/PosseUp/UI/RegisterActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lordan/mark/PosseUp/Model/Constants.java" />
       </list>
     </option>
@@ -2227,7 +2220,13 @@
       <option name="project" value="LOCAL" />
       <updated>1444082400194</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Sign in / out steps complete&#10;Sharedprefs stored and removed correctly">
+      <created>1444335329064</created>
+      <option name="number" value="00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1444335329064</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -2241,10 +2240,10 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25361514" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6496107" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3944563" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40600666" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25361514" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25361514" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32925472" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -2319,7 +2318,8 @@
     <MESSAGE value="Login functionality (requires further implementation)" />
     <MESSAGE value="Constants defined for easier maintainability of certain fields&#10;" />
     <MESSAGE value="Login functionality more stable, better error checking&#10;Azure mobile service migrated to new instance&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Login functionality more stable, better error checking&#10;Azure mobile service migrated to new instance&#10;" />
+    <MESSAGE value="Sign in / out steps complete&#10;Sharedprefs stored and removed correctly" />
+    <option name="LAST_COMMIT_MESSAGE" value="Sign in / out steps complete&#10;Sharedprefs stored and removed correctly" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2687,18 +2687,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lordan/mark/PosseUp/UI/RegisterActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="117" column="37" selection-start-line="117" selection-start-column="37" selection-end-line="117" selection-end-column="37" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#createAndShowDialog#0;class#RegisterActivity#0" expanded="false" />
-            <element signature="method#createAndShowDialog#1;class#RegisterActivity#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lordan/mark/PosseUp/UI/StartActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2747,9 +2735,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lordan/mark/PosseUp/UI/RegisterActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="22" column="82" selection-start-line="22" selection-start-column="82" selection-end-line="22" selection-end-column="82" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#createAndShowDialog#0;class#RegisterActivity#0" expanded="false" />
+            <element signature="method#createAndShowDialog#1;class#RegisterActivity#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lordan/mark/PosseUp/Model/Constants.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.17418352">
+        <state vertical-scroll-proportion="0.12858783">
           <caret line="7" column="70" selection-start-line="7" selection-start-column="70" selection-end-line="7" selection-end-column="70" />
           <folding />
         </state>

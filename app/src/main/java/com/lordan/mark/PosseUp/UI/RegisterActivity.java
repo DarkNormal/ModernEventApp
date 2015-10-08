@@ -16,22 +16,18 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.lordan.mark.PosseUp.AbstractActivity;
-import com.lordan.mark.PosseUp.ConfigureAccount;
 import com.lordan.mark.PosseUp.DataOperations.AzureService;
-import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.authentication.MobileServiceUser;
-
-import java.net.MalformedURLException;
 
 /**
  * Created by Mark on 9/30/2015.
  */
 public class RegisterActivity extends AbstractActivity {
 
-    private MobileServiceClient mobileServiceClient;
+    private MobileServiceClient mobileServiceClient = AbstractActivity.mobileServiceClient;
     private ProgressDialog mProgressDialog;
 
     @Override
@@ -79,9 +75,6 @@ public class RegisterActivity extends AbstractActivity {
         }
         else{
             final User newUser = new User(email.getText().toString(), password.getText().toString(), fullName.getText().toString() );
-            boolean connected = true;
-
-            if(connected){
                 mProgressDialog = ProgressDialog.show(this, "Registering",
                         "Pretending to look busy...", true);
 
@@ -124,7 +117,7 @@ public class RegisterActivity extends AbstractActivity {
                 });
             }
             }
-        }
+
 
 
     private void createAndShowDialog(Exception e, String title){
