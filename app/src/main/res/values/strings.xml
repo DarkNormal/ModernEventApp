@@ -9,6 +9,7 @@
     <string name="password_field">Password</string>
     <string name="sign_in_button">Sign in</string>
     <string name="forgot_password">Forgot Password?</string>
+    <string name="no_account">Don\'t have an account yet? Sign up</string>
     <string name="sign_up">Sign Up</string>
 
     <string name="hello_world">Hello world!</string>
@@ -22,4 +23,7 @@
     <string name="username">Username</string>
 
     <string name="hi">Hi </string>
+
+    <string name="menu_profile">My profile</string>
+    <string name="menu_sign_out">Sign out</string>
 </resources>

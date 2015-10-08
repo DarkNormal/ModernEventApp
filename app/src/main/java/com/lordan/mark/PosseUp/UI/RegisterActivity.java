@@ -36,6 +36,7 @@ public class RegisterActivity extends AbstractActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_layout);
         Button signup = (Button) findViewById(R.id.signup_button);
@@ -79,16 +80,7 @@ public class RegisterActivity extends AbstractActivity {
         else{
             final User newUser = new User(email.getText().toString(), password.getText().toString(), fullName.getText().toString() );
             boolean connected = true;
-            try {
-                mobileServiceClient = new MobileServiceClient(
-                        Constants.MOBILE_SERVICE_URL,
-                        Constants.MOBILE_SERVICE_APPLICATION_KEY,
-                        this);
-                // .withFilter(new ProgressFilter());
-            } catch (MalformedURLException e) {
-                System.out.println(e.getMessage());
-                connected = false;
-            }
+
             if(connected){
                 mProgressDialog = ProgressDialog.show(this, "Registering",
                         "Pretending to look busy...", true);
@@ -120,7 +112,7 @@ public class RegisterActivity extends AbstractActivity {
                                 userId = settings.getString("userId", null);
                                 System.out.println(userId + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                             }
-                            Intent intent = new Intent(RegisterActivity.this, ConfigureAccount.class);
+                            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                             intent.putExtra("name", newUser.getFullname());
                             startActivity(intent);
                             finish();

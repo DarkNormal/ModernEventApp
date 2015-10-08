@@ -2,6 +2,7 @@ package com.lordan.mark.PosseUp.UI;
 
 import android.app.AlertDialog;
 
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 
 import com.google.common.util.concurrent.ListenableFuture;
@@ -112,6 +113,14 @@ public class MainActivity extends AbstractActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        else if(id == R.id.my_profile){
+
+        }
+        else if(id == R.id.sign_out_menu){
+            singOut();
+            startActivity(new Intent(MainActivity.this, SigninActivity.class));
+            finish();
         }
 
         return super.onOptionsItemSelected(item);
