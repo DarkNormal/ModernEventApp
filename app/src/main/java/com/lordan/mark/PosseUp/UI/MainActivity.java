@@ -10,6 +10,7 @@ import com.google.common.util.concurrent.SettableFuture;
 import com.lordan.mark.PosseUp.AbstractActivity;
 import com.lordan.mark.PosseUp.Item;
 import com.lordan.mark.PosseUp.R;
+import com.lordan.mark.PosseUp.UI.SigninGroup.SigninActivity;
 import com.microsoft.windowsazure.mobileservices.*;
 import android.os.Bundle;
 import android.view.Menu;
@@ -118,7 +119,7 @@ public class MainActivity extends AbstractActivity {
 
         }
         else if(id == R.id.sign_out_menu){
-            singOut();
+            signOut();
             startActivity(new Intent(MainActivity.this, SigninActivity.class));
             finish();
         }

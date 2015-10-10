@@ -36,7 +36,7 @@ public abstract class AbstractActivity extends ActionBarActivity {
         return target.isEmpty() == false && target.length() > 6;
     }
 
-    protected static MobileServiceClient mobileServiceClient;
+    public static MobileServiceClient mobileServiceClient;
     protected  static MobileServiceUser mobileServiceUser;
     protected static String mFullName, mEmail;
 
@@ -64,7 +64,7 @@ public abstract class AbstractActivity extends ActionBarActivity {
 
 
     }
-    protected void singOut(){
+    protected void signOut(){
         SharedPreferences settings = getSharedPreferences("PosseUpData", MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
         editor.remove("userId");
