@@ -64,7 +64,7 @@ public abstract class AbstractActivity extends ActionBarActivity {
 
 
     }
-    protected void signOut(){
+    protected void signOut(){       //logout user completely, remove all login information
         SharedPreferences settings = getSharedPreferences("PosseUpData", MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
         editor.remove("userId");
@@ -72,5 +72,6 @@ public abstract class AbstractActivity extends ActionBarActivity {
         editor.remove("username");
         editor.remove("email");
         editor.commit();
+        mobileServiceClient.logout();
     }
 }

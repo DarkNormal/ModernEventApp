@@ -17,11 +17,15 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.lordan.mark.PosseUp.AbstractActivity;
+import com.lordan.mark.PosseUp.DataOperations.AzureService;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
+import com.lordan.mark.PosseUp.UI.MainActivity;
 import com.lordan.mark.PosseUp.UI.RegisterActivity;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
+import com.microsoft.windowsazure.mobileservices.authentication.MobileServiceUser;
 
 /**
  * Created by Mark on 10/10/2015.
@@ -42,7 +46,7 @@ public class SigninFrag extends Fragment implements View.OnClickListener{
                                               public void onClick(View v) {
                                                   mProgressDialog = ProgressDialog.show(getActivity(), "Resetting password",
                                                           "Please wait...", true);
-                                                  sendEmail();
+                                                  sendEmail();      //send email with reset instructions
 
                                               }
                                           }
@@ -53,32 +57,30 @@ public class SigninFrag extends Fragment implements View.OnClickListener{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), RegisterActivity.class);
-                startActivity(intent);      //no need to finish this activity here, could cause a loop of activity stack
-                //could also cause app to close completely from registerActivity
+                startActivity(intent);
             }
         });
         Button signInButton = (Button) detailsView.findViewById(R.id.signin_button);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                    username = (TextView) detailsView.findViewById(R.id.username_email);
-                    TextView password = (TextView) detailsView.findViewById(R.id.password);
-                    if(!username.getText().toString().isEmpty() && !password.getText().toString().isEmpty()) {
-                        mProgressDialog = ProgressDialog.show(getActivity(), "Logging in",
-                                "Please wait...", true);
-                        ((SigninActivity)getActivity()).login(username.getText().toString(), password.getText().toString());
-                    }
-                    else{
-                        if(username.getText().toString().isEmpty()){
-                            username.setError("Cannot be blank");
-                        }
-                        if(password.getText().toString().isEmpty()){
-                            password.setError("Cannot be blank");
-                        }
-                    }
-
+                username = (TextView) detailsView.findViewById(R.id.username_email);
+                TextView password = (TextView) detailsView.findViewById(R.id.password);
+                if(!username.getText().toString().isEmpty() && !password.getText().toString().isEmpty()) {
+                    mProgressDialog = ProgressDialog.show(getActivity(), "Logging in",
+                            "Please wait...", true);
+                    login(username.getText().toString(), password.getText().toString());
                 }
+                else{
+                    if(username.getText().toString().isEmpty()){
+                        username.setError("Cannot be blank");
+                    }
+                    if(password.getText().toString().isEmpty()){
+                        password.setError("Cannot be blank");
+                    }
+                }
+
+            }
 
         });
         return detailsView;
@@ -122,7 +124,8 @@ public class SigninFrag extends Fragment implements View.OnClickListener{
 
                 @Override
                 public void onFailure(Throwable t) {
-
+                    System.out.println("onFailure");
+                    mProgressDialog.dismiss();
                 }
             });
         }
@@ -136,5 +139,51 @@ public class SigninFrag extends Fragment implements View.OnClickListener{
     {
         SigninFrag myFragment = new SigninFrag();
         return myFragment;
+    }
+    public void login(String usernameOrEmail, String password) {
+        final ProgressDialog mProgressDialog;
+        mProgressDialog = ProgressDialog.show(getActivity(), "Logging in",
+                "Please wait...", true);
+        final User user = new User();
+        user.setEmailOrUsername(usernameOrEmail);
+        user.setPassword(password);
+        ListenableFuture<JsonElement> result = mobileServiceClient.invokeApi("login", user, JsonElement.class);
+
+        Futures.addCallback(result, new FutureCallback<JsonElement>() {
+            @Override
+            public void onSuccess(JsonElement result) {
+                System.out.println("hooray!");
+                if (result.isJsonObject()) {
+                    JsonObject resultObj = result.getAsJsonObject();
+                    if (resultObj.get("status").getAsString().equals("SUCCESS")) {
+                        MobileServiceUser mUser = new MobileServiceUser(resultObj.get("userId").getAsString());
+                        mUser.setAuthenticationToken(resultObj.get("token").toString());
+                        mobileServiceClient.setCurrentUser(mUser);
+                        AzureService az = new AzureService();
+                        az.saveUserData(getActivity(), mobileServiceClient, user.getUsername(), user.getEmail());
+                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
+                    } else {
+                        //incorrect username/password
+
+                        mProgressDialog.dismiss();
+                    }
+
+                } else {
+                    System.out.println("dang");
+                    mProgressDialog.dismiss();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Throwable exc) {
+                System.out.println("boo-urns!");
+                mProgressDialog.dismiss();
+            }
+
+
+        });
     }
 }

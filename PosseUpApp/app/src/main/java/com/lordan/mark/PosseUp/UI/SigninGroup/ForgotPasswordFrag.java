@@ -89,7 +89,7 @@ public class ForgotPasswordFrag extends Fragment {
         final User user = new User();
         user.setEmailOrUsername(usernameOrEmail);
         user.setPassword(password);
-        ListenableFuture<JsonElement> result = mobileServiceClient.invokeApi("reset_password_confirmed", user, JsonElement.class);
+        ListenableFuture<JsonElement> result = mobileServiceClient.invokeApi("forgot_password_confirmed", user, JsonElement.class);
 
         Futures.addCallback(result, new FutureCallback<JsonElement>() {
             @Override

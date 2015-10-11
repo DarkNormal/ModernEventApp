@@ -36,10 +36,6 @@ import java.net.MalformedURLException;
  */
 public class SigninActivity extends AbstractActivity {
 
-    public static MobileServiceClient mobileServiceClient;
-    private ProgressDialog mProgressDialog;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,61 +49,6 @@ public class SigninActivity extends AbstractActivity {
         fragTransaction.commit();
 
 
-    }
-
-
-    //    @Override
-//    public void onBackPressed() {
-//        /*Override the back button action on sign in activity
-//        * This prevents the return to StartActivity (logo screen)
-//        */
-//            moveTaskToBack(true);
-//    }
-
-
-    public void login(String usernameOrEmail, String password) {
-
-        final User user = new User();
-        user.setEmailOrUsername(usernameOrEmail);
-        user.setPassword(password);
-        ListenableFuture<JsonElement> result = mobileServiceClient.invokeApi("login", user, JsonElement.class);
-
-        Futures.addCallback(result, new FutureCallback<JsonElement>() {
-            @Override
-            public void onSuccess(JsonElement result) {
-                System.out.println("hooray!");
-                if (result.isJsonObject()) {
-                    JsonObject resultObj = result.getAsJsonObject();
-                    if (resultObj.get("status").getAsString().equals("SUCCESS")) {
-                        MobileServiceUser mUser = new MobileServiceUser(resultObj.get("userId").getAsString());
-                        mUser.setAuthenticationToken(resultObj.get("token").toString());
-                        mobileServiceClient.setCurrentUser(mUser);
-                        AzureService az = new AzureService();
-                        az.saveUserData(getApplicationContext(), mobileServiceClient, user.getUsername(), user.getEmail());
-                        Intent intent = new Intent(SigninActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        //incorrect username/password
-
-                        mProgressDialog.dismiss();
-                    }
-
-                } else {
-                    System.out.println("dang");
-                    mProgressDialog.dismiss();
-                }
-
-            }
-
-            @Override
-            public void onFailure(Throwable exc) {
-                System.out.println("boo-urns!");
-                mProgressDialog.dismiss();
-            }
-
-
-        });
     }
 }
 
