@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.lordan.mark.PosseUp" >
+    <uses-permission android:name="android.permission.INTERNET" />
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".UI.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme">
+
+        </activity>
+        <activity
+            android:name=".UI.StartActivity"
+            android:label="@string/app_name"
+            android:theme="@style/fullscreenStartPage">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".UI.SigninGroup.SigninActivity"
+            android:label="Posse Up"
+
+            android:theme="@style/AppTheme">
+
+        </activity>
+        <activity android:name=".UI.RegisterActivity"
+            android:label="Posse Up"
+            android:theme="@style/AppTheme">
+            </activity>
+        <activity android:name=".ConfigureAccount"
+            android:label="Posse Up"
+            android:theme="@style/AppTheme">
+
+        </activity>
+
+    </application>
+
+</manifest>
