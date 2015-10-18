@@ -5,14 +5,14 @@
         Form groups and make new friends, whatever the event!
         You can join in on public events, or create your own private sessions for you and your friends
     </string>
-    <string name="username_field">Username / Email</string>
+    <string name="username_field">Username</string>
     <string name="password_field">Password</string>
     <string name="sign_in_button">Sign in</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="password_code">Code</string>
     <string name="cancel">Cancel</string>
     <string name="reset_begin">Confirm</string>
-    <string name="reset_info">You will recieve an email shortly with a unique code. Please paste it into the code area above, and click confirm to continue</string>
+    <string name="reset_info">You will receive an email shortly with a unique code. Please paste it into the code area above, and click confirm to continue</string>
     <string name="no_account">Don\'t have an account yet? Sign up</string>
     <string name="sign_up">Sign Up</string>
 

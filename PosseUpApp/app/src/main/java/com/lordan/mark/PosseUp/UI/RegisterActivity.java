@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.lordan.mark.PosseUp.AbstractActivity;
 import com.lordan.mark.PosseUp.DataOperations.AzureService;
 import com.lordan.mark.PosseUp.Model.User;
@@ -61,11 +63,11 @@ public class RegisterActivity extends AbstractActivity {
     }
 
     public void registerUser(){
-        final EditText fullName = (EditText) findViewById(R.id.fullname);
+        final EditText username = (EditText) findViewById(R.id.username_register);
         final EditText email = (EditText) findViewById(R.id.email_signup);
         final EditText password = (EditText) findViewById(R.id.password_signup);
-        if(fullName.getText().toString().isEmpty()){
-            fullName.setError("Please enter your name");
+        if(username.getText().toString().isEmpty()){
+            username.setError("Please enter your name");
         }
         if(!isValidEmail(email.getText().toString())){
             email.setError("Invalid Email");
@@ -74,41 +76,40 @@ public class RegisterActivity extends AbstractActivity {
             password.setError("Invalid Password");
         }
         else{
-            final User newUser = new User(email.getText().toString(), password.getText().toString(), fullName.getText().toString() );
+            final User newUser = new User(email.getText().toString(), password.getText().toString(), username.getText().toString() );
                 mProgressDialog = ProgressDialog.show(this, "Registering",
                         "Pretending to look busy...", true);
 
 
-                ListenableFuture<User> result = mobileServiceClient.invokeApi( "register", newUser, User.class );
+                ListenableFuture<JsonElement> result = mobileServiceClient.invokeApi( "CustomRegistration", newUser, JsonElement.class );
 
-                Futures.addCallback(result, new FutureCallback<User>() {
+                Futures.addCallback(result, new FutureCallback<JsonElement>() {
                     @Override
                     public void onFailure(Throwable exc) {
                         mProgressDialog.dismiss();
-                        createAndShowDialog((Exception) exc, "Error");
+                        System.out.println("onFailure Register User");
                     }
 
                     @Override
-                    public void onSuccess(User result) {
+                    public void onSuccess(JsonElement result) {
                         mProgressDialog.dismiss();
-                        if(result.isRegistered()){
-                            newUser.setToken(result.getToken());
-                            newUser.setUserId(result.getUserId());
-                            MobileServiceUser user = new MobileServiceUser(result.getUserId());
-                            user.setAuthenticationToken(result.getToken());
-                            mobileServiceClient.setCurrentUser(user);
-                            AzureService az = new AzureService();
-                            az.saveUserData(getApplicationContext(), mobileServiceClient, newUser.getUsername(), newUser.getEmail());
-                            SharedPreferences settings = getApplicationContext().getSharedPreferences("PosseUpData", MODE_PRIVATE);
-                            String userId;
-                            if(settings != null){
-                                userId = settings.getString("userId", null);
-                                System.out.println(userId + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                        if(result.isJsonObject()){
+                            JsonObject resultObj = result.getAsJsonObject();
+                            if(resultObj.get("message").getAsString().equals("account created")){
+                                login(username, email, password);
                             }
-                            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                            intent.putExtra("name", newUser.getFullname());
-                            startActivity(intent);
-                            finish();
+//                            AzureService az = new AzureService();
+//                            az.saveUserData(getApplicationContext(), mobileServiceClient, newUser.getUsername(), newUser.getEmail());
+//                            SharedPreferences settings = getApplicationContext().getSharedPreferences("PosseUpData", MODE_PRIVATE);
+//                            String userId;
+//                            if(settings != null){
+//                                userId = settings.getString("userId", null);
+//                                System.out.println(userId + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//                            }
+//                            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+//                            intent.putExtra("name", newUser.getUsername());
+//                            startActivity(intent);
+//                            finish();
                         }
                         else{
                             email.setError("This email already has an account");
@@ -117,18 +118,56 @@ public class RegisterActivity extends AbstractActivity {
                 });
             }
             }
-
-
-
-    private void createAndShowDialog(Exception e, String title){
-        createAndShowDialog(e.toString(), title);
+    @Override
+    public void onBackPressed(){
+        if(mProgressDialog.isShowing()){
+            mProgressDialog.dismiss();
+        }
     }
-    private void createAndShowDialog(String message, String title){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    private void login(EditText username, EditText email, EditText password){
+        mProgressDialog.show(this, "Logging in",
+                "1 moment...", true);
+        final User user = new User();
+        user.setEmail(email.getText().toString());
+        user.setPassword(password.getText().toString());
+        user.setUsername(username.getText().toString());
+        ListenableFuture<JsonElement> result = mobileServiceClient.invokeApi("CustomLogin", user, JsonElement.class);
 
-        builder.setMessage(message);
-        builder.setTitle(title);
-        builder.create().show();
+        Futures.addCallback(result, new FutureCallback<JsonElement>() {
+            @Override
+            public void onSuccess(JsonElement result) {
+                if (result.isJsonObject()) {
+                    JsonObject resultObj = result.getAsJsonObject();
+                    if (resultObj.get("userId").getAsString().contains("custom:")) {
+                        MobileServiceUser mUser = new MobileServiceUser(resultObj.get("userId").getAsString());
+                        mUser.setAuthenticationToken(resultObj.get("mobileServiceAuthenticationToken").toString());
+                        mobileServiceClient.setCurrentUser(mUser);
+                        AzureService az = new AzureService();
+                        az.saveUserData(getApplicationContext(), mobileServiceClient, user.getUsername(), user.getEmail());
+                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        //incorrect username/password
+
+                        mProgressDialog.dismiss();
+                    }
+
+                } else {
+                    System.out.println("dang");
+                    mProgressDialog.dismiss();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Throwable exc) {
+                System.out.println("onFailure Signin User");
+                mProgressDialog.dismiss();
+            }
+
+
+        });
     }
     }
 
