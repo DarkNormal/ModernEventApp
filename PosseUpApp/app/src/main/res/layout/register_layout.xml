@@ -49,7 +49,7 @@
         android:inputType="textPersonName"
         android:hint="@string/full_name"
         android:ems="10"
-        android:id="@+id/fullname"
+        android:id="@+id/username_register"
         android:textSize="12dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
@@ -65,11 +65,11 @@
         android:ems="10"
         android:textSize="12dp"
         android:id="@+id/email_signup"
-        android:layout_below="@+id/fullname"
+        android:layout_below="@+id/username_register"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:minWidth="200dp"
-        android:layout_alignStart="@+id/fullname"
+        android:layout_alignStart="@+id/username_register"
         android:hint="Email"
         android:layout_marginTop="22dp" />
 

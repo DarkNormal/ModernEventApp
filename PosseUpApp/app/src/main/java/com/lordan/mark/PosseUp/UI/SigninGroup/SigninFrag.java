@@ -64,7 +64,7 @@ public class SigninFrag extends Fragment implements View.OnClickListener{
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                username = (TextView) detailsView.findViewById(R.id.username_email);
+                username = (TextView) detailsView.findViewById(R.id.username_signin);
                 TextView password = (TextView) detailsView.findViewById(R.id.password);
                 if(!username.getText().toString().isEmpty() && !password.getText().toString().isEmpty()) {
                     mProgressDialog = ProgressDialog.show(getActivity(), "Logging in",
@@ -92,7 +92,7 @@ public class SigninFrag extends Fragment implements View.OnClickListener{
     }
 
     private void sendEmail(){
-        final TextView username = (TextView) detailsView.findViewById(R.id.username_email);
+        final TextView username = (TextView) detailsView.findViewById(R.id.username_signin);
         if(!username.getText().toString().isEmpty()){
 
             User forgetfulUser = new User();
@@ -140,24 +140,23 @@ public class SigninFrag extends Fragment implements View.OnClickListener{
         SigninFrag myFragment = new SigninFrag();
         return myFragment;
     }
-    public void login(String usernameOrEmail, String password) {
+    public void login(String username, String password) {
         final ProgressDialog mProgressDialog;
         mProgressDialog = ProgressDialog.show(getActivity(), "Logging in",
                 "Please wait...", true);
         final User user = new User();
-        user.setEmailOrUsername(usernameOrEmail);
+        user.setUsername(username);
         user.setPassword(password);
-        ListenableFuture<JsonElement> result = mobileServiceClient.invokeApi("login", user, JsonElement.class);
+        ListenableFuture<JsonElement> result = mobileServiceClient.invokeApi("CustomLogin", user, JsonElement.class);
 
         Futures.addCallback(result, new FutureCallback<JsonElement>() {
             @Override
             public void onSuccess(JsonElement result) {
-                System.out.println("hooray!");
                 if (result.isJsonObject()) {
                     JsonObject resultObj = result.getAsJsonObject();
-                    if (resultObj.get("status").getAsString().equals("SUCCESS")) {
+                    if (resultObj.get("userId").getAsString().contains("custom:")) {
                         MobileServiceUser mUser = new MobileServiceUser(resultObj.get("userId").getAsString());
-                        mUser.setAuthenticationToken(resultObj.get("token").toString());
+                        mUser.setAuthenticationToken(resultObj.get("mobileServiceAuthenticationToken").toString());
                         mobileServiceClient.setCurrentUser(mUser);
                         AzureService az = new AzureService();
                         az.saveUserData(getActivity(), mobileServiceClient, user.getUsername(), user.getEmail());
@@ -179,7 +178,7 @@ public class SigninFrag extends Fragment implements View.OnClickListener{
 
             @Override
             public void onFailure(Throwable exc) {
-                System.out.println("boo-urns!");
+                System.out.println("onFailure Signin User");
                 mProgressDialog.dismiss();
             }
 

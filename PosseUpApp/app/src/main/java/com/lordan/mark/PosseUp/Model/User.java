@@ -5,50 +5,36 @@ import com.google.gson.annotations.SerializedName;
  * Created by Mark on 10/1/2015.
  */
 public class User {
-    @SerializedName("fullname")
-    private String fullname;
 
-    @SerializedName("email")
+    @SerializedName("Email")
     private String email;
 
-    @SerializedName("password")
+    @SerializedName("Password")
     private String password;
 
-    @SerializedName("username")
+    @SerializedName("Username")
     private String username;
 
-    @SerializedName("isRegistered")
-    private boolean isRegistered;
+    @SerializedName("Verified")
+    private boolean verified;
 
-
-
-    @SerializedName("emailOrUsername")
+    @SerializedName("EmailOrUsername")
     private String emailOrUsername;
 
 
 
     private String token;
-
-
-
     private String userId;
 
     public User(){
 
     }
-    public User(String email, String password, String fullname){
-        this.fullname = fullname;
+    public User(String email, String password, String username){
         this.email = email;
         this.password = password;
+        this.username = username;
     }
 
-    public String getFullname() {
-        return fullname;
-    }
-
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
-    }
 
     public String getEmail() {
         return email;
@@ -74,12 +60,12 @@ public class User {
         this.username = username;
     }
 
-    public boolean isRegistered() {
-        return isRegistered;
+    public boolean isVerified() {
+        return verified;
     }
 
     public void setIsRegistered(boolean isRegistered) {
-        this.isRegistered = isRegistered;
+        this.verified = isRegistered;
     }
 
     public String getToken() {
