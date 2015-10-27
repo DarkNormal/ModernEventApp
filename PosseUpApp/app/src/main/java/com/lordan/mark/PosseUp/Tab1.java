@@ -3,8 +3,10 @@ package com.lordan.mark.PosseUp;
 /**
  * Created by Mark on 7/14/2015.
  */
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,12 +16,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.lordan.mark.PosseUp.UI.AddEventActivity;
+
 public class Tab1 extends Fragment {
     private ViewPager viewPager;
     private static final String TAG = "RecyclerViewFragment";
     private static final String KEY_LAYOUT_MANAGER = "layoutManager";
     private static final int SPAN_COUNT = 2;
-    private static final int DATASET_COUNT = 60;
+    private static final int DATASET_COUNT = 20;
     private enum LayoutManagerType {
         GRID_LAYOUT_MANAGER,
         LINEAR_LAYOUT_MANAGER
@@ -60,6 +64,14 @@ public class Tab1 extends Fragment {
         //LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         //llm.setOrientation(LinearLayoutManager.VERTICAL);
         //recList.setLayoutManager(llm);
+        FloatingActionButton addEvent = (FloatingActionButton) v.findViewById(R.id.addEvent_Button);
+        addEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AddEventActivity.class);
+                startActivity(intent);
+            }
+        });
         return v;
     }
     @Override
@@ -113,7 +125,7 @@ public class Tab1 extends Fragment {
     private void initDataset() {
         mDataset = new String[DATASET_COUNT];
         for (int i = 0; i < DATASET_COUNT; i++) {
-            mDataset[i] = "This is element #" + i;
+            mDataset[i] = "Event #" + i;
         }
     }
 

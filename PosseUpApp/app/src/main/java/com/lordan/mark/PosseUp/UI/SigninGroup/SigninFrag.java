@@ -3,8 +3,10 @@ package com.lordan.mark.PosseUp.UI.SigninGroup;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.DialogPreference;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +33,6 @@ import com.microsoft.windowsazure.mobileservices.authentication.MobileServiceUse
  * Created by Mark on 10/10/2015.
  */
 public class SigninFrag extends Fragment implements View.OnClickListener{
-    private ProgressDialog mProgressDialog;
     private View detailsView;
     private TextView username;
     private MobileServiceClient mobileServiceClient = AbstractActivity.mobileServiceClient;
@@ -44,8 +45,7 @@ public class SigninFrag extends Fragment implements View.OnClickListener{
         forgotPassword.setOnClickListener(new View.OnClickListener() {
                                               @Override
                                               public void onClick(View v) {
-                                                  mProgressDialog = ProgressDialog.show(getActivity(), "Resetting password",
-                                                          "Please wait...", true);
+
                                                   sendEmail();      //send email with reset instructions
 
                                               }
@@ -67,8 +67,6 @@ public class SigninFrag extends Fragment implements View.OnClickListener{
                 username = (TextView) detailsView.findViewById(R.id.username_signin);
                 TextView password = (TextView) detailsView.findViewById(R.id.password);
                 if(!username.getText().toString().isEmpty() && !password.getText().toString().isEmpty()) {
-                    mProgressDialog = ProgressDialog.show(getActivity(), "Logging in",
-                            "Please wait...", true);
                     login(username.getText().toString(), password.getText().toString());
                 }
                 else{
@@ -93,6 +91,8 @@ public class SigninFrag extends Fragment implements View.OnClickListener{
 
     private void sendEmail(){
         final TextView username = (TextView) detailsView.findViewById(R.id.username_signin);
+        final ProgressDialog mProgressDialog = ProgressDialog.show(getActivity(), "Resetting password",
+                "Please wait...", true);
         if(!username.getText().toString().isEmpty()){
 
             User forgetfulUser = new User();
@@ -141,8 +141,7 @@ public class SigninFrag extends Fragment implements View.OnClickListener{
         return myFragment;
     }
     public void login(String username, String password) {
-        final ProgressDialog mProgressDialog;
-        mProgressDialog = ProgressDialog.show(getActivity(), "Logging in",
+        final ProgressDialog mProgressDialog = ProgressDialog.show(getActivity(), "Logging in",
                 "Please wait...", true);
         final User user = new User();
         user.setUsername(username);
@@ -164,8 +163,6 @@ public class SigninFrag extends Fragment implements View.OnClickListener{
                         startActivity(intent);
                         getActivity().finish();
                     } else {
-                        //incorrect username/password
-
                         mProgressDialog.dismiss();
                     }
 
@@ -175,11 +172,18 @@ public class SigninFrag extends Fragment implements View.OnClickListener{
                 }
 
             }
-
             @Override
             public void onFailure(Throwable exc) {
-                System.out.println("onFailure Signin User");
+
                 mProgressDialog.dismiss();
+                if(exc.getLocalizedMessage().contains("Invalid username or password")){
+                    final TextView username = (TextView) detailsView.findViewById(R.id.username_signin);
+                    username.setError("Invalid username or password");
+                }
+                else{
+                    Toast.makeText(getActivity(), "No internet connection detected", Toast.LENGTH_SHORT).show();
+                }
+                System.out.println("onFailure Signin User");
             }
 
 

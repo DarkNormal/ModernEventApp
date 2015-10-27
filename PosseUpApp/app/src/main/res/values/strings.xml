@@ -30,4 +30,10 @@
 
     <string name="menu_profile">My profile</string>
     <string name="menu_sign_out">Sign out</string>
+    <string-array name="event_type">
+        <item>Public</item>
+        <item>Invite-only</item>
+        <item>Limited</item>
+        <item>Private</item>
+    </string-array>
 </resources>

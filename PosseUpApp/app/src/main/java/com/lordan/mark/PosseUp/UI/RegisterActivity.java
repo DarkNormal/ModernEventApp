@@ -118,12 +118,7 @@ public class RegisterActivity extends AbstractActivity {
                 });
             }
             }
-    @Override
-    public void onBackPressed(){
-        if(mProgressDialog.isShowing()){
-            mProgressDialog.dismiss();
-        }
-    }
+
     private void login(EditText username, EditText email, EditText password){
         mProgressDialog.show(this, "Logging in",
                 "1 moment...", true);
