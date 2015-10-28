@@ -5,7 +5,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
+        android:id="@+id/create_event_title_input"
         android:layout_marginStart="60dp"
         android:minWidth="100dp"
         android:layout_below="@+id/create_event_title"
@@ -18,15 +18,15 @@
         android:id="@+id/create_event_title"
         android:layout_marginTop="51dp"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/editText" />
+        android:layout_alignStart="@+id/create_event_title_input" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Event visibility"
         android:id="@+id/create_event_visibility"
-        android:layout_below="@+id/editText"
-        android:layout_alignStart="@+id/editText"
+        android:layout_below="@+id/create_event_title_input"
+        android:layout_alignStart="@+id/create_event_title_input"
         android:layout_marginTop="28dp" />
 
     <Spinner

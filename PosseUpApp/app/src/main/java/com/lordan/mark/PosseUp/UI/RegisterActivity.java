@@ -88,6 +88,7 @@ public class RegisterActivity extends AbstractActivity {
                     public void onFailure(Throwable exc) {
                         mProgressDialog.dismiss();
                         System.out.println("onFailure Register User");
+                        System.out.println(exc.getMessage());
                     }
 
                     @Override
@@ -140,6 +141,7 @@ public class RegisterActivity extends AbstractActivity {
                         AzureService az = new AzureService();
                         az.saveUserData(getApplicationContext(), mobileServiceClient, user.getUsername(), user.getEmail());
                         Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                        mProgressDialog.dismiss();
                         startActivity(intent);
                         finish();
                     } else {

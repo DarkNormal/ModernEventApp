@@ -155,7 +155,9 @@ public class SigninFrag extends Fragment implements View.OnClickListener{
                     JsonObject resultObj = result.getAsJsonObject();
                     if (resultObj.get("userId").getAsString().contains("custom:")) {
                         MobileServiceUser mUser = new MobileServiceUser(resultObj.get("userId").getAsString());
-                        mUser.setAuthenticationToken(resultObj.get("mobileServiceAuthenticationToken").toString());
+                        String token = resultObj.get("mobileServiceAuthenticationToken").toString();
+                        token = token.replace("\"", "");
+                        mUser.setAuthenticationToken(token);
                         mobileServiceClient.setCurrentUser(mUser);
                         AzureService az = new AzureService();
                         az.saveUserData(getActivity(), mobileServiceClient, user.getUsername(), user.getEmail());
