@@ -86,46 +86,46 @@ public class ForgotPasswordFrag extends Fragment {
     }
     public void tempLogin(String usernameOrEmail, String password) {
 
-        final User user = new User();
-        user.setEmailOrUsername(usernameOrEmail);
-        user.setPassword(password);
-        ListenableFuture<JsonElement> result = mobileServiceClient.invokeApi("forgot_password_confirmed", user, JsonElement.class);
-
-        Futures.addCallback(result, new FutureCallback<JsonElement>() {
-            @Override
-            public void onSuccess(JsonElement result) {
-                System.out.println("hooray!");
-                if (result.isJsonObject()) {
-                    JsonObject resultObj = result.getAsJsonObject();
-                    if (resultObj.get("status").getAsString().equals("SUCCESS")) {
-                        MobileServiceUser mUser = new MobileServiceUser(resultObj.get("userId").getAsString());
-                        mUser.setAuthenticationToken(resultObj.get("token").toString());
-                        mobileServiceClient.setCurrentUser(mUser);
-                        AzureService az = new AzureService();
-                        az.saveUserData(getActivity(), mobileServiceClient, user.getUsername(), user.getEmail());
-                        Intent intent = new Intent(getActivity(), MainActivity.class);
-                        startActivity(intent);
-                        getActivity().finish();
-                    } else {
-                        //incorrect username/password
-
-                        mProgressDialog.dismiss();
-                    }
-
-                } else {
-                    System.out.println("dang");
-                    mProgressDialog.dismiss();
-                }
-
-            }
-
-            @Override
-            public void onFailure(Throwable exc) {
-                System.out.println("boo-urns!");
-                mProgressDialog.dismiss();
-            }
-
-
-        });
+//        final User user = new User();
+//        user.setEmailOrUsername(usernameOrEmail);
+//        user.setPassword(password);
+//        ListenableFuture<JsonElement> result = mobileServiceClient.invokeApi("forgot_password_confirmed", user, JsonElement.class);
+//
+//        Futures.addCallback(result, new FutureCallback<JsonElement>() {
+//            @Override
+//            public void onSuccess(JsonElement result) {
+//                System.out.println("hooray!");
+//                if (result.isJsonObject()) {
+//                    JsonObject resultObj = result.getAsJsonObject();
+//                    if (resultObj.get("status").getAsString().equals("SUCCESS")) {
+//                        MobileServiceUser mUser = new MobileServiceUser(resultObj.get("userId").getAsString());
+//                        mUser.setAuthenticationToken(resultObj.get("token").toString());
+//                        mobileServiceClient.setCurrentUser(mUser);
+//                        AzureService az = new AzureService();
+//                        az.saveUserData(getActivity(), mobileServiceClient, user.getUsername(), user.getEmail());
+//                        Intent intent = new Intent(getActivity(), MainActivity.class);
+//                        startActivity(intent);
+//                        getActivity().finish();
+//                    } else {
+//                        //incorrect username/password
+//
+//                        mProgressDialog.dismiss();
+//                    }
+//
+//                } else {
+//                    System.out.println("dang");
+//                    mProgressDialog.dismiss();
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Throwable exc) {
+//                System.out.println("boo-urns!");
+//                mProgressDialog.dismiss();
+//            }
+//
+//
+//        });
     }
 }

@@ -24,11 +24,23 @@ public abstract class AbstractActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
-    protected boolean isValidEmail(CharSequence target){
+    protected boolean isValidEmail(String target){
         if (TextUtils.isEmpty(target)) {
             return false;
         } else {
             return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
+    }
+    protected boolean isValidUsername(String target){
+        if (TextUtils.isEmpty(target)) {
+            return false;
+        } else {
+           if(target.contains("@")){
+               return false;
+           }
+            else{
+               return true;
+           }
         }
     }
 

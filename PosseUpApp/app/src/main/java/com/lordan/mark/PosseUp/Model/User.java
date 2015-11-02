@@ -6,6 +6,12 @@ import com.google.gson.annotations.SerializedName;
  */
 public class User {
 
+    @SerializedName("UserID")
+    private int userID;
+
+    @SerializedName("Name")
+    private String name;
+
     @SerializedName("Email")
     private String email;
 
@@ -15,16 +21,18 @@ public class User {
     @SerializedName("Username")
     private String username;
 
-    @SerializedName("Verified")
-    private boolean verified;
-
-    @SerializedName("EmailOrUsername")
-    private String emailOrUsername;
+//    @SerializedName("Verified")
+//    private boolean verified;
+//
+//    @SerializedName("EmailOrUsername")
+//    private String emailOrUsername;
 
     public User(){
 
     }
     public User(String email, String password, String username){
+        userID = 99;
+        name = "mark";
         this.email = email;
         this.password = password;
         this.username = username;
@@ -55,20 +63,20 @@ public class User {
         this.username = username;
     }
 
-    public boolean isVerified() {
-        return verified;
-    }
-
-    public void setIsRegistered(boolean isRegistered) {
-        this.verified = isRegistered;
-    }
-
-
-    public String getEmailOrUsername() {
-        return emailOrUsername;
-    }
-
-    public void setEmailOrUsername(String emailOrUsername) {
-        this.emailOrUsername = emailOrUsername;
-    }
+//    public boolean isVerified() {
+//        return verified;
+//    }
+//
+//    public void setIsRegistered(boolean isRegistered) {
+//        this.verified = isRegistered;
+//    }
+//
+//
+//    public String getEmailOrUsername() {
+//        return emailOrUsername;
+//    }
+//
+//    public void setEmailOrUsername(String emailOrUsername) {
+//        this.emailOrUsername = emailOrUsername;
+//    }
 }
