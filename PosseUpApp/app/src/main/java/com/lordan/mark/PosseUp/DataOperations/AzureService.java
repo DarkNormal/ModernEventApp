@@ -3,7 +3,6 @@ package com.lordan.mark.PosseUp.DataOperations;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 
 /**
  * Created by Mark on 10/3/2015.

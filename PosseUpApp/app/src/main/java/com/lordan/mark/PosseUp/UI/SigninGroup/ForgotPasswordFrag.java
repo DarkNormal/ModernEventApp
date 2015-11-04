@@ -3,7 +3,6 @@ package com.lordan.mark.PosseUp.UI.SigninGroup;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,18 +10,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.common.util.concurrent.FutureCallback;
-import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListenableFuture;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.lordan.mark.PosseUp.AbstractActivity;
-import com.lordan.mark.PosseUp.DataOperations.AzureService;
-import com.lordan.mark.PosseUp.Model.User;
+
 import com.lordan.mark.PosseUp.R;
-import com.lordan.mark.PosseUp.UI.MainActivity;
-import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
-import com.microsoft.windowsazure.mobileservices.authentication.MobileServiceUser;
+
 
 /**
  * Created by Mark on 10/10/2015.

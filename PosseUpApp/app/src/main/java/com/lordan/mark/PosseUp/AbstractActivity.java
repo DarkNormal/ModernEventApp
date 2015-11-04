@@ -6,11 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 
-import com.lordan.mark.PosseUp.Model.Constants;
-import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
-import com.microsoft.windowsazure.mobileservices.authentication.MobileServiceUser;
-
-import java.net.MalformedURLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,12 +32,7 @@ public abstract class AbstractActivity extends ActionBarActivity {
         if (TextUtils.isEmpty(target)) {
             return false;
         } else {
-           if(target.contains("@")){
-               return false;
-           }
-            else{
-               return true;
-           }
+            return !target.contains("@");
         }
     }
 

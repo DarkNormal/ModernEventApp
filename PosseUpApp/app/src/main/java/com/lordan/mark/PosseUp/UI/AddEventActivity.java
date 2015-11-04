@@ -6,16 +6,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import com.google.common.util.concurrent.FutureCallback;
-import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListenableFuture;
-import com.google.gson.JsonElement;
 import com.lordan.mark.PosseUp.AbstractActivity;
-import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.R;
-import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
+
 
 /**
  * Created by Mark on 10/27/2015.
