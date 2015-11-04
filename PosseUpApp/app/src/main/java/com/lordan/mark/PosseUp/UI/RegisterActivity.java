@@ -1,9 +1,7 @@
 package com.lordan.mark.PosseUp.UI;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
@@ -12,36 +10,36 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.common.util.concurrent.FutureCallback;
-import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListenableFuture;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.lordan.mark.PosseUp.AbstractActivity;
 import com.lordan.mark.PosseUp.DataOperations.AzureService;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
-import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
-import com.microsoft.windowsazure.mobileservices.authentication.MobileServiceUser;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Mark on 9/30/2015.
  */
 public class RegisterActivity extends AbstractActivity {
 
-    private MobileServiceClient mobileServiceClient = AbstractActivity.mobileServiceClient;
-    private ProgressDialog mProgressDialog;
-    private RequestQueue queue;
+    private ProgressDialog mProgressDialog; //dialog used for all Volley requests
+    private RequestQueue queue;             //Volley queue
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +47,18 @@ public class RegisterActivity extends AbstractActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_layout);
         Button signup = (Button) findViewById(R.id.signup_button);
-        queue  = Volley.newRequestQueue(this);
+        queue = Volley.newRequestQueue(this);       //instantiate Volley queue
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EditText username = (EditText) findViewById(R.id.username_register);
+                EditText email = (EditText) findViewById(R.id.email_signup);
+                EditText password = (EditText) findViewById(R.id.password_signup);
 
-                registerUser();
+                if (validateDetails(username, email, password)) {
+                    registerUser(username, email, password);     //begin registration process
+                }
+
             }
         });
         TextView backToSignIn = (TextView) findViewById(R.id.signin_text);
@@ -74,11 +78,58 @@ public class RegisterActivity extends AbstractActivity {
         });
     }
 
-    public void registerUser() {
+    public void registerUser(final EditText username, final EditText email, EditText password) {
+
+        final User newUser = new User(email.getText().toString(), password.getText().toString(), username.getText().toString());
+        mProgressDialog = ProgressDialog.show(this, "Registering",
+                "Pretending to look busy...", true);
+        final JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("Email", newUser.getEmail());
+            jsonBody.put("Password", newUser.getPassword());
+            jsonBody.put("Username", newUser.getUsername());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        String url = Constants.baseUrl + "api/Account/Register";
+        JsonObjectRequest jrequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                mProgressDialog.dismiss();
+                response.remove("Username");
+                System.out.println("user registered");
+                login(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                mProgressDialog.dismiss();
+                System.out.println(error.networkResponse.statusCode);
+                String json;
+
+                NetworkResponse response = error.networkResponse;
+                if (response != null && response.data != null) {
+                    switch (response.statusCode) {
+                        case 400:
+                            json = new String(response.data);
+                            JSONArray jsonarray = trimMessage(json, "Errors");
+                            if (jsonarray != null) setErrors(jsonarray, username, email);
+                            break;
+                        default:
+                            Toast.makeText(getApplicationContext(), "An unknown error occurred", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                System.out.println("User not registered");
+            }
+        });
+        jrequest.setRetryPolicy(new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        queue.add(jrequest);
+
+    }
+
+    private boolean validateDetails(EditText username, EditText email, EditText password) {
         boolean proceedRegister1, proceedRegister2, proceedRegister3;
-        final EditText username = (EditText) findViewById(R.id.username_register);
-        final EditText email = (EditText) findViewById(R.id.email_signup);
-        final EditText password = (EditText) findViewById(R.id.password_signup);
         if (!isValidUsername(username.getText().toString())) {
             username.setError("Invalid username, cannot be empty and cannot contain @");
             proceedRegister1 = false;
@@ -93,81 +144,11 @@ public class RegisterActivity extends AbstractActivity {
         } else proceedRegister3 = true;
 
         if (proceedRegister1 == true && proceedRegister2 == true && proceedRegister3 == true) {
-            final User newUser = new User(email.getText().toString(), password.getText().toString(), username.getText().toString());
-            mProgressDialog = ProgressDialog.show(this, "Registering",
-                    "Pretending to look busy...", true);
-            final JSONObject jsonBody = new JSONObject();
-            try {
-                jsonBody.put("Name", newUser.getUsername());
-                jsonBody.put("Email", newUser.getEmail());
-                jsonBody.put("Password", newUser.getPassword());
-                jsonBody.put("Username", newUser.getUsername());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            // Instantiate the RequestQueue.
-
-            String url = Constants.baseUrl + "Register";
-            queue.add(new JsonObjectRequest(Request.Method.POST, url, jsonBody, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    mProgressDialog.dismiss();
-                    response.remove("AttendedEvents");
-                    response.remove("UserID");
-                    response.remove("Name");
-                    response.remove("Username");
-                    login(response);
-                    System.out.println("cool beans");
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    mProgressDialog.dismiss();
-                    System.out.println(error.networkResponse.toString());
-                    System.out.println("not cool beans");
-                }
-            }));
-//                ListenableFuture<JsonElement> result = mobileServiceClient.invokeApi( "CustomRegistration", newUser, JsonElement.class );
-//
-//                Futures.addCallback(result, new FutureCallback<JsonElement>() {
-//                    @Override
-//                    public void onFailure(Throwable exc) {
-//                        mProgressDialog.dismiss();
-//                        System.out.println("onFailure Register User");
-//                        System.out.println(exc.getMessage());
-//                    }
-//
-//                    @Override
-//                    public void onSuccess(JsonElement result) {
-//                        mProgressDialog.dismiss();
-//                        if(result.isJsonObject()){
-//                            JsonObject resultObj = result.getAsJsonObject();
-//                            if(resultObj.get("message").getAsString().equals("account created")){
-//                                login(username, email, password);
-//                            }
-////                            AzureService az = new AzureService();
-////                            az.saveUserData(getApplicationContext(), mobileServiceClient, newUser.getUsername(), newUser.getEmail());
-////                            SharedPreferences settings = getApplicationContext().getSharedPreferences("PosseUpData", MODE_PRIVATE);
-////                            String userId;
-////                            if(settings != null){
-////                                userId = settings.getString("userId", null);
-////                                System.out.println(userId + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-////                            }
-////                            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-////                            intent.putExtra("name", newUser.getUsername());
-////                            startActivity(intent);
-////                            finish();
-//                        }
-//                        else{
-//                            email.setError("This email already has an account");
-//                        }
-//                    }
-//                });
-        }
+            return true;
+        } else return false;
     }
 
-    private void login(JSONObject jsonBody) {
+    private void login(final JSONObject jsonBody) {
         mProgressDialog.show(this, "Logging in",
                 "1 moment...", true);
         String email = null;
@@ -178,12 +159,25 @@ public class RegisterActivity extends AbstractActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        String url = String.format(Constants.baseUrl + "Login/%s/%s", email, password);
-        queue.add(new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        String url = String.format(Constants.baseUrl + "Token", email, password);
+        StringRequest req = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(String response) {
+
+                JSONObject json = new JSONObject();
+                System.out.println("Token recieved");
+                try {
+                    json = new JSONObject(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    AzureService az = new AzureService();
+                    az.saveUserData(getApplicationContext(), json.getString("access_token"), jsonBody.getString("Email"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 mProgressDialog.dismiss();
-                System.out.println("cool beans");
                 Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -191,49 +185,83 @@ public class RegisterActivity extends AbstractActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                System.out.println("No Token recieved");
                 mProgressDialog.dismiss();
-                System.out.println(error.networkResponse.toString());
-                System.out.println("not cool beans");
             }
-        }));
-//        ListenableFuture<JsonElement> result = mobileServiceClient.invokeApi("CustomLogin", user, JsonElement.class);
-//
-//        Futures.addCallback(result, new FutureCallback<JsonElement>() {
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("grant_type", "password");
+                try {
+                    params.put("username", jsonBody.getString("Email"));
+                    params.put("password", jsonBody.getString("Password"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return params;
+            }
+
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                String httpPostBody = "grant_type=password&username=mark.lordan@gmail.com&password=Supern00b-";
+                return httpPostBody.getBytes();
+            }
+        };
+        queue.add(req);
+
+    }
+
+    public JSONArray trimMessage(String json, String key) {
+        JSONArray jarray;
+
+        try {
+            JSONObject obj = new JSONObject(json);
+            jarray = obj.getJSONArray(key);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return jarray;
+    }
+
+    public void setErrors(JSONArray toastString, EditText username, EditText email) {
+        for (int i = 0; i < toastString.length(); i++) {
+            try {
+                if (toastString.getString(i).startsWith("Name")) {
+                    username.setError("Username is taken");
+                } else if (toastString.getString(i).startsWith("Email")) {
+                    email.setError("Email is taken");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+//    public void getUserInfo(final String access_token) {
+//        String url = String.format(Constants.baseUrl + "/api/Account/userInfo");
+//        queue.add(new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 //            @Override
-//            public void onSuccess(JsonElement result) {
-//                if (result.isJsonObject()) {
-//                    JsonObject resultObj = result.getAsJsonObject();
-//                    if (resultObj.get("userId").getAsString().contains("custom:")) {
-//                        MobileServiceUser mUser = new MobileServiceUser(resultObj.get("userId").getAsString());
-//                        mUser.setAuthenticationToken(resultObj.get("mobileServiceAuthenticationToken").toString());
-//                        mobileServiceClient.setCurrentUser(mUser);
-//                        AzureService az = new AzureService();
-//                        az.saveUserData(getApplicationContext(), mobileServiceClient, user.getUsername(), user.getEmail());
-//                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-//                        mProgressDialog.dismiss();
-//                        startActivity(intent);
-//                        finish();
-//                    } else {
-//                        //incorrect username/password
+//            public void onResponse(JSONObject response) {
 //
-//                        mProgressDialog.dismiss();
-//                    }
-//
-//                } else {
-//                    System.out.println("dang");
-//                    mProgressDialog.dismiss();
-//                }
-//
+//                System.out.println("cool beans");
 //            }
-//
+//        }, new Response.ErrorListener() {
 //            @Override
-//            public void onFailure(Throwable exc) {
-//                System.out.println("onFailure Signin User");
-//                mProgressDialog.dismiss();
+//            public void onErrorResponse(VolleyError error) {
+//                System.out.println(error.networkResponse.toString());
+//                System.out.println("not cool beans");
 //            }
-//
+//        }) {
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map<String, String> headers = new HashMap<>();
+//                headers.put("Authorization", "bearer " + access_token);
+//                return headers;
+//            }
 //
 //        });
-    }
+//    }
 }
 

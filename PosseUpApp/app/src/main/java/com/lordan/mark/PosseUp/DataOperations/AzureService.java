@@ -13,13 +13,11 @@ public class AzureService {
 
     }
 
-    public void saveUserData(Context context, MobileServiceClient mClient, String mUsername, String mEmail) {
+    public void saveUserData(Context context, String access_token, String email) {
         SharedPreferences settings = context.getSharedPreferences("PosseUpData", Context.MODE_PRIVATE);
         SharedPreferences.Editor preferencesEditor = settings.edit();
-        preferencesEditor.putString("userId", mClient.getCurrentUser().getUserId());
-        preferencesEditor.putString("token", mClient.getCurrentUser().getAuthenticationToken());
-        preferencesEditor.putString("username", mUsername);
-        preferencesEditor.putString("email", mEmail);
+        preferencesEditor.putString("access_token", access_token);
+        preferencesEditor.putString("email", email);
         preferencesEditor.commit();
     }
 }

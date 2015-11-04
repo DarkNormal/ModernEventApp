@@ -54,9 +54,8 @@ import java.util.Map;
 public class SigninFrag extends Fragment implements View.OnClickListener{
     private View detailsView;
     private TextView username;
-    private MobileServiceClient mobileServiceClient = AbstractActivity.mobileServiceClient;
     private RequestQueue queue;
-    private String token;
+    private ProgressDialog mProgressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -112,49 +111,49 @@ public class SigninFrag extends Fragment implements View.OnClickListener{
     }
 
     private void sendEmail(){
-        final TextView username = (TextView) detailsView.findViewById(R.id.username_signin);
-        final ProgressDialog mProgressDialog = ProgressDialog.show(getActivity(), "Resetting password",
-                "Please wait...", true);
-        if(!username.getText().toString().isEmpty()){
-
-            User forgetfulUser = new User();
-            forgetfulUser.setEmail(username.getText().toString());
-
-            ListenableFuture<JsonElement> result = mobileServiceClient.invokeApi("forgot_password",forgetfulUser, JsonElement.class);
-            Futures.addCallback(result, new FutureCallback<JsonElement>() {
-                @Override
-                public void onSuccess(JsonElement result) {
-                    if (result.getAsJsonObject().get("status").getAsString().equals("email sent")) {
-                        Toast.makeText(getActivity(), "Email sent to " + username.getText().toString(), Toast.LENGTH_SHORT).show();
-                        mProgressDialog.dismiss();
-                        FragmentTransaction ft = getFragmentManager().beginTransaction();
-                        ft.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
-
-                        ForgotPasswordFrag newFragment = ForgotPasswordFrag.newInstance();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("email", username.getText().toString());
-                        newFragment.setArguments(bundle);
-
-                        ft.replace(R.id.fragmentHolder, newFragment, "forgotpass_frag");
-                        ft.commit();
-                    } else {
-                        username.setError("No matching email found");
-                        mProgressDialog.dismiss();
-                    }
-
-                }
-
-                @Override
-                public void onFailure(Throwable t) {
-                    System.out.println("onFailure");
-                    mProgressDialog.dismiss();
-                }
-            });
-        }
-        else{
-            username.setError("Enter an email address");
-            mProgressDialog.dismiss();
-        }
+//        final TextView username = (TextView) detailsView.findViewById(R.id.username_signin);
+//        final ProgressDialog mProgressDialog = ProgressDialog.show(getActivity(), "Resetting password",
+//                "Please wait...", true);
+//        if(!username.getText().toString().isEmpty()){
+//
+//            User forgetfulUser = new User();
+//            forgetfulUser.setEmail(username.getText().toString());
+//
+//            ListenableFuture<JsonElement> result = mobileServiceClient.invokeApi("forgot_password",forgetfulUser, JsonElement.class);
+//            Futures.addCallback(result, new FutureCallback<JsonElement>() {
+//                @Override
+//                public void onSuccess(JsonElement result) {
+//                    if (result.getAsJsonObject().get("status").getAsString().equals("email sent")) {
+//                        Toast.makeText(getActivity(), "Email sent to " + username.getText().toString(), Toast.LENGTH_SHORT).show();
+//                        mProgressDialog.dismiss();
+//                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+//                        ft.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
+//
+//                        ForgotPasswordFrag newFragment = ForgotPasswordFrag.newInstance();
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString("email", username.getText().toString());
+//                        newFragment.setArguments(bundle);
+//
+//                        ft.replace(R.id.fragmentHolder, newFragment, "forgotpass_frag");
+//                        ft.commit();
+//                    } else {
+//                        username.setError("No matching email found");
+//                        mProgressDialog.dismiss();
+//                    }
+//
+//                }
+//
+//                @Override
+//                public void onFailure(Throwable t) {
+//                    System.out.println("onFailure");
+//                    mProgressDialog.dismiss();
+//                }
+//            });
+//        }
+//        else{
+//            username.setError("Enter an email address");
+//            mProgressDialog.dismiss();
+//        }
 
     }
     public static SigninFrag newInstance()
@@ -162,71 +161,30 @@ public class SigninFrag extends Fragment implements View.OnClickListener{
         SigninFrag myFragment = new SigninFrag();
         return myFragment;
     }
-    public void login(String username, String password) {
-        final ProgressDialog mProgressDialog = ProgressDialog.show(getActivity(), "Logging in",
-                "Please wait...", true);
-        String url = String.format(Constants.baseUrl + "Token");
-        StringRequest req = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-                JSONObject json = new JSONObject();
-                System.out.println("COOL BEANS.");
-                try {
-                    json = new JSONObject(response);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    System.out.println(json.get("access_token"));
-                    getUserInfo();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                mProgressDialog.dismiss();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                System.out.println("not cool beans sign in");
-                mProgressDialog.dismiss();
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("grant_type", "password");
-                params.put("username", "mark.lordan@gmail.com");
-                params.put("password", "Supern00b-");
-                return params;
-            }
-
+    private void login(String username, String password) {
+//        mProgressDialog.show(getActivity(), "Logging in",
+//                "1 moment...", true);
+//
+//
+//        String url = String.format(Constants.baseUrl + "Token", username, password);
+//        StringRequest req = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 //            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                Map<String, String> headers = new HashMap<>();
-//                headers.put("Content-Type", "application/x-www-form-urlencoded");
-//                return headers;
-//            }
-            @Override
-            public byte[] getBody() throws AuthFailureError {
-                String httpPostBody="grant_type=password&username=mark.lordan@gmail.com&password=Supern00b-";
-                // usually you'd have a field with some values you'd want to escape, you need to do it yourself if overriding getBody. here's how you do it
+//            public void onResponse(String response) {
+//
+//                JSONObject json = new JSONObject();
+//                System.out.println("Token recieved");
 //                try {
-//                    httpPostBody=httpPostBody+"&randomFieldFilledWithAwkwardCharacters="+ URLEncoder.encode("{{%stuffToBe Escaped/", "UTF-8");
-//                } catch (UnsupportedEncodingException exception) {
-//                    Log.e("ERROR", "exception", exception);
-//                    // return null and don't pass any POST string if you encounter encoding error
-//                    return null;
+//                    json = new JSONObject(response);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
 //                }
-                return httpPostBody.getBytes();
-            }
-        };
-        queue.add(req);
-//        queue.add(new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-//            @Override
-//            public void onResponse(JSONObject response) {
+//                try {
+//                    AzureService az = new AzureService();
+//                    az.saveUserData(getActivity(), json.getString("access_token"), json.getString("Email"));
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
 //                mProgressDialog.dismiss();
-//                System.out.println("cool beans");
 //                Intent intent = new Intent(getActivity(), MainActivity.class);
 //                startActivity(intent);
 //                getActivity().finish();
@@ -234,55 +192,31 @@ public class SigninFrag extends Fragment implements View.OnClickListener{
 //        }, new Response.ErrorListener() {
 //            @Override
 //            public void onErrorResponse(VolleyError error) {
+//                System.out.println("No Token recieved");
 //                mProgressDialog.dismiss();
-//                System.out.println(error.networkResponse.toString());
-//                System.out.println("not cool beans");
 //            }
-//        }));
-//        ListenableFuture<JsonElement> result = mobileServiceClient.invokeApi("CustomLogin", user, JsonElement.class);
-//
-//        Futures.addCallback(result, new FutureCallback<JsonElement>() {
+//        }) {
 //            @Override
-//            public void onSuccess(JsonElement result) {
-//                if (result.isJsonObject()) {
-//                    JsonObject resultObj = result.getAsJsonObject();
-//                    if (resultObj.get("userId").getAsString().contains("custom:")) {
-//                        MobileServiceUser mUser = new MobileServiceUser(resultObj.get("userId").getAsString());
-//                        String token = resultObj.get("mobileServiceAuthenticationToken").toString();
-//                        token = token.replace("\"", "");
-//                        mUser.setAuthenticationToken(token);
-//                        mobileServiceClient.setCurrentUser(mUser);
-//                        AzureService az = new AzureService();
-//                        az.saveUserData(getActivity(), mobileServiceClient, user.getUsername(), user.getEmail());
-//                        Intent intent = new Intent(getActivity(), MainActivity.class);
-//                        startActivity(intent);
-//                        getActivity().finish();
-//                    } else {
-//                        mProgressDialog.dismiss();
-//                    }
-//
-//                } else {
-//                    System.out.println("dang");
-//                    mProgressDialog.dismiss();
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                Map<String, String> params = new HashMap<String, String>();
+//                params.put("grant_type", "password");
+//                try {
+//                    params.put("username", jsonBody.getString("Email"));
+//                    params.put("password", jsonBody.getString("Password"));
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
 //                }
-//
+//                return params;
 //            }
+//
 //            @Override
-//            public void onFailure(Throwable exc) {
-//
-//                mProgressDialog.dismiss();
-//                if(exc.getLocalizedMessage().contains("Invalid username or password")){
-//                    final TextView username = (TextView) detailsView.findViewById(R.id.username_signin);
-//                    username.setError("Invalid username or password");
-//                }
-//                else{
-//                    Toast.makeText(getActivity(), "No internet connection detected", Toast.LENGTH_SHORT).show();
-//                }
-//                System.out.println("onFailure Signin User");
+//            public byte[] getBody() throws AuthFailureError {
+//                String httpPostBody = "grant_type=password&username=mark.lordan@gmail.com&password=Supern00b-";
+//                return httpPostBody.getBytes();
 //            }
-//
-//
-//        });
+//        };
+//        queue.add(req);
+
     }
     public void getUserInfo() {
         String url = String.format(Constants.baseUrl + "/api/Account/userInfo");

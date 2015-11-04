@@ -22,7 +22,6 @@ import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
  */
 public class AddEventActivity extends AbstractActivity{
 
-    private MobileServiceClient mobileServiceClient = AbstractActivity.mobileServiceClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -46,20 +45,20 @@ public class AddEventActivity extends AbstractActivity{
         });
     }
     private void createEvent(String eventTitle, String eventVisibility){
-        Event newEvent = new Event(eventTitle, eventVisibility, AbstractActivity.mEmail);
-        ListenableFuture<JsonElement> result = mobileServiceClient.invokeApi( "Events", newEvent, JsonElement.class );
-
-        Futures.addCallback(result, new FutureCallback<JsonElement>() {
-            @Override
-            public void onSuccess(JsonElement result) {
-                Toast.makeText(getApplicationContext(), "Event created", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                System.out.println(t.getStackTrace().toString());
-            }
-        });
+//        Event newEvent = new Event(eventTitle, eventVisibility, AbstractActivity.mEmail);
+//        ListenableFuture<JsonElement> result = mobileServiceClient.invokeApi( "Events", newEvent, JsonElement.class );
+//
+//        Futures.addCallback(result, new FutureCallback<JsonElement>() {
+//            @Override
+//            public void onSuccess(JsonElement result) {
+//                Toast.makeText(getApplicationContext(), "Event created", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onFailure(Throwable t) {
+//                System.out.println(t.getStackTrace().toString());
+//            }
+//        });
     }
 
     }

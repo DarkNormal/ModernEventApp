@@ -30,7 +30,6 @@ import com.microsoft.windowsazure.mobileservices.authentication.MobileServiceUse
 public class ForgotPasswordFrag extends Fragment {
     private View forgotPasswordView;
     private ProgressDialog mProgressDialog;
-    private MobileServiceClient mobileServiceClient = AbstractActivity.mobileServiceClient;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
