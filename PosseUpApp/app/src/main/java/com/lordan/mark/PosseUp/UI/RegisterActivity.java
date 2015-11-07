@@ -138,7 +138,7 @@ public class RegisterActivity extends AbstractActivity {
             proceedRegister2 = false;
         } else proceedRegister2 = true;
         if (!isValidPassword(password.getText().toString())) {
-            password.setError("Invalid Password, cannot be empty and must be longer than 6 characters");
+            password.setError("Mixed case letters and at least 1 digit is required. Length must be > 6");
             proceedRegister3 = false;
         } else proceedRegister3 = true;
 

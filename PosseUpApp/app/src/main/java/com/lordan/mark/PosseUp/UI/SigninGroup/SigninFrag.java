@@ -11,11 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -33,6 +35,7 @@ import com.lordan.mark.PosseUp.UI.MainActivity;
 import com.lordan.mark.PosseUp.UI.RegisterActivity;
 
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -44,7 +47,7 @@ import java.util.Map;
  */
 public class SigninFrag extends Fragment implements View.OnClickListener {
     private View detailsView;
-    private TextView username;
+    private EditText username, password;
     private RequestQueue queue;
     private ProgressDialog mProgressDialog;
 
@@ -77,11 +80,11 @@ public class SigninFrag extends Fragment implements View.OnClickListener {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                username = (TextView) detailsView.findViewById(R.id.username_signin);
-                TextView password = (TextView) detailsView.findViewById(R.id.password);
+                username = (EditText) detailsView.findViewById(R.id.username_signin);
+                password = (EditText) detailsView.findViewById(R.id.password);
                 if (!username.getText().toString().isEmpty() && !password.getText().toString().isEmpty()) {
                     mProgressDialog = new ProgressDialog(getActivity());
-                    login(username.getText().toString(), password.getText().toString());
+                    login(username, password);
                 } else {
                     if (username.getText().toString().isEmpty()) {
                         username.setError("Cannot be blank");
@@ -107,7 +110,7 @@ public class SigninFrag extends Fragment implements View.OnClickListener {
         return myFragment;
     }
 
-    private void login(String username, String password) {
+    private void login(final EditText username, final EditText password) {
 
         mProgressDialog = ProgressDialog.show(getActivity(), "Logging in",
                 "1 moment...", true);
@@ -116,8 +119,8 @@ public class SigninFrag extends Fragment implements View.OnClickListener {
         JSONObject jobject = new JSONObject();
 
         try {
-            jobject.put("Username", username);
-            jobject.put("Password", password);
+            jobject.put("Username", username.getText().toString());
+            jobject.put("Password", password.getText().toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -132,6 +135,20 @@ public class SigninFrag extends Fragment implements View.OnClickListener {
             public void onErrorResponse(VolleyError error) {
                 System.out.println(error.getMessage());
                 mProgressDialog.dismiss();
+                String json;
+
+                NetworkResponse response = error.networkResponse;
+                if (response != null && response.data != null) {
+                    switch (response.statusCode) {
+                        case 400:
+                            json = new String(response.data);
+                            String errorReply = trimMessage(json, "Message");
+                            if (errorReply != null) setErrors(errorReply, username, password);
+                            break;
+                        default:
+                            Toast.makeText(getActivity(), "An unknown error occurred", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
         req.setRetryPolicy(new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
@@ -197,4 +214,29 @@ public class SigninFrag extends Fragment implements View.OnClickListener {
         queue.add(req);
 
     }
+    public String trimMessage(String json, String key) {
+        String error="";
+
+        try {
+            JSONObject obj = new JSONObject(json);
+            error = obj.getString(key);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return error;
+    }
+
+    public void setErrors(String toastString, EditText username, EditText email) {
+
+                if (toastString.startsWith("Account")) {
+                    Toast.makeText(getActivity(), "An account with this email/username and password combination was not found", Toast.LENGTH_LONG).show();
+                    password.setText("");
+                } else if (toastString.startsWith("invalid")) {
+                    Toast.makeText(getActivity(), "Invalid credentials entered", Toast.LENGTH_SHORT).show();
+                    password.setText("");
+                }
+            }
+
+
 }

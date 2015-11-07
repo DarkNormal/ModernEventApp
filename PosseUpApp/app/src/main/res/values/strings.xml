@@ -36,4 +36,10 @@
         <item>Limited</item>
         <item>Private</item>
     </string-array>
+
+
+    <string name="discover_nearby_devices">Discover nearby users</string>
+    <string name="discover_nearby_devices_button">Discover nearby devices button</string>
+    <string name="share_device_information">Share information</string>
+    <string name="share_device_information_button">Share device information button</string>
 </resources>
