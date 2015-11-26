@@ -97,7 +97,6 @@ public class RegisterActivity extends AbstractActivity {
             @Override
             public void onResponse(JSONObject response) {
                 mProgressDialog.dismiss();
-                response.remove("Username");
                 System.out.println("user registered");
                 login(response);
             }
@@ -139,27 +138,17 @@ public class RegisterActivity extends AbstractActivity {
             proceedRegister2 = false;
         } else proceedRegister2 = true;
         if (!isValidPassword(password.getText().toString())) {
-            password.setError("Invalid Password, cannot be empty and must be longer than 6 characters");
+            password.setError("Mixed case letters and at least 1 digit is required. Length must be > 6");
             proceedRegister3 = false;
         } else proceedRegister3 = true;
 
-        if (proceedRegister1 == true && proceedRegister2 == true && proceedRegister3 == true) {
-            return true;
-        } else return false;
+        return proceedRegister1 == true && proceedRegister2 == true && proceedRegister3 == true;
     }
 
     private void login(final JSONObject jsonBody) {
-        mProgressDialog.show(this, "Logging in",
+        ProgressDialog.show(this, "Logging in",
                 "1 moment...", true);
-        String email = null;
-        String password = null;
-        try {
-            email = jsonBody.getString("Email");
-            password = jsonBody.getString("Password");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        String url = String.format(Constants.baseUrl + "Token", email, password);
+        String url = Constants.baseUrl + "Token";
         StringRequest req = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -204,7 +193,12 @@ public class RegisterActivity extends AbstractActivity {
 
             @Override
             public byte[] getBody() throws AuthFailureError {
-                String httpPostBody = "grant_type=password&username=mark.lordan@gmail.com&password=Supern00b-";
+                String httpPostBody = null;
+                try {
+                    httpPostBody = "grant_type=password&username=" + jsonBody.getString("Username") + "&password=" + jsonBody.getString("Password");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 return httpPostBody.getBytes();
             }
         };
@@ -238,30 +232,5 @@ public class RegisterActivity extends AbstractActivity {
             }
         }
     }
-
-//    public void getUserInfo(final String access_token) {
-//        String url = String.format(Constants.baseUrl + "/api/Account/userInfo");
-//        queue.add(new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-//            @Override
-//            public void onResponse(JSONObject response) {
-//
-//                System.out.println("cool beans");
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                System.out.println(error.networkResponse.toString());
-//                System.out.println("not cool beans");
-//            }
-//        }) {
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                Map<String, String> headers = new HashMap<>();
-//                headers.put("Authorization", "bearer " + access_token);
-//                return headers;
-//            }
-//
-//        });
-//    }
 }
 
