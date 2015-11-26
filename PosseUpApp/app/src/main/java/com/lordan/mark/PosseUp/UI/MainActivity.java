@@ -19,7 +19,7 @@ import com.lordan.mark.PosseUp.SlidingTabs.ViewPagerAdapter;
 
 
 public class MainActivity extends AbstractActivity {
-    CharSequence Titles[]={"Home","New" , "Hot", "Top"};
+    CharSequence Titles[]={"Home","Nearby" , "Messages", "Me"};
     int Numboftabs =4;
 
     @Override
