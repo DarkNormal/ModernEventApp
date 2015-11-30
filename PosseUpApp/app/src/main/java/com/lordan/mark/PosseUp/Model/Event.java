@@ -2,22 +2,26 @@ package com.lordan.mark.PosseUp.Model;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.json.JSONObject;
+
 /**
  * Created by Mark on 10/28/2015.
  */
-public class Event {
-    @SerializedName("event_title")
+public class Event extends JSONObject{
+    @SerializedName("EventTitle")
     private String eventName;
-    @SerializedName("event_visibility")
+    @SerializedName("EventVisibility")
     private String eventVisibility;
-
-    @SerializedName("host")
+    @SerializedName("EventDescription")
+    private String eventDesc;
+    @SerializedName("EventHost")
     private String hostEmail;
 
-    public Event(String name, String visibility, String email){
+    public Event(String name, String visibility, String email, String eventDesc){
         this.eventName = name;
         this.eventVisibility = visibility;
         this.hostEmail = email;
+        this.eventDesc = eventDesc;
     }
 
 
@@ -44,6 +48,13 @@ public class Event {
 
     public void setEventVisibility(String eventVisibility) {
         this.eventVisibility = eventVisibility;
+    }
+    public String getEventDesc() {
+        return eventDesc;
+    }
+
+    public void setEventDesc(String eventDesc) {
+        this.eventDesc = eventDesc;
     }
 
 

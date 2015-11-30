@@ -139,11 +139,19 @@ public class SigninFrag extends Fragment implements View.OnClickListener {
 
                 NetworkResponse response = error.networkResponse;
                 if (response != null && response.data != null) {
+                    String errorReply;
                     switch (response.statusCode) {
+
                         case 400:
                             json = new String(response.data);
-                            String errorReply = trimMessage(json, "Message");
+                             errorReply = trimMessage(json, "Message");
                             if (errorReply != null) setErrors(errorReply, username, password);
+                            break;
+                        case 412:
+                            json = new String(response.data);
+                             errorReply = trimMessage(json, "Message");
+                            System.out.println(errorReply);
+                            if(errorReply != null) setErrors(errorReply, username, password);
                             break;
                         default:
                             Toast.makeText(getActivity(), "An unknown error occurred", Toast.LENGTH_SHORT).show();
@@ -171,7 +179,7 @@ public class SigninFrag extends Fragment implements View.OnClickListener {
                 }
                 try {
                     AzureService az = new AzureService();
-                    az.saveUserData(getActivity(), json.getString("access_token"), jsonBody.getString("Username"));
+                    az.saveUserData(getActivity(), json.getString("access_token"), json.getString("userName"), json.getString("email"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

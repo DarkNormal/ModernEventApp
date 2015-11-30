@@ -162,7 +162,7 @@ public class RegisterActivity extends AbstractActivity {
                 }
                 try {
                     AzureService az = new AzureService();
-                    az.saveUserData(getApplicationContext(), json.getString("access_token"), jsonBody.getString("Email"));
+                    az.saveUserData(getApplicationContext(), json.getString("access_token"), json.getString("userName"), json.getString("email"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

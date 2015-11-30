@@ -42,7 +42,8 @@
 
         </activity>
         <activity android:name=".UI.AddEventActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:label="Create Event">
 
         </activity>
         <meta-data
@@ -53,7 +54,7 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyAfzFUlUSDGa0-Fc4Y74xNQvWCSfheupTU" />
+            android:value="AIzaSyBKtUhObVXHLPRd-CR4zLLkuulpr4bmRLw" />
     </application>
 
 </manifest>

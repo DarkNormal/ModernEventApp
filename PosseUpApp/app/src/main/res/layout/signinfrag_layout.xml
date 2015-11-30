@@ -6,7 +6,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         android:hint="@string/username_field"
         android:ems="10"
         android:id="@+id/username_signin"

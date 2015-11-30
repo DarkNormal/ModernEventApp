@@ -1,33 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/create_event_title_input"
-        android:layout_marginStart="60dp"
-        android:minWidth="100dp"
-        android:layout_below="@+id/create_event_title"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Event title"
-        android:id="@+id/create_event_title"
-        android:layout_marginTop="51dp"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/create_event_title_input" />
+        android:layout_alignParentStart="true"
+        android:background="@color/ColorPrimary"
+        android:id="@+id/relativeLayout">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Event visibility"
-        android:id="@+id/create_event_visibility"
-        android:layout_below="@+id/create_event_title_input"
-        android:layout_alignStart="@+id/create_event_title_input"
-        android:layout_marginTop="28dp" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Create"
+            android:id="@+id/create_event_button"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
 
     <Spinner
         android:layout_width="wrap_content"
@@ -35,13 +27,44 @@
         android:id="@+id/create_event_type"
         android:layout_below="@+id/create_event_visibility"
         android:layout_alignStart="@+id/create_event_visibility"
-        />
+        android:layout_marginLeft="-10dp" />
 
-    <Button
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create"
-        android:id="@+id/create_event_button"
-        android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/create_event_type" />
+        android:text="Event visibility"
+        android:id="@+id/create_event_visibility"
+        android:layout_marginStart="46dp"
+        android:layout_below="@+id/create_event_desc_field"
+        android:layout_alignParentStart="true" />
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/create_event_desc_field"
+        android:minWidth="250dp"
+        android:maxLines="4"
+        android:lines="1"
+        android:inputType="textMultiLine"
+        android:maxWidth="250dp"
+        app:met_floatingLabel="highlight"
+        android:hint="Brief Description"
+        android:layout_below="@+id/create_event_title_input"
+        android:layout_alignStart="@+id/create_event_visibility" />
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/create_event_title_input"
+        android:minWidth="250dp"
+        android:maxWidth="250dp"
+        android:inputType="textMultiLine"
+        android:maxLines="4"
+        app:met_floatingLabel="highlight"
+        android:hint="Event Name"
+        style="@style/Widget.AppCompat.EditText"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_alignStart="@+id/create_event_visibility"
+        android:layout_marginTop="39dp" />
+
 </RelativeLayout>
