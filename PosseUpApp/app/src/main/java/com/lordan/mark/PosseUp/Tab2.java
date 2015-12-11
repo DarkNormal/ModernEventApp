@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +18,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-/**
- * Created by hp1 on 21-01-2015.
- */
-public class Tab2 extends Fragment implements OnMapReadyCallback {
+public class Tab2 extends Fragment {
 
     private SupportMapFragment fragment;
     private GoogleMap map;
@@ -45,15 +43,13 @@ public class Tab2 extends Fragment implements OnMapReadyCallback {
     public void onResume() {
         super.onResume();
         if (map == null) {
-            map = fragment.getMap();
-            map.addMarker(new MarkerOptions().position(new LatLng(0, 0)));
+            fragment.getMapAsync(new OnMapReadyCallback() {
+                @Override
+                public void onMapReady(GoogleMap googleMap) {   //returns the map asynchronously when called - auto
+                    map = googleMap;
+                    map.addMarker(new MarkerOptions().position(new LatLng(0, 0)));
+                }
+            });
         }
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        googleMap.addMarker(new MarkerOptions()
-                .position(new LatLng(0, 0))
-                .title("Marker"));
     }
 }
