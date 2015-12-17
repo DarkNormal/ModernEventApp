@@ -67,4 +67,31 @@
         android:layout_alignStart="@+id/create_event_visibility"
         android:layout_marginTop="39dp" />
 
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/create_event_latitude"
+        android:minWidth="250dp"
+        android:maxWidth="250dp"
+        android:inputType="numberDecimal|numberSigned"
+        android:maxLines="1"
+        app:met_floatingLabel="highlight"
+        android:hint="Event Location Latitude"
+        style="@style/Widget.AppCompat.EditText"
+        android:layout_below="@+id/create_event_type"
+        android:layout_alignStart="@+id/create_event_longitude" />
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/create_event_longitude"
+        android:minWidth="250dp"
+        android:maxWidth="250dp"
+        android:inputType="numberDecimal|numberSigned"
+        android:maxLines="1"
+        app:met_floatingLabel="highlight"
+        android:hint="Event Location Longitude"
+        style="@style/Widget.AppCompat.EditText"
+        android:layout_below="@+id/create_event_type"
+        android:layout_alignStart="@+id/create_event_visibility"
+        android:layout_marginTop="41dp" />
 </RelativeLayout>

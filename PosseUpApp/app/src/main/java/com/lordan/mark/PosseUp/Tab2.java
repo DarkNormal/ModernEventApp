@@ -132,9 +132,6 @@ public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallback
         // updates. Gets the best and most recent location currently available, which may be null
         // in rare cases when a location is not available.
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (mLastLocation != null) {
-            map.addMarker(new MarkerOptions().position(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude())));
-        }
         getNearbyEvents(mLastLocation.getLatitude(), mLastLocation.getLongitude());
 
 
