@@ -11,21 +11,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.lordan.mark.PosseUp.Model.Coordinate;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Provide views to RecyclerView with data from mDataSet.
  */
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
     private static final String TAG = "CustomAdapter";
 
-    private String[] mDataSet;
+    private List<Coordinate> mDataSet;
 
     /**
      * Provide a reference to the type of views that you are using (custom ViewHolder)
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        public TextView mTextView;
         public ViewHolder(View v) {
             super(v);
             // Define click listener for the ViewHolder's View.
+            mTextView = (TextView) v.findViewById(R.id.recycler_textview);
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -40,7 +47,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
      *
      * @param dataSet String[] containing the data to populate views to be used by RecyclerView.
      */
-    public CustomAdapter(String[] dataSet) {
+    public CustomAdapter(List<Coordinate> dataSet) {
         mDataSet = dataSet;
     }
 
@@ -59,6 +66,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         Log.d(TAG, "Element " + position + " set.");
 
+        viewHolder.mTextView.setText(mDataSet.get(position).toString());
         // Get element from your dataset at this position and replace the contents of the view
         // with that element
     }
@@ -66,6 +74,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mDataSet.length;
+        return mDataSet.size();
     }
 }

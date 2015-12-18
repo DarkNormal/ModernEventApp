@@ -55,4 +55,8 @@ public class Coordinate {
         this.eventDescription = eventDescription;
         this.eventHost = eventHost;
     }
+    @Override
+    public String toString(){
+        return getEventTitle() + " " + getEventDescription() + " " + getEventHost();
+    }
 }

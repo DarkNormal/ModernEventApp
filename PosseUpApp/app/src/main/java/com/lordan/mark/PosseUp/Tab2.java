@@ -132,7 +132,9 @@ public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallback
         // updates. Gets the best and most recent location currently available, which may be null
         // in rare cases when a location is not available.
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        getNearbyEvents(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+        if(mLastLocation != null) {
+            getNearbyEvents(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+        }
 
 
     }
@@ -187,7 +189,7 @@ public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallback
 
     }
     private void addMarkers(){
-        if(nearbyList.size() > 0){
+        if(nearbyList.size() > 0 && map !=null){
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
             for (Coordinate c : nearbyList) {
                 builder.include(new LatLng(c.getLatitude(),c.getLongitude()));
