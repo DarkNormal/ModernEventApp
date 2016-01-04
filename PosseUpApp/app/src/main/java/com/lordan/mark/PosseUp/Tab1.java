@@ -198,7 +198,7 @@ public class Tab1 extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Volley error events", error.getMessage());
+                Log.e("Volley error events", String.valueOf(error.getMessage()));
             }
         });
         queue.add(jsonRequest);

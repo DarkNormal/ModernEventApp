@@ -181,7 +181,7 @@ public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallback
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Volley error events", error.getMessage());
+                Log.e("Volley error events", String.valueOf(error.getMessage()));
             }
         });
         queue.add(jsonRequest);

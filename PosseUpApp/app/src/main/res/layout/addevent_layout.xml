@@ -1,97 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:background="@color/ColorPrimary"
-        android:id="@+id/relativeLayout">
+        android:layout_height="match_parent">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Create"
-            android:id="@+id/create_event_button"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true" />
-    </RelativeLayout>
+        <LinearLayout
+            android:id="@+id/create_event_holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="24dp">
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/create_event_title_input"
 
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/create_event_type"
-        android:layout_below="@+id/create_event_visibility"
-        android:layout_alignStart="@+id/create_event_visibility"
-        android:layout_marginLeft="-10dp" />
+                android:inputType="text"
+                app:met_floatingLabel="highlight"
+                android:hint="Event Name"
+                style="@style/Widget.AppCompat.EditText" />
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/create_event_desc_field"
+                android:minLines="1"
+                android:maxLines="4"
+                android:inputType="textMultiLine"
+                app:met_floatingLabel="highlight"
+                android:hint="Brief Description" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Event visibility"
-        android:id="@+id/create_event_visibility"
-        android:layout_marginStart="46dp"
-        android:layout_below="@+id/create_event_desc_field"
-        android:layout_alignParentStart="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Event visibility"
+                android:id="@+id/create_event_visibility" />
 
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/create_event_desc_field"
-        android:minWidth="250dp"
-        android:maxLines="4"
-        android:lines="1"
-        android:inputType="textMultiLine"
-        android:maxWidth="250dp"
-        app:met_floatingLabel="highlight"
-        android:hint="Brief Description"
-        android:layout_below="@+id/create_event_title_input"
-        android:layout_alignStart="@+id/create_event_visibility" />
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/create_event_type" />
 
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/create_event_title_input"
-        android:minWidth="250dp"
-        android:maxWidth="250dp"
-        android:inputType="textMultiLine"
-        android:maxLines="4"
-        app:met_floatingLabel="highlight"
-        android:hint="Event Name"
-        style="@style/Widget.AppCompat.EditText"
-        android:layout_below="@+id/relativeLayout"
-        android:layout_alignStart="@+id/create_event_visibility"
-        android:layout_marginTop="39dp" />
 
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/create_event_latitude"
-        android:minWidth="250dp"
-        android:maxWidth="250dp"
-        android:inputType="numberDecimal|numberSigned"
-        android:maxLines="1"
-        app:met_floatingLabel="highlight"
-        android:hint="Event Location Latitude"
-        style="@style/Widget.AppCompat.EditText"
-        android:layout_below="@+id/create_event_type"
-        android:layout_alignStart="@+id/create_event_longitude" />
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/create_event_longitude"
-        android:minWidth="250dp"
-        android:maxWidth="250dp"
-        android:inputType="numberDecimal|numberSigned"
-        android:maxLines="1"
-        app:met_floatingLabel="highlight"
-        android:hint="Event Location Longitude"
-        style="@style/Widget.AppCompat.EditText"
-        android:layout_below="@+id/create_event_type"
-        android:layout_alignStart="@+id/create_event_visibility"
-        android:layout_marginTop="41dp" />
-</RelativeLayout>
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/switch_event"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Online event"
+                app:switchPadding="14sp"/>
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/event_location_desc"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Event Location Description"
+                app:met_floatingLabel="highlight"/>
+
+            <fragment
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:id="@+id/map_event">
+
+            </fragment>
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+</LinearLayout>
