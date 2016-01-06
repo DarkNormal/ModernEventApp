@@ -17,13 +17,26 @@ public class Event extends JSONObject{
     @SerializedName("EventHost")
     private String hostEmail;
 
-    public Event(String name, String visibility, String email, String eventDesc){
+    @SerializedName("EventLocationLat")
+    private double eventLocationLat;
+
+
+
+    @SerializedName("EventLocationLng")
+    private double eventLocationLng;
+
+    public Event(String name, String visibility, String email, String eventDesc, double eventLocationLat, double eventLocationLng){
         this.eventName = name;
         this.eventVisibility = visibility;
         this.hostEmail = email;
         this.eventDesc = eventDesc;
+        this.eventLocationLat = eventLocationLat;
+        this.eventLocationLng = eventLocationLng;
     }
 
+    public Event() {
+
+    }
 
 
     public String getEventName() {
@@ -55,6 +68,21 @@ public class Event extends JSONObject{
 
     public void setEventDesc(String eventDesc) {
         this.eventDesc = eventDesc;
+    }
+    public double getEventLocationLng() {
+        return eventLocationLng;
+    }
+
+    public void setEventLocationLng(double eventLocationLng) {
+        this.eventLocationLng = eventLocationLng;
+    }
+
+    public double getEventLocationLat() {
+        return eventLocationLat;
+    }
+
+    public void setEventLocationLat(double eventLocationLat) {
+        this.eventLocationLat = eventLocationLat;
     }
 
 

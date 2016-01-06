@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.lordan.mark.PosseUp.AbstractActivity;
 import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.SigninGroup.SigninActivity;
@@ -18,7 +20,7 @@ import com.lordan.mark.PosseUp.SlidingTabs.ViewPagerAdapter;
 
 
 
-public class MainActivity extends AbstractActivity {
+public class MainActivity extends AbstractActivity{
     CharSequence Titles[]={"Home","Nearby" , "Chat", "Me"};
     int Numboftabs =4;
 

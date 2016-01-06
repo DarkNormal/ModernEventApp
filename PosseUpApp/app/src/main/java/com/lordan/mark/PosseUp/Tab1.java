@@ -12,11 +12,30 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+import com.lordan.mark.PosseUp.Model.Constants;
+import com.lordan.mark.PosseUp.Model.Coordinate;
 import com.lordan.mark.PosseUp.UI.AddEventActivity;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Tab1 extends Fragment {
     private ViewPager viewPager;
@@ -33,8 +52,9 @@ public class Tab1 extends Fragment {
     private RecyclerView mRecyclerView;
     private CustomAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private String[] mDataset;
+    private List<Coordinate> mDataset;
 
+    private RequestQueue queue;
 
 
     @Override
@@ -78,10 +98,27 @@ public class Tab1 extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setHasOptionsMenu(true);
         // Initialize dataset, this data would usually come from a local content provider or
         // remote server.
         initDataset();
     }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+        inflater.inflate(R.menu.menu_tab1_events, menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.refresh_events:
+                refreshEvents();
+                return true;
+            default:
+                return false;
+
+        }
+    }
+
 
     /**
      * Set RecyclerView's LayoutManager to the one given.
@@ -123,10 +160,59 @@ public class Tab1 extends Fragment {
 
 
     private void initDataset() {
-        mDataset = new String[DATASET_COUNT];
+        mDataset = new ArrayList<>();
         for (int i = 0; i < DATASET_COUNT; i++) {
-            mDataset[i] = "Event #" + i;
+            mDataset.add(new Coordinate(53.4534, -6.5334, "Cool event", "really cool", "mark.lordan"));
         }
+    }
+    private void refreshEvents() {
+
+        queue = Volley.newRequestQueue(getActivity());
+        String url = Constants.baseUrl + "api/Events";
+
+        JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                ArrayList<Coordinate> tempEvents = new ArrayList<>();
+                try {
+                    for(int i = 0; i < response.length(); i++){
+                        JSONObject event = response.getJSONObject(i);
+                        Coordinate c = new Coordinate(event.getDouble("EventLocationLat"),
+                                event.getDouble("EventLocationLng"), event.getString("EventTitle"),
+                                event.getString("EventDescription"), event.getString("EventHost"));
+                        tempEvents.add(c);
+                        Log.i("JSON RESPONSE", event.toString());
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if(tempEvents != null){
+                    mDataset.clear();
+                    mDataset.addAll(tempEvents);
+                    mAdapter.notifyDataSetChanged();
+                    //updateList();
+
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Volley error events", String.valueOf(error.getMessage()));
+            }
+        });
+        queue.add(jsonRequest);
+
+
+    }
+    private void updateList(){
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
+
     }
 
 
