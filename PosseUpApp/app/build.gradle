@@ -29,7 +29,7 @@ dependencies {
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.microsoft.azure:azure-mobile-services-android-sdk:2.0.3'
     compile project(':volley')
-    compile 'com.google.android.gms:play-services-location:8.1.0'
-    compile 'com.google.android.gms:play-services-nearby:8.1.0'
-    compile 'com.google.android.gms:play-services-gcm:8.1.0'
+    compile 'com.google.android.gms:play-services-location:8.4.0'
+    compile 'com.google.android.gms:play-services-nearby:8.4.0'
+    compile 'com.google.android.gms:play-services-gcm:8.4.0'
 }

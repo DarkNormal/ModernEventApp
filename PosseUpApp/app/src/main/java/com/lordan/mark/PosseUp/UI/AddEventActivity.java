@@ -1,5 +1,7 @@
 package com.lordan.mark.PosseUp.UI;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -11,9 +13,11 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -24,7 +28,12 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -41,6 +50,10 @@ import com.lordan.mark.PosseUp.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 
 /**
  * Created by Mark on 10/27/2015.
@@ -55,11 +68,12 @@ public class AddEventActivity extends AbstractActivity implements GoogleApiClien
     private Spinner spinner;
     private GoogleApiClient mGoogleApiClient;
 
+    public static final String TAG = "AddEventActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.addevent_layout);
-
         spinner = (Spinner) findViewById(R.id.create_event_type);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.event_type, android.R.layout.simple_spinner_item);
@@ -83,8 +97,63 @@ public class AddEventActivity extends AbstractActivity implements GoogleApiClien
         fm = getSupportFragmentManager();
         buildFragment();
         buildGoogleApiClient();
+        addPlacesListener();
+        configDateTimeChooser();
 
     }
+
+    private void configDateTimeChooser() {
+        final EditText dateInput = (EditText) findViewById(R.id.create_event_date);
+        Calendar today = Calendar.getInstance();
+        SimpleDateFormat format = new SimpleDateFormat("d/M/y");
+        dateInput.setHint(format.format(today.getTime()));
+        dateInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                //To show current date in the datepicker
+                Calendar mcurrentDate = Calendar.getInstance();
+                int mYear = mcurrentDate.get(Calendar.YEAR);
+                int mMonth = mcurrentDate.get(Calendar.MONTH);
+                int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog mDatePicker;
+                mDatePicker = new DatePickerDialog( AddEventActivity.this,  new DatePickerDialog.OnDateSetListener() {
+                    public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
+                        // TODO Auto-generated method stub
+                    /*      Your code   to get date and time    */
+                        selectedmonth = selectedmonth + 1;
+                        dateInput.setText("" + selectedday + "/" + selectedmonth + "/" + selectedyear);
+                    }
+                }, mYear, mMonth, mDay);
+                mDatePicker.show();
+            }
+        });
+        final EditText timeInput = (EditText) findViewById(R.id.create_event_time);
+        final SimpleDateFormat timeFormat = new SimpleDateFormat("k:mm");
+        timeInput.setHint(timeFormat.format(today.getTime()));
+        timeInput.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // TODO Auto-generated method stub
+                    Calendar mcurrentTime = Calendar.getInstance();
+                    int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                    int minute = mcurrentTime.get(Calendar.MINUTE);
+                    TimePickerDialog mTimePicker;
+                    mTimePicker = new TimePickerDialog(AddEventActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                            timeInput.setText( selectedHour + ":" + selectedMinute);
+                        }
+                    }, hour, minute, true);//Yes 24 hour time
+
+                    mTimePicker.show();
+
+                }
+
+        });
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.add_event_menu, menu);
@@ -116,7 +185,7 @@ public class AddEventActivity extends AbstractActivity implements GoogleApiClien
                 getInputValues(findViewById(R.id.create_event_title_input)),
                 spinner.getSelectedItem().toString(),
                 getCurrentEmail(),
-                getInputValues(findViewById(R.id.create_event_desc_field)),
+                "TODO",
                 marker.getPosition().latitude,
                 marker.getPosition().longitude);
 
@@ -198,7 +267,28 @@ public class AddEventActivity extends AbstractActivity implements GoogleApiClien
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
+                .addApi(Places.GEO_DATA_API)
+                .addApi(Places.PLACE_DETECTION_API)
                 .build();
+    }
+    private void addPlacesListener(){
+        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
+                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+
+
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                // TODO: Get info about the selected place.
+                Log.i(TAG, "Place: " + place.getName());
+            }
+
+            @Override
+            public void onError(Status status) {
+                // TODO: Handle the error.
+                Log.i(TAG, "An error occurred: " + status);
+            }
+        });
     }
 
     @Override

@@ -22,17 +22,43 @@
 
                 android:inputType="text"
                 app:met_floatingLabel="highlight"
-                android:hint="Event Name"
+                app:met_floatingLabelAlwaysShown="true"
+                app:met_floatingLabelText="Event Title"
+                android:hint="Short and distinctive name"
                 style="@style/Widget.AppCompat.EditText" />
-            <com.rengwuxian.materialedittext.MaterialEditText
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/create_event_desc_field"
-                android:minLines="1"
-                android:maxLines="4"
-                android:inputType="textMultiLine"
+                android:orientation="horizontal">
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/create_event_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:met_floatingLabel="highlight"
+                    app:met_floatingLabelAlwaysShown="true"
+                    app:met_floatingLabelText="Date"
+                    android:layout_weight="1"
+                    android:focusable="false"
+                    />
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/create_event_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:met_floatingLabel="highlight"
+                    app:met_floatingLabelAlwaysShown="true"
+                    app:met_floatingLabelText="Time"
+                    android:layout_weight="1"
+                    android:focusable="false"
+                    />
+            </LinearLayout>
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:met_floatingLabel="highlight"
-                android:hint="Brief Description" />
+                app:met_floatingLabelAlwaysShown="true"
+                app:met_floatingLabelText="Date"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -57,7 +83,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="Event Location Description"
-                app:met_floatingLabel="highlight"/>
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelAlwaysShown="true"/>
+
+            <fragment
+                android:id="@+id/place_autocomplete_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+                />
 
             <fragment
                 android:layout_width="match_parent"

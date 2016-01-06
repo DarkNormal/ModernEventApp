@@ -8,5 +8,6 @@
     <color name="primaryThemeColor">#FF3366</color>
 
     <color name="grey">#666</color>
+    <color name="yellow">#FFEB3B</color>
 
 </resources>
