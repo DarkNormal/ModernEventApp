@@ -12,6 +12,8 @@ import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.SigninGroup.SigninActivity;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -40,8 +42,14 @@ public class MainActivity extends AbstractActivity{
         tabs.setViewPager(pager);
 
 
+        setupToolbar();
 
-        getSupportActionBar().setElevation(0);
+
+    }
+    private void setupToolbar(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
+
 
     }
 

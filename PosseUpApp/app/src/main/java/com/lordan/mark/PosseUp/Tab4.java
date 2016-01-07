@@ -479,13 +479,13 @@ public class Tab4 extends Fragment implements GoogleApiClient.ConnectionCallback
             }
         } else {
             if (status.getStatusCode() == ConnectionResult.NETWORK_ERROR) {
-                Toast.makeText(getActivity().getApplicationContext(),
+                Toast.makeText(getActivity(),
                         "No connectivity, cannot proceed. Fix in 'Settings' and try again.",
                         Toast.LENGTH_LONG).show();
                 resetToDefaultState();
             } else {
                 // To keep things simple, pop a toast for all other error messages.
-                Toast.makeText(getActivity().getApplicationContext(), "Unsuccessful: " +
+                Toast.makeText(getActivity(), "Unsuccessful: " +
                         status.getStatusMessage(), Toast.LENGTH_LONG).show();
             }
 

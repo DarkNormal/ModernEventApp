@@ -5,6 +5,7 @@ package com.lordan.mark.PosseUp;
  */
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -26,6 +29,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.fabtransitionactivity.SheetLayout;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.Coordinate;
 import com.lordan.mark.PosseUp.UI.AddEventActivity;
@@ -37,12 +41,30 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tab1 extends Fragment {
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+
+public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListener {
     private ViewPager viewPager;
     private static final String TAG = "RecyclerViewFragment";
     private static final String KEY_LAYOUT_MANAGER = "layoutManager";
     private static final int SPAN_COUNT = 2;
     private static final int DATASET_COUNT = 20;
+
+    private SheetLayout mSheetLayout;
+    private FloatingActionButton mFab;
+    private LinearLayout toolbar;
+
+    private static final int REQUEST_CODE = 1;
+
+    @Override
+    public void onFabAnimationEnd() {
+        Intent intent = new Intent(getContext(), AddEventActivity.class);
+        startActivityForResult(intent, REQUEST_CODE);
+    }
+
     private enum LayoutManagerType {
         GRID_LAYOUT_MANAGER,
         LINEAR_LAYOUT_MANAGER
@@ -61,6 +83,8 @@ public class Tab1 extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v =inflater.inflate(R.layout.tab_1,container,false);
         v.setTag(TAG);
+        mSheetLayout = (SheetLayout) v.findViewById(R.id.bottom_sheet);
+        mFab = (FloatingActionButton) v.findViewById(R.id.addEvent_Button);
         mRecyclerView = (RecyclerView) v.findViewById(R.id.cardList);
         mLayoutManager = new LinearLayoutManager(getActivity());
 
@@ -88,10 +112,27 @@ public class Tab1 extends Fragment {
         addEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AddEventActivity.class);
-                startActivity(intent);
+                mSheetLayout.expandFab();
+                toolbar = (LinearLayout) getActivity().findViewById(R.id.main_toolbar_holder);
+                toolbar.animate()
+                        .alpha(0.0f)
+                        .setDuration(250);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        toolbar.setVisibility(View.GONE);
+                    }
+                },250);
+
+
+
+
             }
         });
+        ButterKnife.bind(getActivity());
+
+
         return v;
     }
     @Override
@@ -102,6 +143,22 @@ public class Tab1 extends Fragment {
         // Initialize dataset, this data would usually come from a local content provider or
         // remote server.
         initDataset();
+
+    }
+
+    @OnClick(R.id.addEvent_Button)
+    void onFabClick() {
+        mSheetLayout.expandFab();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_CODE){
+            toolbar.setAlpha(1.0f);
+            toolbar.setVisibility(View.VISIBLE);
+            mSheetLayout.contractFab();
+        }
     }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
@@ -157,6 +214,12 @@ public class Tab1 extends Fragment {
         savedInstanceState.putSerializable(KEY_LAYOUT_MANAGER, mCurrentLayoutManagerType);
         super.onSaveInstanceState(savedInstanceState);
     }
+    @Override
+    public void onStart(){
+        super.onStart();
+        mSheetLayout.setFab(mFab);
+        mSheetLayout.setFabAnimationEndListener(this);
+    }
 
 
     private void initDataset() {
@@ -166,6 +229,7 @@ public class Tab1 extends Fragment {
         }
     }
     private void refreshEvents() {
+
 
         queue = Volley.newRequestQueue(getActivity());
         String url = Constants.baseUrl + "api/Events";

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/ColorPrimary</item>
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
         <item name="android:elevation">0dp</item>
@@ -8,6 +8,11 @@
         <item name="colorButtonNormal">@color/ColorPrimary</item>
         <item name="android:datePickerDialogTheme">@style/DatePickerDialogTheme</item>
         <item name="android:timePickerDialogTheme">@style/TimePickerDialogTheme</item>
+        <item name="toolbarStyle">@style/custom_toolbar</item>
+    </style>
+
+    <style name="custom_toolbar" parent="@style/Widget.AppCompat.Toolbar">
+        <item name="titleTextColor">#FFF</item>
     </style>
 
     <style name="PagerSlidingTabStripStyle" parent="">

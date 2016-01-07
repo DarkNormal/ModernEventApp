@@ -5,7 +5,9 @@ import android.app.TimePickerDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SwitchCompat;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -100,6 +102,17 @@ public class AddEventActivity extends AbstractActivity implements GoogleApiClien
         addPlacesListener();
         configDateTimeChooser();
 
+        setupToolbar();
+
+    }
+
+    private void setupToolbar(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.add_event_toolbar);
+        setSupportActionBar(toolbar);
+        // Show menu icon
+        final ActionBar ab = getSupportActionBar();
+        ab.setHomeAsUpIndicator(R.drawable.ic_cancel_light);
+        ab.setDisplayHomeAsUpEnabled(true);
     }
 
     private void configDateTimeChooser() {
@@ -130,7 +143,7 @@ public class AddEventActivity extends AbstractActivity implements GoogleApiClien
             }
         });
         final EditText timeInput = (EditText) findViewById(R.id.create_event_time);
-        final SimpleDateFormat timeFormat = new SimpleDateFormat("k:mm");
+        final SimpleDateFormat timeFormat = new SimpleDateFormat("kk:mm");
         timeInput.setHint(timeFormat.format(today.getTime()));
         timeInput.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -143,7 +156,27 @@ public class AddEventActivity extends AbstractActivity implements GoogleApiClien
                     mTimePicker = new TimePickerDialog(AddEventActivity.this, new TimePickerDialog.OnTimeSetListener() {
                         @Override
                         public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                            timeInput.setText( selectedHour + ":" + selectedMinute);
+                            boolean addZeroHour = false;
+                            boolean addZeroMinute = false;
+                            if(selectedHour < 10){
+                                addZeroHour = true;
+                            }
+                            if(selectedMinute < 10){
+                                addZeroMinute = true;
+                            }
+                            if(addZeroHour && !addZeroMinute){
+                                timeInput.setText( "0" +selectedHour + ":" + selectedMinute);
+                            }
+                            else if(!addZeroHour && addZeroMinute){
+                                timeInput.setText(selectedHour + ":0" + selectedMinute);
+                            }
+                            else if(addZeroHour && addZeroMinute){
+                                timeInput.setText( "0" +selectedHour + ":0" + selectedMinute);
+                            }
+                            else{
+                                timeInput.setText(selectedHour + ":" + selectedMinute);
+                            }
+
                         }
                     }, hour, minute, true);//Yes 24 hour time
 
@@ -162,11 +195,12 @@ public class AddEventActivity extends AbstractActivity implements GoogleApiClien
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
-            case(R.id.create_event_cancel):
+            case(android.R.id.home):
                 finish();
                 break;
             case(R.id.create_event_next):
                 finish();
+                break;
             default:
                 break;
 

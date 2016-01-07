@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/image_view_pager"
@@ -33,7 +33,6 @@
         android:scrollbars="vertical"
         android:layout_height="match_parent"
         android:layout_below="@+id/textView2"
-        tools:listitem="@layout/my_recycler"
         />
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addEvent_Button"
@@ -50,5 +49,13 @@
         android:layout_alignEnd="@+id/textView2"
         android:layout_marginEnd="39dp"
         android:layout_marginBottom="42dp" />
+    <com.github.fabtransitionactivity.SheetLayout
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        app:ft_container_gravity="center"
+        app:ft_color="@color/ColorPrimary"
+        android:elevation="2dp"/>
 
 </RelativeLayout>
