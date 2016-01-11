@@ -25,13 +25,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/create_event_title_input"
-
+                android:textSize="24sp"
                 android:inputType="text"
                 app:met_floatingLabel="highlight"
                 app:met_floatingLabelAlwaysShown="true"
                 app:met_floatingLabelText="Event Title"
-                android:hint="Short and distinctive name"
-                style="@style/Widget.AppCompat.EditText" />
+                android:hint="Event Title"
+                style="@style/Widget.AppCompat.EditText"
+                />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,29 +43,54 @@
                     android:layout_height="wrap_content"
                     app:met_floatingLabel="highlight"
                     app:met_floatingLabelAlwaysShown="true"
-                    app:met_floatingLabelText="Date"
-                    android:layout_weight="1"
+                    app:met_floatingLabelText="From"
+                    android:layout_weight="2"
                     android:focusable="false"
+                    android:drawableRight="@drawable/ic_caret_down"
+                    android:layout_marginRight="16dp"
+
                     />
                 <com.rengwuxian.materialedittext.MaterialEditText
                     android:id="@+id/create_event_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:met_floatingLabel="highlight"
-                    app:met_floatingLabelAlwaysShown="true"
-                    app:met_floatingLabelText="Time"
                     android:layout_weight="1"
                     android:focusable="false"
+                    android:drawableRight="@drawable/ic_caret_down"
                     />
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/create_event_date_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:met_floatingLabel="highlight"
+                    app:met_floatingLabelAlwaysShown="true"
+                    app:met_floatingLabelText="To"
+                    android:focusable="false"
+                    android:layout_weight="2"
+                    android:drawableRight="@drawable/ic_caret_down"
+                    android:layout_marginRight="16dp"
+                    />
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/create_event_time_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:focusable="false"
+                    android:drawableRight="@drawable/ic_caret_down"
+                    />
 
-            <com.rengwuxian.materialedittext.MaterialEditText
+            </LinearLayout>
+
+            <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:met_floatingLabel="highlight"
-                app:met_floatingLabelAlwaysShown="true"
-                app:met_floatingLabelText="Date"
-                />
+                android:text="All Day"
+                android:id="@+id/all_day_event" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -73,7 +99,7 @@
                 android:id="@+id/create_event_visibility" />
 
             <Spinner
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/create_event_type" />
 
@@ -109,7 +135,6 @@
         </LinearLayout>
 
     </ScrollView>
-
 
 
 </LinearLayout>

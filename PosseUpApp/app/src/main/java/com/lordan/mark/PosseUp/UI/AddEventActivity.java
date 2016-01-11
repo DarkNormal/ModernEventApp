@@ -2,7 +2,6 @@ package com.lordan.mark.PosseUp.UI;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
@@ -13,12 +12,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -54,13 +52,13 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 
 /**
  * Created by Mark on 10/27/2015.
  */
-public class AddEventActivity extends AbstractActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
+public class AddEventActivity extends AbstractActivity implements GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener{
     private RequestQueue queue;
     private GoogleMap map;
     private FragmentManager fm;
@@ -114,76 +112,102 @@ public class AddEventActivity extends AbstractActivity implements GoogleApiClien
         ab.setHomeAsUpIndicator(R.drawable.ic_cancel_light);
         ab.setDisplayHomeAsUpEnabled(true);
     }
-
     private void configDateTimeChooser() {
-        final EditText dateInput = (EditText) findViewById(R.id.create_event_date);
+        final EditText startDateInput = (EditText) findViewById(R.id.create_event_date);
+        final EditText endDateInput = (EditText) findViewById(R.id.create_event_date_end);
+        configDateChooser(startDateInput, false);
+        configDateChooser(endDateInput, true);
+        final EditText startTimeInput = (EditText) findViewById(R.id.create_event_time);
+        final EditText endTimeInput = (EditText) findViewById(R.id.create_event_time_end);
+        configTimeChooser(startTimeInput, false);
+        configTimeChooser(endTimeInput,true);
+
+        CheckBox allDay = (CheckBox) findViewById(R.id.all_day_event);
+        allDay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    endDateInput.setVisibility(View.INVISIBLE);
+                    endTimeInput.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    endDateInput.setVisibility(View.VISIBLE);
+                    endTimeInput.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+    }
+
+    private void configDateChooser(final EditText dateTextView, final boolean addDay){
         Calendar today = Calendar.getInstance();
         SimpleDateFormat format = new SimpleDateFormat("d/M/y");
-        dateInput.setHint(format.format(today.getTime()));
-        dateInput.setOnClickListener(new View.OnClickListener() {
+        if(addDay){
+            today.add(Calendar.DATE, 1);
+        }
+        dateTextView.setHint(format.format(today.getTime()));
+        dateTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
-                //To show current date in the datepicker
                 Calendar mcurrentDate = Calendar.getInstance();
+                if(addDay){
+                    mcurrentDate.add(Calendar.DATE, 1);
+                }
                 int mYear = mcurrentDate.get(Calendar.YEAR);
                 int mMonth = mcurrentDate.get(Calendar.MONTH);
                 int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
-
                 DatePickerDialog mDatePicker;
                 mDatePicker = new DatePickerDialog( AddEventActivity.this,  new DatePickerDialog.OnDateSetListener() {
-                    public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
+                    public void onDateSet(DatePicker datepicker, int selectedYear, int selectedMonth, int selectedDay) {
                         // TODO Auto-generated method stub
                     /*      Your code   to get date and time    */
-                        selectedmonth = selectedmonth + 1;
-                        dateInput.setText("" + selectedday + "/" + selectedmonth + "/" + selectedyear);
+                        selectedMonth = selectedMonth + 1;
+                        dateTextView.setText("" + selectedDay + "/" + selectedMonth + "/" + selectedYear);
                     }
                 }, mYear, mMonth, mDay);
                 mDatePicker.show();
             }
         });
-        final EditText timeInput = (EditText) findViewById(R.id.create_event_time);
+    }
+    private void configTimeChooser(final EditText timeTextView, final boolean addHour){
+        Calendar now = Calendar.getInstance();
         final SimpleDateFormat timeFormat = new SimpleDateFormat("kk:mm");
-        timeInput.setHint(timeFormat.format(today.getTime()));
-        timeInput.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // TODO Auto-generated method stub
-                    Calendar mcurrentTime = Calendar.getInstance();
-                    int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-                    int minute = mcurrentTime.get(Calendar.MINUTE);
-                    TimePickerDialog mTimePicker;
-                    mTimePicker = new TimePickerDialog(AddEventActivity.this, new TimePickerDialog.OnTimeSetListener() {
-                        @Override
-                        public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                            boolean addZeroHour = false;
-                            boolean addZeroMinute = false;
-                            if(selectedHour < 10){
-                                addZeroHour = true;
-                            }
-                            if(selectedMinute < 10){
-                                addZeroMinute = true;
-                            }
-                            if(addZeroHour && !addZeroMinute){
-                                timeInput.setText( "0" +selectedHour + ":" + selectedMinute);
-                            }
-                            else if(!addZeroHour && addZeroMinute){
-                                timeInput.setText(selectedHour + ":0" + selectedMinute);
-                            }
-                            else if(addZeroHour && addZeroMinute){
-                                timeInput.setText( "0" +selectedHour + ":0" + selectedMinute);
-                            }
-                            else{
-                                timeInput.setText(selectedHour + ":" + selectedMinute);
-                            }
-
+        timeTextView.setHint(timeFormat.format(now.getTime()));
+        timeTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(AddEventActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        boolean addZeroHour = false;
+                        boolean addZeroMinute = false;
+                        if(selectedHour < 10){
+                            addZeroHour = true;
                         }
-                    }, hour, minute, true);//Yes 24 hour time
+                        if(selectedMinute < 10){
+                            addZeroMinute = true;
+                        }
+                        if(addZeroHour && !addZeroMinute){
+                            timeTextView.setText( "0" +selectedHour + ":" + selectedMinute);
+                        }
+                        else if(!addZeroHour && addZeroMinute){
+                            timeTextView.setText(selectedHour + ":0" + selectedMinute);
+                        }
+                        else if(addZeroHour && addZeroMinute){
+                            timeTextView.setText( "0" +selectedHour + ":0" + selectedMinute);
+                        }
+                        else{
+                            timeTextView.setText(selectedHour + ":" + selectedMinute);
+                        }
 
-                    mTimePicker.show();
+                    }
+                }, hour, minute, true);//Yes 24 hour time
 
-                }
-
+                mTimePicker.show();
+            }
         });
     }
 
