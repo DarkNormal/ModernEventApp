@@ -27,8 +27,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.lordan.mark.PosseUp.R;
 
-import java.util.zip.Inflater;
-
 /**
  * Created by Mark on 14/01/2016.
  */
@@ -49,6 +47,7 @@ public class SecondEventFragment extends Fragment implements GoogleApiClient.Con
         buildFragment();
         buildGoogleApiClient();
         addPlacesListener();
+        getActivity().setTitle("Location");
 
         return v;
     }
@@ -132,6 +131,12 @@ public class SecondEventFragment extends Fragment implements GoogleApiClient.Con
             public void onPlaceSelected(Place place) {
                 // TODO: Get info about the selected place.
                 Log.i(TAG, "Place: " + place.getName());
+                marker = map.addMarker(new MarkerOptions()
+                        .position(place.getLatLng())
+                        .title(place.getName().toString())
+                        .snippet(place.getAddress().toString())
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+
             }
 
             @Override

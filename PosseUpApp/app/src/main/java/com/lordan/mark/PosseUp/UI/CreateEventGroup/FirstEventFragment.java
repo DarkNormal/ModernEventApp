@@ -15,12 +15,16 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.R;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Mark on 14/01/2016.
@@ -28,8 +32,9 @@ import java.util.Calendar;
 public class FirstEventFragment extends Fragment {
     private Spinner spinner;
     private SwitchCompat mSwitch;
-    private FragmentManager fm;
     private View v;
+    private Event newEvent = new Event();
+    private boolean allDayEvent;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState){
@@ -76,17 +81,17 @@ public class FirstEventFragment extends Fragment {
         final EditText startTimeInput = (EditText) v.findViewById(R.id.create_event_time);
         final EditText endTimeInput = (EditText) v.findViewById(R.id.create_event_time_end);
         configTimeChooser(startTimeInput, false);
-        configTimeChooser(endTimeInput,true);
+        configTimeChooser(endTimeInput, true);
 
-        CheckBox allDay = (CheckBox) v.findViewById(R.id.all_day_event);
+        final CheckBox allDay = (CheckBox) v.findViewById(R.id.all_day_event);
         allDay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
+                    allDayEvent = true;
                     endDateInput.setVisibility(View.INVISIBLE);
                     endTimeInput.setVisibility(View.INVISIBLE);
-                }
-                else{
+                } else {
                     endDateInput.setVisibility(View.VISIBLE);
                     endTimeInput.setVisibility(View.VISIBLE);
                 }
@@ -105,14 +110,14 @@ public class FirstEventFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Calendar mcurrentDate = Calendar.getInstance();
-                if(addDay){
+                if (addDay) {
                     mcurrentDate.add(Calendar.DATE, 1);
                 }
                 int mYear = mcurrentDate.get(Calendar.YEAR);
                 int mMonth = mcurrentDate.get(Calendar.MONTH);
                 int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
                 DatePickerDialog mDatePicker;
-                mDatePicker = new DatePickerDialog( getActivity(),  new DatePickerDialog.OnDateSetListener() {
+                mDatePicker = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     public void onDateSet(DatePicker datepicker, int selectedYear, int selectedMonth, int selectedDay) {
                         // TODO Auto-generated method stub
                     /*      Your code   to get date and time    */
@@ -160,10 +165,44 @@ public class FirstEventFragment extends Fragment {
                         }
 
                     }
-                }, hour, minute, true);//Yes 24 hour time
+                }, hour, minute, true);
 
                 mTimePicker.show();
             }
         });
+    }
+    public Event getEvent(){
+        String title =((TextView) v.findViewById(R.id.create_event_title_input)).getText().toString();
+        String startDate =((TextView) v.findViewById(R.id.create_event_date)).getText().toString();
+        String startTime = ((TextView) v.findViewById(R.id.create_event_time)).getText().toString();
+        startDate = startDate + " " + startTime;
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy kk:mm");
+        Date date = null;
+        try {
+            date = df.parse(startDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        if(!allDayEvent){
+            String endDate =((TextView) v.findViewById(R.id.create_event_date_end)).getText().toString();
+            String endTime = ((TextView) v.findViewById(R.id.create_event_time_end)).getText().toString();
+            endDate += endTime;
+            Date endingDate = null;
+            try {
+                endingDate = df.parse(endDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Calendar endCal = Calendar.getInstance();
+            endCal.setTime(endingDate);
+            newEvent.setEndDateTime(endCal);
+
+        }
+        newEvent.setEventName(title);
+        newEvent.setStartDateTime(cal);
+
+        return newEvent;
     }
 }
