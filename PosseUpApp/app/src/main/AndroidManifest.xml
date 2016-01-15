@@ -42,7 +42,7 @@
             android:theme="@style/AppTheme">
 
         </activity>
-        <activity android:name=".UI.AddEventActivity"
+        <activity android:name=".UI.CreateEventGroup.AddEventActivity"
             android:theme="@style/AppTheme"
             android:label="Create Event">
 

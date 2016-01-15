@@ -13,7 +13,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -32,7 +31,7 @@ import com.android.volley.toolbox.Volley;
 import com.github.fabtransitionactivity.SheetLayout;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.Coordinate;
-import com.lordan.mark.PosseUp.UI.AddEventActivity;
+import com.lordan.mark.PosseUp.UI.CreateEventGroup.AddEventActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,7 +40,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -124,10 +122,6 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
                         toolbar.setVisibility(View.GONE);
                     }
                 },250);
-
-
-
-
             }
         });
         ButterKnife.bind(getActivity());
