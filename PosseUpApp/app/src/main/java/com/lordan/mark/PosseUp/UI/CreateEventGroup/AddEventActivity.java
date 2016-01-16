@@ -6,15 +6,13 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
+
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+
 import android.support.v7.widget.Toolbar;
 
 import android.view.Menu;
@@ -33,9 +31,11 @@ import com.lordan.mark.PosseUp.R;
  * Created by Mark on 10/27/2015.
  */
 public class AddEventActivity extends AbstractActivity {
-    private ViewPager pager;
     public static Event newEvent;
-    public MyPagerAdapter adapter;
+    private LinearLayout fragmentHolder;
+    private FragmentManager fragMan;
+    private FirstEventFragment myFrag;
+    Fragment secondFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +44,12 @@ public class AddEventActivity extends AbstractActivity {
 
         setupToolbar();
 
-        pager = (ViewPager) findViewById(R.id.add_event_pager);
-        adapter = new MyPagerAdapter(getSupportFragmentManager());
-        pager.setAdapter(adapter);
+        fragmentHolder = (LinearLayout) findViewById(R.id.add_event_fragment_holder);
+        fragMan = getSupportFragmentManager();
+        FragmentTransaction fragTransaction = fragMan.beginTransaction();
+        myFrag = new FirstEventFragment();
+        fragTransaction.add(fragmentHolder.getId(), myFrag, "add_event_basic");
+        fragTransaction.commit();
 
     }
 
@@ -76,7 +79,8 @@ public class AddEventActivity extends AbstractActivity {
                 confirm.show(fm, "confirm_dialog");
                 break;
             case (R.id.create_event_next):
-                nextInPager();
+                newEvent = myFrag.getEvent();
+                switchFragment();
                 break;
             default:
                 break;
@@ -84,38 +88,13 @@ public class AddEventActivity extends AbstractActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    private void nextInPager(){
-        if(pager.getCurrentItem() == 0){
-            pager.setCurrentItem(1);
-        }
-        else finish();
+    private void switchFragment(){
+        FragmentTransaction fragTransaction = fragMan.beginTransaction();
+        secondFrag = new SecondEventFragment();
+        fragTransaction.replace(fragmentHolder.getId(), secondFrag, "add_event_location");
+        fragTransaction.commit();
     }
 
-
-    private class MyPagerAdapter extends FragmentPagerAdapter {
-
-        public MyPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int pos) {
-            switch (pos) {
-
-                case 0:
-                    return FirstEventFragment.newInstance("FirstFragment, Instance 1");
-                case 1:
-                    return SecondEventFragment.newInstance("SecondFragment, Instance 1");
-                default:
-                    return FirstEventFragment.newInstance("ThirdFragment, Default");
-            }
-        }
-
-        @Override
-        public int getCount() {
-            return 2;
-        }
-    }
     public static class ConfirmExitDialog extends DialogFragment{
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {

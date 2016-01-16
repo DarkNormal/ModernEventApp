@@ -21,6 +21,8 @@ import android.widget.TimePicker;
 import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.R;
 
+import org.w3c.dom.Text;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -65,6 +67,7 @@ public class FirstEventFragment extends Fragment {
     public static FirstEventFragment newInstance(String text) {
 
         FirstEventFragment f = new FirstEventFragment();
+
         Bundle b = new Bundle();
         b.putString("msg", text);
 
@@ -145,22 +148,19 @@ public class FirstEventFragment extends Fragment {
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         boolean addZeroHour = false;
                         boolean addZeroMinute = false;
-                        if(selectedHour < 10){
+                        if (selectedHour < 10) {
                             addZeroHour = true;
                         }
-                        if(selectedMinute < 10){
+                        if (selectedMinute < 10) {
                             addZeroMinute = true;
                         }
-                        if(addZeroHour && !addZeroMinute){
-                            timeTextView.setText( "0" +selectedHour + ":" + selectedMinute);
-                        }
-                        else if(!addZeroHour && addZeroMinute){
+                        if (addZeroHour && !addZeroMinute) {
+                            timeTextView.setText("0" + selectedHour + ":" + selectedMinute);
+                        } else if (!addZeroHour && addZeroMinute) {
                             timeTextView.setText(selectedHour + ":0" + selectedMinute);
-                        }
-                        else if(addZeroHour && addZeroMinute){
-                            timeTextView.setText( "0" +selectedHour + ":0" + selectedMinute);
-                        }
-                        else{
+                        } else if (addZeroHour && addZeroMinute) {
+                            timeTextView.setText("0" + selectedHour + ":0" + selectedMinute);
+                        } else {
                             timeTextView.setText(selectedHour + ":" + selectedMinute);
                         }
 
@@ -172,9 +172,16 @@ public class FirstEventFragment extends Fragment {
         });
     }
     public Event getEvent(){
-        String title =((TextView) v.findViewById(R.id.create_event_title_input)).getText().toString();
-        String startDate =((TextView) v.findViewById(R.id.create_event_date)).getText().toString();
-        String startTime = ((TextView) v.findViewById(R.id.create_event_time)).getText().toString();
+        TextView title =(TextView) v.findViewById(R.id.create_event_title_input);
+        TextView startDate =(TextView) v.findViewById(R.id.create_event_date);
+        TextView startTime = (TextView) v.findViewById(R.id.create_event_time);
+        if(isEmpty(title)){
+            title.setError("Title required");
+        }
+        else if(isEmpty(startDate)){
+
+        }
+
         startDate = startDate + " " + startTime;
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy kk:mm");
         Date date = null;
@@ -188,7 +195,7 @@ public class FirstEventFragment extends Fragment {
         if(!allDayEvent){
             String endDate =((TextView) v.findViewById(R.id.create_event_date_end)).getText().toString();
             String endTime = ((TextView) v.findViewById(R.id.create_event_time_end)).getText().toString();
-            endDate += endTime;
+            endDate = endDate + " " + endTime;
             Date endingDate = null;
             try {
                 endingDate = df.parse(endDate);
@@ -204,5 +211,8 @@ public class FirstEventFragment extends Fragment {
         newEvent.setStartDateTime(cal);
 
         return newEvent;
+    }
+    private boolean isEmpty(TextView v){
+        if()
     }
 }
