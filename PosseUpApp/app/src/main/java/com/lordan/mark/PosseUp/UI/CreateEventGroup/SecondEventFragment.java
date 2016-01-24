@@ -27,6 +27,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.lordan.mark.PosseUp.R;
 
+
 /**
  * Created by Mark on 14/01/2016.
  */
@@ -134,8 +135,7 @@ public class SecondEventFragment extends Fragment implements GoogleApiClient.Con
                 marker = map.addMarker(new MarkerOptions()
                         .position(place.getLatLng())
                         .title(place.getName().toString())
-                        .snippet(place.getAddress().toString())
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                        .snippet(place.getAddress().toString()));
 
             }
 

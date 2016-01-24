@@ -1,6 +1,7 @@
 package com.lordan.mark.PosseUp.UI.CreateEventGroup;
 
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
@@ -13,13 +14,18 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 
 import android.view.Menu;
 import android.view.MenuItem;
 
+import android.view.View;
 import android.widget.LinearLayout;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.lordan.mark.PosseUp.AbstractActivity;
 
 import com.lordan.mark.PosseUp.Model.Event;
@@ -44,6 +50,7 @@ public class AddEventActivity extends AbstractActivity {
 
         setupToolbar();
 
+
         fragmentHolder = (LinearLayout) findViewById(R.id.add_event_fragment_holder);
         fragMan = getSupportFragmentManager();
         FragmentTransaction fragTransaction = fragMan.beginTransaction();
@@ -58,7 +65,7 @@ public class AddEventActivity extends AbstractActivity {
         setSupportActionBar(toolbar);
         // Show menu icon
         final ActionBar ab = getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.drawable.ic_cancel_light);
+        ab.setHomeAsUpIndicator(R.drawable.ic_action_cancel);
 
         ab.setDisplayHomeAsUpEnabled(true);
     }
@@ -80,7 +87,18 @@ public class AddEventActivity extends AbstractActivity {
                 break;
             case (R.id.create_event_next):
                 newEvent = myFrag.getEvent();
-                switchFragment();
+                if(newEvent != null){
+                    int PLACE_PICKER_REQUEST = 1;
+                    PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+                    try {
+                        startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
+                    } catch (GooglePlayServicesRepairableException e) {
+                        e.printStackTrace();
+                    } catch (GooglePlayServicesNotAvailableException e) {
+                        e.printStackTrace();
+                    }
+                }
                 break;
             default:
                 break;

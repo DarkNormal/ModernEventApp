@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +19,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.Marker;
 import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.R;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.w3c.dom.Text;
 
@@ -47,21 +53,8 @@ public class FirstEventFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
-        mSwitch = (SwitchCompat) v.findViewById(R.id.switch_event);
-        if(mSwitch != null){
-            mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                    if(isChecked == true){
-
-                    }
-                    else{
-
-                    }
-                }
-            });
-        }
         configDateTimeChooser();
+        placePickerOnClick();
         return v;
     }
     public static FirstEventFragment newInstance(String text) {
@@ -75,6 +68,26 @@ public class FirstEventFragment extends Fragment {
 
         return f;
     }
+    private void placePickerOnClick(){
+        CardView placeCard = (CardView) v.findViewById(R.id.placePickerCard);
+        placeCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int PLACE_PICKER_REQUEST = 1;
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+                try {
+                    startActivityForResult(builder.build(getActivity()), PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
 
     private void configDateTimeChooser() {
         final EditText startDateInput = (EditText) v.findViewById(R.id.create_event_date);
@@ -95,6 +108,7 @@ public class FirstEventFragment extends Fragment {
                     endDateInput.setVisibility(View.INVISIBLE);
                     endTimeInput.setVisibility(View.INVISIBLE);
                 } else {
+                    allDayEvent = false;
                     endDateInput.setVisibility(View.VISIBLE);
                     endTimeInput.setVisibility(View.VISIBLE);
                 }
@@ -172,47 +186,62 @@ public class FirstEventFragment extends Fragment {
         });
     }
     public Event getEvent(){
-        TextView title =(TextView) v.findViewById(R.id.create_event_title_input);
-        TextView startDate =(TextView) v.findViewById(R.id.create_event_date);
-        TextView startTime = (TextView) v.findViewById(R.id.create_event_time);
+        MaterialEditText title =(MaterialEditText) v.findViewById(R.id.create_event_title_input);
+        MaterialEditText startDate =(MaterialEditText) v.findViewById(R.id.create_event_date);
+        MaterialEditText startTime = (MaterialEditText) v.findViewById(R.id.create_event_time);
+        boolean emptyTitle = false;
+        boolean emptyDate = false;
         if(isEmpty(title)){
             title.setError("Title required");
+            emptyTitle = true;
         }
-        else if(isEmpty(startDate)){
-
+        if(isEmpty(startDate) || isEmpty(startTime)){
+            startDate.setError("Date & Time Required");
+            emptyDate = true;
         }
-
-        startDate = startDate + " " + startTime;
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy kk:mm");
-        Date date = null;
-        try {
-            date = df.parse(startDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        if(!allDayEvent){
-            String endDate =((TextView) v.findViewById(R.id.create_event_date_end)).getText().toString();
-            String endTime = ((TextView) v.findViewById(R.id.create_event_time_end)).getText().toString();
-            endDate = endDate + " " + endTime;
-            Date endingDate = null;
+        if(!emptyTitle && !emptyDate){
+            String startingDate = startDate.getText().toString() + " " + startTime.getText().toString();
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy kk:mm");
+            Date date = null;
             try {
-                endingDate = df.parse(endDate);
+                date = df.parse(startingDate);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            Calendar endCal = Calendar.getInstance();
-            endCal.setTime(endingDate);
-            newEvent.setEndDateTime(endCal);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            if(!allDayEvent){
+                MaterialEditText dateEnd = (MaterialEditText) v.findViewById(R.id.create_event_date_end);
+                MaterialEditText timeEnd = (MaterialEditText) v.findViewById(R.id.create_event_time_end);
+                if(isEmpty(dateEnd) || isEmpty(timeEnd)){
+                    dateEnd.setError("Date & Time Required");
+                    return null;
+                }
+                else {
 
+                    String endDate = dateEnd.getText().toString() + " " + timeEnd.getText().toString();
+                    Date endingDate = null;
+                    try {
+                        endingDate = df.parse(endDate);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    Calendar endCal = Calendar.getInstance();
+                    endCal.setTime(endingDate);
+                    newEvent.setEndDateTime(endCal);
+                }
+
+            }
+            newEvent.setEventName(title.getText().toString());
+            newEvent.setStartDateTime(cal);
+            return newEvent;
         }
-        newEvent.setEventName(title);
-        newEvent.setStartDateTime(cal);
-
-        return newEvent;
+        return null;
     }
-    private boolean isEmpty(TextView v){
-        if()
+    private boolean isEmpty(MaterialEditText v){
+        if(v.getText().toString().equals("")){
+            return true;
+        }
+        else return false;
     }
 }

@@ -536,11 +536,11 @@ public class Tab4 extends Fragment implements GoogleApiClient.ConnectionCallback
 
         mSubscriptionImageButton.setImageResource(
                 TextUtils.equals(subscriptionTask, Constants.TASK_SUBSCRIBE) ?
-                        R.drawable.ic_cancel : R.drawable.ic_nearby);
+                        R.drawable.ic_action_cancel : R.drawable.ic_nearby);
 
         mPublicationImageButton.setImageResource(
                 TextUtils.equals(publicationTask, Constants.TASK_PUBLISH) ?
-                        R.drawable.ic_cancel : R.drawable.ic_share);
+                        R.drawable.ic_action_cancel : R.drawable.ic_share);
     }
 
     /**
