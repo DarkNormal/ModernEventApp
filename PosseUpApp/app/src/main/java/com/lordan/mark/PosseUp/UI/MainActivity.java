@@ -1,13 +1,10 @@
 package com.lordan.mark.PosseUp.UI;
 
-import android.app.AlertDialog;
-
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.lordan.mark.PosseUp.AbstractActivity;
+import com.lordan.mark.PosseUp.UI.ProfileGroup.ProfileActivity;
 import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.SigninGroup.SigninActivity;
 
@@ -64,7 +61,7 @@ public class MainActivity extends AbstractActivity{
             return true;
         }
         else if(id == R.id.my_profile){
-
+            startActivity(new Intent(MainActivity.this,ProfileActivity.class));
         }
         else if(id == R.id.sign_out_menu){
             signOut();
