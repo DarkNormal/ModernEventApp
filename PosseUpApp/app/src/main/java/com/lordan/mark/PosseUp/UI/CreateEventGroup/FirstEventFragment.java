@@ -2,6 +2,7 @@ package com.lordan.mark.PosseUp.UI.CreateEventGroup;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,10 +19,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.R;
@@ -43,10 +47,14 @@ public class FirstEventFragment extends Fragment {
     private View v;
     private Event newEvent = new Event();
     private boolean allDayEvent;
+    int PLACE_PICKER_REQUEST = 1;
+    private TextView chosenLocation;
+    private Place chosenPlace;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState){
         v = inflater.inflate(R.layout.add_event_basic_details, container, false);
+        chosenLocation =(TextView) v.findViewById(R.id.event_current_location);
         spinner = (Spinner) v.findViewById(R.id.create_event_type);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.event_type, android.R.layout.simple_spinner_item);
@@ -55,6 +63,7 @@ public class FirstEventFragment extends Fragment {
         spinner.setAdapter(adapter);
         configDateTimeChooser();
         placePickerOnClick();
+
         return v;
     }
     public static FirstEventFragment newInstance(String text) {
@@ -73,7 +82,7 @@ public class FirstEventFragment extends Fragment {
         placeCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int PLACE_PICKER_REQUEST = 1;
+
                 PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
 
                 try {
@@ -86,6 +95,17 @@ public class FirstEventFragment extends Fragment {
             }
         });
 
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode == PLACE_PICKER_REQUEST){
+            if(resultCode == -1){
+                 chosenPlace = PlacePicker.getPlace(getContext(), data);
+                String toastMsg  = String.format("%s", chosenPlace.getName());
+                chosenLocation.setText(toastMsg);
+                Toast.makeText(getContext(), toastMsg, Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
 
@@ -189,8 +209,10 @@ public class FirstEventFragment extends Fragment {
         MaterialEditText title =(MaterialEditText) v.findViewById(R.id.create_event_title_input);
         MaterialEditText startDate =(MaterialEditText) v.findViewById(R.id.create_event_date);
         MaterialEditText startTime = (MaterialEditText) v.findViewById(R.id.create_event_time);
+        MaterialEditText eventDesc = (MaterialEditText) v.findViewById(R.id.add_event_desc);
         boolean emptyTitle = false;
         boolean emptyDate = false;
+        boolean emptyDesc = false;
         if(isEmpty(title)){
             title.setError("Title required");
             emptyTitle = true;
@@ -199,7 +221,11 @@ public class FirstEventFragment extends Fragment {
             startDate.setError("Date & Time Required");
             emptyDate = true;
         }
-        if(!emptyTitle && !emptyDate){
+        if(isEmpty(eventDesc)){
+            eventDesc.setError("Description Required");
+            emptyDesc = true;
+        }
+        if(!emptyTitle && !emptyDate && !emptyDesc){
             String startingDate = startDate.getText().toString() + " " + startTime.getText().toString();
             SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy kk:mm");
             Date date = null;
@@ -232,8 +258,12 @@ public class FirstEventFragment extends Fragment {
                 }
 
             }
+            newEvent.setEventDesc(eventDesc.getText().toString());
             newEvent.setEventName(title.getText().toString());
             newEvent.setStartDateTime(cal);
+            LatLng location = chosenPlace.getLatLng();
+            newEvent.setEventLocationLat(location.latitude);
+            newEvent.setEventLocationLng(location.longitude);
             return newEvent;
         }
         return null;

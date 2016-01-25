@@ -149,9 +149,11 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_CODE){
-            toolbar.setAlpha(1.0f);
-            toolbar.setVisibility(View.VISIBLE);
-            mSheetLayout.contractFab();
+            if(resultCode == 0) {
+                toolbar.setAlpha(1.0f);
+                toolbar.setVisibility(View.VISIBLE);
+                mSheetLayout.contractFab();
+            }
         }
     }
     @Override
