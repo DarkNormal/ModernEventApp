@@ -16,21 +16,24 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="User name"/>
         <TextView
             android:id="@+id/profile_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="@string/username"/>
     </LinearLayout>
     <android.support.design.widget.TabLayout
         android:id="@+id/profile_tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabMode="scrollable"/>
+        app:tabMode="fixed"
+        app:tabGravity="fill"/>
     <android.support.v4.view.ViewPager
         android:id="@+id/profile_pager"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_weight="1"
         android:background="@android:color/white"/>

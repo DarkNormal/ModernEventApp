@@ -1,6 +1,8 @@
 package com.lordan.mark.PosseUp.UI.ProfileGroup;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.widget.TextView;
 
 import com.lordan.mark.PosseUp.AbstractActivity;
@@ -20,6 +22,11 @@ public class ProfileActivity extends AbstractActivity {
 
         TextView username = (TextView) findViewById(R.id.profile_username);
         username.setText(az.getCurrentUsername(this));
+
+        ViewPager viewPager = (ViewPager) findViewById(R.id.profile_pager);
+        viewPager.setAdapter(new ProfilePagerAdapter(getSupportFragmentManager(), ProfileActivity.this));
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.profile_tabs);
+        tabLayout.setupWithViewPager(viewPager);
 
     }
 

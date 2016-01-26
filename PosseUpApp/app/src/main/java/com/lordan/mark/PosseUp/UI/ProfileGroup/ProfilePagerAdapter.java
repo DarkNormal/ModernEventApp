@@ -21,11 +21,29 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return null;
+        Fragment mFragment = null;
+        switch(position){
+            case 0:
+                mFragment = new ProfileFriendList();
+                break;
+            case 1:
+                mFragment = new ProfileFriendList();
+                break;
+            case 2:
+                mFragment = new ProfileFriendList();
+                break;
+            default:
+                break;
+        }
+        return mFragment;
     }
 
     @Override
     public int getCount() {
         return PAGE_COUNT;
+    }
+    @Override
+    public CharSequence getPageTitle(int position){
+        return titles[position];
     }
 }
