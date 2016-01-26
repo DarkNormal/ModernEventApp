@@ -231,11 +231,14 @@ public class FirstEventFragment extends Fragment {
             Date date = null;
             try {
                 date = df.parse(startingDate);
+
             } catch (ParseException e) {
                 e.printStackTrace();
             }
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
+            newEvent.setStartingTime(cal);
+            Calendar endCal = Calendar.getInstance();
             if(!allDayEvent){
                 MaterialEditText dateEnd = (MaterialEditText) v.findViewById(R.id.create_event_date_end);
                 MaterialEditText timeEnd = (MaterialEditText) v.findViewById(R.id.create_event_time_end);
@@ -252,18 +255,23 @@ public class FirstEventFragment extends Fragment {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    Calendar endCal = Calendar.getInstance();
                     endCal.setTime(endingDate);
-                    newEvent.setEndDateTime(endCal);
+                    newEvent.setEndingTime(endCal);
                 }
 
             }
+            else{
+               endCal.setTime(cal.getTime());
+                endCal.add(Calendar.DATE, 1);
+                newEvent.setEndingTime(endCal);
+            }
             newEvent.setEventDesc(eventDesc.getText().toString());
             newEvent.setEventName(title.getText().toString());
-            newEvent.setStartDateTime(cal);
+            newEvent.setStartingTime(cal);
             LatLng location = chosenPlace.getLatLng();
             newEvent.setEventLocationLat(location.latitude);
             newEvent.setEventLocationLng(location.longitude);
+
             return newEvent;
         }
         return null;

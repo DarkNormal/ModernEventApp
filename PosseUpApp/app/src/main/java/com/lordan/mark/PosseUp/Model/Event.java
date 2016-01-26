@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -21,18 +22,22 @@ public class Event extends JSONObject{
     @SerializedName("EventHost")
     private String hostEmail;
 
-    @SerializedName("EventStartDateTime")
-    private Calendar startDateTime;
+    @SerializedName("EventStartTime")
+    private String startDateTime;
 
+    private Calendar startingTime;
 
-    @SerializedName("EventEndDateTime")
-    private Calendar endDateTime;
+    private Calendar endingTime;
+    @SerializedName("EventEndTime")
+    private String endDateTime;
     @SerializedName("EventLocationLat")
     private double eventLocationLat;
     @SerializedName("EventLocationLng")
     private double eventLocationLng;
 
     private Place placeDetails;
+
+    private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm");
 
     public Event(String name, String visibility, String email, String eventDesc, double eventLocationLat, double eventLocationLng){
         this.eventName = name;
@@ -94,12 +99,40 @@ public class Event extends JSONObject{
         this.eventLocationLat = eventLocationLat;
     }
 
-    public Calendar getStartDateTime() {
+    public String getStartDateTime() {
         return startDateTime;
     }
 
-    public void setStartDateTime(Calendar startDateTime) {
+    public void setStartDateTime(String startDateTime) {
         this.startDateTime = startDateTime;
+    }
+
+    public Calendar getStartingTime() {
+        return startingTime;
+    }
+
+    public void setStartingTime(Calendar startingTime) {
+        this.startingTime = startingTime;
+        String date = df.format(startingTime.getTime());
+        setStartDateTime(date);
+    }
+
+    public Calendar getEndingTime() {
+        return endingTime;
+    }
+
+    public void setEndingTime(Calendar endingTime) {
+        this.endingTime = endingTime;
+        String date = df.format(endingTime.getTime());
+        setEndDateTime(date);
+    }
+
+    public String getEndDateTime() {
+        return endDateTime;
+    }
+
+    public void setEndDateTime(String endDateTime) {
+        this.endDateTime = endDateTime;
     }
 
     public Place getPlaceDetails() {
@@ -110,13 +143,6 @@ public class Event extends JSONObject{
         this.placeDetails = placeDetails;
     }
 
-    public Calendar getEndDateTime() {
-        return endDateTime;
-    }
-
-    public void setEndDateTime(Calendar endDateTime) {
-        this.endDateTime = endDateTime;
-    }
 
 
 
