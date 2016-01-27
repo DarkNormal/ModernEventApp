@@ -29,5 +29,8 @@ public class ProfileActivity extends AbstractActivity {
         tabLayout.setupWithViewPager(viewPager);
 
     }
+    private void getUsers(){
+
+    }
 
 }
