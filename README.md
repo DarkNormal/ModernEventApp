@@ -4,6 +4,9 @@ Mobile Application for creating, managing and attending events near and far. Bas
 this app aims to change the norm of events, meetings or get-togethers with friends by providing a customised setting 
 for each event.
 
+The associated server back-end for this Android application is a RESTful ASP.NET Web API project running on Microsoft Azure.
+The source code for this can be found on GitHub [here](https://github.com/DarkNormal/PosseNetAPIApp) (note - it's poorly documented and commented, sorry!)
+
 
 
 Used libraries
