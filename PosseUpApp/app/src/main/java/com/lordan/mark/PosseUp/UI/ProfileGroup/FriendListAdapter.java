@@ -8,11 +8,16 @@ import android.widget.TextView;
 
 import com.lordan.mark.PosseUp.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
+
 /**
  * Created by Mark on 26/01/2016.
  */
 public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.ViewHolder>{
-    private String[] mDataset;
+    private ArrayList<String> mDataset;
 
 
     public  static class ViewHolder extends RecyclerView.ViewHolder{
@@ -24,7 +29,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Vi
         }
     }
 
-    public FriendListAdapter(String[] mDataset){
+    public FriendListAdapter(ArrayList<String> mDataset){
         this.mDataset = mDataset;
     }
 
@@ -38,11 +43,12 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.mView.setText("Friend");
+            holder.mView.setText(mDataset.get(position).toString());
+
     }
 
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return mDataset.size();
     }
 }

@@ -27,10 +27,10 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
                 mFragment = new ProfileFriendList();
                 break;
             case 1:
-                mFragment = new ProfileFriendList();
+                mFragment = new ProfileInfoFragment();
                 break;
             case 2:
-                mFragment = new ProfileFriendList();
+                mFragment = new ProfileInfoFragment();
                 break;
             default:
                 break;
