@@ -21,11 +21,13 @@ public class User {
     @SerializedName("Username")
     private String username;
 
-//    @SerializedName("Verified")
-//    private boolean verified;
-//
-//    @SerializedName("EmailOrUsername")
-//    private String emailOrUsername;
+    @SerializedName("Verified")
+    private boolean verified;
+
+    @SerializedName("EmailOrUsername")
+    private String emailOrUsername;
+
+    private boolean isFriend;
 
     public User(){
 
@@ -36,6 +38,10 @@ public class User {
         this.email = email;
         this.password = password;
         this.username = username;
+    }
+    public User(String username, boolean isFriend){
+        this.username = username;
+        this.isFriend = isFriend;
     }
 
 
@@ -61,6 +67,14 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public boolean isFriend() {
+        return isFriend;
+    }
+
+    public void setFriend(boolean friend) {
+        isFriend = friend;
     }
 
 //    public boolean isVerified() {

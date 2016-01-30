@@ -1,27 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal">
-    <com.lordan.mark.PosseUp.UI.CircularImageView
+
+    <com.mikhaellopez.circularimageview.CircularImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/profiler"
-        android:layout_weight="0" />
+        app:shadow="false" />
 
     <TextView
         android:id="@+id/friend_list_id"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/text_margin"
+        android:text="placeholder text"
         android:textAppearance="?attr/textAppearanceListItem"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:gravity="center_vertical"/>
-
-<android.support.v7.widget.AppCompatButton
+<LinearLayout
+    android:id="@+id/add_user_button"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Add"
-    android:textColor="@color/white"
-    android:layout_weight="0" />
+    android:background="@drawable/custom_button_background"
+    android:layout_weight="0"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="8dp"
+    android:clickable="true">
+    <ImageView
+        android:id="@+id/add_user_button_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/tinted_ic_add"
+        android:scaleType="center"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"/>
+</LinearLayout>
 </LinearLayout>
