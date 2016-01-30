@@ -11,7 +11,7 @@ import android.support.v4.content.ContextCompat;
  */
 public class ProfilePagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 3;
-    CharSequence titles[]={"Friends","History" , "Info"};
+    CharSequence titles[]={"History","Friends" , "Info"};
     private Context context;
 
     public ProfilePagerAdapter(FragmentManager fm, Context context){
@@ -24,10 +24,10 @@ public class ProfilePagerAdapter extends FragmentPagerAdapter {
         Fragment mFragment = null;
         switch(position){
             case 0:
-                mFragment = new ProfileFriendList();
+                mFragment = new ProfileInfoFragment();
                 break;
             case 1:
-                mFragment = new ProfileInfoFragment();
+                mFragment = new ProfileFriendList();
                 break;
             case 2:
                 mFragment = new ProfileInfoFragment();

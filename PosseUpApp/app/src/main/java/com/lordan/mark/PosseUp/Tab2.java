@@ -190,8 +190,9 @@ public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallback
 
     }
     private void addMarkers(){
-        map.setInfoWindowAdapter(new CustomInfoWindow(getLayoutInflater(null)));
+
         if(nearbyList.size() > 0 && map !=null){
+            map.setInfoWindowAdapter(new CustomInfoWindow(getLayoutInflater(null)));
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
             for (Coordinate c : nearbyList) {
                 builder.include(new LatLng(c.getLatitude(),c.getLongitude()));

@@ -1,14 +1,10 @@
 package com.lordan.mark.PosseUp.UI.ProfileGroup;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +12,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.lordan.mark.PosseUp.DataOperations.AzureService;
+import com.lordan.mark.PosseUp.Model.Constants;
+import com.lordan.mark.PosseUp.Model.Friendship;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,6 +37,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Vi
     private ArrayList<User> mDataset;
     private CoordinatorLayout coordinatorLayout;
     private Context context;
+    private RequestQueue queue;
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -51,6 +57,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Vi
         this.mDataset = mDataset;
         this.coordinatorLayout = coordinatorLayout;
         this.context = context;
+        queue = Volley.newRequestQueue(context);
     }
 
     @Override
@@ -83,20 +90,14 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Vi
                 if (mDataset.get(position).isFriend()) {
                     //if the user is a friend, we are now unfriending them
                     updateButton(icon, R.drawable.tinted_ic_add, holder, false);
-                    Snackbar.make(coordinatorLayout, "You unfollowed " + mDataset.get(position).getUsername()
-                            , Snackbar.LENGTH_SHORT).show();
+                    updateFriendship(true, mDataset.get(position).getUsername(), position);
+
                     mDataset.get(position).setFriend(false);
                 } else {
                     //we are now adding the user as a friend
                     updateButton(icon, R.drawable.ic_people, holder, true);
-                    Snackbar.make(coordinatorLayout, "You are now following " + mDataset.get(position).getUsername()
-                            , Snackbar.LENGTH_SHORT).setAction("Undo", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            updateButton(icon, R.drawable.tinted_ic_add, holder, false);
-                            mDataset.get(position).setFriend(false);
-                        }
-                    }).setActionTextColor(Color.MAGENTA).show();
+                    updateFriendship(false, mDataset.get(position).getUsername(), position);
+
                     mDataset.get(position).setFriend(true);
                 }
 
@@ -118,6 +119,70 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Vi
             holder.addButton.setBackgroundResource(R.drawable.custom_button_background);
         }
 
+    }
+    //updates the friendship/follow status via the web service, persisting the data
+    private void updateFriendship(boolean remove, String usernameOfFriend, final int position){
+        String url = Constants.baseUrl;
+        AzureService az = new AzureService();
+        if(remove){
+            url += "api/FriendRelationships?username=" + az.getCurrentUsername(context) + "&usernameOfFriend=" +usernameOfFriend;
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, url, null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Log.i("DELETE_FRIEND", response.toString());
+                    showSnackBar(true, mDataset.get(position).getUsername());
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("DELETE_FRIEND", error.networkResponse.toString());
+
+                }
+            });
+            queue.add(request);
+        }
+        else{
+            url += "api/FriendRequests/AddFriend";
+            Friendship newFriendship = new Friendship(az.getCurrentUsername(context), usernameOfFriend, false);
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, convertToJSON(newFriendship), new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Log.i("ADD_FRIEND", "successfully added friend");
+                    showSnackBar(false, mDataset.get(position).getUsername());
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("ADD_FRIEND", error.toString());
+
+                }
+            });
+            queue.add(request);
+        }
+
+    }
+    private JSONObject convertToJSON(Friendship obj){
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(obj);
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(jsonString);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    //displays a snackbar to the user detailing the action just made
+    private void showSnackBar(boolean deleted, String username){
+        String message;
+        if(deleted){
+            message = "You unfollowed ";
+        }
+        else{
+            message = "You started following ";
+        }
+        Snackbar.make(coordinatorLayout, message + username, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
