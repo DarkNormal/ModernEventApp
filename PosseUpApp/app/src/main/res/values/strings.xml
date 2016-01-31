@@ -37,6 +37,25 @@
         <item>Private</item>
     </string-array>
 
+    <string name="opendrawer">Opened</string>
+    <string name="closeddrawer">Closed</string>
+
+    <!-- Nav Drawer Menu Items -->
+    <string-array name="nav_drawer_items">
+        <item >Profile</item>
+        <item >Events</item>
+        <item >Friends</item>
+        <item >Settings</item>
+    </string-array>
+
+    <array name="nav_drawer_icons">
+        <item>@drawable/ic_account_circle</item>
+        <item>@drawable/ic_event</item>
+        <item>@drawable/ic_people_black</item>
+        <item>@drawable/ic_settings</item>
+    </array>
+
+
 
     <string name="discover_nearby_devices">Discover nearby users</string>
     <string name="discover_nearby_devices_button">Discover nearby devices button</string>

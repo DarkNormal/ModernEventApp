@@ -1,7 +1,9 @@
 package com.lordan.mark.PosseUp.UI;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 
 import com.google.android.gms.common.api.BooleanResult;
@@ -14,9 +16,18 @@ import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.SigninGroup.SigninActivity;
 
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
+
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.lordan.mark.PosseUp.SlidingTabs.ViewPagerAdapter;
@@ -34,14 +45,55 @@ public class MainActivity extends AbstractActivity{
     private String HubName = "PosseUp-Notifications";
     private String HubListenConnectionString = "Endpoint=sb://posseup-notificationhub.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=ULoYyvlyIcvWKY1XFmUYB8OGNTOfzIKHT11m1AukTuc=";
     private static Boolean isVisible = false;
+    private String[] navDrawerTitles;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private CharSequence mDrawerTitle;
+    private CharSequence mTitle;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mToolbar = (Toolbar) findViewById(R.id.main_activity_toolbar);
+        setSupportActionBar(mToolbar);
 
         setupGcm();
 
+        mTitle = mDrawerTitle = getTitle();
+
+        navDrawerTitles = new String[]{"Events", "Settings", "My Account"};
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mDrawerList.setAdapter(new ArrayAdapter<>(this, R.layout.drawer_list_item, navDrawerTitles));
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,                  /* host Activity */
+                mDrawerLayout,         /* DrawerLayout object */
+                mToolbar,  /* nav drawer image to replace 'Up' caret */
+                R.string.opendrawer,  /* "open drawer" description for accessibility */
+                R.string.closeddrawer  /* "close drawer" description for accessibility */
+        ) {
+            public void onDrawerClosed(View view) {
+                getSupportActionBar().setTitle(mTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                getSupportActionBar().setTitle(mDrawerTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
         // Initialize the ViewPager and set an adapter
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs));
@@ -92,6 +144,9 @@ public class MainActivity extends AbstractActivity{
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -142,5 +197,29 @@ public class MainActivity extends AbstractActivity{
                     Toast.makeText(MainActivity.this, notificationMessage, Toast.LENGTH_LONG).show();
                 }
             });
+    }
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView parent, View view, int position, long id) {
+            selectItem(position);
+        }
+    }
+
+    /** Swaps fragments in the main content view */
+    private void selectItem(int position) {
+        // Create a new fragment and specify the planet to show based on position
+        Log.i("NAVDRAWER", "item " + position + " selected");
+
+        // Highlight the selected item, update the title, and close the drawer
+        mDrawerList.setItemChecked(position, true);
+        setTitle(navDrawerTitles[position]);
+        mDrawerLayout.closeDrawer(mDrawerList);
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        mTitle = title;
+        getSupportActionBar().setTitle(mTitle);
+
     }
 }
