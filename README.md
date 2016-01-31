@@ -16,14 +16,16 @@ Used libraries
 [MaterialEditText](https://github.com/rengwuxian/MaterialEditText)<br>
 [Circular Reveal](https://github.com/ozodrukh/CircularReveal)<br>
 [ButterKnife](https://github.com/JakeWharton/butterknife)<br>
+[CircularImageView](https://github.com/lopspower/CircularImageView)<br>
 
 Google Libraries
 -----------
+Volley (Networking)<br>
 Google Cloud Messaging<br>
 Google Places API<br>
 Google Maps API<br>
 Google Nearby API<br>
-AppCompat<br>
+AppCompat (Support Library)<br>
 Design Support Libary<br>
 
 
