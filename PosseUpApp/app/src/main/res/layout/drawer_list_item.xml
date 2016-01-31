@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <TextView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:background="?android:attr/activatedBackgroundIndicator"
+    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+    android:paddingStart="@dimen/margin_medium"
+    android:orientation="horizontal">
+    <ImageView
+        android:id="@+id/drawer_item_icon"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="placeholder"/>
+        android:layout_gravity="center_vertical"
+        android:paddingEnd="@dimen/margin_medium"/>
+    <TextView
+        android:id="@+id/drawer_item_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_gravity="center_vertical"
+        android:textColor="@android:color/black"
+        android:text="placeholder"
+        android:textSize="@dimen/abc_text_size_small_material"
+        android:fontFamily="sans-serif-medium"
+        />
+    </LinearLayout>

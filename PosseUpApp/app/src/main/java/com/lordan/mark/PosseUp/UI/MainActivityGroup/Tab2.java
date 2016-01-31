@@ -1,4 +1,4 @@
-package com.lordan.mark.PosseUp;
+package com.lordan.mark.PosseUp.UI.MainActivityGroup;
 
 /**
  * Created by Mark on 7/14/2015.
@@ -38,6 +38,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.Coordinate;
+import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.MainActivity;
 import com.lordan.mark.PosseUp.UI_Elements.CustomInfoWindow;
 

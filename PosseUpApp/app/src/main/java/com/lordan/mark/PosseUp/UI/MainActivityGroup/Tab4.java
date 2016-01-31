@@ -1,4 +1,4 @@
-package com.lordan.mark.PosseUp;
+package com.lordan.mark.PosseUp.UI.MainActivityGroup;
 
 /**
  * Created by Mark on 7/15/2015.
@@ -37,6 +37,7 @@ import com.google.android.gms.nearby.messages.SubscribeOptions;
 import com.lordan.mark.PosseUp.DataOperations.AzureService;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.DeviceMessage;
+import com.lordan.mark.PosseUp.R;
 
 import java.util.ArrayList;
 
@@ -92,7 +93,6 @@ public class Tab4 extends Fragment implements GoogleApiClient.ConnectionCallback
         super.onCreate(savedInstanceState);
         // Use a retained fragment to avoid re-publishing or re-subscribing upon orientation
         // changes.
-        setRetainInstance(true);
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

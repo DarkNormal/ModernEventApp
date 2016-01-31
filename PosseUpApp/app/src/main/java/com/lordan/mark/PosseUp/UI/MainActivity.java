@@ -11,8 +11,10 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.common.collect.ObjectArrays;
 import com.lordan.mark.PosseUp.AbstractActivity;
 import com.lordan.mark.PosseUp.Model.MyHandler;
+import com.lordan.mark.PosseUp.UI.MainActivityGroup.MainFragment;
 import com.lordan.mark.PosseUp.UI.ProfileGroup.ProfileActivity;
 import com.lordan.mark.PosseUp.R;
+import com.lordan.mark.PosseUp.UI.ProfileGroup.ProfileFragment;
 import com.lordan.mark.PosseUp.UI.SigninGroup.SigninActivity;
 
 import android.os.Bundle;
@@ -25,6 +27,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -36,8 +39,7 @@ import com.microsoft.windowsazure.notifications.NotificationsManager;
 
 
 public class MainActivity extends AbstractActivity{
-    CharSequence Titles[]={"Home","Nearby" , "Chat", "Me"};
-    int Numboftabs =4;
+
 
     private String SENDER_ID = "851010273767";
     private GoogleCloudMessaging gcm;
@@ -47,6 +49,7 @@ public class MainActivity extends AbstractActivity{
     private static Boolean isVisible = false;
     private String[] navDrawerTitles;
     private DrawerLayout mDrawerLayout;
+    private LinearLayout drawerLinear;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle;
@@ -60,16 +63,19 @@ public class MainActivity extends AbstractActivity{
         mToolbar = (Toolbar) findViewById(R.id.main_activity_toolbar);
         setSupportActionBar(mToolbar);
 
+        Fragment fragment = new MainFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+
         setupGcm();
 
         mTitle = mDrawerTitle = getTitle();
 
-        navDrawerTitles = new String[]{"Events", "Settings", "My Account"};
+        navDrawerTitles = getResources().getStringArray(R.array.nav_drawer_items);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-
+        drawerLinear = (LinearLayout) findViewById(R.id.drawer_linear);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        mDrawerList.setAdapter(new ArrayAdapter<>(this, R.layout.drawer_list_item, navDrawerTitles));
+        mDrawerList.setAdapter(new DrawerItemAdapter(this));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -95,12 +101,7 @@ public class MainActivity extends AbstractActivity{
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
         // Initialize the ViewPager and set an adapter
-        ViewPager pager = (ViewPager) findViewById(R.id.pager);
-        pager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs));
 
-        // Bind the tabs to the ViewPager
-        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-        tabs.setViewPager(pager);
 
 
 
@@ -205,15 +206,31 @@ public class MainActivity extends AbstractActivity{
         }
     }
 
+    //TODO
+    //
+    //Make methods for repeating fragment transactions, also check if its already selected
+    //Not sure if this already happens but otherwise it's a waste of resources
+    //
     /** Swaps fragments in the main content view */
     private void selectItem(int position) {
         // Create a new fragment and specify the planet to show based on position
         Log.i("NAVDRAWER", "item " + position + " selected");
-
+        switch(position){
+            case 0:
+                Fragment fragment = new MainFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+                break;
+            case 1:
+                Fragment profileFragment = new ProfileFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, profileFragment).commit();
+                break;
+            default:
+                break;
+        }
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
         setTitle(navDrawerTitles[position]);
-        mDrawerLayout.closeDrawer(mDrawerList);
+        mDrawerLayout.closeDrawer(drawerLinear);
     }
 
     @Override

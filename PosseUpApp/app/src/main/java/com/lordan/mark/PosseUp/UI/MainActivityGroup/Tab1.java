@@ -1,4 +1,4 @@
-package com.lordan.mark.PosseUp;
+package com.lordan.mark.PosseUp.UI.MainActivityGroup;
 
 /**
  * Created by Mark on 7/14/2015.
@@ -26,8 +26,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.lordan.mark.PosseUp.CustomAdapter;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.Coordinate;
+import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.AddEventActivity;
 
 import org.json.JSONArray;
@@ -42,7 +44,7 @@ public class Tab1 extends Fragment {
     private static final String TAG = "RecyclerViewFragment";
     private static final String KEY_LAYOUT_MANAGER = "layoutManager";
     private static final int SPAN_COUNT = 2;
-    private static final int DATASET_COUNT = 20;
+    private static final int DATASET_COUNT = 5;
     private enum LayoutManagerType {
         GRID_LAYOUT_MANAGER,
         LINEAR_LAYOUT_MANAGER
@@ -162,7 +164,7 @@ public class Tab1 extends Fragment {
     private void initDataset() {
         mDataset = new ArrayList<>();
         for (int i = 0; i < DATASET_COUNT; i++) {
-            mDataset.add(new Coordinate(53.4534, -6.5334, "Cool event", "really cool", "mark.lordan"));
+            mDataset.add(new Coordinate(53.4534, -6.5334, "Event", "Event description", "host email"));
         }
     }
     private void refreshEvents() {
