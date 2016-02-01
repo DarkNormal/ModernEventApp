@@ -49,7 +49,7 @@ public class StartActivity extends AbstractActivity {
                 startActivity(intent);
                 finish();   //finish the activity, don't want users going back to this screen
             }
-        }, 2000);
+        }, 1000);
     }
 
     private void goToSignin() {

@@ -8,8 +8,6 @@ import android.support.v4.app.Fragment;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.lordan.mark.PosseUp.AbstractActivity;
 import com.lordan.mark.PosseUp.Model.MyHandler;
-import com.lordan.mark.PosseUp.UI.DrawerItemAdapter;
-import com.lordan.mark.PosseUp.UI.ProfileGroup.ProfileActivity;
 import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.ProfileGroup.ProfileFragment;
 import com.lordan.mark.PosseUp.UI.SigninGroup.SigninActivity;
@@ -18,13 +16,10 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,11 +58,13 @@ public class MainActivity extends AbstractActivity {
         setupGcm();
 
         mTitle = mDrawerTitle = getTitle();
-//        TextView drawerUsername = (TextView) findViewById(R.id.drawer_username);
-//        drawerUsername.setText(getCurrentUsername());
-//        TextView drawerEmail = (TextView) findViewById(R.id.drawer_email);
-//        drawerEmail.setText(getCurrentEmail());
+
         NavigationView navView = (NavigationView) findViewById(R.id.drawer_nav_view);
+        View header = navView.getHeaderView(0);
+        TextView drawerUsername = (TextView) header.findViewById(R.id.drawer_username);
+        drawerUsername.setText(getCurrentUsername());
+        TextView drawerEmail = (TextView) header.findViewById(R.id.drawer_email);
+        drawerEmail.setText(getCurrentEmail());
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
@@ -135,6 +132,7 @@ public class MainActivity extends AbstractActivity {
 
 
         getSupportActionBar().setElevation(0);
+
 
     }
 

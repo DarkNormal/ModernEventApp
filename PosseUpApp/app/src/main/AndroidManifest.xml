@@ -56,11 +56,7 @@
             android:label="Create Event">
 
         </activity>
-        <activity android:name=".UI.ProfileGroup.ProfileActivity"
-            android:theme="@style/AppTheme"
-            android:label="My Profile">
 
-        </activity>
         <meta-data
             android:name="com.google.android.nearby.messages.API_KEY"
             android:value="AIzaSyAQNI42nA_azUDuRe9O6XWW4bRqf13rOa8" />

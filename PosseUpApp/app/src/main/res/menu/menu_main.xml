@@ -2,12 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity">
-    <item android:id="@+id/event_search"
-        android:title="search"
-        android:icon="@android:drawable/ic_menu_search"
-        app:showAsAction="always">
-
-    </item>
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
         android:orderInCategory="100"

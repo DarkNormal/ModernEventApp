@@ -5,9 +5,13 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.lordan.mark.PosseUp.DataOperations.AzureService;
@@ -35,4 +39,36 @@ public class ProfileFragment extends Fragment {
 
         return rootView;
     }
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_profile, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.edit_profile:
+                if(!item.isChecked()){
+                    item.setIcon(R.drawable.ic_mode_edit);
+                    item.setChecked(true);
+                    //TODO save changes
+                }
+                else{
+                    item.setIcon(R.drawable.ic_done_white);
+                    item.setChecked(false);
+                }
+                Toast.makeText(getContext(), "Edit profile", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return false;
+
+        }
+    }
+
 }
