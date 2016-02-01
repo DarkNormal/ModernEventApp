@@ -12,6 +12,5 @@
         android:title="@string/action_settings"
         android:orderInCategory="100"
         app:showAsAction="never" />
-    <item android:id="@+id/my_profile" android:title="@string/menu_profile"></item>
     <item android:id="@+id/sign_out_menu" android:title="@string/menu_sign_out"></item>
 </menu>

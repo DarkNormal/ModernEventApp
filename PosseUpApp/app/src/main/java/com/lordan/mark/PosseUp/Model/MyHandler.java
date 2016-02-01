@@ -12,7 +12,7 @@ import com.lordan.mark.PosseUp.R;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
-import com.lordan.mark.PosseUp.UI.MainActivity;
+import com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity;
 import com.microsoft.windowsazure.notifications.NotificationsHandler;
 
 

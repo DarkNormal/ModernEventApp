@@ -8,6 +8,7 @@ import android.text.TextUtils;
 
 import com.lordan.mark.PosseUp.AbstractActivity;
 import com.lordan.mark.PosseUp.R;
+import com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity;
 import com.lordan.mark.PosseUp.UI.SigninGroup.SigninActivity;
 
 /**

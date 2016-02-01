@@ -60,55 +60,30 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_gravity="start">
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="128dp"
-            android:background="@drawable/gradient_background"
-            android:paddingBottom="@dimen/margin_small"
-            >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:orientation="vertical">
-                <com.mikhaellopez.circularimageview.CircularImageView
-                    android:layout_width="65dp"
-                    android:layout_height="65dp"
-                    app:border="false"
-                    android:src="@drawable/profiler"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Username"
-                        android:fontFamily="sans-serif-medium"
-                        android:textSize="@dimen/abc_text_size_small_material"
-                        android:layout_marginTop="@dimen/margin_tiny"
-                        android:textColor="@color/white"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Email Address"
-                        android:fontFamily="sans-serif-regular"
-                        android:textSize="@dimen/abc_text_size_small_material"/>
-                </LinearLayout>
 
-            </LinearLayout>
-        </FrameLayout>
-
-        <ListView android:id="@+id/left_drawer"
+        <android.support.design.widget.NavigationView
+            android:id="@+id/drawer_nav_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:choiceMode="singleChoice"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0dp"
-            android:background="#ffffff"
-            android:paddingTop="@dimen/margin_small"/>
+            app:headerLayout="@layout/drawer_header_layout"
+            app:menu="@menu/menu_drawer"
+            app:itemTextColor="@color/drawer_selector"
+            app:itemIconTint="@color/drawer_selector"
+            android:background="@color/white">
+
+        </android.support.design.widget.NavigationView>
+
+        <!--<ListView android:id="@+id/left_drawer"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_gravity="start"-->
+            <!--android:choiceMode="singleChoice"-->
+            <!--android:divider="@android:color/transparent"-->
+            <!--android:dividerHeight="0dp"-->
+            <!--android:background="#ffffff"-->
+            <!--android:paddingTop="@dimen/margin_small"/>-->
+
 
     </LinearLayout>
 
