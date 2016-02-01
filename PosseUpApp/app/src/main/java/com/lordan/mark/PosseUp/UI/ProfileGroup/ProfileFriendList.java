@@ -19,6 +19,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 
 import com.android.volley.toolbox.Volley;
 
+import com.lordan.mark.PosseUp.DataOperations.AzureService;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
@@ -75,7 +76,7 @@ public class ProfileFriendList extends Fragment {
     }
 
     private void getFriends(){
-        String url = Constants.baseUrl + "api/Account/GetUsersFriendStatus?username=mark";
+        String url = Constants.baseUrl + "api/Account/GetUsersFriendStatus?username=" + new AzureService().getCurrentUsername(getContext());
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
