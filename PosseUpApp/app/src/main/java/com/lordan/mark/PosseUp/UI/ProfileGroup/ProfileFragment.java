@@ -12,16 +12,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.lordan.mark.PosseUp.DataOperations.AzureService;
 import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.SlidingTabs.ViewPagerAdapter;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 /**
  * Created by Mark on 31/01/2016.
  */
 public class ProfileFragment extends Fragment {
+    private ViewSwitcher viewSwitcher;
+    private MaterialEditText materialEditText;
+    private TextView username;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -29,7 +34,9 @@ public class ProfileFragment extends Fragment {
 
         AzureService az = new AzureService();
 
-        TextView username = (TextView) rootView.findViewById(R.id.profile_username);
+        viewSwitcher = (ViewSwitcher) rootView.findViewById(R.id.profile_username_swticher);
+        materialEditText = (MaterialEditText) rootView.findViewById(R.id.profile_username_edit);
+        username = (TextView) rootView.findViewById(R.id.profile_username);
         username.setText(az.getCurrentUsername(getContext()));
 
         ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.profile_pager);
@@ -55,11 +62,16 @@ public class ProfileFragment extends Fragment {
         switch(item.getItemId()){
             case R.id.edit_profile:
                 if(!item.isChecked()){
+                    username.setText(materialEditText.getText().toString());
+                    viewSwitcher.showPrevious();
                     item.setIcon(R.drawable.ic_mode_edit);
                     item.setChecked(true);
-                    //TODO save changes
+                    //TODO save changes to web service
+                    //TODO also discard changes if cancelled
                 }
                 else{
+                    materialEditText.setText(username.getText().toString());
+                    viewSwitcher.showNext();
                     item.setIcon(R.drawable.ic_done_white);
                     item.setChecked(false);
                 }
