@@ -1,19 +1,15 @@
 package com.lordan.mark.PosseUp.UI.ProfileGroup;
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
@@ -40,6 +36,7 @@ import org.json.JSONObject;
 public class EditProfileActivity extends AbstractActivity {
     private AlertDialog dialog;
     private RequestQueue queue;
+    private MaterialEditText username;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,7 +47,7 @@ public class EditProfileActivity extends AbstractActivity {
         Toolbar mToolbar = (Toolbar) findViewById(R.id.edit_profile_activity_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        MaterialEditText username = (MaterialEditText) findViewById(R.id.profile_username_edit);
+        username = (MaterialEditText) findViewById(R.id.profile_username_edit);
         username.setText(getCurrentUsername());
         queue = Volley.newRequestQueue(this);
         AppCompatButton changePassword = (AppCompatButton) findViewById(R.id.change_password_button);
@@ -76,9 +73,92 @@ public class EditProfileActivity extends AbstractActivity {
         switch(id){
             case R.id.menu_save:
                 //TODO save changes
+                showConfirmDialog();
+                return true;
+            default:
+                break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    private void showConfirmDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomAlertDialogStyle);
+        builder.setTitle("Confirm changes");
+        LayoutInflater inflater = getLayoutInflater();
+        final View layoutView = inflater.inflate(R.layout.profile_edit_dialog, null);
+        builder.setView(layoutView);
+        builder.setPositiveButton("Yes", null);
+        builder.setNegativeButton("No", null);
+        dialog = builder.create();
+        dialog.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MaterialEditText password = (MaterialEditText) layoutView.findViewById(R.id.edit_profile_confirmPasswordDialog);
+                boolean valid = true;
+                if (TextUtils.isEmpty(password.getText())) {
+                    password.setError("Cannot be empty");
+                    valid = false;
+                }
+                if (valid) {
+                    changeProfileInfo(password);
+                }
+
+            }
+        });
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+    }
+    private void changeProfileInfo(MaterialEditText password){
+        JSONObject newDetails = new JSONObject();
+
+        try {
+            newDetails.put("Email", getCurrentEmail());
+            newDetails.put("Password", password.getText().toString());
+            newDetails.put("Username", username.getText().toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String url = Constants.baseUrl + "api/Account/ChangeUsername";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, newDetails, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.i("CHANGEUSERNAME", response.toString());
+                try {
+                    if(response.getBoolean("success")){
+                        detailsChange(true, null);
+                    }
+                    else{
+                        detailsChange(false, response);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) throws NullPointerException{
+                NetworkResponse networkResponse = error.networkResponse;
+                Log.e("CHANGEUSERNAME", "error");
+                switch (networkResponse.statusCode){
+                    case 400:
+                        break;
+                    case 401:
+                        Log.i("CHANGEUSERNAME", "UNAUTHORIZED");
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+        queue.add(jsonObjectRequest);
+
     }
 
     private void showPasswordDialog(){
@@ -143,10 +223,10 @@ public class EditProfileActivity extends AbstractActivity {
                     Log.i("CHANGEPASSWORD", response.toString());
                     try {
                         if(response.getBoolean("success")){
-                            passwordChange(true, null);
+                            detailsChange(true, null);
                         }
                         else{
-                            passwordChange(false, response);
+                            detailsChange(false, response);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -175,7 +255,7 @@ public class EditProfileActivity extends AbstractActivity {
             Toast.makeText(this, "Passwords dont match", Toast.LENGTH_SHORT).show();
         }
     }
-    private void passwordChange(boolean changed, JSONObject response){
+    private void detailsChange(boolean changed, JSONObject response){
         if(response != null){
             try {
                 Toast.makeText(this, response.getString("cause"), Toast.LENGTH_SHORT).show();
@@ -185,7 +265,7 @@ public class EditProfileActivity extends AbstractActivity {
 
         }
         else{
-            Toast.makeText(this, "Password changed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Details changed", Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         }
     }
