@@ -50,6 +50,8 @@ public class MainActivity extends AbstractActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mToolbar = (Toolbar) findViewById(R.id.main_activity_toolbar);
+
+        overridePendingTransition(R.anim.slide_in_reverse, R.anim.slide_out);
         setSupportActionBar(mToolbar);
 
         Fragment fragment = new MainFragment();
@@ -84,12 +86,12 @@ public class MainActivity extends AbstractActivity {
 
                         Toast.makeText(getApplicationContext(), "Home Selected", Toast.LENGTH_SHORT).show();
                         fragment = new MainFragment();
-                        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+                        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right).replace(R.id.content_frame, fragment).commit();
                         return true;
                     case R.id.drawer_profile:
                         Toast.makeText(getApplicationContext(), "Stared Selected", Toast.LENGTH_SHORT).show();
                         fragment = new ProfileFragment();
-                        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+                        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right).replace(R.id.content_frame, fragment).commit();
                         return true;
                     default:
                         Toast.makeText(getApplicationContext(), "Somethings Wrong", Toast.LENGTH_SHORT).show();

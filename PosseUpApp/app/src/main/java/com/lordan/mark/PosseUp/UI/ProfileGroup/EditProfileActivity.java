@@ -46,9 +46,12 @@ public class EditProfileActivity extends AbstractActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_profile_layout);
 
+        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
         Toolbar mToolbar = (Toolbar) findViewById(R.id.edit_profile_activity_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        MaterialEditText username = (MaterialEditText) findViewById(R.id.profile_username_edit);
+        username.setText(getCurrentUsername());
         queue = Volley.newRequestQueue(this);
         AppCompatButton changePassword = (AppCompatButton) findViewById(R.id.change_password_button);
         changePassword.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +75,7 @@ public class EditProfileActivity extends AbstractActivity {
         int id = item.getItemId();
         switch(id){
             case R.id.menu_save:
-                //save changes
+                //TODO save changes
         }
 
         return super.onOptionsItemSelected(item);
