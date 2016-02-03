@@ -6,6 +6,7 @@
         <item name="android:elevation">0dp</item>
         <item name="elevation">0dp</item>
         <item name="colorButtonNormal">@color/ColorPrimary</item>
+        <item name="colorAccent">@color/ColorPrimary</item>
     </style>
 
     <style name="PagerSlidingTabStripStyle" parent="">
@@ -20,6 +21,15 @@
     </style>
 
     <style name="NoElevationActionBar" parent="@style/AppTheme">
+
+    </style>
+
+    <style name="RevisedAppTheme" parent="@style/Theme.AppCompat.NoActionBar">
+
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:listDivider">@color/light_grey</item>
+        <item name="android:colorPrimaryDark">@color/ColorPrimaryDark</item>
+        <item name="android:textColor">@color/abc_primary_text_material_light</item>
 
     </style>
 

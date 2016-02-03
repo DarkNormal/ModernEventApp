@@ -1,10 +1,12 @@
-package com.lordan.mark.PosseUp;
+package com.lordan.mark.PosseUp.UI.MainActivityGroup;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.lordan.mark.PosseUp.R;
 
 /**
  * Created by Mark on 7/18/2015.

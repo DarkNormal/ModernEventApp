@@ -1,12 +1,10 @@
-package com.lordan.mark.PosseUp;
+package com.lordan.mark.PosseUp.UI.MainActivityGroup;
 
 /**
  * Created by Mark on 7/14/2015.
  */
-import android.app.DownloadManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,14 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -38,7 +33,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.Coordinate;
-import com.lordan.mark.PosseUp.UI.MainActivity;
+import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI_Elements.CustomInfoWindow;
 
 import org.json.JSONArray;
@@ -46,10 +41,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
@@ -190,8 +181,9 @@ public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallback
 
     }
     private void addMarkers(){
-        map.setInfoWindowAdapter(new CustomInfoWindow(getLayoutInflater(null)));
+
         if(nearbyList.size() > 0 && map !=null){
+            map.setInfoWindowAdapter(new CustomInfoWindow(getLayoutInflater(null)));
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
             for (Coordinate c : nearbyList) {
                 builder.include(new LatLng(c.getLatitude(),c.getLongitude()));

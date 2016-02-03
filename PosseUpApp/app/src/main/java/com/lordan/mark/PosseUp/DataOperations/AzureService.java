@@ -24,4 +24,11 @@ public class AzureService {
         SharedPreferences settings = context.getSharedPreferences("PosseUpData", Context.MODE_PRIVATE);
         return settings.getString("username", null);
     }
+    public String getCurrentEmail(Context context){
+        SharedPreferences prefs = context.getSharedPreferences("PosseUpData", Context.MODE_PRIVATE);
+        if(prefs != null){
+            return prefs.getString("email", null);
+        }
+        return null;
+    }
 }

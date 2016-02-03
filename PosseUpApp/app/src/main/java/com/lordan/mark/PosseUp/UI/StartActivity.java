@@ -8,6 +8,7 @@ import android.text.TextUtils;
 
 import com.lordan.mark.PosseUp.AbstractActivity;
 import com.lordan.mark.PosseUp.R;
+import com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity;
 import com.lordan.mark.PosseUp.UI.SigninGroup.SigninActivity;
 
 /**
@@ -48,7 +49,7 @@ public class StartActivity extends AbstractActivity {
                 startActivity(intent);
                 finish();   //finish the activity, don't want users going back to this screen
             }
-        }, 2000);
+        }, 1000);
     }
 
     private void goToSignin() {

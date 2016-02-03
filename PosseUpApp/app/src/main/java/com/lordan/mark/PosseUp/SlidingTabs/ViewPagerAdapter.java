@@ -4,10 +4,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.lordan.mark.PosseUp.Tab1;
-import com.lordan.mark.PosseUp.Tab2;
-import com.lordan.mark.PosseUp.Tab3;
-import com.lordan.mark.PosseUp.Tab4;
+import com.lordan.mark.PosseUp.UI.MainActivityGroup.Tab1;
+import com.lordan.mark.PosseUp.UI.MainActivityGroup.Tab2;
+import com.lordan.mark.PosseUp.UI.MainActivityGroup.Tab3;
+import com.lordan.mark.PosseUp.UI.MainActivityGroup.Tab4;
 
 /**
  * Created by hp1 on 21-01-2015.

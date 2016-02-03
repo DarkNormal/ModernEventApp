@@ -4,6 +4,23 @@
     <style name="AppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">#F44336</item>
         <item name="colorPrimaryDark">#D32F2F</item>
+        <item name="android:textColorPrimary">#000</item>
+        <item name="colorAccent">@color/ColorPrimary</item>
     </style>
+
+    <style name="RevisedAppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:listDivider">@color/light_grey</item>
+
+
+    </style>
+
+    <style name="CustomAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!-- Used for the buttons -->
+        <item name="colorAccent">@color/ColorPrimary</item>
+        <!-- Used for the title and text -->
+
+    </style>
+
 
 </resources>

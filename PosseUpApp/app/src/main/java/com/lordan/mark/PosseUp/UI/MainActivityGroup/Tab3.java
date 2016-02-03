@@ -1,4 +1,4 @@
-package com.lordan.mark.PosseUp;
+package com.lordan.mark.PosseUp.UI.MainActivityGroup;
 
 /**
  * Created by Mark on 7/15/2015.
@@ -9,6 +9,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.lordan.mark.PosseUp.R;
 
 /**
  * Created by hp1 on 21-01-2015.

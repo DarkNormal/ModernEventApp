@@ -19,7 +19,7 @@ public abstract class AbstractActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
     protected boolean isValidEmail(String target){
         if (TextUtils.isEmpty(target)) {
@@ -55,10 +55,17 @@ public abstract class AbstractActivity extends ActionBarActivity {
         editor.remove("email");
         editor.commit();
     }
-    protected String getCurrentEmail(){
+    public String getCurrentEmail(){
         SharedPreferences prefs = getApplicationContext().getSharedPreferences("PosseUpData", MODE_PRIVATE);
         if(prefs != null){
             return prefs.getString("email", null);
+        }
+        return null;
+    }
+    protected String getCurrentUsername(){
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences("PosseUpData", MODE_PRIVATE);
+        if(prefs != null){
+            return prefs.getString("username", null);
         }
         return null;
     }

@@ -3,9 +3,13 @@
 buildscript {
     repositories {
         jcenter()
+        maven{
+            url "http://dl.bintray.com/microsoftazuremobile/SDK"
+        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.2.3'
+        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'com.android.databinding:dataBinder:1.0-rc4'
 
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -16,5 +20,8 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        maven{
+            url "http://dl.bintray.com/microsoftazuremobile/SDK"
+        }
     }
 }
