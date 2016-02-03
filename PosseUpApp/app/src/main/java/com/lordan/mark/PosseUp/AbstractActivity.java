@@ -55,7 +55,7 @@ public abstract class AbstractActivity extends ActionBarActivity {
         editor.remove("email");
         editor.commit();
     }
-    protected String getCurrentEmail(){
+    public String getCurrentEmail(){
         SharedPreferences prefs = getApplicationContext().getSharedPreferences("PosseUpData", MODE_PRIVATE);
         if(prefs != null){
             return prefs.getString("email", null);

@@ -77,20 +77,4 @@ public class User {
         isFriend = friend;
     }
 
-//    public boolean isVerified() {
-//        return verified;
-//    }
-//
-//    public void setIsRegistered(boolean isRegistered) {
-//        this.verified = isRegistered;
-//    }
-//
-//
-//    public String getEmailOrUsername() {
-//        return emailOrUsername;
-//    }
-//
-//    public void setEmailOrUsername(String emailOrUsername) {
-//        this.emailOrUsername = emailOrUsername;
-//    }
 }
