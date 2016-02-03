@@ -8,5 +8,11 @@
         android:checkable="true"
         android:checked="true"
         android:icon="@drawable/ic_mode_edit"/>
+    <item
+        android:id="@+id/edit_profile_password"
+        android:title="Change Password"
+        app:showAsAction="never"
+        android:icon="@drawable/ic_mode_edit"
+        android:visible="false"/>
 
 </menu>

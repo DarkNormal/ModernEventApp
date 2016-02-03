@@ -1,15 +1,18 @@
 package com.lordan.mark.PosseUp.UI.ProfileGroup;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
@@ -58,10 +61,22 @@ public class ProfileFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
     @Override
+    public void onPrepareOptionsMenu(Menu menu){
+        super.onPrepareOptionsMenu(menu);
+        MenuItem checkItem = menu.findItem(R.id.edit_profile);
+        MenuItem menuItem = menu.findItem(R.id.edit_profile_password);
+        if(checkItem.isChecked()){
+            menuItem.setVisible(false);
+        }
+        else menuItem.setVisible(true);
+
+
+    }
+    @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.edit_profile:
-                if(!item.isChecked()){
+                if (!item.isChecked()) {
                     username.setText(materialEditText.getText().toString());
                     viewSwitcher.showPrevious();
                     item.setIcon(R.drawable.ic_mode_edit);
@@ -77,10 +92,42 @@ public class ProfileFragment extends Fragment {
                 }
                 Toast.makeText(getContext(), "Edit profile", Toast.LENGTH_SHORT).show();
                 return true;
+            case R.id.edit_profile_password:
+                getPasswordDialog().show();
+                return true;
             default:
                 return false;
 
         }
+    }
+    private AlertDialog getPasswordDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        final LinearLayout linearLayout = (LinearLayout) getActivity().findViewById(R.id.edit_password_layout);
+        builder.setTitle("Change Password");
+        builder.setView(linearLayout);
+        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                MaterialEditText oldPassword = (MaterialEditText) linearLayout.findViewById(R.id.edit_profile_oldPassword);
+                MaterialEditText newPassword = (MaterialEditText) linearLayout.findViewById(R.id.edit_profile_newPassword);
+                MaterialEditText confirmPassword = (MaterialEditText) linearLayout.findViewById(R.id.edit_profile_confirmPassword);
+                changePassword(oldPassword, newPassword, confirmPassword);
+
+
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        AlertDialog dialog = builder.create();
+        return dialog;
+    }
+
+    private void changePassword(MaterialEditText old, MaterialEditText newPassword, MaterialEditText confirmNewPassword){
+        //TODO call controller action and handle errors
     }
 
 }

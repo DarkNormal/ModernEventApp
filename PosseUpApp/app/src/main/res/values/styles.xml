@@ -6,7 +6,7 @@
         <item name="colorPrimaryDark">#D32F2F</item>
     </style>
 
-    <style name="RevisedAppTheme" parent="@style/Theme.AppCompat.NoActionBar">
+    <style name="RevisedAppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="android:listDivider">@color/light_grey</item>
     </style>
 
