@@ -30,19 +30,19 @@ Design Support Libary<br>
 
 Features List
 -----------
-Authentication/Authorization - Working
-Google Nearby API (for attending events) - Basic implementation
-Google Maps/Places API - Working
-Create Event - Working
-Find Events - TODO
-Join Events - TODO
-Leave Events - TODO
-Manage Events - TODO
-Google Cloud Messaging (Notifications) - Working
-Edit Profile - Working
-Rank System - TODO
-Image Storage - TODO
-External Sign-in - TODO
-Marshmallow Permissions - TODO
+Authentication/Authorization - Working <br>
+Google Nearby API (for attending events) - Basic implementation <br>
+Google Maps/Places API - Working <br>
+Create Event - Working <br>
+Find Events - TODO <br>
+Join Events - TODO <br>
+Leave Events - TODO <br>
+Manage Events - TODO <br>
+Google Cloud Messaging (Notifications) - Working <br>
+Edit Profile - Working <br>
+Rank System - TODO <br>
+Image Storage - TODO <br>
+External Sign-in - TODO <br>
+Marshmallow Permissions - TODO <br>
 
 
