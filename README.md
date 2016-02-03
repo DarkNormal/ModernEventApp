@@ -28,4 +28,21 @@ Google Nearby API<br>
 AppCompat (Support Library)<br>
 Design Support Libary<br>
 
+Features List
+-----------
+Authentication/Authorization - Working
+Google Nearby API (for attending events) - Basic implementation
+Google Maps/Places API - Working
+Create Event - Working
+Find Events - TODO
+Join Events - TODO
+Leave Events - TODO
+Manage Events - TODO
+Google Cloud Messaging (Notifications) - Working
+Edit Profile - Working
+Rank System - TODO
+Image Storage - TODO
+External Sign-in - TODO
+Marshmallow Permissions - TODO
+
 
