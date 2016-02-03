@@ -1,11 +1,13 @@
 package com.lordan.mark.PosseUp.UI.ProfileGroup;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatButton;
 import android.text.Layout;
 import android.text.TextUtils;
 import android.util.Log;
@@ -34,6 +36,7 @@ import com.lordan.mark.PosseUp.Model.ChangePasswordModel;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.SlidingTabs.ViewPagerAdapter;
+import com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.json.JSONException;
@@ -54,7 +57,14 @@ public class ProfileFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.profile_layout, container, false);
 
         AzureService az = new AzureService();
-
+        AppCompatButton btn =(AppCompatButton) rootView.findViewById(R.id.edit_profile_btn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), EditProfileActivity.class);
+                startActivity(intent);
+            }
+        });
         viewSwitcher = (ViewSwitcher) rootView.findViewById(R.id.profile_username_swticher);
         materialEditText = (MaterialEditText) rootView.findViewById(R.id.profile_username_edit);
         username = (TextView) rootView.findViewById(R.id.profile_username);
@@ -111,52 +121,7 @@ public class ProfileFragment extends Fragment {
                 }
                 Toast.makeText(getContext(), "Edit profile", Toast.LENGTH_SHORT).show();
                 return true;
-            case R.id.edit_profile_password:
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                LayoutInflater inflater = getActivity().getLayoutInflater();
-
-
-
-                builder.setTitle("Change Password");
-                final View layoutView = inflater.inflate(R.layout.profile_edit_password_dialog, null);
-                builder.setView(layoutView);
-                builder.setPositiveButton("Save", null);
-                builder.setNegativeButton("Cancel", null);
-                dialog = builder.create();
-                dialog.show();
-                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        MaterialEditText oldPassword = (MaterialEditText) layoutView.findViewById(R.id.edit_profile_oldPassword);
-                        MaterialEditText newPassword = (MaterialEditText) layoutView.findViewById(R.id.edit_profile_newPassword);
-                        MaterialEditText confirmPassword = (MaterialEditText) layoutView.findViewById(R.id.edit_profile_confirmPassword);
-                        boolean valid = true;
-                        if(TextUtils.isEmpty(oldPassword.getText())){
-                            oldPassword.setError("Cannot be empty");
-                            valid = false;
-                        }
-                        if(TextUtils.isEmpty(newPassword.getText())){
-                            newPassword.setError("Cannot be empty");
-                            valid = false;
-                        }
-                        if(TextUtils.isEmpty(confirmPassword.getText())){
-                            confirmPassword.setError("Cannot be empty");
-                            valid = false;
-                        }
-                        if(valid){
-                            changePassword(oldPassword, newPassword, confirmPassword);
-                        }
-
-                    }
-                });
-                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-                return true;
             default:
                 return false;
 
@@ -188,71 +153,5 @@ public class ProfileFragment extends Fragment {
         return dialog;
     }
 
-    private void changePassword(MaterialEditText old, MaterialEditText newPassword, MaterialEditText confirmNewPassword){
-
-        if(newPassword.getText().toString().equals(confirmNewPassword.getText().toString())){
-            ChangePasswordModel changePasswordModel = new ChangePasswordModel(old.getText().toString(), newPassword.getText().toString(), confirmNewPassword.getText().toString());
-            Gson gson = new Gson();
-            String PasswordModelString = gson.toJson(changePasswordModel);
-            JSONObject passwordModel = new JSONObject();
-            try {
-                passwordModel = new JSONObject(PasswordModelString);
-                passwordModel.put("Email", new AzureService().getCurrentEmail(getContext()));
-            } catch (JSONException e1) {
-                e1.printStackTrace();
-            }
-            String url = Constants.baseUrl + "api/Account/ChangePassword";
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, passwordModel, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    Log.i("CHANGEPASSWORD", response.toString());
-                    try {
-                        if(response.getBoolean("success")){
-                            passwordChange(true, null);
-                        }
-                        else{
-                            passwordChange(false, response);
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    NetworkResponse networkResponse = error.networkResponse;
-                    Log.e("CHANGEPASSWORD", "error");
-                    switch (networkResponse.statusCode){
-                        case 400:
-                            break;
-                        case 401:
-                            Log.i("CHANGEPASSWORD", "UNAUTHORIZED");
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            });
-            queue.add(jsonObjectRequest);
-        }
-        else{
-            Toast.makeText(getContext(), "Passwords dont match", Toast.LENGTH_SHORT).show();
-        }
-    }
-    private void passwordChange(boolean changed, JSONObject response){
-        if(response != null){
-            try {
-                Toast.makeText(getContext(), response.getString("cause"), Toast.LENGTH_SHORT).show();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }
-        else{
-            Toast.makeText(getContext(), "Password changed", Toast.LENGTH_SHORT).show();
-            dialog.dismiss();
-        }
-    }
 
 }

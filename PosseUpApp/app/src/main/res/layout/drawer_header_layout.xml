@@ -29,7 +29,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:textSize="@dimen/abc_text_size_small_material"
                 android:layout_marginTop="@dimen/margin_tiny"
-                android:textColor="@color/white"/>
+                android:textColor="@color/offWhite"/>
             <TextView
                 android:id="@+id/drawer_email"
                 android:layout_width="match_parent"

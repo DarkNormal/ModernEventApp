@@ -56,6 +56,11 @@
             android:label="Create Event">
 
         </activity>
+        <activity android:name=".UI.ProfileGroup.EditProfileActivity"
+            android:theme="@style/RevisedAppTheme"
+            android:label="Edit"
+            android:parentActivityName=".UI.MainActivityGroup.MainActivity"
+            />
 
         <meta-data
             android:name="com.google.android.nearby.messages.API_KEY"

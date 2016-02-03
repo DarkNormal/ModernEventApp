@@ -67,6 +67,13 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:text="About user goes here" />
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/edit_profile_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Edit Profile"
+                    android:textColor="@color/offWhite"
+                    android:layout_gravity="center_horizontal" />
             </LinearLayout>
         </LinearLayout>
 
@@ -75,6 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabGravity="fill"
+            app:tabBackground="@color/ColorPrimary"
             app:tabMode="fixed" />
 
         <android.support.v4.view.ViewPager
