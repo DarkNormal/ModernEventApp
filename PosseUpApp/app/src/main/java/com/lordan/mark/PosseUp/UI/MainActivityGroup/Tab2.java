@@ -193,7 +193,7 @@ public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallback
             }
             LatLngBounds bounds = builder.build();
             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 50);
-            map.moveCamera(cu);
+//            map.moveCamera(cu);
 
         }
     }

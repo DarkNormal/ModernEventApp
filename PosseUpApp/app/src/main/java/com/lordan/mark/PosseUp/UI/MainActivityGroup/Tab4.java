@@ -479,13 +479,13 @@ public class Tab4 extends Fragment implements GoogleApiClient.ConnectionCallback
             }
         } else {
             if (status.getStatusCode() == ConnectionResult.NETWORK_ERROR) {
-                Toast.makeText(getActivity().getApplicationContext(),
+                Toast.makeText(getActivity(),
                         "No connectivity, cannot proceed. Fix in 'Settings' and try again.",
                         Toast.LENGTH_LONG).show();
                 resetToDefaultState();
             } else {
                 // To keep things simple, pop a toast for all other error messages.
-                Toast.makeText(getActivity().getApplicationContext(), "Unsuccessful: " +
+                Toast.makeText(getActivity(), "Unsuccessful: " +
                         status.getStatusMessage(), Toast.LENGTH_LONG).show();
             }
 
@@ -536,11 +536,11 @@ public class Tab4 extends Fragment implements GoogleApiClient.ConnectionCallback
 
         mSubscriptionImageButton.setImageResource(
                 TextUtils.equals(subscriptionTask, Constants.TASK_SUBSCRIBE) ?
-                        R.drawable.ic_cancel : R.drawable.ic_nearby);
+                        R.drawable.ic_action_cancel : R.drawable.ic_nearby);
 
         mPublicationImageButton.setImageResource(
                 TextUtils.equals(publicationTask, Constants.TASK_PUBLISH) ?
-                        R.drawable.ic_cancel : R.drawable.ic_share);
+                        R.drawable.ic_action_cancel : R.drawable.ic_share);
     }
 
     /**

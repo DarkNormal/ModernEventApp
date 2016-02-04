@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/create_event_cancel"
-        android:icon="@drawable/ic_cancel_light"
-        android:title="@string/cancel"
-        app:showAsAction="always"></item>
+
     <item android:id="@+id/create_event_next"
-        android:icon="@drawable/ic_next"
+        android:icon="@drawable/ic_action_tick"
         android:title="Create" app:showAsAction="always"></item>
 
 </menu>

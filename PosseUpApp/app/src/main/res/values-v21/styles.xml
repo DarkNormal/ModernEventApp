@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/ColorPrimary</item>
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
         <item name="android:elevation">0dp</item>
         <item name="elevation">0dp</item>
         <item name="colorButtonNormal">@color/ColorPrimary</item>
+        <item name="android:datePickerDialogTheme">@style/DatePickerDialogTheme</item>
+        <item name="android:timePickerDialogTheme">@style/TimePickerDialogTheme</item>
+        <item name="toolbarStyle">@style/custom_toolbar</item>
+    </style>
+
+    <style name="custom_toolbar" parent="@style/Widget.AppCompat.Toolbar">
+        <item name="titleTextColor">#FFF</item>
         <item name="colorAccent">@color/ColorPrimary</item>
     </style>
 
@@ -19,9 +26,27 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
+    <style name="TimePickerDialogTheme" parent="android:Theme.Material.Light.Dialog">
+        <item name="android:timePickerStyle">@style/TimePickerStyle</item>
+    </style>
 
-    <style name="NoElevationActionBar" parent="@style/AppTheme">
+    <style name="TimePickerStyle" parent="@android:style/Widget.Material.Light.TimePicker">
+        <item name="android:headerBackground">@color/ColorPrimary</item>
+    </style>
 
+    <style name="DatePickerDialogTheme" parent="android:Theme.Material.Light.Dialog">
+        <item name="android:datePickerStyle">@style/DatePickerStyle</item>
+    </style>
+
+
+    <style name="DatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker">
+        <item name="android:headerBackground">@color/ColorPrimary</item>
+        <!--<item name="android:headerYearTextAppearance">@style/TextAppearance.DatePicker.YearLabel</item>-->
+    </style>
+
+    <style name="TextAppearance.DatePicker.YearLabel" parent="">
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@color/yellow</item>
     </style>
 
     <style name="RevisedAppTheme" parent="@style/Theme.AppCompat.NoActionBar">
@@ -32,6 +57,4 @@
         <item name="android:textColor">@color/abc_primary_text_material_light</item>
 
     </style>
-
-
 </resources>

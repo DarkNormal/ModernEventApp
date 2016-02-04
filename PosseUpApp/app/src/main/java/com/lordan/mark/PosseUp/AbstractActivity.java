@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import java.util.regex.Matcher;
@@ -15,7 +16,7 @@ import java.util.regex.Pattern;
  * Every activity is a child of this class, or should be anyway
  */
 
-public abstract class AbstractActivity extends ActionBarActivity {
+public abstract class AbstractActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
