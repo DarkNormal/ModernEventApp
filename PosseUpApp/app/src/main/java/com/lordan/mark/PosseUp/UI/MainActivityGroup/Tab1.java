@@ -66,7 +66,7 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
         startActivityForResult(intent, REQUEST_CODE);
     }
 
-    private static final int DATASET_COUNT = 5;
+    private static final int DATASET_COUNT = 10;
     private enum LayoutManagerType {
         GRID_LAYOUT_MANAGER,
         LINEAR_LAYOUT_MANAGER
@@ -101,14 +101,8 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
         mAdapter = new CustomAdapter(mDataset);
         // Set CustomAdapter as the adapter for RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
-        viewPager = (ViewPager) v.findViewById(R.id.image_view_pager);
-        ImageAdapter adapter = new ImageAdapter(v.getContext());
-        viewPager.setAdapter(adapter);
-        //RecyclerView recList = (RecyclerView) v.findViewById(R.id.cardList);
-        //recList.setHasFixedSize(true);
-        //LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-        //llm.setOrientation(LinearLayoutManager.VERTICAL);
-        //recList.setLayoutManager(llm);
+
+
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

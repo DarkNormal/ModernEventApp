@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.lordan.mark.PosseUp.Model.Coordinate;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,7 +31,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         public ViewHolder(View v) {
             super(v);
             // Define click listener for the ViewHolder's View.
-            mTextView = (TextView) v.findViewById(R.id.recycler_textview);
+            mTextView = (TextView) v.findViewById(R.id.recycler_event_title);
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
