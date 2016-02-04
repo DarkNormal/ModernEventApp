@@ -25,6 +25,7 @@ import com.lordan.mark.PosseUp.DataOperations.AzureService;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
+import com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -80,9 +81,11 @@ public class RegisterActivity extends AbstractActivity {
 
     public void registerUser(final EditText username, final EditText email, EditText password) {
 
+        //TODO
+        //can now convert to JSONObject easier via Gson
         final User newUser = new User(email.getText().toString(), password.getText().toString(), username.getText().toString());
         mProgressDialog = ProgressDialog.show(this, "Registering",
-                "Pretending to look busy...", true);
+                "Please wait...", true);
         final JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("Email", newUser.getEmail());

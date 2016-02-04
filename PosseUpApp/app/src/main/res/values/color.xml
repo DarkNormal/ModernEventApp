@@ -4,10 +4,12 @@
     <color name="ColorPrimaryDark">#c13257</color>
     <color name="tabsScrollColor">#8a140e</color>
 
-    <color name="white">#FFF8F8</color>
+    <color name="offWhite">#FFF8F8</color>
     <color name="primaryThemeColor">#FF3366</color>
 
-    <color name="grey">#666</color>
     <color name="yellow">#FFEB3B</color>
+    <color name="grey">#757575</color>
+    <color name="light_grey">#E8E8E8</color>
+
 
 </resources>

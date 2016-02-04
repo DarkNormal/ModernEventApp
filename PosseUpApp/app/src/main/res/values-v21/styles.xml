@@ -13,6 +13,7 @@
 
     <style name="custom_toolbar" parent="@style/Widget.AppCompat.Toolbar">
         <item name="titleTextColor">#FFF</item>
+        <item name="colorAccent">@color/ColorPrimary</item>
     </style>
 
     <style name="PagerSlidingTabStripStyle" parent="">
@@ -37,6 +38,7 @@
         <item name="android:datePickerStyle">@style/DatePickerStyle</item>
     </style>
 
+
     <style name="DatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker">
         <item name="android:headerBackground">@color/ColorPrimary</item>
         <!--<item name="android:headerYearTextAppearance">@style/TextAppearance.DatePicker.YearLabel</item>-->
@@ -47,4 +49,12 @@
         <item name="android:textColor">@color/yellow</item>
     </style>
 
+    <style name="RevisedAppTheme" parent="@style/Theme.AppCompat.NoActionBar">
+
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:listDivider">@color/light_grey</item>
+        <item name="android:colorPrimaryDark">@color/ColorPrimaryDark</item>
+        <item name="android:textColor">@color/abc_primary_text_material_light</item>
+
+    </style>
 </resources>
