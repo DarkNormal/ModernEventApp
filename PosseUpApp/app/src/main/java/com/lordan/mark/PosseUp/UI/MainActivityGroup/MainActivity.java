@@ -49,12 +49,12 @@ public class MainActivity extends AbstractActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mToolbar = (Toolbar) findViewById(R.id.main_activity_toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
 
-        overridePendingTransition(R.anim.slide_in_reverse, R.anim.slide_out);
+
         setSupportActionBar(mToolbar);
 
-        Fragment fragment = new MainFragment();
+        Fragment fragment = new Tab1();
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
 
         setupGcm();
@@ -85,13 +85,13 @@ public class MainActivity extends AbstractActivity {
                     case R.id.drawer_home:
 
                         Toast.makeText(getApplicationContext(), "Home Selected", Toast.LENGTH_SHORT).show();
-                        fragment = new MainFragment();
-                        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right).replace(R.id.content_frame, fragment).commit();
+                        fragment = new Tab1();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
                         return true;
                     case R.id.drawer_profile:
-                        Toast.makeText(getApplicationContext(), "Stared Selected", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Profile Selected", Toast.LENGTH_SHORT).show();
                         fragment = new ProfileFragment();
-                        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right).replace(R.id.content_frame, fragment).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
                         return true;
                     default:
                         Toast.makeText(getApplicationContext(), "Somethings Wrong", Toast.LENGTH_SHORT).show();

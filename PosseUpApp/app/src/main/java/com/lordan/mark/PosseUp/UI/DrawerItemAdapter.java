@@ -51,7 +51,7 @@ public class DrawerItemAdapter extends BaseAdapter {
         TextView textView = (TextView) row.findViewById(R.id.drawer_item_text);
         ImageView imageView = (ImageView) row.findViewById(R.id.drawer_item_icon);
         textView.setText(listTitles[position]);
-        imageView.setImageResource(imgs.getResourceId(position, R.drawable.ic_cancel));
+        imageView.setImageResource(imgs.getResourceId(position, R.drawable.ic_cancel_light));
         return row;
     }
 }

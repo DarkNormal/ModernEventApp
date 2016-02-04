@@ -11,6 +11,9 @@
     <style name="RevisedAppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:listDivider">@color/light_grey</item>
+        <item name="colorPrimary">@color/ColorPrimary</item>
+        <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
 
 
     </style>

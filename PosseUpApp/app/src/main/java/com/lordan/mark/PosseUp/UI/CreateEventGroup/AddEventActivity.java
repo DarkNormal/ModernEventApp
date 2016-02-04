@@ -101,7 +101,7 @@ public class AddEventActivity extends AbstractActivity {
                 newEvent = myFrag.getEvent();
                 if(newEvent != null){
                     AzureService az = new AzureService();
-                    newEvent.setHostEmail(az.getCurrentUserEmail(this));
+                    newEvent.setHostEmail(az.getCurrentEmail(this));
                     sendEvent(newEvent);
                 }
                 break;

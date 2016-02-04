@@ -77,7 +77,6 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
     private CustomAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private List<Coordinate> mDataset;
-
     private RequestQueue queue;
 
 
@@ -110,8 +109,7 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
         //LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         //llm.setOrientation(LinearLayoutManager.VERTICAL);
         //recList.setLayoutManager(llm);
-        FloatingActionButton addEvent = (FloatingActionButton) v.findViewById(R.id.addEvent_Button);
-        addEvent.setOnClickListener(new View.OnClickListener() {
+        mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mSheetLayout.expandFab();
@@ -144,11 +142,6 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
 
     }
 
-    @OnClick(R.id.addEvent_Button)
-    void onFabClick() {
-        mSheetLayout.expandFab();
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -157,6 +150,7 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
                 toolbar.setAlpha(1.0f);
                 toolbar.setVisibility(View.VISIBLE);
                 mSheetLayout.contractFab();
+                Log.i("FABTRANSITION", "contracted fab");
             }
         }
     }
