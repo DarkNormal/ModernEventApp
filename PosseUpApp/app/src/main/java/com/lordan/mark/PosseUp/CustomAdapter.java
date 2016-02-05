@@ -4,6 +4,7 @@ package com.lordan.mark.PosseUp;
  * Created by Mark on 8/31/2015.
  */
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lordan.mark.PosseUp.Model.Coordinate;
+import com.lordan.mark.PosseUp.UI.MainActivityGroup.CustomItemClickListener;
 
 import java.util.List;
 
@@ -20,7 +22,8 @@ import java.util.List;
  */
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
     private static final String TAG = "CustomAdapter";
-
+    CustomItemClickListener listener;
+    Context mContext;
     private List<Coordinate> mDataSet;
 
     /**
@@ -46,7 +49,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
      *
      * @param dataSet String[] containing the data to populate views to be used by RecyclerView.
      */
-    public CustomAdapter(List<Coordinate> dataSet) {
+    public CustomAdapter(Context mContext,List<Coordinate> dataSet, CustomItemClickListener listener) {
+        this.mContext = mContext;
+        this.listener = listener;
         mDataSet = dataSet;
     }
 
@@ -56,8 +61,15 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         // Create a new view.
         View v = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.text_row_item, viewGroup, false);
+        final ViewHolder mViewHolder = new ViewHolder(v);
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClick(v, mViewHolder.getAdapterPosition());
+            }
+        });
 
-        return new ViewHolder(v);
+        return mViewHolder;
     }
 
     // Replace the contents of a view (invoked by the layout manager)

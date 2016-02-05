@@ -14,6 +14,7 @@
         <item name="colorPrimary">@color/ColorPrimary</item>
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
         <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="colorAccent">@color/ColorPrimary</item>
 
 
     </style>
@@ -23,6 +24,11 @@
         <item name="colorAccent">@color/ColorPrimary</item>
         <!-- Used for the title and text -->
 
+    </style>
+
+    <style name="TranslucentStatusBar" parent="RevisedAppTheme">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
 

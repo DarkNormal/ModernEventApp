@@ -13,7 +13,7 @@
     <string name="cancel">Cancel</string>
     <string name="reset_begin">Confirm</string>
     <string name="reset_info">You will receive an email shortly with a unique code. Please paste it into the code area above, and click confirm to continue</string>
-    <string name="no_account">Don\'t have an account yet? Sign up</string>
+    <string name="no_account">Create Account</string>
     <string name="sign_up">Sign Up</string>
 
     <string name="hello_world">Hello world!</string>

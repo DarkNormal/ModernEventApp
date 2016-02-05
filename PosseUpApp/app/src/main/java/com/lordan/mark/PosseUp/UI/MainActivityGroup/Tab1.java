@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -57,6 +59,7 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
     private SheetLayout mSheetLayout;
     private FloatingActionButton mFab;
     private LinearLayout toolbar;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private static final int REQUEST_CODE = 1;
 
@@ -67,12 +70,7 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
     }
 
     private static final int DATASET_COUNT = 10;
-    private enum LayoutManagerType {
-        GRID_LAYOUT_MANAGER,
-        LINEAR_LAYOUT_MANAGER
-    }
 
-    private LayoutManagerType mCurrentLayoutManagerType;
     private RecyclerView mRecyclerView;
     private CustomAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -87,18 +85,19 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
         mSheetLayout = (SheetLayout) v.findViewById(R.id.bottom_sheet);
         mFab = (FloatingActionButton) v.findViewById(R.id.addEvent_Button);
         mRecyclerView = (RecyclerView) v.findViewById(R.id.cardList);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(layoutManager);
         mLayoutManager = new LinearLayoutManager(getActivity());
 
-        mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
 
-        if (savedInstanceState != null) {
-            // Restore saved layout manager type.
-            mCurrentLayoutManagerType = (LayoutManagerType) savedInstanceState
-                    .getSerializable(KEY_LAYOUT_MANAGER);
-        }
-        setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
 
-        mAdapter = new CustomAdapter(mDataset);
+        mAdapter = new CustomAdapter(getContext(), mDataset, new CustomItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                Toast.makeText(getContext(), "clicked position: " + position, Toast.LENGTH_SHORT).show();
+            }
+        });
         // Set CustomAdapter as the adapter for RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
 
@@ -122,6 +121,14 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
         });
         ButterKnife.bind(getActivity());
 
+        mSwipeRefreshLayout =(SwipeRefreshLayout) v.findViewById(R.id.event_list_swipe);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Refresh items
+                refreshEvents();
+            }
+        });
 
         return v;
     }
@@ -163,43 +170,8 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
 
         }
     }
-
-
-    /**
-     * Set RecyclerView's LayoutManager to the one given.
-     *
-     * @param layoutManagerType Type of layout manager to switch to.
-     */
-    private void setRecyclerViewLayoutManager(LayoutManagerType layoutManagerType) {
-        int scrollPosition = 0;
-
-        // If a layout manager has already been set, get current scroll position.
-        if (mRecyclerView.getLayoutManager() != null) {
-            scrollPosition = ((LinearLayoutManager) mRecyclerView.getLayoutManager())
-                    .findFirstCompletelyVisibleItemPosition();
-        }
-
-        switch (layoutManagerType) {
-            case GRID_LAYOUT_MANAGER:
-                mLayoutManager = new GridLayoutManager(getActivity(), SPAN_COUNT);
-                mCurrentLayoutManagerType = LayoutManagerType.GRID_LAYOUT_MANAGER;
-                break;
-            case LINEAR_LAYOUT_MANAGER:
-                mLayoutManager = new LinearLayoutManager(getActivity());
-                mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
-                break;
-            default:
-                mLayoutManager = new LinearLayoutManager(getActivity());
-                mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
-        }
-
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.scrollToPosition(scrollPosition);
-    }
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-        // Save currently selected layout manager.
-        savedInstanceState.putSerializable(KEY_LAYOUT_MANAGER, mCurrentLayoutManagerType);
         super.onSaveInstanceState(savedInstanceState);
     }
     @Override
@@ -227,6 +199,7 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
             public void onResponse(JSONArray response) {
                 ArrayList<Coordinate> tempEvents = new ArrayList<>();
                 try {
+                    mSwipeRefreshLayout.setRefreshing(false);
                     for(int i = 0; i < response.length(); i++){
                         JSONObject event = response.getJSONObject(i);
                         Coordinate c = new Coordinate(event.getDouble("EventLocationLat"),
