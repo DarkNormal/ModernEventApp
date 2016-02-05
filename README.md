@@ -34,7 +34,7 @@ Authentication/Authorization - Working <br>
 Google Nearby API (for attending events) - Basic implementation <br>
 Google Maps/Places API - Working <br>
 Create Event - Working <br>
-Find Events - TODO <br>
+Find Events - Working <br>
 Join Events - TODO <br>
 Leave Events - TODO <br>
 Manage Events - TODO <br>
