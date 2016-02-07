@@ -53,6 +53,7 @@
         android:layout_gravity="bottom"
         app:ft_container_gravity="center"
         app:ft_color="@color/ColorPrimary"
+        android:elevation="2dp"
         android:layout_alignParentEnd="false" />
 
 

@@ -8,9 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatButton;
-import android.text.Layout;
-import android.text.TextUtils;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,25 +20,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
-import com.android.volley.NetworkResponse;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.astuetz.PagerSlidingTabStrip;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.lordan.mark.PosseUp.DataOperations.AzureService;
-import com.lordan.mark.PosseUp.Model.ChangePasswordModel;
-import com.lordan.mark.PosseUp.Model.Constants;
-import com.lordan.mark.PosseUp.R;
-import com.lordan.mark.PosseUp.SlidingTabs.ViewPagerAdapter;
-import com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity;
-import com.rengwuxian.materialedittext.MaterialEditText;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.android.volley.RequestQueue;
+
+import com.android.volley.toolbox.Volley;
+
+import com.lordan.mark.PosseUp.DataOperations.AzureService;
+
+import com.lordan.mark.PosseUp.R;
+
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 /**
  * Created by Mark on 31/01/2016.

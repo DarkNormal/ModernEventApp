@@ -7,13 +7,9 @@ import com.google.android.gms.location.places.Place;
 import com.google.gson.annotations.SerializedName;
 import com.lordan.mark.PosseUp.BR;
 
-import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
-
-import butterknife.Bind;
 
 /**
  * Created by Mark on 10/28/2015.

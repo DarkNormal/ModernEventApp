@@ -8,8 +8,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 import com.lordan.mark.PosseUp.R;
 
-import org.w3c.dom.Text;
-
 /**
  * Created by Mark on 05/01/2016.
  */

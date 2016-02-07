@@ -3,15 +3,6 @@ package com.lordan.mark.PosseUp.DataOperations;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.lordan.mark.PosseUp.Model.Constants;
-import com.lordan.mark.PosseUp.Model.Event;
-
-import org.json.JSONObject;
-
 
 /**
  * Created by Mark on 10/3/2015.

@@ -4,12 +4,10 @@ package com.lordan.mark.PosseUp.Model;
  * Created by Mark on 11/7/2015.
  */
 
-import android.content.SharedPreferences;
 import android.os.Build;
 
 import com.google.android.gms.nearby.messages.Message;
 import com.google.gson.Gson;
-import com.lordan.mark.PosseUp.AbstractActivity;
 
 import java.nio.charset.Charset;
 
