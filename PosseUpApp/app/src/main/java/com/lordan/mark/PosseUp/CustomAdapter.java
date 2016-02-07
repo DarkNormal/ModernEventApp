@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.lordan.mark.PosseUp.Model.Coordinate;
+import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.UI.MainActivityGroup.CustomItemClickListener;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     private static final String TAG = "CustomAdapter";
     CustomItemClickListener listener;
     Context mContext;
-    private List<Coordinate> mDataSet;
+    private List<Event> mDataSet;
 
     /**
      * Provide a reference to the type of views that you are using (custom ViewHolder)
@@ -49,7 +49,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
      *
      * @param dataSet String[] containing the data to populate views to be used by RecyclerView.
      */
-    public CustomAdapter(Context mContext,List<Coordinate> dataSet, CustomItemClickListener listener) {
+    public CustomAdapter(Context mContext,List<Event> dataSet, CustomItemClickListener listener) {
         this.mContext = mContext;
         this.listener = listener;
         mDataSet = dataSet;

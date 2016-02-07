@@ -3,9 +3,13 @@ package com.lordan.mark.PosseUp.UI.MainActivityGroup;
 /**
  * Created by Mark on 7/14/2015.
  */
+
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -32,7 +36,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.lordan.mark.PosseUp.Model.Constants;
-import com.lordan.mark.PosseUp.Model.Coordinate;
+import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI_Elements.CustomInfoWindow;
 
@@ -42,11 +46,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
+public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private SupportMapFragment fragment;
     private GoogleMap map;
-    ArrayList<Coordinate> nearbyList = new ArrayList<>();
+    ArrayList<Event> nearbyList = new ArrayList<>();
     ArrayList<Marker> markers = new ArrayList<>();
 
     RequestQueue queue;
@@ -66,9 +70,10 @@ public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallback
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.tab_2,container,false);
+        View v = inflater.inflate(R.layout.tab_2, container, false);
         return v;
     }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -94,6 +99,7 @@ public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallback
             });
         }
     }
+
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addConnectionCallbacks(this)
@@ -123,6 +129,16 @@ public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallback
         // applications that do not require a fine-grained location and that do not need location
         // updates. Gets the best and most recent location currently available, which may be null
         // in rare cases when a location is not available.
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if(mLastLocation != null) {
             getNearbyEvents(mLastLocation.getLatitude(), mLastLocation.getLongitude());
@@ -158,7 +174,7 @@ public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallback
                 try {
                     for(int i = 0; i < response.length(); i++){
                         JSONObject event = response.getJSONObject(i);
-                        Coordinate c = new Coordinate(event.getDouble("EventLocationLat"),
+                        Event c = new Event(event.getInt("EventID"), event.getDouble("EventLocationLat"),
                                 event.getDouble("EventLocationLng"), event.getString("EventTitle"),
                                 event.getString("EventDescription"), event.getString("EventHost"));
                         nearbyList.add(c);
@@ -185,11 +201,11 @@ public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallback
         if(nearbyList.size() > 0 && map !=null){
             map.setInfoWindowAdapter(new CustomInfoWindow(getLayoutInflater(null)));
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
-            for (Coordinate c : nearbyList) {
-                builder.include(new LatLng(c.getLatitude(),c.getLongitude()));
-                map.addMarker(new MarkerOptions().position(new LatLng(c.getLatitude(),c.getLongitude()))
-                    .title(c.getEventTitle())
-                    .snippet(c.getEventDescription()));
+            for (Event c : nearbyList) {
+                builder.include(new LatLng(c.getEventLocationLat(),c.getEventLocationLng()));
+                map.addMarker(new MarkerOptions().position(new LatLng(c.getEventLocationLat(),c.getEventLocationLng()))
+                    .title(c.getEventName())
+                    .snippet(c.getEventDesc()));
             }
             LatLngBounds bounds = builder.build();
             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 50);

@@ -1,7 +1,11 @@
 package com.lordan.mark.PosseUp.Model;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
 import com.google.android.gms.location.places.Place;
 import com.google.gson.annotations.SerializedName;
+import com.lordan.mark.PosseUp.BR;
 
 import org.json.JSONObject;
 
@@ -9,10 +13,16 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import butterknife.Bind;
+
 /**
  * Created by Mark on 10/28/2015.
  */
-public class Event extends JSONObject{
+public class Event extends BaseObservable{
+
+
+    @SerializedName("EventID")
+    private int eventID;
     @SerializedName("EventTitle")
     private String eventName;
     @SerializedName("EventVisibility")
@@ -47,17 +57,34 @@ public class Event extends JSONObject{
         this.eventLocationLat = eventLocationLat;
         this.eventLocationLng = eventLocationLng;
     }
+    public Event(int id, double latitude, double longitude, String eventTitle, String eventDescription, String eventHost) {
+        this.eventID = id;
+        this.eventLocationLat = latitude;
+        this.eventLocationLng = longitude;
+        this.eventName = eventTitle;
+        this.eventDesc = eventDescription;
+        this.hostEmail = eventHost;
+    }
 
     public Event() {
 
     }
 
+    public int getEventID() {
+        return eventID;
+    }
 
+    public void setEventID(int eventID) {
+        this.eventID = eventID;
+    }
+
+    @Bindable
     public String getEventName() {
         return eventName;
     }
 
     public void setEventName(String eventName) {
+        notifyPropertyChanged(BR.eventName);
         this.eventName = eventName;
     }
 
@@ -141,6 +168,11 @@ public class Event extends JSONObject{
 
     public void setPlaceDetails(Place placeDetails) {
         this.placeDetails = placeDetails;
+    }
+
+    @Override
+    public String toString(){
+        return getEventName() + " " + getEventDesc() + " " + getHostEmail();
     }
 
 

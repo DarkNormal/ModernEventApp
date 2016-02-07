@@ -11,6 +11,7 @@ import android.content.Intent;
 import com.lordan.mark.PosseUp.R;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 
 import com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity;
 import com.microsoft.windowsazure.notifications.NotificationsHandler;
@@ -42,7 +43,8 @@ public class MyHandler extends NotificationsHandler {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(ctx)
-                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setSmallIcon(R.drawable.ic_people)
+                        .setColor(ContextCompat.getColor(ctx, R.color.primaryThemeColor))
                         .setContentTitle("Posse Up")
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(msg))

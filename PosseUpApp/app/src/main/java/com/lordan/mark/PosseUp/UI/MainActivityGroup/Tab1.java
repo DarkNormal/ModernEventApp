@@ -32,12 +32,14 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
 import com.github.fabtransitionactivity.SheetLayout;
+import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.UI.CreateEventGroup.AddEventActivity;
 
 import com.lordan.mark.PosseUp.CustomAdapter;
 import com.lordan.mark.PosseUp.Model.Constants;
-import com.lordan.mark.PosseUp.Model.Coordinate;
+
 import com.lordan.mark.PosseUp.R;
+import com.lordan.mark.PosseUp.UI.EventDetailsActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,7 +76,7 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
     private RecyclerView mRecyclerView;
     private CustomAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private List<Coordinate> mDataset;
+    private List<Event> mDataset;
     private RequestQueue queue;
 
 
@@ -95,6 +97,9 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
         mAdapter = new CustomAdapter(getContext(), mDataset, new CustomItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
+                Intent intent = new Intent(getContext(), EventDetailsActivity.class);
+                intent.putExtra("EventID", mDataset.get(position).getEventID());
+                startActivity(intent);
                 Toast.makeText(getContext(), "clicked position: " + position, Toast.LENGTH_SHORT).show();
             }
         });
@@ -185,7 +190,7 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
     private void initDataset() {
         mDataset = new ArrayList<>();
         for (int i = 0; i < DATASET_COUNT; i++) {
-            mDataset.add(new Coordinate(53.4534, -6.5334, "Event", "Event description", "host email"));
+            mDataset.add(new Event(1,53.4534, -6.5334, "Event", "Event description", "host email"));
         }
     }
     private void refreshEvents() {
@@ -197,12 +202,12 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
         JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                ArrayList<Coordinate> tempEvents = new ArrayList<>();
+                ArrayList<Event> tempEvents = new ArrayList<>();
                 try {
                     mSwipeRefreshLayout.setRefreshing(false);
                     for(int i = 0; i < response.length(); i++){
                         JSONObject event = response.getJSONObject(i);
-                        Coordinate c = new Coordinate(event.getDouble("EventLocationLat"),
+                        Event c = new Event(event.getInt("EventID"), event.getDouble("EventLocationLat"),
                                 event.getDouble("EventLocationLng"), event.getString("EventTitle"),
                                 event.getString("EventDescription"), event.getString("EventHost"));
                         tempEvents.add(c);
@@ -228,15 +233,6 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
         });
         queue.add(jsonRequest);
 
-
-    }
-    private void updateList(){
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        });
 
     }
 

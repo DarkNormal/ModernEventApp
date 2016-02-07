@@ -44,6 +44,13 @@
             android:theme="@style/TranslucentStatusBar">
 
         </activity>
+        <activity
+            android:name=".UI.EventDetailsActivity"
+            android:label="Posse Up"
+
+            android:theme="@style/TranslucentStatusBar">
+
+        </activity>
         <activity android:name=".UI.RegisterActivity"
             android:label="Posse Up"
             android:theme="@style/AppTheme">
