@@ -40,7 +40,7 @@
         <activity
             android:name=".UI.SigninGroup.SigninActivity"
             android:label="Posse Up"
-
+            android:windowSoftInputMode="stateHidden"
             android:theme="@style/TranslucentStatusBar">
 
         </activity>
@@ -61,7 +61,7 @@
 
         </activity>
         <activity android:name=".UI.CreateEventGroup.AddEventActivity"
-            android:theme="@style/AppTheme"
+            android:theme="@style/RevisedAppTheme"
             android:label="Create Event">
 
         </activity>

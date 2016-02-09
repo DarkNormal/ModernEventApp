@@ -3,6 +3,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/app_name"
+        android:id="@+id/signin_header"
+        android:layout_marginTop="@dimen/margin_large"
+        android:textColor="#FFF8F8"
+        android:textSize="34sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_basic_info"
+        android:id="@+id/signin_desc"
+        android:textColor="#FFF8F8"
+        android:paddingLeft="35dp"
+        android:paddingRight="35dp"
+        android:textSize="16sp"
+        android:textAlignment="gravity"
+        android:gravity="center_horizontal"
+        android:paddingTop="@dimen/margin_large"
+        android:layout_below="@+id/signin_header"
+        android:layout_alignParentStart="true" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -10,6 +36,8 @@
         android:orientation="vertical"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
+        android:layout_above="@+id/signin_extra_buttons"
+        android:layout_marginBottom="@dimen/margin_large"
         android:background="#ffffff">
 
         <EditText
@@ -37,6 +65,8 @@
             android:fontFamily="sans-serif"
             android:hint="@string/password_field"
             android:inputType="textPassword"
+            android:singleLine="true"
+            android:imeOptions="actionDone"
             android:minWidth="200dp"
             android:maxWidth="200dp"
             android:textColor="#801D1D26"
@@ -59,6 +89,7 @@
 
 
     <LinearLayout
+        android:id="@+id/signin_extra_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

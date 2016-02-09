@@ -1,34 +1,29 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">#F44336</item>
-        <item name="colorPrimaryDark">#D32F2F</item>
-        <item name="android:textColorPrimary">#000</item>
-        <item name="colorAccent">@color/ColorPrimary</item>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
     </style>
 
-    <style name="RevisedAppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@android:color/white</item>
-        <item name="android:listDivider">@color/light_grey</item>
-        <item name="colorPrimary">@color/ColorPrimary</item>
-        <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
-        <item name="android:textColorPrimary">@android:color/white</item>
-        <item name="colorAccent">@color/ColorPrimary</item>
 
 
+    <style name="RevisedAppTheme" parent="AppTheme">
+        <item name="android:background">@android:color/white</item>
     </style>
 
     <style name="CustomAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
         <!-- Used for the buttons -->
         <item name="colorAccent">@color/ColorPrimary</item>
+        <item name="android:background">@android:color/white</item>
         <!-- Used for the title and text -->
 
     </style>
 
-    <style name="TranslucentStatusBar" parent="RevisedAppTheme">
+    <style name="TranslucentStatusBar" parent="AppTheme">
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:textColorPrimary">#ff0101</item>
     </style>
 
 

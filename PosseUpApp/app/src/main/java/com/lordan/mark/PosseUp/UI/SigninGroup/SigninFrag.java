@@ -7,9 +7,11 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -67,20 +69,12 @@ public class SigninFrag extends Fragment implements View.OnClickListener {
                                           }
 
         );
-        TextView signUp = (TextView) detailsView.findViewById(R.id.signup_text);
-        signUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), RegisterActivity.class);
-                startActivity(intent);
-            }
-        });
-        Button signInButton = (Button) detailsView.findViewById(R.id.signin_button);
+        final Button signInButton = (Button) detailsView.findViewById(R.id.signin_button);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 username = (EditText) detailsView.findViewById(R.id.username_signin);
-                password = (EditText) detailsView.findViewById(R.id.password);
+
                 if (!username.getText().toString().isEmpty() && !password.getText().toString().isEmpty()) {
                     mProgressDialog = new ProgressDialog(getActivity());
                     login(username, password);
@@ -96,6 +90,26 @@ public class SigninFrag extends Fragment implements View.OnClickListener {
             }
 
         });
+        password = (EditText) detailsView.findViewById(R.id.password);
+        password.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId == EditorInfo.IME_ACTION_DONE){
+                    signInButton.performClick();
+                    return true;
+                }
+                return false;
+            }
+        });
+        TextView signUp = (TextView) detailsView.findViewById(R.id.signup_text);
+        signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+
         return detailsView;
     }
 
