@@ -4,7 +4,10 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -26,6 +29,7 @@ import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity;
+import com.lordan.mark.PosseUp.UI.SigninGroup.SigninActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,24 +41,26 @@ import java.util.Map;
 /**
  * Created by Mark on 9/30/2015.
  */
-public class RegisterActivity extends AbstractActivity {
+public class RegisterFragment extends Fragment {
 
     private ProgressDialog mProgressDialog; //dialog used for all Volley requests
     private RequestQueue queue;             //Volley queue
+    private View v;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                         Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.register_layout);
-        Button signup = (Button) findViewById(R.id.signup_button);
-        queue = Volley.newRequestQueue(this);       //instantiate Volley queue
+        v = inflater.inflate(R.layout.register_layout, container, false);
+        Button signup = (Button) v.findViewById(R.id.signup_button);
+        queue = Volley.newRequestQueue(getContext());       //instantiate Volley queue
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText username = (EditText) findViewById(R.id.username_register);
-                EditText email = (EditText) findViewById(R.id.email_signup);
-                EditText password = (EditText) findViewById(R.id.password_signup);
+                EditText username = (EditText) v.findViewById(R.id.username_register);
+                EditText email = (EditText) v.findViewById(R.id.email_signup);
+                EditText password = (EditText) v.findViewById(R.id.password_signup);
 
                 if (validateDetails(username, email, password)) {
                     registerUser(username, email, password);     //begin registration process
@@ -62,21 +68,22 @@ public class RegisterActivity extends AbstractActivity {
 
             }
         });
-        TextView backToSignIn = (TextView) findViewById(R.id.signin_text);
+        TextView backToSignIn = (TextView) v.findViewById(R.id.signin_text);
         backToSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();       //finish the current activity, goes to last activity in stack (sign in activity)
+                getActivity().getSupportFragmentManager().popBackStack();
             }
         });
-        FloatingActionButton addImage = (FloatingActionButton) findViewById(R.id.addImage_Button);
+        FloatingActionButton addImage = (FloatingActionButton) v.findViewById(R.id.addImage_Button);
         addImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Functionality coming soon!", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getContext(), "Functionality coming soon!", Toast.LENGTH_SHORT);
                 toast.show();
             }
         });
+        return v;
     }
 
     public void registerUser(final EditText username, final EditText email, EditText password) {
@@ -84,7 +91,7 @@ public class RegisterActivity extends AbstractActivity {
         //TODO
         //can now convert to JSONObject easier via Gson
         final User newUser = new User(email.getText().toString(), password.getText().toString(), username.getText().toString());
-        mProgressDialog = ProgressDialog.show(this, "Registering",
+        mProgressDialog = ProgressDialog.show(getContext(), "Registering",
                 "Please wait...", true);
         final JSONObject jsonBody = new JSONObject();
         try {
@@ -119,7 +126,7 @@ public class RegisterActivity extends AbstractActivity {
                             if (jsonarray != null) setErrors(jsonarray, username, email);
                             break;
                         default:
-                            Toast.makeText(getApplicationContext(), "An unknown error occurred", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "An unknown error occurred", Toast.LENGTH_SHORT).show();
                     }
                 }
                 System.out.println("User not registered");
@@ -132,24 +139,27 @@ public class RegisterActivity extends AbstractActivity {
 
     private boolean validateDetails(EditText username, EditText email, EditText password) {
         boolean proceedRegister1, proceedRegister2, proceedRegister3;
-        if (!isValidUsername(username.getText().toString())) {
+        if (!((SigninActivity)getActivity()).isValidUsername(username.getText().toString())) {
             username.setError("Invalid username, cannot be empty and cannot contain @");
             proceedRegister1 = false;
-        } else proceedRegister1 = true;
-        if (!isValidEmail(email.getText().toString())) {
+        }
+        else proceedRegister1 = true;
+        if (!((SigninActivity)getActivity()).isValidEmail(email.getText().toString())) {
             email.setError("Invalid Email");
             proceedRegister2 = false;
-        } else proceedRegister2 = true;
-        if (!isValidPassword(password.getText().toString())) {
+        }
+        else proceedRegister2 = true;
+        if (!((SigninActivity)getActivity()).isValidPassword(password.getText().toString())) {
             password.setError("Mixed case letters and at least 1 digit is required. Length must be > 6");
             proceedRegister3 = false;
-        } else proceedRegister3 = true;
+        }
+        else proceedRegister3 = true;
 
-        return proceedRegister1 == true && proceedRegister2 == true && proceedRegister3 == true;
+        return proceedRegister1 && proceedRegister2 && proceedRegister3;
     }
 
     private void login(final JSONObject jsonBody) {
-        ProgressDialog.show(this, "Logging in",
+        ProgressDialog.show(getContext(), "Logging in",
                 "1 moment...", true);
         String url = Constants.baseUrl + "Token";
         StringRequest req = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -165,14 +175,14 @@ public class RegisterActivity extends AbstractActivity {
                 }
                 try {
                     AzureService az = new AzureService();
-                    az.saveUserData(getApplicationContext(), json.getString("access_token"), json.getString("userName"), json.getString("email"));
+                    az.saveUserData(getContext(), json.getString("access_token"), json.getString("userName"), json.getString("email"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 mProgressDialog.dismiss();
-                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
-                finish();
+                getActivity().finish();
             }
         }, new Response.ErrorListener() {
             @Override

@@ -1,12 +1,13 @@
 package com.lordan.mark.PosseUp.UI.SigninGroup;
 
-import android.app.Fragment;
+
 
 import android.app.ProgressDialog;
 
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +35,6 @@ import com.lordan.mark.PosseUp.Model.Constants;
 
 import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity;
-import com.lordan.mark.PosseUp.UI.RegisterActivity;
 
 
 import org.json.JSONException;
@@ -105,8 +105,7 @@ public class SigninFrag extends Fragment implements View.OnClickListener {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), RegisterActivity.class);
-                startActivity(intent);
+                ((SigninActivity)getActivity()).switchToRegister();
             }
         });
 
