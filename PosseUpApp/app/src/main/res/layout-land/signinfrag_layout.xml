@@ -26,7 +26,7 @@
         android:textSize="16sp"
         android:textAlignment="gravity"
         android:gravity="center_horizontal"
-        android:paddingTop="@dimen/margin_large"
+        android:paddingTop="@dimen/margin_medium"
         android:layout_below="@+id/signin_header"
         android:layout_alignParentStart="true" />
 
@@ -35,9 +35,10 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="#ffffff"
-        android:layout_below="@+id/signin_desc"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="72dp">
+        android:layout_marginStart="40dp"
+        android:id="@+id/linearLayout2"
+        android:layout_alignTop="@+id/linearLayout3"
+        android:layout_alignStart="@+id/signin_extra_buttons">
 
         <EditText
             android:id="@+id/username_signin"
@@ -84,6 +85,15 @@
             android:background="#FF3366"
             android:text="@string/sign_in_button"
             android:textColor="#FFF8F8"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/linearLayout2"
+        android:layout_marginStart="40dp"
+        android:id="@+id/linearLayout3">
         <com.facebook.login.widget.LoginButton
             android:id="@+id/login_button"
             android:layout_width="match_parent"
@@ -103,7 +113,7 @@
             android:id="@+id/signup_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center"
             android:paddingEnd="@dimen/margin_small"
             android:text="@string/no_account"
             android:textAppearance="?android:attr/textAppearanceSmall"
@@ -124,7 +134,7 @@
             android:text="@string/forgot_password"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#FFF8F8"
-            android:paddingBottom="@dimen/margin_medium" />
+            android:layout_gravity="center" />
 
 
     </LinearLayout>

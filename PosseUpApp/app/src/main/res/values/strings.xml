@@ -73,4 +73,6 @@
     <string name="discover_nearby_devices_button">Discover nearby devices button</string>
     <string name="share_device_information">Share information</string>
     <string name="share_device_information_button">Share device information button</string>
+
+    <string name="facebook_app_id">1543886725935090</string>
 </resources>

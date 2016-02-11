@@ -48,8 +48,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 
 public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListener {
@@ -124,7 +122,6 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
                 },250);
             }
         });
-        ButterKnife.bind(getActivity());
 
         mSwipeRefreshLayout =(SwipeRefreshLayout) v.findViewById(R.id.event_list_swipe);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

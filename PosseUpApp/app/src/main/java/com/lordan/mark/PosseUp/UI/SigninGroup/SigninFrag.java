@@ -30,6 +30,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import com.facebook.login.widget.LoginButton;
 import com.lordan.mark.PosseUp.DataOperations.AzureService;
 import com.lordan.mark.PosseUp.Model.Constants;
 
@@ -51,6 +52,7 @@ public class SigninFrag extends Fragment implements View.OnClickListener {
     private EditText username, password;
     private RequestQueue queue;
     private ProgressDialog mProgressDialog;
+    private LoginButton loginButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,6 +71,12 @@ public class SigninFrag extends Fragment implements View.OnClickListener {
                                           }
 
         );
+        loginButton = (LoginButton) detailsView.findViewById(R.id.login_button);
+        loginButton.setReadPermissions("user_friends");
+        // If using in a fragment
+        loginButton.setFragment(this);
+
+
         final Button signInButton = (Button) detailsView.findViewById(R.id.signin_button);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override

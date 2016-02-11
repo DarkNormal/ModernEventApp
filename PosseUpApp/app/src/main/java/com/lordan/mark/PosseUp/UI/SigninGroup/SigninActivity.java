@@ -14,7 +14,6 @@ import com.lordan.mark.PosseUp.AbstractActivity;
 import com.lordan.mark.PosseUp.LanguageHelper;
 
 import com.lordan.mark.PosseUp.R;
-import com.lordan.mark.PosseUp.UI.RegisterFragment;
 
 
 /**
