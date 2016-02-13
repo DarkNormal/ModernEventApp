@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.text.TextUtils;
 
 import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.lordan.mark.PosseUp.AbstractActivity;
 import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity;
@@ -57,5 +58,21 @@ public class StartActivity extends AbstractActivity {
     private void goToSignin() {
         Intent intent = new Intent(StartActivity.this, SigninActivity.class);
         beginActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Logs 'install' and 'app activate' App Events.
+        AppEventsLogger.activateApp(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Logs 'app deactivate' App Event.
+        AppEventsLogger.deactivateApp(this);
     }
 }

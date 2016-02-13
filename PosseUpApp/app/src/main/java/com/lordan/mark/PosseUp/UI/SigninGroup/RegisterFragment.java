@@ -45,22 +45,22 @@ public class RegisterFragment extends Fragment {
 
     private ProgressDialog mProgressDialog; //dialog used for all Volley requests
     private RequestQueue queue;             //Volley queue
-    private View v;
+    private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                          Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        v = inflater.inflate(R.layout.register_layout, container, false);
-        Button signup = (Button) v.findViewById(R.id.signup_button);
+        view = inflater.inflate(R.layout.register_layout, container, false);
+        Button signup = (Button) view.findViewById(R.id.signup_button);
         queue = Volley.newRequestQueue(getContext());       //instantiate Volley queue
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText username = (EditText) v.findViewById(R.id.username_register);
-                EditText email = (EditText) v.findViewById(R.id.email_signup);
-                EditText password = (EditText) v.findViewById(R.id.password_signup);
+                EditText username = (EditText) view.findViewById(R.id.username_register);
+                EditText email = (EditText) view.findViewById(R.id.email_signup);
+                EditText password = (EditText) view.findViewById(R.id.password_signup);
 
                 if (validateDetails(username, email, password)) {
                     registerUser(username, email, password);     //begin registration process
@@ -68,14 +68,14 @@ public class RegisterFragment extends Fragment {
 
             }
         });
-        TextView backToSignIn = (TextView) v.findViewById(R.id.signin_text);
+        TextView backToSignIn = (TextView) view.findViewById(R.id.signin_text);
         backToSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
-        FloatingActionButton addImage = (FloatingActionButton) v.findViewById(R.id.addImage_Button);
+        FloatingActionButton addImage = (FloatingActionButton) view.findViewById(R.id.addImage_Button);
         addImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,8 +83,9 @@ public class RegisterFragment extends Fragment {
                 toast.show();
             }
         });
-        return v;
+        return view;
     }
+
 
     public void registerUser(final EditText username, final EditText email, EditText password) {
 

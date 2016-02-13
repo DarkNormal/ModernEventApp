@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +31,15 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.annotations.SerializedName;
 import com.lordan.mark.PosseUp.DataOperations.AzureService;
 import com.lordan.mark.PosseUp.Model.Constants;
 
@@ -53,6 +62,14 @@ public class SigninFrag extends Fragment implements View.OnClickListener {
     private RequestQueue queue;
     private ProgressDialog mProgressDialog;
     private LoginButton loginButton;
+    CallbackManager callbackManager;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getContext());
+        callbackManager = CallbackManager.Factory.create();
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,9 +89,39 @@ public class SigninFrag extends Fragment implements View.OnClickListener {
 
         );
         loginButton = (LoginButton) detailsView.findViewById(R.id.login_button);
-        loginButton.setReadPermissions("user_friends");
+        loginButton.setReadPermissions("user_friends", "email");
         // If using in a fragment
         loginButton.setFragment(this);
+        // Callback registration
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Log.i("FACEBOOK LOGIN", loginResult.getAccessToken().toString() + "," + loginResult.getAccessToken().getUserId());
+
+                ExternalLogin externalLogin = new ExternalLogin("Facebook", loginResult.getAccessToken().getToken());
+                Gson gson = new Gson();
+
+                String convertedLogin = gson.toJson(externalLogin);
+                JSONObject postObject = null;
+                try {
+                    postObject = new JSONObject(convertedLogin);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                loginExternal(postObject);
+
+            }
+
+            @Override
+            public void onCancel() {
+                Log.e("FB LOGIN CANCELLED", "Login cancelled");
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                Log.e("FACEBOOK LOGIN ERROR", exception.toString());
+            }
+        });
 
 
         final Button signInButton = (Button) detailsView.findViewById(R.id.signin_button);
@@ -119,15 +166,15 @@ public class SigninFrag extends Fragment implements View.OnClickListener {
 
         return detailsView;
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
 
     @Override
     public void onClick(View v) {
 
-    }
-
-    public static SigninFrag newInstance() {
-        SigninFrag myFragment = new SigninFrag();
-        return myFragment;
     }
 
     private void login(final EditText username, final EditText password) {
@@ -148,7 +195,7 @@ public class SigninFrag extends Fragment implements View.OnClickListener {
             @Override
             public void onResponse(JSONObject response) {
                 System.out.println(response.length());
-                login(response);
+                loginLocal(response);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -183,7 +230,37 @@ public class SigninFrag extends Fragment implements View.OnClickListener {
         queue.add(req);
     }
 
-    private void login(final JSONObject jsonBody) {
+
+    private void loginExternal(final JSONObject jsonBody) {
+
+        String url = Constants.baseUrl + "api/Account/RegisterExternal";
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, url, jsonBody, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                JSONObject json = response;
+                System.out.println("Token recieved");
+
+                try {
+                    AzureService az = new AzureService();
+                    az.saveUserData(getActivity(), json.getString("access_token"), json.getString("userName"), json.getString("email"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("No Token recieved");
+            }
+        });
+        queue.add(req);
+
+    }
+    private void loginLocal(final JSONObject jsonBody) {
 
         String url = Constants.baseUrl + "Token";
         StringRequest req = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -217,7 +294,7 @@ public class SigninFrag extends Fragment implements View.OnClickListener {
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("grant_type", "password");
                 try {
                     params.put("username", jsonBody.getString("Username"));
@@ -242,6 +319,7 @@ public class SigninFrag extends Fragment implements View.OnClickListener {
         queue.add(req);
 
     }
+
     public String trimMessage(String json, String key) {
         String error="";
 
@@ -266,5 +344,35 @@ public class SigninFrag extends Fragment implements View.OnClickListener {
                 }
             }
 
+     class ExternalLogin{
+         public ExternalLogin(String provider, String token) {
+             Provider = provider;
+             Token = token;
+         }
+
+         public String getProvider() {
+             return Provider;
+         }
+
+         public void setProvider(String provider) {
+             Provider = provider;
+         }
+
+         public String getToken() {
+             return Token;
+         }
+
+         public void setToken(String token) {
+             Token = token;
+         }
+
+         @SerializedName("Provider")
+         private String Provider;
+         @SerializedName("ExternalAccessToken")
+        private String Token;
+
+    }
+
 
 }
+
