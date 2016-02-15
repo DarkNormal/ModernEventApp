@@ -2,9 +2,11 @@ package com.lordan.mark.PosseUp.UI.SigninGroup;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,20 +48,25 @@ public class RegisterFragment extends Fragment {
     private ProgressDialog mProgressDialog; //dialog used for all Volley requests
     private RequestQueue queue;             //Volley queue
     private View view;
+    private EditText email;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                          Bundle savedInstanceState) {
 
+        Toast.makeText(getContext(), "Register frag made!", Toast.LENGTH_SHORT).show();
         super.onCreate(savedInstanceState);
         view = inflater.inflate(R.layout.register_layout, container, false);
+        email = (EditText) view.findViewById(R.id.email_signup);
+        Drawable[] leftDrawable = email.getCompoundDrawables();
+        leftDrawable[0].setAlpha(128);
         Button signup = (Button) view.findViewById(R.id.signup_button);
         queue = Volley.newRequestQueue(getContext());       //instantiate Volley queue
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EditText username = (EditText) view.findViewById(R.id.username_register);
-                EditText email = (EditText) view.findViewById(R.id.email_signup);
+
                 EditText password = (EditText) view.findViewById(R.id.password_signup);
 
                 if (validateDetails(username, email, password)) {

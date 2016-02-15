@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.widget.LinearLayout;
 
 import com.lordan.mark.PosseUp.AbstractActivity;
@@ -40,6 +41,15 @@ public class SigninActivity extends AbstractActivity {
     public void switchToRegister(){
         Fragment registerFrag = new RegisterFragment();
         fragMan.beginTransaction().replace(fragmentHolder.getId(), registerFrag).addToBackStack("Register").commit();
+
+    }
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 0 ){
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
 

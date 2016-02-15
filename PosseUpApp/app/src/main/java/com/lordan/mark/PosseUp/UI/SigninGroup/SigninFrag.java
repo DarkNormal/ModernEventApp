@@ -74,6 +74,7 @@ public class SigninFrag extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Toast.makeText(getContext(), "Sign in frag made!", Toast.LENGTH_SHORT).show();
         detailsView = inflater.inflate(R.layout.signinfrag_layout, container, false);
         queue = Volley.newRequestQueue(getActivity());
         TextView forgotPassword = (TextView) detailsView.findViewById(R.id.forgot_password);

@@ -11,7 +11,7 @@
         android:id="@+id/signin_header"
         android:layout_marginTop="@dimen/margin_large"
         android:textColor="#FFF8F8"
-        android:textSize="34sp"
+        android:textSize="24sp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 

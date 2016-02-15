@@ -35,10 +35,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="#ffffff"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="63dp"
         android:id="@+id/linearLayout2"
-        android:layout_alignTop="@+id/linearLayout3"
-        android:layout_alignStart="@+id/signin_extra_buttons">
+        android:layout_alignTop="@+id/linearLayout3">
 
         <EditText
             android:id="@+id/username_signin"
@@ -92,7 +91,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@+id/linearLayout2"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="60dp"
         android:id="@+id/linearLayout3">
         <com.facebook.login.widget.LoginButton
             android:id="@+id/login_button"
@@ -101,44 +100,36 @@
     </LinearLayout>
 
 
-    <LinearLayout
-        android:id="@+id/signin_extra_buttons"
-        android:layout_width="match_parent"
+    <TextView
+
+        android:focusableInTouchMode="false"
+        android:id="@+id/forgot_password"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:paddingStart="@dimen/margin_small"
+        android:text="@string/forgot_password"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#FFF8F8"
+        android:layout_gravity="center"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="@dimen/margin_small"
-        android:layout_marginRight="@dimen/margin_small">
-        <TextView
-            android:id="@+id/signup_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingEnd="@dimen/margin_small"
-            android:text="@string/no_account"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#FFF8F8" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="@dimen/margin_medium"
+        android:paddingBottom="@dimen/margin_medium" />
 
-
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:layout_weight="1" />
-        <TextView
-
-            android:id="@+id/forgot_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingStart="@dimen/margin_small"
-            android:text="@string/forgot_password"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#FFF8F8"
-            android:layout_gravity="center" />
-
-
-    </LinearLayout>
-
+    <TextView
+        android:focusableInTouchMode="false"
+        android:id="@+id/signup_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingEnd="@dimen/margin_small"
+        android:text="@string/no_account"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#FFF8F8"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:paddingBottom="@dimen/margin_medium" />
 
 
 </RelativeLayout>
