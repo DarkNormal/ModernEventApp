@@ -40,7 +40,7 @@ Google Cloud Messaging (Notifications) - Working <br>
 Edit Profile - Working <br>
 Rank System - TODO <br>
 Image Storage - TODO <br>
-External Sign-in - TODO <br>
+External Sign-in - Working <br>
 Marshmallow Permissions - TODO <br>
 
 
