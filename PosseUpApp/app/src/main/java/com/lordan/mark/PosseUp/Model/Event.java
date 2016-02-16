@@ -8,6 +8,7 @@ import com.google.gson.annotations.SerializedName;
 import com.lordan.mark.PosseUp.BR;
 
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -15,6 +16,9 @@ import java.util.Calendar;
  * Created by Mark on 10/28/2015.
  */
 public class Event extends BaseObservable{
+
+    private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    private SimpleDateFormat fancyFormatter = new SimpleDateFormat("E, MMM d, h:mm aa");
 
 
     @SerializedName("EventID")
@@ -41,9 +45,7 @@ public class Event extends BaseObservable{
     @SerializedName("EventLocationLng")
     private double eventLocationLng;
 
-    private Place placeDetails;
-
-    private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm");
+    private Place placeDetails;;
 
     public Event(String name, String visibility, String email, String eventDesc, double eventLocationLat, double eventLocationLng){
         this.eventName = name;
@@ -130,48 +132,49 @@ public class Event extends BaseObservable{
         this.startDateTime = startDateTime;
     }
 
-    public Calendar getStartingTime() {
-        return startingTime;
+    @Bindable
+    public String getStartingTime() {
+        return fancyFormatter.format(startingTime.getTime());
     }
 
-    public void setStartingTime(Calendar startingTime) {
-        this.startingTime = startingTime;
-        String date = df.format(startingTime.getTime());
-        setStartDateTime(date);
+
+    public void setStartingTime() {
+        Calendar cal = Calendar.getInstance();
+        try {
+            cal.setTime(formatter.parse(startDateTime));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        notifyPropertyChanged(BR.startingTime);
+        this.startingTime = cal;
+    }
+    public void setStartingTime(Calendar cal) {
+        this.startingTime = cal;
     }
 
-    public Calendar getEndingTime() {
-        return endingTime;
+    @Bindable
+    public String getEndingTime() {
+        return fancyFormatter.format(endingTime.getTime());
     }
 
-    public void setEndingTime(Calendar endingTime) {
-        this.endingTime = endingTime;
-        String date = df.format(endingTime.getTime());
-        setEndDateTime(date);
+    public void setEndingTime() {
+        Calendar cal = Calendar.getInstance();
+        try {
+            cal.setTime(formatter.parse(endDateTime));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        notifyPropertyChanged(BR.endingTime);
+        this.endingTime = cal;
     }
-
-    public String getEndDateTime() {
-        return endDateTime;
-    }
-
-    public void setEndDateTime(String endDateTime) {
-        this.endDateTime = endDateTime;
-    }
-
-    public Place getPlaceDetails() {
-        return placeDetails;
-    }
-
-    public void setPlaceDetails(Place placeDetails) {
-        this.placeDetails = placeDetails;
+    public void setEndingTime(Calendar cal){
+        this.endingTime = cal;
     }
 
     @Override
     public String toString(){
         return getEventName() + " " + getEventDesc() + " " + getHostEmail();
     }
-
-
 
 
 }

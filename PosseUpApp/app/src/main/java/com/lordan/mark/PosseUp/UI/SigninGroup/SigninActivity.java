@@ -32,15 +32,15 @@ public class SigninActivity extends AbstractActivity {
         fragmentHolder = (LinearLayout) findViewById(R.id.fragmentHolder);
         fragMan = getSupportFragmentManager();
         FragmentTransaction fragTransaction = fragMan.beginTransaction();
-        Fragment myFrag = new SigninFrag();
-        fragTransaction.add(fragmentHolder.getId(), myFrag, "signin_fragment");
-        fragTransaction.commit();
-
-
+        if(savedInstanceState == null){
+            Fragment myFrag = new SigninFrag();
+            fragTransaction.add(fragmentHolder.getId(), myFrag, "signin_fragment").addToBackStack("signin");
+            fragTransaction.commit();
+        }
     }
     public void switchToRegister(){
         Fragment registerFrag = new RegisterFragment();
-        fragMan.beginTransaction().replace(fragmentHolder.getId(), registerFrag).addToBackStack("Register").commit();
+        fragMan.beginTransaction().replace(fragmentHolder.getId(), registerFrag).addToBackStack("register").commit();
 
     }
     @Override

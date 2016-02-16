@@ -49,6 +49,7 @@ public class RegisterFragment extends Fragment {
     private RequestQueue queue;             //Volley queue
     private View view;
     private EditText email;
+    private static final String TAG ="RegisterFrag";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -62,6 +62,7 @@ public class SigninFrag extends Fragment implements View.OnClickListener {
     private RequestQueue queue;
     private ProgressDialog mProgressDialog;
     private LoginButton loginButton;
+    private static final String TAG = "SigninFrag";
     CallbackManager callbackManager;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -173,10 +174,6 @@ public class SigninFrag extends Fragment implements View.OnClickListener {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
 
     private void login(final EditText username, final EditText password) {
 
@@ -345,7 +342,12 @@ public class SigninFrag extends Fragment implements View.OnClickListener {
                 }
             }
 
-     class ExternalLogin{
+    @Override
+    public void onClick(View v) {
+
+    }
+
+    class ExternalLogin{
          public ExternalLogin(String provider, String token) {
              Provider = provider;
              Token = token;

@@ -15,7 +15,7 @@
         <com.mikhaellopez.circularimageview.CircularImageView
             android:layout_width="65dp"
             android:layout_height="65dp"
-            app:border="false"
+            app:civ_border="false"
             android:src="@drawable/profiler"/>
         <LinearLayout
             android:layout_width="match_parent"
