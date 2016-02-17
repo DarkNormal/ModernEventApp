@@ -1,12 +1,15 @@
-package com.lordan.mark.PosseUp.UI;
+package com.lordan.mark.PosseUp.UI.EventDetailGroup;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.android.volley.Request;
@@ -21,12 +24,10 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
+
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.lordan.mark.PosseUp.AbstractActivity;
@@ -52,19 +53,36 @@ public class EventDetailsActivity extends AbstractActivity implements GoogleApiC
     private EventDetailsLayoutBinding binding;
     private GoogleMap map;
     private SupportMapFragment fragment;
+    private LatLng location;
+
     @Override
-     public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         queue = Volley.newRequestQueue(this);
         Bundle bundle = getIntent().getExtras();
         eventID = bundle.getInt("EventID");
-        if(eventID != -1){
+        location = new LatLng(bundle.getDouble("EventLat"), bundle.getDouble("EventLng"));
+        if (eventID != -1) {
             getEventDetails(eventID);
         }
         binding = DataBindingUtil.setContentView(this, R.layout.event_details_layout);
-
+        Toolbar toolbar = (Toolbar) findViewById(R.id.event_detail_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         buildGoogleMap();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -79,6 +97,7 @@ public class EventDetailsActivity extends AbstractActivity implements GoogleApiC
         buildGoogleApiClient();
 
     }
+
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -88,8 +107,7 @@ public class EventDetailsActivity extends AbstractActivity implements GoogleApiC
     }
 
 
-
-    public void getEventDetails(int id){
+    public void getEventDetails(int id) {
         String url = Constants.baseUrl + "api/Events/" + id;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -110,7 +128,8 @@ public class EventDetailsActivity extends AbstractActivity implements GoogleApiC
         });
         queue.add(jsonObjectRequest);
     }
-    public void attendEvent(View v){
+
+    public void attendEvent(View v) {
         //Used to test data binding notifying changes
         event.setEventName("Changed event name!");
     }
@@ -124,15 +143,24 @@ public class EventDetailsActivity extends AbstractActivity implements GoogleApiC
                 @Override
                 public void onMapReady(GoogleMap googleMap) {   //returns the map asynchronously when called - auto
                     map = googleMap;
-                    LatLng eventLocation = new LatLng(event.getEventLocationLat(), event.getEventLocationLng());
-                    map.addMarker(new MarkerOptions().position(eventLocation ));
+                    map.addMarker(new MarkerOptions().position(location));
 
-                    CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(eventLocation, 15);
+                    CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(location, 15);
                     map.moveCamera(cu);
+                    map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                        @Override
+                        public void onMapClick(LatLng latLng) {
+                            Intent intent  = new Intent(EventDetailsActivity.this, Event_Location_Activity.class);
+                            intent.putExtra("EventLat", location.latitude);
+                            intent.putExtra("EventLng", location.longitude);
+                            startActivity(intent);
+                        }
+                    });
                 }
             });
         }
     }
+
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -149,6 +177,7 @@ public class EventDetailsActivity extends AbstractActivity implements GoogleApiC
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
     @Override
     public void onStart() {
         super.onStart();

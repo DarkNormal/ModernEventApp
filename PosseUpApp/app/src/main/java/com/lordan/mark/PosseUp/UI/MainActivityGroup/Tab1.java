@@ -11,7 +11,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -39,7 +38,7 @@ import com.lordan.mark.PosseUp.CustomAdapter;
 import com.lordan.mark.PosseUp.Model.Constants;
 
 import com.lordan.mark.PosseUp.R;
-import com.lordan.mark.PosseUp.UI.EventDetailsActivity;
+import com.lordan.mark.PosseUp.UI.EventDetailGroup.EventDetailsActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -97,6 +96,8 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
             public void onItemClick(View v, int position) {
                 Intent intent = new Intent(getContext(), EventDetailsActivity.class);
                 intent.putExtra("EventID", mDataset.get(position).getEventID());
+                intent.putExtra("EventLat", mDataset.get(position).getEventLocationLat());
+                intent.putExtra("EventLng", mDataset.get(position).getEventLocationLng());
                 startActivity(intent);
                 Toast.makeText(getContext(), "clicked position: " + position, Toast.LENGTH_SHORT).show();
             }
