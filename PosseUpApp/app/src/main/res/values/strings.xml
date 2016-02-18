@@ -50,13 +50,12 @@
     <string name="drawer_settings">Settings</string>
 
 
-
     <string-array name="nav_drawer_items">
-        <item >Home</item>
-        <item >Profile</item>
-        <item >Events</item>
-        <item >Friends</item>
-        <item >Settings</item>
+        <item>Home</item>
+        <item>Profile</item>
+        <item>Events</item>
+        <item>Friends</item>
+        <item>Settings</item>
     </string-array>
 
     <integer-array name="nav_drawer_icons">
@@ -68,9 +67,11 @@
     </integer-array>
 
 
-
     <string name="discover_nearby_devices">Discover nearby users</string>
     <string name="discover_nearby_devices_button">Discover nearby devices button</string>
     <string name="share_device_information">Share information</string>
     <string name="share_device_information_button">Share device information button</string>
+
+    <string name="facebook_app_id">1543886725935090</string>
+    <string name="title_activity_event__location_">Map</string>
 </resources>

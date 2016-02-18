@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true">
     <data>
         <variable
             name="event"
             type="com.lordan.mark.PosseUp.Model.Event"/>
     </data>
+
     <RelativeLayout
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/event_detail_toolbar"
+            android:layout_width="match_parent"
+            android:background="@color/ColorPrimary"
+            android:layout_height="?attr/actionBarSize"/>
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:id="@+id/imageView"
+            android:layout_below="@+id/event_detail_toolbar"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/gradient_background" />
         <com.mikhaellopez.circularimageview.CircularImageView
@@ -24,27 +33,48 @@
             android:layout_marginTop="162dp"
             android:layout_marginLeft="16dp"
             android:id="@+id/event_image" />
+
+        <TextView
+            android:id="@+id/event_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{event.startingTime}"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_below="@+id/imageView"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/event_title"
-            android:layout_alignTop="@+id/event_image"
-            android:text="@{event.eventName}"
-            android:layout_toEndOf="@+id/event_image" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/event_host"
-            android:text="@{event.hostEmail}"
-            android:layout_below="@+id/event_image"
-            android:layout_alignParentStart="true" />
+            android:gravity="center"
+            android:layout_below="@+id/event_time"
+            android:text="@{event.eventName}" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/event_description"
             android:text="@{event.eventDesc}"
-            android:layout_below="@+id/event_host"
+            android:gravity="center"
+            android:layout_below="@+id/event_title"
             android:layout_alignParentStart="true" />
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/event_host"-->
+            <!--android:text="@{event.hostEmail}"-->
+            <!--android:layout_below="@+id/event_image"-->
+            <!--android:layout_alignParentStart="true" />-->
+
+        <fragment
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:id="@+id/event_map"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@id/event_description"
+            map:liteMode="true"/>
 
         <Button
             android:layout_width="wrap_content"

@@ -10,7 +10,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/profiler"
-        app:shadow="false" />
+        app:civ_shadow="false" />
 
     <TextView
         android:id="@+id/friend_list_id"

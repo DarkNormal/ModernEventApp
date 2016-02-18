@@ -62,7 +62,7 @@ public class ForgotPasswordFrag extends Fragment {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
 
-                SigninFrag newFragment = SigninFrag.newInstance();
+                SigninFrag newFragment = new SigninFrag();
                 ft.replace(R.id.fragmentHolder, newFragment, "forgotpass_frag");
                 ft.commit();
             }
