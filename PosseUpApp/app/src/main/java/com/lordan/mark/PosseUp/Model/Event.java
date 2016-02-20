@@ -4,13 +4,16 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import com.google.android.gms.location.places.Place;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.SerializedName;
 import com.lordan.mark.PosseUp.BR;
 
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by Mark on 10/28/2015.
@@ -38,27 +41,28 @@ public class Event extends BaseObservable{
     private Calendar startingTime;
 
     private Calendar endingTime;
+
+
+
     @SerializedName("EventEndTime")
     private String endDateTime;
-    @SerializedName("EventLocationLat")
-    private double eventLocationLat;
-    @SerializedName("EventLocationLng")
-    private double eventLocationLng;
 
-    private Place placeDetails;;
 
-    public Event(String name, String visibility, String email, String eventDesc, double eventLocationLat, double eventLocationLng){
+
+
+    @SerializedName("EventVenue")
+    private PlaceVenue placeDetails;
+
+    public Event(String name, String visibility, String email, String eventDesc){
         this.eventName = name;
         this.eventVisibility = visibility;
         this.hostEmail = email;
         this.eventDesc = eventDesc;
-        this.eventLocationLat = eventLocationLat;
-        this.eventLocationLng = eventLocationLng;
+
     }
-    public Event(int id, double latitude, double longitude, String eventTitle, String eventDescription, String eventHost) {
+    public Event(int id, String eventTitle, String eventDescription, String eventHost) {
         this.eventID = id;
-        this.eventLocationLat = latitude;
-        this.eventLocationLng = longitude;
+
         this.eventName = eventTitle;
         this.eventDesc = eventDescription;
         this.hostEmail = eventHost;
@@ -66,6 +70,17 @@ public class Event extends BaseObservable{
 
     public Event() {
 
+    }
+
+    public PlaceVenue getPlaceDetails() {
+        return placeDetails;
+    }
+
+    public void setPlaceDetails(Place placeDetails) {
+
+        PlaceVenue venue = new PlaceVenue(placeDetails.getName().toString(), placeDetails.getAddress().toString(), placeDetails.getLatLng(),
+                placeDetails.getPlaceTypes(), placeDetails.getRating());
+        this.placeDetails = venue;
     }
 
     public int getEventID() {
@@ -108,28 +123,21 @@ public class Event extends BaseObservable{
     public void setEventDesc(String eventDesc) {
         this.eventDesc = eventDesc;
     }
-    public double getEventLocationLng() {
-        return eventLocationLng;
-    }
 
-    public void setEventLocationLng(double eventLocationLng) {
-        this.eventLocationLng = eventLocationLng;
-    }
-
-    public double getEventLocationLat() {
-        return eventLocationLat;
-    }
-
-    public void setEventLocationLat(double eventLocationLat) {
-        this.eventLocationLat = eventLocationLat;
-    }
 
     public String getStartDateTime() {
         return startDateTime;
     }
 
-    public void setStartDateTime(String startDateTime) {
-        this.startDateTime = startDateTime;
+    public void setStartDateTime(Calendar startDateTime) {
+        this.startDateTime = formatter.format(startDateTime.getTime());
+    }
+    public String getEndDateTime() {
+        return endDateTime;
+    }
+
+    public void setEndDateTime(Calendar endDateTime) {
+        this.endDateTime = formatter.format(endDateTime.getTime());
     }
 
     @Bindable
@@ -175,6 +183,5 @@ public class Event extends BaseObservable{
     public String toString(){
         return getEventName() + " " + getEventDesc() + " " + getHostEmail();
     }
-
 
 }

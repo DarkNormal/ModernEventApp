@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -37,6 +38,7 @@ import com.lordan.mark.PosseUp.AbstractActivity;
 import com.lordan.mark.PosseUp.DataOperations.AzureService;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.Event;
+import com.lordan.mark.PosseUp.Model.PlaceVenue;
 import com.lordan.mark.PosseUp.R;
 
 import org.json.JSONException;
@@ -111,12 +113,6 @@ public class AddEventActivity extends AbstractActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    private void switchFragment(){
-        FragmentTransaction fragTransaction = fragMan.beginTransaction();
-        secondFrag = new SecondEventFragment();
-        fragTransaction.replace(fragmentHolder.getId(), secondFrag, "add_event_location");
-        fragTransaction.commit();
-    }
 
     public static class ConfirmExitDialog extends DialogFragment{
         @Override
@@ -146,6 +142,7 @@ public class AddEventActivity extends AbstractActivity {
         JSONObject eventObj = new JSONObject();
         try {
             eventObj = new JSONObject(event);
+
         } catch (JSONException e1) {
             e1.printStackTrace();
         }
@@ -167,7 +164,8 @@ public class AddEventActivity extends AbstractActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Create Event Error", error.getMessage());
+                NetworkResponse response = error.networkResponse;
+                Log.e("Create Event Error", "");
             }
         });
         queue.add(jsonObjectRequest);

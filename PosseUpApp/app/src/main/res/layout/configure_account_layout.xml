@@ -19,9 +19,7 @@
             android:text="@string/hi"
             android:id="@+id/configure_welcome"
             android:textColor="@color/offWhite"
-            android:layout_marginTop="38dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/linearLayout" />
+            android:layout_marginTop="38dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,9 +27,7 @@
             android:text=""
             android:id="@+id/welcome_name"
             android:textColor="@color/offWhite"
-            android:layout_marginTop="38dp"
-            android:layout_alignBottom="@+id/configure_welcome"
-            android:layout_centerHorizontal="true" />
+            android:layout_marginTop="38dp" />
     </LinearLayout>
 
 
@@ -42,7 +38,7 @@
         android:hint="@string/full_name"
         android:ems="10"
         android:id="@+id/fullname"
-        android:textSize="12dp"
+        android:textSize="12sp"
         android:textColor="@color/offWhite"
         android:textColorHint="@color/offWhite"
         android:minWidth="200dp"
@@ -54,7 +50,7 @@
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:ems="10"
-        android:textSize="12dp"
+        android:textSize="12sp"
         android:id="@+id/email_signup"
         android:layout_below="@+id/fullname"
         android:textColor="@color/offWhite"
@@ -71,7 +67,7 @@
         android:id="@+id/password_signup"
         android:layout_marginTop="27dp"
         android:hint="@string/password_field"
-        android:textSize="12dp"
+        android:textSize="12sp"
         android:textColor="@color/offWhite"
         android:textColorHint="@color/offWhite"
         android:inputType="textPassword"
@@ -85,7 +81,7 @@
         android:layout_height="wrap_content"
         android:text="@string/sign_up"
         android:id="@+id/signup_button"
-        android:textSize="12dp"
+        android:textSize="12sp"
         android:background="#FF3366"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
@@ -109,7 +105,7 @@
             android:text="@string/already_account"
             android:id="@+id/signin_text"
             android:textColor="#FFF8F8"
-            android:textSize="10dp"
+            android:textSize="10sp"
             android:layout_marginBottom="6dp" />
     </LinearLayout>
 

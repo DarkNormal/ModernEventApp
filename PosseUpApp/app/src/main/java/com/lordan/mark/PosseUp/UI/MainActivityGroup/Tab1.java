@@ -50,15 +50,12 @@ import java.util.List;
 
 
 public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListener {
-    private ViewPager viewPager;
-    private static final String TAG = "RecyclerViewFragment";
-    private static final String KEY_LAYOUT_MANAGER = "layoutManager";
-    private static final int SPAN_COUNT = 2;
 
     private SheetLayout mSheetLayout;
     private FloatingActionButton mFab;
     private LinearLayout toolbar;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private static final String TAG = "MainActivity - TAB1";
 
     private static final int REQUEST_CODE = 1;
 
@@ -96,8 +93,12 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
             public void onItemClick(View v, int position) {
                 Intent intent = new Intent(getContext(), EventDetailsActivity.class);
                 intent.putExtra("EventID", mDataset.get(position).getEventID());
-                intent.putExtra("EventLat", mDataset.get(position).getEventLocationLat());
-                intent.putExtra("EventLng", mDataset.get(position).getEventLocationLng());
+                try {
+                    intent.putExtra("EventLat", mDataset.get(position).getPlaceDetails().getVenueLocation());
+                }
+                catch(NullPointerException npe){
+                    Log.e(TAG, "Place Details null");
+                }
                 startActivity(intent);
                 Toast.makeText(getContext(), "clicked position: " + position, Toast.LENGTH_SHORT).show();
             }
@@ -188,7 +189,7 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
     private void initDataset() {
         mDataset = new ArrayList<>();
         for (int i = 0; i < DATASET_COUNT; i++) {
-            mDataset.add(new Event(1,53.4534, -6.5334, "Event", "Event description", "host email"));
+            mDataset.add(new Event(1, "Event", "Event description", "host email"));
         }
     }
     private void refreshEvents() {
@@ -205,8 +206,7 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
                     mSwipeRefreshLayout.setRefreshing(false);
                     for(int i = 0; i < response.length(); i++){
                         JSONObject event = response.getJSONObject(i);
-                        Event c = new Event(event.getInt("EventID"), event.getDouble("EventLocationLat"),
-                                event.getDouble("EventLocationLng"), event.getString("EventTitle"),
+                        Event c = new Event(event.getInt("EventID"), event.getString("EventTitle"),
                                 event.getString("EventDescription"), event.getString("EventHost"));
                         tempEvents.add(c);
                         Log.i("JSON RESPONSE", event.toString());

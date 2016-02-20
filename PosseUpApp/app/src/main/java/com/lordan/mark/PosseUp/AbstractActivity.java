@@ -53,7 +53,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = settings.edit();
         editor.remove("token");
         editor.remove("email");
-        editor.commit();
+        editor.apply();
     }
     public String getCurrentEmail(){
         SharedPreferences prefs = getApplicationContext().getSharedPreferences("PosseUpData", MODE_PRIVATE);

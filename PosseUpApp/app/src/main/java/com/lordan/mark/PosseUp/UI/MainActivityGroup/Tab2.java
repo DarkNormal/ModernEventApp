@@ -38,7 +38,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.R;
-import com.lordan.mark.PosseUp.UI_Elements.CustomInfoWindow;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -174,8 +173,7 @@ public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallback
                 try {
                     for(int i = 0; i < response.length(); i++){
                         JSONObject event = response.getJSONObject(i);
-                        Event c = new Event(event.getInt("EventID"), event.getDouble("EventLocationLat"),
-                                event.getDouble("EventLocationLng"), event.getString("EventTitle"),
+                        Event c = new Event(event.getInt("EventID"), event.getString("EventTitle"),
                                 event.getString("EventDescription"), event.getString("EventHost"));
                         nearbyList.add(c);
                         Log.i("JSON RESPONSE", event.toString());
@@ -199,13 +197,12 @@ public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallback
     private void addMarkers(){
 
         if(nearbyList.size() > 0 && map !=null){
-            map.setInfoWindowAdapter(new CustomInfoWindow(getLayoutInflater(null)));
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
             for (Event c : nearbyList) {
-                builder.include(new LatLng(c.getEventLocationLat(),c.getEventLocationLng()));
-                map.addMarker(new MarkerOptions().position(new LatLng(c.getEventLocationLat(),c.getEventLocationLng()))
+                builder.include(c.getPlaceDetails().getVenueLocation());
+                map.addMarker(new MarkerOptions().position(c.getPlaceDetails().getVenueLocation())
                     .title(c.getEventName())
-                    .snippet(c.getEventDesc()));
+                    .snippet(c.getPlaceDetails().getVenueName() + "\n" + c.getPlaceDetails().getVenueAddress() + "\n" +c.getEventDesc()));
             }
             LatLngBounds bounds = builder.build();
             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 50);

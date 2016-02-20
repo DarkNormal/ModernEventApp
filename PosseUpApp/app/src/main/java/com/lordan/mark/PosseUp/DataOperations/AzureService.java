@@ -18,7 +18,7 @@ public class AzureService {
         preferencesEditor.putString("access_token", access_token);
         preferencesEditor.putString("email", email);
         preferencesEditor.putString("username", username);
-        preferencesEditor.commit();
+        preferencesEditor.apply();
     }
     public String getCurrentUsername(Context context){
         SharedPreferences settings = context.getSharedPreferences("PosseUpData", Context.MODE_PRIVATE);

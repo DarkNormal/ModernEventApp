@@ -37,6 +37,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Mark on 14/01/2016.
@@ -256,21 +257,21 @@ public class FirstEventFragment extends Fragment {
                         e.printStackTrace();
                     }
                     endCal.setTime(endingDate);
-                    newEvent.setEndingTime(endCal);
+                    newEvent.setEndDateTime(endCal);
                 }
 
             }
             else{
                endCal.setTime(cal.getTime());
                 endCal.add(Calendar.DATE, 1);
-                newEvent.setEndingTime(endCal);
+                newEvent.setEndDateTime(endCal);
             }
             newEvent.setEventDesc(eventDesc.getText().toString());
             newEvent.setEventName(title.getText().toString());
-            newEvent.setStartingTime(cal);
-            LatLng location = chosenPlace.getLatLng();
-            newEvent.setEventLocationLat(location.latitude);
-            newEvent.setEventLocationLng(location.longitude);
+            newEvent.setStartDateTime(cal);
+            if(chosenPlace != null) {
+                newEvent.setPlaceDetails(chosenPlace);
+            }
 
             return newEvent;
         }

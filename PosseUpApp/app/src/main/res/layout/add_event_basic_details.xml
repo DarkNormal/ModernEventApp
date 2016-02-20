@@ -3,14 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
-        android:id="@+id/create_event_holder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="24dp">
+    android:layout_height="match_parent"
+    android:layout_margin="24dp">
         <com.rengwuxian.materialedittext.MaterialEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -167,7 +161,4 @@
             android:hint="Event Description"
             android:textSize="24sp"
             android:inputType="textMultiLine"/>
-
-    </LinearLayout>
-
 </LinearLayout>
