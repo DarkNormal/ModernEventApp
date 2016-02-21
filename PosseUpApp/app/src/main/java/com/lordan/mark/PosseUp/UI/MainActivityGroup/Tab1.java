@@ -31,7 +31,9 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
 import com.github.fabtransitionactivity.SheetLayout;
+import com.google.gson.Gson;
 import com.lordan.mark.PosseUp.Model.Event;
+import com.lordan.mark.PosseUp.Model.PlaceVenue;
 import com.lordan.mark.PosseUp.UI.CreateEventGroup.AddEventActivity;
 
 import com.lordan.mark.PosseUp.CustomAdapter;
@@ -94,7 +96,8 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
                 Intent intent = new Intent(getContext(), EventDetailsActivity.class);
                 intent.putExtra("EventID", mDataset.get(position).getEventID());
                 try {
-                    intent.putExtra("EventLat", mDataset.get(position).getPlaceDetails().getVenueLocation());
+                    intent.putExtra("EventLat", mDataset.get(position).getPlaceDetails().getVenueLocation().latitude);
+                    intent.putExtra("EventLng", mDataset.get(position).getPlaceDetails().getVenueLocation().longitude);
                 }
                 catch(NullPointerException npe){
                     Log.e(TAG, "Place Details null");
@@ -206,21 +209,20 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
                     mSwipeRefreshLayout.setRefreshing(false);
                     for(int i = 0; i < response.length(); i++){
                         JSONObject event = response.getJSONObject(i);
+                        Gson gson = new Gson();
+                        PlaceVenue venue = gson.fromJson(event.getJSONObject("EventVenue").toString(), PlaceVenue.class);
                         Event c = new Event(event.getInt("EventID"), event.getString("EventTitle"),
-                                event.getString("EventDescription"), event.getString("EventHost"));
+                                event.getString("EventDescription"), event.getString("EventHost"), venue);
                         tempEvents.add(c);
                         Log.i("JSON RESPONSE", event.toString());
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                if(tempEvents != null){
                     mDataset.clear();
                     mDataset.addAll(tempEvents);
                     mAdapter.notifyDataSetChanged();
                     //updateList();
-
-                }
 
             }
         }, new Response.ErrorListener() {

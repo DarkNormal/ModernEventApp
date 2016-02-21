@@ -37,7 +37,7 @@ package="com.lordan.mark.PosseUp" xmlns:tools="http://schemas.android.com/tools"
         <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity" />
 
     </activity>
-    <activity android:name="com.lordan.mark.PosseUp.UI.EventDetailGroup.Event_Location_Activity"
+    <activity android:name=".UI.EventDetailGroup.EventLocationActivity"
         android:label="@string/title_activity_event__location_">
         <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="com.lordan.mark.PosseUp.UI.EventDetailGroup.EventDetailsActivity" />
 

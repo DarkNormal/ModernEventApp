@@ -67,6 +67,13 @@ public class Event extends BaseObservable{
         this.eventDesc = eventDescription;
         this.hostEmail = eventHost;
     }
+    public Event(int id, String eventTitle, String eventDescription, String eventHost, PlaceVenue venue) {
+        this.eventID = id;
+        this.placeDetails = venue;
+        this.eventName = eventTitle;
+        this.eventDesc = eventDescription;
+        this.hostEmail = eventHost;
+    }
 
     public Event() {
 

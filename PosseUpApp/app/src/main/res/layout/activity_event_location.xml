@@ -1,0 +1,49 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fitsSystemWindows="true">
+    <data>
+        <variable
+            name="venue"
+            type="com.lordan.mark.PosseUp.Model.PlaceVenue"/>
+    </data>
+    <LinearLayout android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/event_detail_map_toolbar"
+            android:layout_width="match_parent"
+            android:background="@color/ColorPrimary"
+            android:layout_height="?attr/actionBarSize"/>
+        <fragment
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            tools:context=".UI.EventDetailGroup.EventLocationActivity" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingBottom="@dimen/margin_small">
+            <TextView
+                android:id="@+id/event_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/material_text_title"
+                android:text="@{venue.venueName}"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{venue.venueAddress}"
+                android:textSize="@dimen/material_text_body1"
+                android:textColor="@android:color/black"
+                android:layout_below="@+id/event_title"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+</layout>

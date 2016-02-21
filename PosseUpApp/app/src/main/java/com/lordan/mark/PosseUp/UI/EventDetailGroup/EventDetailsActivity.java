@@ -5,13 +5,13 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -46,6 +46,7 @@ import org.json.JSONObject;
 public class EventDetailsActivity extends AbstractActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
 
+    private static final String TAG = "EventDetailsActivity";
     protected GoogleApiClient mGoogleApiClient;
     private RequestQueue queue;
     private int eventID = -1;
@@ -93,7 +94,6 @@ public class EventDetailsActivity extends AbstractActivity implements GoogleApiC
             fragment = SupportMapFragment.newInstance();
             fm.beginTransaction().replace(R.id.map, fragment).commit();
         }
-        queue = Volley.newRequestQueue(this);
         buildGoogleApiClient();
 
     }
@@ -131,7 +131,22 @@ public class EventDetailsActivity extends AbstractActivity implements GoogleApiC
 
     public void attendEvent(View v) {
         //Used to test data binding notifying changes
-        event.setEventName("Changed event name!");
+        //event.setEventName("Changed event name!");
+
+        String url = Constants.baseUrl + "/AttendEvent?id=" + eventID + "&username=" + getCurrentUsername();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                //Log.i(TAG, response.toString());
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, error.toString());
+            }
+        });
+        queue.add(jsonObjectRequest);
     }
 
     @Override
@@ -150,9 +165,8 @@ public class EventDetailsActivity extends AbstractActivity implements GoogleApiC
                     map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                         @Override
                         public void onMapClick(LatLng latLng) {
-                            Intent intent  = new Intent(EventDetailsActivity.this, Event_Location_Activity.class);
-                            intent.putExtra("EventLat", location.latitude);
-                            intent.putExtra("EventLng", location.longitude);
+                            Intent intent  = new Intent(EventDetailsActivity.this, EventLocationActivity.class);
+                            intent.putExtra("VenueDetails", event.getPlaceDetails());
                             startActivity(intent);
                         }
                     });
