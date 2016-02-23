@@ -4,10 +4,12 @@ package com.lordan.mark.PosseUp.UI.MainActivityGroup;
  * Created by Mark on 7/14/2015.
  */
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -23,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -74,11 +77,12 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
     private RecyclerView.LayoutManager mLayoutManager;
     private List<Event> mDataset;
     private RequestQueue queue;
+    private View v;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v =inflater.inflate(R.layout.tab_1,container,false);
+        v =inflater.inflate(R.layout.tab_1,container,false);
         v.setTag(TAG);
         mSheetLayout = (SheetLayout) v.findViewById(R.id.bottom_sheet);
         mFab = (FloatingActionButton) v.findViewById(R.id.addEvent_Button);
@@ -191,9 +195,10 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
 
     private void initDataset() {
         mDataset = new ArrayList<>();
-        for (int i = 0; i < DATASET_COUNT; i++) {
-            mDataset.add(new Event(1, "Event", "Event description", "host email"));
-        }
+//        for (int i = 0; i < DATASET_COUNT; i++) {
+//            mDataset.add(new Event(1, "Event", "Event description", "host email"));
+//        }
+        refreshEvents();
     }
     private void refreshEvents() {
 
@@ -228,12 +233,61 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Volley error events", String.valueOf(error.getMessage()));
+                mSwipeRefreshLayout.setRefreshing(false);
+                NetworkResponse response = error.networkResponse;
+
+                if(response != null){
+                    displaySnack(response.statusCode);
+                    Log.e(TAG, response.statusCode + " " + response.toString());
+                }
+                else{
+                    Log.e(TAG, "Volley refresh events error");
+                }
+
             }
         });
         queue.add(jsonRequest);
 
 
+    }
+    private void displaySnack(int errorCode){
+        //displays a custom snackbar based on the error code
+        Snackbar alert;
+        switch (errorCode){
+            case 401:
+                //Unauthorized - token probably gone
+                alert = Snackbar.make(v, "Authentication Failed", Snackbar.LENGTH_LONG).setAction("REFRESH", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        refreshEvents();
+                    }
+                });
+                alert.setActionTextColor(Color.RED);
+                alert.show();
+                break;
+            case 403:
+            case 503:
+                //Forbidden - service unavailable or stopped
+                alert = Snackbar.make(v, "Service Unavailable", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //TODO refresh token
+                    }
+                });
+                alert.setActionTextColor(Color.YELLOW);
+                alert.show();
+                break;
+            default:
+                alert = Snackbar.make(v, "Failed to get Events", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        refreshEvents();
+                    }
+                });
+                alert.setActionTextColor(Color.YELLOW);
+                alert.show();
+                break;
+        }
     }
 
 

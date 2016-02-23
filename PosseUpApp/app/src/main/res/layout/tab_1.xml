@@ -1,57 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/upcoming_events"
-        android:id="@+id/textView2"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="5dp"
-        android:textStyle="bold"
-        android:layout_alignParentEnd="true"
-        android:textAlignment="gravity"
-        android:gravity="center" />
-
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/event_list_swipe"
-        android:layout_height="match_parent"
+    <RelativeLayout
         android:layout_width="match_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/cardList"
-        android:layout_width="match_parent"
-        android:scrollbars="vertical"
-        android:background="@color/light_grey"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/textView2"
-        />
-    </android.support.v4.widget.SwipeRefreshLayout>
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/addEvent_Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:backgroundTint="@color/primaryThemeColor"
-        app:fabSize="normal"
-        app:borderWidth="0dp"
-        android:src="@drawable/ic_add"
-        android:clickable="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="@dimen/margin_medium"
-        android:layout_marginBottom="@dimen/margin_medium"
-        android:layout_alignParentEnd="true" />
-    <com.github.fabtransitionactivity.SheetLayout
-        android:id="@+id/bottom_sheet"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom"
-        app:ft_container_gravity="center"
-        app:ft_color="@color/ColorPrimary"
-        android:layout_alignParentEnd="false" />
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:text="@string/upcoming_events"
+            android:textAlignment="gravity"
+            android:textStyle="bold" />
+
+        <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/event_list_swipe"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/cardList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/textView2"
+                android:background="@color/light_grey"
+                android:scrollbars="vertical" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/addEvent_Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:clickable="true"
+            android:src="@drawable/ic_add"
+            app:backgroundTint="@color/primaryThemeColor"
+            app:borderWidth="0dp"
+            app:fabSize="normal" />
+
+        <com.github.fabtransitionactivity.SheetLayout
+            android:id="@+id/bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="false"
+            android:layout_gravity="bottom"
+            app:ft_color="@color/ColorPrimary"
+            app:ft_container_gravity="center" />
 
 
-</RelativeLayout>
+    </RelativeLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>
