@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -43,7 +44,7 @@ import org.json.JSONObject;
  */
 
 
-public class EventDetailsActivity extends AbstractActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class EventDetailsActivity extends AbstractActivity {
 
 
     private static final String TAG = "EventDetailsActivity";
@@ -68,11 +69,11 @@ public class EventDetailsActivity extends AbstractActivity implements GoogleApiC
             getEventDetails(eventID);
         }
         binding = DataBindingUtil.setContentView(this, R.layout.event_details_layout);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.event_detail_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        buildGoogleMap();
     }
 
     @Override
@@ -87,26 +88,6 @@ public class EventDetailsActivity extends AbstractActivity implements GoogleApiC
     }
 
 
-    private void buildGoogleMap() {
-        FragmentManager fm = getSupportFragmentManager();
-        fragment = (SupportMapFragment) fm.findFragmentById(R.id.event_map);
-        if (fragment == null) {
-            fragment = SupportMapFragment.newInstance();
-            fm.beginTransaction().replace(R.id.map, fragment).commit();
-        }
-        buildGoogleApiClient();
-
-    }
-
-    protected synchronized void buildGoogleApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-    }
-
-
     public void getEventDetails(int id) {
         String url = Constants.baseUrl + "api/Events/" + id;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -117,6 +98,7 @@ public class EventDetailsActivity extends AbstractActivity implements GoogleApiC
                 event.setEndingTime();
                 event.setStartingTime();
                 binding.setEvent(event);
+                binding.setVenue(event.getPlaceDetails());
 
             }
         }, new Response.ErrorListener() {
@@ -149,60 +131,4 @@ public class EventDetailsActivity extends AbstractActivity implements GoogleApiC
         queue.add(jsonObjectRequest);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (map == null) {
-
-            fragment.getMapAsync(new OnMapReadyCallback() {
-                @Override
-                public void onMapReady(GoogleMap googleMap) {   //returns the map asynchronously when called - auto
-                    map = googleMap;
-                    map.addMarker(new MarkerOptions().position(location));
-
-                    CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(location, 15);
-                    map.moveCamera(cu);
-                    map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                        @Override
-                        public void onMapClick(LatLng latLng) {
-                            Intent intent  = new Intent(EventDetailsActivity.this, EventLocationActivity.class);
-                            intent.putExtra("VenueDetails", event.getPlaceDetails());
-                            startActivity(intent);
-                        }
-                    });
-                }
-            });
-        }
-    }
-
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        mGoogleApiClient.disconnect();
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        mGoogleApiClient.connect();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.disconnect();
-        }
-    }
 }

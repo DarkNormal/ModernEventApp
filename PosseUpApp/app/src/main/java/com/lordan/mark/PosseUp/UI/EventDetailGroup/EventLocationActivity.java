@@ -88,6 +88,6 @@ public class EventLocationActivity extends AbstractActivity implements OnMapRead
 
         // Add a marker in Sydney and move the camera
         mMap.addMarker(new MarkerOptions().position(venue.getVenueLocation()));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(venue.getVenueLocation()));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(venue.getVenueLocation(), 12));
     }
 }

@@ -9,7 +9,8 @@
     <color name="primaryThemeColor">#FF3366</color>
 
     <color name="yellow">#FFEB3B</color>
-    <color name="grey">#757575</color>
+    <color name="dark_grey">#757575</color>
+    <color name="grey">#9E9E9E</color>
     <color name="light_grey">#E8E8E8</color>
 
 

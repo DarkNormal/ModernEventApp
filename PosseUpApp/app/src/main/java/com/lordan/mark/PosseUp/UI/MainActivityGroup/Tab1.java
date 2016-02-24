@@ -241,6 +241,7 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
                     Log.e(TAG, response.statusCode + " " + response.toString());
                 }
                 else{
+                    displaySnack(0);
                     Log.e(TAG, "Volley refresh events error");
                 }
 
