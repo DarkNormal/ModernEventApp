@@ -1,16 +1,23 @@
 package com.lordan.mark.PosseUp.UI.EventDetailGroup;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -34,9 +41,12 @@ import com.google.gson.Gson;
 import com.lordan.mark.PosseUp.AbstractActivity;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.Event;
+import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.databinding.EventDetailsLayoutBinding;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -48,13 +58,10 @@ public class EventDetailsActivity extends AbstractActivity {
 
 
     private static final String TAG = "EventDetailsActivity";
-    protected GoogleApiClient mGoogleApiClient;
     private RequestQueue queue;
     private int eventID = -1;
     private Event event = new Event();
     private EventDetailsLayoutBinding binding;
-    private GoogleMap map;
-    private SupportMapFragment fragment;
     private LatLng location;
 
     @Override
@@ -97,7 +104,13 @@ public class EventDetailsActivity extends AbstractActivity {
                 event = gson.fromJson(response.toString(), Event.class);
                 event.setEndingTime();
                 event.setStartingTime();
+                try {
+                    event.setAttendees(response.getJSONArray("EventAttendees"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 binding.setEvent(event);
+                displayAttendees();
                 binding.setVenue(event.getPlaceDetails());
 
             }
@@ -109,6 +122,18 @@ public class EventDetailsActivity extends AbstractActivity {
             }
         });
         queue.add(jsonObjectRequest);
+    }
+    private void displayAttendees(){
+        LinearLayout attendeeHolder = (LinearLayout) findViewById(R.id.event_details_pictures);
+        for (User user: event.getAttendees()) {
+            CircularImageView attendee = new CircularImageView(this);
+            attendee.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.profiler));
+            int pixelsDP = Math.round(convertPixelsToDp(55));
+            attendee.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams( pixelsDP, pixelsDP );
+            attendee.setLayoutParams(layoutParams);
+            attendeeHolder.addView(attendee);
+        }
     }
 
     public void attendEvent(View v) {
@@ -131,4 +156,9 @@ public class EventDetailsActivity extends AbstractActivity {
         queue.add(jsonObjectRequest);
     }
 
+    public int convertPixelsToDp(int dp) {
+        Resources r = getResources();
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
+        return Math.round(px);
+    }
 }

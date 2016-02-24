@@ -43,6 +43,10 @@ public class User {
         this.username = username;
         this.isFriend = isFriend;
     }
+    public User(String username, int id){
+        this.username = username;
+        this.userID = id;
+    }
 
 
     public String getEmail() {

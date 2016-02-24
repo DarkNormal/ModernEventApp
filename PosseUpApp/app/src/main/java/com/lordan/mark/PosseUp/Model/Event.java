@@ -9,6 +9,10 @@ import com.google.gson.annotations.SerializedName;
 import com.lordan.mark.PosseUp.BR;
 
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -42,14 +46,13 @@ public class Event extends BaseObservable{
 
     private Calendar endingTime;
 
-
-
     @SerializedName("EventEndTime")
     private String endDateTime;
 
 
 
-
+    @SerializedName("EventAttendees")
+    private List<User> attendees;
     @SerializedName("EventVenue")
     private PlaceVenue placeDetails;
 
@@ -184,6 +187,21 @@ public class Event extends BaseObservable{
     }
     public void setEndingTime(Calendar cal){
         this.endingTime = cal;
+    }
+
+    public List<User> getAttendees() {
+        return attendees;
+    }
+
+    public void setAttendees(JSONArray attendees) {
+        for (int i = 0; i < attendees.length(); i++) {
+            try {
+                this.attendees.add(new User(attendees.getJSONObject(i).getString("Username"),attendees.getJSONObject(i).getInt("Id")));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     @Override

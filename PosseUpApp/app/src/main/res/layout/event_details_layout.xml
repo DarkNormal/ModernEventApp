@@ -41,33 +41,6 @@
             android:layout_marginLeft="16dp"
             android:id="@+id/event_image" />
 
-
-
-        <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--style="@style/RevisedAppTheme.DarkText"-->
-            <!--android:id="@+id/event_title"-->
-            <!--android:gravity="center"-->
-            <!--android:layout_below="@+id/event_time"-->
-            <!--android:text="@{event.eventName}" />-->
-
-        <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--style="@style/RevisedAppTheme.DarkText"-->
-            <!--android:id="@+id/event_description"-->
-            <!--android:text="@{event.eventDesc}"-->
-            <!--android:gravity="center"-->
-            <!--android:layout_below="@+id/event_title"-->
-            <!--android:layout_alignParentStart="true" />-->
-        <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:id="@+id/event_host"-->
-            <!--android:text="@{event.hostEmail}"-->
-            <!--android:layout_below="@+id/event_image"-->
-            <!--android:layout_alignParentStart="true" />-->
         <RelativeLayout
             android:id="@+id/event_time_group"
             android:layout_width="wrap_content"
@@ -96,15 +69,6 @@
                 android:paddingTop="@dimen/margin_small"
                 android:layout_toRightOf="@+id/event_time_icon"
                 android:textAllCaps="true"/>
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="@{venue.venueAddress}"-->
-                <!--android:textSize="@dimen/material_text_body1"-->
-                <!--android:textColor="@android:color/black"-->
-                <!--android:layout_below="@+id/event_location_title"-->
-                <!--android:layout_alignLeft="@+id/event_location_title"-->
-                <!--android:layout_toRightOf="@+id/event_location_icon"/>-->
         </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -137,7 +101,6 @@
                     android:paddingTop="@dimen/margin_small"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_toRightOf="@+id/event_location_icon"
-                    android:layout_below="@+id/event_description"
                     android:text="@{venue.venueName}"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -149,7 +112,7 @@
                     android:layout_alignLeft="@+id/event_location_title"
                     android:layout_toRightOf="@+id/event_location_icon"/>
             </RelativeLayout>
-            <android.support.v7.widget.AppCompatImageButton
+            <ImageButton
                 android:id="@+id/directions_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -161,44 +124,46 @@
                 android:paddingEnd="@dimen/margin_medium"/>
         </LinearLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:layout_marginTop="1dp"
+            android:layout_below="@+id/event_location_group">
+            <TextView
+                android:id="@+id/event_guests_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/dark_grey"
+                android:text="Guests (21)"
+                android:textAllCaps="true"
+                android:paddingTop="@dimen/margin_medium"
+                android:textSize="@dimen/material_text_button"
+                android:layout_marginStart="@dimen/margin_medium"
+                />
+            <LinearLayout
+                android:id="@+id/event_details_pictures"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/event_guests_heading"
+                android:layout_marginTop="@dimen/margin_tiny"
+                android:layout_marginBottom="@dimen/margin_tiny"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/event_guests_heading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/dark_grey"
-            android:text="Guests (21)"
-            android:textAllCaps="true"
-            android:paddingTop="@dimen/margin_medium"
-            android:textSize="@dimen/material_text_button"
-            android:layout_below="@+id/event_location_group"
-            android:layout_marginStart="@dimen/margin_medium"
-            />
-        <LinearLayout
-            android:id="@+id/event_details_pictures"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/event_guests_heading"
-            android:layout_marginTop="@dimen/margin_tiny"
-            android:layout_marginBottom="@dimen/margin_tiny"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:orientation="horizontal">
-            <com.mikhaellopez.circularimageview.CircularImageView
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                app:civ_border="false"
-                android:src="@drawable/profiler"/>
-        </LinearLayout>
-        <Button
-            android:id="@+id/event_guests_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#2196F3"
-            android:text="View All"
-            style="?android:attr/borderlessButtonStyle"
-            android:background="@android:color/transparent"
-            android:layout_below="@+id/event_details_pictures"
-            />
+            </LinearLayout>
+            <Button
+                android:id="@+id/event_guests_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#2196F3"
+                android:text="View All"
+                style="?android:attr/borderlessButtonStyle"
+                android:background="@android:color/transparent"
+                android:layout_below="@+id/event_details_pictures"
+                />
+        </RelativeLayout>
+
 
         <Button
             android:layout_width="wrap_content"
