@@ -2,6 +2,8 @@ package com.lordan.mark.PosseUp.Model;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.model.LatLng;
@@ -22,7 +24,7 @@ import java.util.List;
 /**
  * Created by Mark on 10/28/2015.
  */
-public class Event extends BaseObservable{
+public class Event extends BaseObservable implements Parcelable{
 
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     private SimpleDateFormat fancyFormatter = new SimpleDateFormat("E, MMM d, h:mm aa");
@@ -56,6 +58,13 @@ public class Event extends BaseObservable{
     @SerializedName("EventVenue")
     private PlaceVenue placeDetails;
 
+    public Event(Parcel in) {
+        this.eventName = in.readString();
+        this.eventDesc = in.readString();
+        this.eventID = in.readInt();
+        this.hostEmail = in.readString();
+        this.placeDetails = in.readParcelable(PlaceVenue.class.getClassLoader());
+    }
     public Event(String name, String visibility, String email, String eventDesc){
         this.eventName = name;
         this.eventVisibility = visibility;
@@ -209,4 +218,30 @@ public class Event extends BaseObservable{
         return getEventName() + " " + getEventDesc() + " " + getHostEmail();
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(eventName);
+        dest.writeString(eventDesc);
+        dest.writeInt(eventID);
+        dest.writeString(hostEmail);
+        dest.writeParcelable(placeDetails, flags );
+
+    }
+    public static final Parcelable.Creator<Event> CREATOR = new Parcelable.Creator<Event>(){
+
+        @Override
+        public Event createFromParcel(Parcel source) {
+            return new Event(source);
+        }
+
+        @Override
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
 }

@@ -28,7 +28,7 @@ public class PlaceVenue extends BaseObservable implements Parcelable{
    @SerializedName("LocationRating")
    private double venueRating;
 
-    public PlaceVenue(Parcel in){
+    public PlaceVenue(Parcel in) {
 
         this.venueName = in.readString();
         this.venueAddress = in.readString();

@@ -23,8 +23,6 @@
     <dimen name="text_margin">16dp</dimen>
 
 
-
-
     <!--Credit to passsy on Github for making these-->
     <!--Same sizes of text from Material Design specs-->
     <!--https://gist.github.com/passsy/9ab560b8877b316a14ea-->
