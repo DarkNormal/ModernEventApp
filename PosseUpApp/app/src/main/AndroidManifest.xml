@@ -31,9 +31,7 @@ package="com.lordan.mark.PosseUp" xmlns:tools="http://schemas.android.com/tools"
 
     </activity>
     <activity android:name=".UI.EventDetailGroup.EventDetailsActivity" android:label="Posse Up"
-
-
-        android:theme="@style/TranslucentStatusBar">
+        android:theme="@style/RevisedAppTheme">
         <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity" />
 
     </activity>
