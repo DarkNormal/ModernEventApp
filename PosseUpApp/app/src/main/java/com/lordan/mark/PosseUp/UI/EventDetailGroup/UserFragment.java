@@ -10,6 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.lordan.mark.PosseUp.CustomAdapter;
+import com.lordan.mark.PosseUp.Model.Event;
+import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.EventDetailGroup.dummy.DummyContent;
 import com.lordan.mark.PosseUp.UI.EventDetailGroup.dummy.DummyContent.DummyItem;
@@ -29,6 +32,7 @@ public class UserFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private Event e;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -52,6 +56,9 @@ public class UserFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
+            Bundle b = this.getArguments();
+            e = b.getParcelable("Event");
+
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
     }
@@ -70,7 +77,7 @@ public class UserFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            //recyclerView.setAdapter(new MyUserRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new UserAdapter(e.getAttendees(), mListener));
         }
         return view;
     }
@@ -105,6 +112,6 @@ public class UserFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(User u);
     }
 }

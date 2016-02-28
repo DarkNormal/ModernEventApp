@@ -13,7 +13,7 @@
         app:civ_shadow="false" />
 
     <TextView
-        android:id="@+id/friend_list_id"
+        android:id="@+id/user_name"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/text_margin"

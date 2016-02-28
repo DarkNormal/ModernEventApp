@@ -6,6 +6,8 @@ import com.google.gson.annotations.SerializedName;
  */
 public class User {
 
+
+
     @SerializedName("UserID")
     private int userID;
 
@@ -49,6 +51,13 @@ public class User {
     }
 
 
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
     public String getEmail() {
         return email;
     }

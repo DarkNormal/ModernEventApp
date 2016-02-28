@@ -1,6 +1,7 @@
 package com.lordan.mark.PosseUp.UI.EventDetailGroup;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
@@ -17,7 +18,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -25,6 +28,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.Event;
@@ -110,14 +114,36 @@ public class EventDetailsFragment extends Fragment {
         else {
             mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_event_details, container, false);
             queue = Volley.newRequestQueue(getContext());
-
-
         }
+
 
 
             v = mBinding.getRoot();
             AppCompatImageView directions = (AppCompatImageView) v.findViewById(R.id.directions_button);
             directions.setImageAlpha(128);
+            directions.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    LatLng location = event.getPlaceDetails().getVenueLocation();
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr=" + location.latitude + "," + location.longitude));
+                    startActivity(intent);
+                }
+            });
+        RelativeLayout holder = (RelativeLayout) v.findViewById(R.id.event_location_holder);
+        holder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LatLng location = event.getPlaceDetails().getVenueLocation();
+                String label = event.getPlaceDetails().getVenueName();
+                String uriBegin = "geo:" + location.latitude + "," + location.longitude;
+                String query = location.latitude+"," + location.longitude + "(" + label +")";
+                String encodedQuery = Uri.encode(query);
+                String uriString = uriBegin + "?q=" + encodedQuery;
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse( uriString + "&z=12"));
+                startActivity(intent);
+            }
+        });
             Button viewAll = (Button) v.findViewById(R.id.event_guests_button);
             viewAll.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -239,7 +265,7 @@ public class EventDetailsFragment extends Fragment {
 
 
     }
-    private void displayAttendee(int loopVar){
+    private void displayAttendee(final int loopVar){
         LinearLayout attendeeHolder = (LinearLayout) v.findViewById(R.id.event_details_pictures);
         int pixelsDP = Math.round(convertPixelsToDp(55));
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams( pixelsDP, pixelsDP );
@@ -249,6 +275,14 @@ public class EventDetailsFragment extends Fragment {
             attendee.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.profiler));
             attendee.setScaleType(ImageView.ScaleType.FIT_CENTER);
             attendee.setLayoutParams(layoutParams);
+            final int position = i;
+            attendee.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getContext(), "View profile with ID " + event.getAttendees().get(position).getUserID(), Toast.LENGTH_SHORT).show();
+                }
+            });
             attendeeHolder.addView(attendee);
         }
     }

@@ -9,10 +9,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.lordan.mark.PosseUp.AbstractActivity;
 import com.lordan.mark.PosseUp.Model.Event;
+import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.EventDetailGroup.dummy.DummyContent;
 
@@ -87,7 +89,7 @@ public class EventDetailsActivity extends AbstractActivity implements EventDetai
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
-
+    public void onListFragmentInteraction(User u) {
+        Toast.makeText(this, u.getUsername() + " selected", Toast.LENGTH_SHORT).show();
     }
 }

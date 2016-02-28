@@ -49,7 +49,7 @@
         <android.support.design.widget.NavigationView
             android:id="@+id/drawer_nav_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="start"
             app:headerLayout="@layout/drawer_header_layout"
             app:menu="@menu/menu_drawer"

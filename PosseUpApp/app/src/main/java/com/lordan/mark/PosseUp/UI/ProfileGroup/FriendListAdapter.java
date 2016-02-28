@@ -47,7 +47,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Vi
 
         public ViewHolder(View itemView) {
             super(itemView);
-            mView = (TextView) itemView.findViewById(R.id.friend_list_id);
+            mView = (TextView) itemView.findViewById(R.id.user_name);
             addButton = (LinearLayout) itemView.findViewById(R.id.add_user_button);
         }
     }

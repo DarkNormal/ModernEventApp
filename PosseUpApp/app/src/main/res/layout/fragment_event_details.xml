@@ -72,8 +72,10 @@
             android:layout_below="@+id/event_time_group"
             android:orientation="horizontal">
             <RelativeLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/event_location_holder"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:clickable="true"
                 android:background="@android:color/white"
                 android:layout_marginEnd="1dp"
                 android:layout_weight="1">
@@ -96,7 +98,8 @@
                     android:paddingTop="@dimen/margin_small"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_toRightOf="@+id/event_location_icon"
-                    android:text="@{venue.venueName}"/>
+                    android:text="@{venue.venueName}"
+                    android:layout_marginLeft="@dimen/margin_medium" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -112,6 +115,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_directions"
+                android:clickable="true"
                 android:background="@android:color/white"
                 android:paddingTop="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small"

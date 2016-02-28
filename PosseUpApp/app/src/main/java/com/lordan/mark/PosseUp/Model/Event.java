@@ -4,6 +4,9 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ListFragment;
+import android.util.Log;
 
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.model.LatLng;
@@ -18,8 +21,12 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Created by Mark on 10/28/2015.
@@ -54,7 +61,7 @@ public class Event extends BaseObservable implements Parcelable{
 
 
     @SerializedName("EventAttendees")
-    private List<User> attendees;
+    private ArrayList<User> attendees;
     @SerializedName("EventVenue")
     private PlaceVenue placeDetails;
 
@@ -198,11 +205,12 @@ public class Event extends BaseObservable implements Parcelable{
         this.endingTime = cal;
     }
 
-    public List<User> getAttendees() {
-        return attendees;
+    public ArrayList<User> getAttendees() {
+        return this.attendees;
     }
 
     public void setAttendees(JSONArray attendees) {
+        this.attendees.clear();
         for (int i = 0; i < attendees.length(); i++) {
             try {
                 this.attendees.add(new User(attendees.getJSONObject(i).getString("Username"),attendees.getJSONObject(i).getInt("Id")));
