@@ -29,7 +29,7 @@ public class EventDetailsActivity extends AbstractActivity implements EventDetai
     private int eventID = -1;
 
     private LatLng location;
-    private FragmentManager fragmentManager;
+    private FragmentManager fragmentManager = getSupportFragmentManager();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,12 +41,13 @@ public class EventDetailsActivity extends AbstractActivity implements EventDetai
             Bundle fragmentBundle = new Bundle();
             fragmentBundle.putInt("EventID", eventID);
             fragmentBundle.putString("currentUsername", getCurrentUsername());
-            EventDetailsFragment fragment = new EventDetailsFragment();
-            fragment.setArguments(fragmentBundle);
-            fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.add(R.id.event_details_content,fragment);
-            fragmentTransaction.commit();
+            if(savedInstanceState == null) {
+                EventDetailsFragment fragment = new EventDetailsFragment();
+                fragment.setArguments(fragmentBundle);
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.add(R.id.event_details_content, fragment);
+                fragmentTransaction.commit();
+            }
         }
 
 
@@ -63,6 +64,7 @@ public class EventDetailsActivity extends AbstractActivity implements EventDetai
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 finish();
+                //TODO fragment check
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -77,6 +79,11 @@ public class EventDetailsActivity extends AbstractActivity implements EventDetai
         fragment.setArguments(fragmentBundle);
         fragmentManager.beginTransaction().replace(R.id.event_details_content, fragment).addToBackStack("EventAttendeeList").commit();
 
+    }
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
     }
 
     @Override

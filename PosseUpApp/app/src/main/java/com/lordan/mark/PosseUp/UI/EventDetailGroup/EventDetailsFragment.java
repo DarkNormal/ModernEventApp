@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
@@ -53,7 +54,7 @@ public class EventDetailsFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private Event event = new Event();
+    private Event event;
     private int eventID;
     private View v;
     private String currentUser;
@@ -101,31 +102,36 @@ public class EventDetailsFragment extends Fragment {
         eventID = bundle.getInt("EventID");
 
         currentUser = bundle.getString("currentUsername");
-        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_event_details, container, false);
-        queue = Volley.newRequestQueue(getContext());
 
-        if(eventID != -1){
-            getEventDetails(eventID);
+        if(event != null) {
+            mBinding.setEvent(event);
+            mBinding.setVenue(event.getPlaceDetails());
         }
-        v = mBinding.getRoot();
-        AppCompatImageView directions = (AppCompatImageView) v.findViewById(R.id.directions_button);
-        directions.setImageAlpha(128);
-        Button viewAll = (Button) v.findViewById(R.id.event_guests_button);
-        viewAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mListener != null) {
-                    mListener.onFragmentInteraction(event);
+        else {
+            mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_event_details, container, false);
+            queue = Volley.newRequestQueue(getContext());
+
+
+        }
+
+
+            v = mBinding.getRoot();
+            AppCompatImageView directions = (AppCompatImageView) v.findViewById(R.id.directions_button);
+            directions.setImageAlpha(128);
+            Button viewAll = (Button) v.findViewById(R.id.event_guests_button);
+            viewAll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListener != null) {
+                        mListener.onFragmentInteraction(event);
+                    }
                 }
-            }
-        });
+            });
+
         return v;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Event e) {
-            mListener.onFragmentInteraction(e);
-    }
+
 
     @Override
     public void onAttach(Context context) {
@@ -142,6 +148,35 @@ public class EventDetailsFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onSaveInstanceState(final Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("event", event);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            //probably orientation change
+            event = savedInstanceState.getParcelable("event");
+            mBinding.setEvent(event);
+            mBinding.setVenue(event.getPlaceDetails());
+            displayAttendeeList();
+        } else {
+            if (event != null) {
+                //returning from backstack, data is fine, do nothing
+            } else {
+                //newly created, compute data
+                Log.i(TAG, "null savedinstancestate");
+                if (eventID != -1) {
+                    getEventDetails(eventID);
+                }
+            }
+        }
     }
 
     /**
