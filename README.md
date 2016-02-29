@@ -11,9 +11,7 @@ The source code for this can be found on GitHub [here](https://github.com/DarkNo
 
 Used libraries
 -----------
-[FabTransitionActivity](https://github.com/coyarzun89/FabTransitionActivity)<br>
 [MaterialEditText](https://github.com/rengwuxian/MaterialEditText)<br>
-[Circular Reveal](https://github.com/ozodrukh/CircularReveal)<br>
 [CircularImageView](https://github.com/lopspower/CircularImageView)<br>
 
 Google Libraries
