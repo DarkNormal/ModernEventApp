@@ -25,9 +25,6 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':volley')
-    compile('com.github.ozodrukh:CircularReveal:1.3.1') {
-        transitive = true;
-    }
     compile project(':volley')
 
     compile files('libs/notification-hubs-0.4.jar')
@@ -44,7 +41,6 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.2.0'
     compile 'com.android.support:cardview-v7:23.2.0'
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
-    compile 'com.github.coyarzun89:fabtransitionactivity:0.1.1'
     compile 'com.mikhaellopez:circularimageview:3.0.1'
     compile 'com.android.support:support-v4:23.2.0'
     compile 'com.google.android.gms:play-services-base:8.4.0'

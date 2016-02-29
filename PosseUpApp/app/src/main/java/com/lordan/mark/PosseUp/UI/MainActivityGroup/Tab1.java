@@ -33,7 +33,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
-import com.github.fabtransitionactivity.SheetLayout;
+
 import com.google.gson.Gson;
 import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.Model.PlaceVenue;
@@ -54,22 +54,14 @@ import java.util.List;
 
 
 
-public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListener {
+public class Tab1 extends Fragment {
 
-    private SheetLayout mSheetLayout;
     private FloatingActionButton mFab;
     private LinearLayout toolbar;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private static final String TAG = "MainActivity - TAB1";
 
     private static final int REQUEST_CODE = 1;
-
-    @Override
-    public void onFabAnimationEnd() {
-        Intent intent = new Intent(getContext(), AddEventActivity.class);
-        startActivityForResult(intent, REQUEST_CODE);
-    }
-
     private static final int DATASET_COUNT = 10;
 
     private RecyclerView mRecyclerView;
@@ -84,7 +76,6 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         v =inflater.inflate(R.layout.tab_1,container,false);
         v.setTag(TAG);
-        mSheetLayout = (SheetLayout) v.findViewById(R.id.bottom_sheet);
         mFab = (FloatingActionButton) v.findViewById(R.id.addEvent_Button);
         mRecyclerView = (RecyclerView) v.findViewById(R.id.cardList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -117,18 +108,9 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSheetLayout.expandFab();
-                toolbar = (LinearLayout) getActivity().findViewById(R.id.main_toolbar_holder);
-                toolbar.animate()
-                        .alpha(0.0f)
-                        .setDuration(250);
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        toolbar.setVisibility(View.GONE);
-                    }
-                },250);
+
+                Intent intent = new Intent(getContext(), AddEventActivity.class);
+                startActivityForResult(intent, REQUEST_CODE);
             }
         });
 
@@ -158,12 +140,7 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_CODE){
-            if(resultCode == 0) {
-                toolbar.setAlpha(1.0f);
-                toolbar.setVisibility(View.VISIBLE);
-                mSheetLayout.contractFab();
-                Log.i("FABTRANSITION", "contracted fab");
-            }
+            //return from create event
         }
     }
     @Override
@@ -181,16 +158,7 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
 
         }
     }
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-    }
-    @Override
-    public void onStart(){
-        super.onStart();
-        mSheetLayout.setFab(mFab);
-        mSheetLayout.setFabAnimationEndListener(this);
-    }
+
 
 
     private void initDataset() {
@@ -254,10 +222,11 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
     private void displaySnack(int errorCode){
         //displays a custom snackbar based on the error code
         Snackbar alert;
+
         switch (errorCode){
             case 401:
                 //Unauthorized - token probably gone
-                alert = Snackbar.make(v, "Authentication Failed", Snackbar.LENGTH_LONG).setAction("REFRESH", new View.OnClickListener() {
+                alert = Snackbar.make(mFab, "Authentication Failed", Snackbar.LENGTH_LONG).setAction("REFRESH", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         refreshEvents();
@@ -269,7 +238,7 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
             case 403:
             case 503:
                 //Forbidden - service unavailable or stopped
-                alert = Snackbar.make(v, "Service Unavailable", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                alert = Snackbar.make(mFab, "Service Unavailable", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //TODO refresh token
@@ -279,7 +248,7 @@ public class Tab1 extends Fragment implements SheetLayout.OnFabAnimationEndListe
                 alert.show();
                 break;
             default:
-                alert = Snackbar.make(v, "Failed to get Events", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                alert = Snackbar.make(mFab, "Failed to get Events", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         refreshEvents();

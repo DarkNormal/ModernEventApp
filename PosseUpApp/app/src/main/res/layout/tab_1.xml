@@ -4,9 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/textView2"
@@ -39,8 +36,7 @@
             android:id="@+id/addEvent_Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
+            android:layout_gravity="bottom|end"
             android:layout_marginBottom="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
             android:clickable="true"
@@ -48,18 +44,5 @@
             app:backgroundTint="@color/primaryThemeColor"
             app:borderWidth="0dp"
             app:fabSize="normal" />
-
-        <com.github.fabtransitionactivity.SheetLayout
-            android:id="@+id/bottom_sheet"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="false"
-            android:layout_gravity="bottom"
-            app:ft_color="@color/ColorPrimary"
-            app:ft_container_gravity="center" />
-
-
-    </RelativeLayout>
-
 
 </android.support.design.widget.CoordinatorLayout>
