@@ -22,8 +22,8 @@ import java.util.List;
  */
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
     private static final String TAG = "CustomAdapter";
-    CustomItemClickListener listener;
-    Context mContext;
+    private CustomItemClickListener listener;
+    private Context mContext;
     private List<Event> mDataSet;
 
     /**

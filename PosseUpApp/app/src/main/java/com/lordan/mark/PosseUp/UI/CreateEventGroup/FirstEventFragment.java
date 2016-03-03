@@ -5,7 +5,6 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
@@ -25,25 +24,19 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.R;
 import com.rengwuxian.materialedittext.MaterialEditText;
-
-import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Mark on 14/01/2016.
  */
 public class FirstEventFragment extends Fragment {
-    private Spinner spinner;
     private SwitchCompat mSwitch;
     private View v;
     private Event newEvent = new Event();
@@ -56,7 +49,7 @@ public class FirstEventFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState){
         v = inflater.inflate(R.layout.add_event_basic_details, container, false);
         chosenLocation =(TextView) v.findViewById(R.id.event_current_location);
-        spinner = (Spinner) v.findViewById(R.id.create_event_type);
+        Spinner spinner = (Spinner) v.findViewById(R.id.create_event_type);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.event_type, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

@@ -19,7 +19,6 @@ import com.lordan.mark.PosseUp.R;
  * Created by Mark on 10/10/2015.
  */
 public class ForgotPasswordFrag extends Fragment {
-    private View forgotPasswordView;
     private ProgressDialog mProgressDialog;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,7 +29,7 @@ public class ForgotPasswordFrag extends Fragment {
         if(bundle != null){
              email = bundle.getString("email");
         }
-        forgotPasswordView = inflater.inflate(R.layout.forgotpasswordfrag_layout, container, false);
+        View forgotPasswordView = inflater.inflate(R.layout.forgotpasswordfrag_layout, container, false);
         final EditText emailInput = (EditText) forgotPasswordView.findViewById(R.id.forgotpassword_email);
         emailInput.setText(email);
         final EditText temppassword = (EditText) forgotPasswordView.findViewById(R.id.uid);
@@ -71,8 +70,7 @@ public class ForgotPasswordFrag extends Fragment {
     }
     public static ForgotPasswordFrag newInstance()
     {
-        ForgotPasswordFrag myFragment = new ForgotPasswordFrag();
-        return myFragment;
+        return new ForgotPasswordFrag();
     }
     public void tempLogin(String usernameOrEmail, String password) {
 

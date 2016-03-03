@@ -10,14 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.lordan.mark.PosseUp.CustomAdapter;
 import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
-import com.lordan.mark.PosseUp.UI.EventDetailGroup.dummy.DummyContent;
-import com.lordan.mark.PosseUp.UI.EventDetailGroup.dummy.DummyContent.DummyItem;
-
-import java.util.List;
 
 /**
  * A fragment representing a list of Items.

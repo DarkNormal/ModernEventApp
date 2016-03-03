@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;

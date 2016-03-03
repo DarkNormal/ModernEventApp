@@ -23,7 +23,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.microsoft.windowsazure.messaging.NotificationHub;
 import com.microsoft.windowsazure.notifications.NotificationsManager;
 
@@ -34,22 +33,17 @@ public class MainActivity extends AbstractActivity {
     private String SENDER_ID = "851010273767";
     private GoogleCloudMessaging gcm;
     private NotificationHub hub;
-    private String HubName = "PosseUp-Notifications";
-    private String HubListenConnectionString = "Endpoint=sb://posseup-notificationhub.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=ULoYyvlyIcvWKY1XFmUYB8OGNTOfzIKHT11m1AukTuc=";
     private static Boolean isVisible = false;
-    private String[] navDrawerTitles;
     private DrawerLayout mDrawerLayout;
-    private LinearLayout drawerLinear;
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
-    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
 
 
         setSupportActionBar(mToolbar);
@@ -100,10 +94,10 @@ public class MainActivity extends AbstractActivity {
                 }
             }
         });
-        navDrawerTitles = getResources().getStringArray(R.array.nav_drawer_items);
+        String[] navDrawerTitles = getResources().getStringArray(R.array.nav_drawer_items);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-        drawerLinear = (LinearLayout) findViewById(R.id.drawer_linear);
+        LinearLayout drawerLinear = (LinearLayout) findViewById(R.id.drawer_linear);
         //mDrawerList = (ListView) findViewById(R.id.left_drawer);
         //mDrawerList.setAdapter(new DrawerItemAdapter(this));
 //        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
@@ -142,7 +136,9 @@ public class MainActivity extends AbstractActivity {
         MyHandler.mainActivity = this;
         NotificationsManager.handleNotifications(this, SENDER_ID, MyHandler.class);
         gcm = GoogleCloudMessaging.getInstance(this);
-        hub = new NotificationHub(HubName, HubListenConnectionString, this);
+        String hubListenConnectionString = "Endpoint=sb://posseup-notificationhub.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=ULoYyvlyIcvWKY1XFmUYB8OGNTOfzIKHT11m1AukTuc=";
+        String hubName = "PosseUp-Notifications";
+        hub = new NotificationHub(hubName, hubListenConnectionString, this);
         registerWithNotificationHubs();
     }
 

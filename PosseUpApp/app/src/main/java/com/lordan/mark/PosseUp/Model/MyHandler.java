@@ -19,7 +19,6 @@ import com.microsoft.windowsazure.notifications.NotificationsHandler;
 
 public class MyHandler extends NotificationsHandler {
     public static final int NOTIFICATION_ID = 1;
-    private NotificationManager mNotificationManager;
     NotificationCompat.Builder builder;
     Context ctx;
 
@@ -35,7 +34,7 @@ public class MyHandler extends NotificationsHandler {
     }
 
     private void sendNotification(String msg) {
-        mNotificationManager = (NotificationManager)
+        NotificationManager mNotificationManager = (NotificationManager)
                 ctx.getSystemService(Context.NOTIFICATION_SERVICE);
 
         PendingIntent contentIntent = PendingIntent.getActivity(ctx, 0,

@@ -7,7 +7,6 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
@@ -55,8 +54,6 @@ public class EventDetailsFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private String TAG = "Event Details Fragment";
-    private String mParam1;
-    private String mParam2;
 
     private Event event;
     private int eventID;
@@ -93,8 +90,8 @@ public class EventDetailsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            String mParam1 = getArguments().getString(ARG_PARAM1);
+            String mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 

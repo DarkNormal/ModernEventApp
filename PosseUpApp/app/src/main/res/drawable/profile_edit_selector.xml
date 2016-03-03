@@ -7,5 +7,5 @@
         android:state_checked="false"
         android:drawable="@drawable/ic_mode_edit"/>
     <item android:state_checked="true"
-        android:drawable="@drawable/ic_done_white"/>
+        android:drawable="@drawable/ic_action_tick"/>
 </selector>

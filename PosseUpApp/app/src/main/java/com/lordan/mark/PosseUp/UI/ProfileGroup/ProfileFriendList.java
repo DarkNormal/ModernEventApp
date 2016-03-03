@@ -31,13 +31,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class ProfileFriendList extends Fragment {
-    private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private RequestQueue queue;
     private ArrayList<User> list = new ArrayList<>();
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private CoordinatorLayout coordinatorLayout;
 
 
     @Override
@@ -51,12 +48,12 @@ public class ProfileFriendList extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_friend_list, container, false);
-        coordinatorLayout = (CoordinatorLayout) getActivity().findViewById(R.id.add_user_coordinator);
+        CoordinatorLayout coordinatorLayout = (CoordinatorLayout) getActivity().findViewById(R.id.add_user_coordinator);
 
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.friend_list);
+        RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.friend_list);
         mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(getContext());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new FriendListAdapter(list, coordinatorLayout, getContext());
         mRecyclerView.setAdapter(mAdapter);

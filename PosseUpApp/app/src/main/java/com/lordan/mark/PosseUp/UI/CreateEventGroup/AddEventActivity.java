@@ -38,7 +38,6 @@ import com.lordan.mark.PosseUp.AbstractActivity;
 import com.lordan.mark.PosseUp.DataOperations.AzureService;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.Event;
-import com.lordan.mark.PosseUp.Model.PlaceVenue;
 import com.lordan.mark.PosseUp.R;
 
 import org.json.JSONException;
@@ -49,9 +48,7 @@ import org.json.JSONObject;
  * Created by Mark on 10/27/2015.
  */
 public class AddEventActivity extends AbstractActivity {
-    public static Event newEvent;
-    private LinearLayout fragmentHolder;
-    private FragmentManager fragMan;
+    private static Event newEvent;
     private FirstEventFragment myFrag;
     private RequestQueue queue;
     Fragment secondFrag;
@@ -64,8 +61,8 @@ public class AddEventActivity extends AbstractActivity {
         setupToolbar();
 
 
-        fragmentHolder = (LinearLayout) findViewById(R.id.add_event_fragment_holder);
-        fragMan = getSupportFragmentManager();
+        LinearLayout fragmentHolder = (LinearLayout) findViewById(R.id.add_event_fragment_holder);
+        FragmentManager fragMan = getSupportFragmentManager();
         FragmentTransaction fragTransaction = fragMan.beginTransaction();
         myFrag = new FirstEventFragment();
         fragTransaction.add(fragmentHolder.getId(), myFrag, "add_event_basic");

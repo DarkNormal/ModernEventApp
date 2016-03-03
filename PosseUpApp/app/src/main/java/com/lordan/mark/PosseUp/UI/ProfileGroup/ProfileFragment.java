@@ -38,7 +38,6 @@ public class ProfileFragment extends Fragment {
     private ViewSwitcher viewSwitcher;
     private MaterialEditText materialEditText;
     private TextView username;
-    private RequestQueue queue;
     private AlertDialog dialog;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,7 +62,7 @@ public class ProfileFragment extends Fragment {
         viewPager.setAdapter(new ProfilePagerAdapter(getChildFragmentManager(), getContext()));
         TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.profile_tabs);
         tabLayout.setupWithViewPager(viewPager);
-        queue = Volley.newRequestQueue(getContext());
+        RequestQueue queue = Volley.newRequestQueue(getContext());
 
         return rootView;
     }
@@ -105,7 +104,7 @@ public class ProfileFragment extends Fragment {
                 else{
                     materialEditText.setText(username.getText().toString());
                     viewSwitcher.showNext();
-                    item.setIcon(R.drawable.ic_done_white);
+                    item.setIcon(R.drawable.ic_action_tick);
                     item.setChecked(false);
                 }
                 Toast.makeText(getContext(), "Edit profile", Toast.LENGTH_SHORT).show();
@@ -138,8 +137,7 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-        AlertDialog dialog = builder.create();
-        return dialog;
+        return builder.create();
     }
 
 

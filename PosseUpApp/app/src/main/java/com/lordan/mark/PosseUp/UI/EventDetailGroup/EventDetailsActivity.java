@@ -1,14 +1,11 @@
 package com.lordan.mark.PosseUp.UI.EventDetailGroup;
 
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -16,7 +13,6 @@ import com.lordan.mark.PosseUp.AbstractActivity;
 import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
-import com.lordan.mark.PosseUp.UI.EventDetailGroup.dummy.DummyContent;
 
 /**
  * Created by Mark on 07/02/2016.
@@ -28,17 +24,14 @@ public class EventDetailsActivity extends AbstractActivity implements EventDetai
 
     private static final String TAG = "EventDetailsActivity";
 
-    private int eventID = -1;
-
-    private LatLng location;
     private FragmentManager fragmentManager = getSupportFragmentManager();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_details_layout);
         Bundle bundle = getIntent().getExtras();
-        eventID = bundle.getInt("EventID");
-        location = new LatLng(bundle.getDouble("EventLat"), bundle.getDouble("EventLng"));
+        int eventID = bundle.getInt("EventID");
+        LatLng location = new LatLng(bundle.getDouble("EventLat"), bundle.getDouble("EventLng"));
         if (eventID != -1) {
             Bundle fragmentBundle = new Bundle();
             fragmentBundle.putInt("EventID", eventID);

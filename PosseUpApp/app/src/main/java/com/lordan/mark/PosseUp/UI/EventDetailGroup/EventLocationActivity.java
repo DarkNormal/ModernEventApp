@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -21,15 +20,13 @@ import com.lordan.mark.PosseUp.databinding.ActivityEventLocationBinding;
 
 public class EventLocationActivity extends AbstractActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
     private PlaceVenue venue;
-    private ActivityEventLocationBinding binding;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_event_location);
+        ActivityEventLocationBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_event_location);
         Toolbar toolbar = (Toolbar) findViewById(R.id.event_detail_map_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -84,7 +81,7 @@ public class EventLocationActivity extends AbstractActivity implements OnMapRead
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+        GoogleMap mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
         mMap.addMarker(new MarkerOptions().position(venue.getVenueLocation()));

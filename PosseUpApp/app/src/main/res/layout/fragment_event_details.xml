@@ -157,7 +157,6 @@
                 android:layout_height="wrap_content"
                 android:textColor="#2196F3"
                 android:text="View All"
-                android:onClick="viewAttendee"
                 style="?android:attr/borderlessButtonStyle"
                 android:background="@android:color/transparent"
                 android:layout_below="@+id/event_details_pictures"

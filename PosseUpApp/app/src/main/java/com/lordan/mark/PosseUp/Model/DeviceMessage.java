@@ -20,7 +20,6 @@ import java.nio.charset.Charset;
 public class DeviceMessage {
     private static final Gson gson = new Gson();
 
-    private final String mInstanceId;
     private final String mMessageBody;
     private final String mEmail;
 
@@ -29,7 +28,7 @@ public class DeviceMessage {
      */
     public static Message newNearbyMessage(String instanceId, String email) {
         DeviceMessage deviceMessage = new DeviceMessage(instanceId, email);
-        return new Message(gson.toJson(deviceMessage).toString().getBytes(Charset.forName("UTF-8")));
+        return new Message(gson.toJson(deviceMessage).getBytes(Charset.forName("UTF-8")));
     }
 
     /**
@@ -44,7 +43,7 @@ public class DeviceMessage {
     }
 
     private DeviceMessage(String instanceId, String email) {
-        this.mInstanceId = instanceId;
+        String mInstanceId = instanceId;
         this.mMessageBody = Build.MODEL;
         this.mEmail = email;
     }

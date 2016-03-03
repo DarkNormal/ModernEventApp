@@ -38,7 +38,6 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 import com.lordan.mark.PosseUp.DataOperations.AzureService;
 import com.lordan.mark.PosseUp.Model.Constants;
@@ -61,7 +60,6 @@ public class SigninFrag extends Fragment implements View.OnClickListener {
     private EditText username, password;
     private RequestQueue queue;
     private ProgressDialog mProgressDialog;
-    private LoginButton loginButton;
     private static final String TAG = "SigninFrag";
     CallbackManager callbackManager;
     @Override
@@ -90,7 +88,7 @@ public class SigninFrag extends Fragment implements View.OnClickListener {
                                           }
 
         );
-        loginButton = (LoginButton) detailsView.findViewById(R.id.login_button);
+        LoginButton loginButton = (LoginButton) detailsView.findViewById(R.id.login_button);
         loginButton.setReadPermissions("user_friends", "email");
         // If using in a fragment
         loginButton.setFragment(this);
@@ -236,12 +234,11 @@ public class SigninFrag extends Fragment implements View.OnClickListener {
             @Override
             public void onResponse(JSONObject response) {
 
-                JSONObject json = response;
                 System.out.println("Token recieved");
 
                 try {
                     AzureService az = new AzureService();
-                    az.saveUserData(getActivity(), json.getString("access_token"), json.getString("userName"), json.getString("email"));
+                    az.saveUserData(getActivity(), response.getString("access_token"), response.getString("userName"), response.getString("email"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

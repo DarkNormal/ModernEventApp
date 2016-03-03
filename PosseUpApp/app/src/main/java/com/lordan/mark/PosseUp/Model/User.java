@@ -11,9 +11,6 @@ public class User {
     @SerializedName("UserID")
     private int userID;
 
-    @SerializedName("Name")
-    private String name;
-
     @SerializedName("Email")
     private String email;
 
@@ -36,7 +33,7 @@ public class User {
     }
     public User(String email, String password, String username){
         userID = 99;
-        name = "mark";
+        String name = "mark";
         this.email = email;
         this.password = password;
         this.username = username;

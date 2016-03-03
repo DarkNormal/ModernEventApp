@@ -4,29 +4,19 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ListFragment;
-import android.util.Log;
 
 import com.google.android.gms.location.places.Place;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.SerializedName;
 import com.lordan.mark.PosseUp.BR;
 
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 /**
  * Created by Mark on 10/28/2015.
@@ -104,9 +94,8 @@ public class Event extends BaseObservable implements Parcelable{
 
     public void setPlaceDetails(Place placeDetails) {
 
-        PlaceVenue venue = new PlaceVenue(placeDetails.getName().toString(), placeDetails.getAddress().toString(), placeDetails.getLatLng(),
+        this.placeDetails = new PlaceVenue(placeDetails.getName().toString(), placeDetails.getAddress().toString(), placeDetails.getLatLng(),
                 placeDetails.getPlaceTypes(), placeDetails.getRating());
-        this.placeDetails = venue;
     }
 
     public int getEventID() {

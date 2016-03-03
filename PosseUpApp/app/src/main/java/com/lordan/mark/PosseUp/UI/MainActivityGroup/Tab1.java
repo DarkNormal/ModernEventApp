@@ -6,12 +6,10 @@ package com.lordan.mark.PosseUp.UI.MainActivityGroup;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -64,24 +62,20 @@ public class Tab1 extends Fragment {
     private static final int REQUEST_CODE = 1;
     private static final int DATASET_COUNT = 10;
 
-    private RecyclerView mRecyclerView;
     private CustomAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private List<Event> mDataset;
-    private RequestQueue queue;
-    private View v;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        v =inflater.inflate(R.layout.tab_1,container,false);
+        View v = inflater.inflate(R.layout.tab_1, container, false);
         v.setTag(TAG);
         mFab = (FloatingActionButton) v.findViewById(R.id.addEvent_Button);
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.cardList);
+        RecyclerView mRecyclerView = (RecyclerView) v.findViewById(R.id.cardList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
-        mLayoutManager = new LinearLayoutManager(getActivity());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
 
 
 
@@ -171,7 +165,7 @@ public class Tab1 extends Fragment {
     private void refreshEvents() {
 
 
-        queue = Volley.newRequestQueue(getActivity());
+        RequestQueue queue = Volley.newRequestQueue(getActivity());
         String url = Constants.baseUrl + "api/Events";
 
         JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {

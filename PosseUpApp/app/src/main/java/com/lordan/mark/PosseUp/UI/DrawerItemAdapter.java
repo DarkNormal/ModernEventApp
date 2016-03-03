@@ -14,9 +14,9 @@ import com.lordan.mark.PosseUp.R;
 /**
  * Created by Mark on 31/01/2016.
  */
-public class DrawerItemAdapter extends BaseAdapter {
+class DrawerItemAdapter extends BaseAdapter {
     private Context context;
-    String[] listTitles;
+    private String[] listTitles;
     private TypedArray imgs;
     public DrawerItemAdapter(Context context){
         this.context = context;
