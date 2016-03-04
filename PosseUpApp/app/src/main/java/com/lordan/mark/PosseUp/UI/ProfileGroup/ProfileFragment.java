@@ -42,26 +42,26 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.profile_layout, container, false);
+        View rootView = inflater.inflate(R.layout.account_profile_layout, container, false);
 
         AzureService az = new AzureService();
-        AppCompatButton btn =(AppCompatButton) rootView.findViewById(R.id.edit_profile_btn);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), EditProfileActivity.class);
-                startActivity(intent);
-            }
-        });
-        viewSwitcher = (ViewSwitcher) rootView.findViewById(R.id.profile_username_swticher);
-        materialEditText = (MaterialEditText) rootView.findViewById(R.id.profile_username_edit);
-        username = (TextView) rootView.findViewById(R.id.profile_username);
-        username.setText(az.getCurrentUsername(getContext()));
-
-        ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.profile_pager);
-        viewPager.setAdapter(new ProfilePagerAdapter(getChildFragmentManager(), getContext()));
-        TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.profile_tabs);
-        tabLayout.setupWithViewPager(viewPager);
+//        AppCompatButton btn =(AppCompatButton) rootView.findViewById(R.id.edit_profile_btn);
+//        btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getActivity(), ProfileActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//        viewSwitcher = (ViewSwitcher) rootView.findViewById(R.id.profile_username_swticher);
+//        materialEditText = (MaterialEditText) rootView.findViewById(R.id.profile_username_edit);
+//        username = (TextView) rootView.findViewById(R.id.profile_username);
+//        username.setText(az.getCurrentUsername(getContext()));
+//
+//        ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.profile_pager);
+//        viewPager.setAdapter(new ProfilePagerAdapter(getChildFragmentManager(), getContext()));
+//        TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.profile_tabs);
+//        tabLayout.setupWithViewPager(viewPager);
         RequestQueue queue = Volley.newRequestQueue(getContext());
 
         return rootView;

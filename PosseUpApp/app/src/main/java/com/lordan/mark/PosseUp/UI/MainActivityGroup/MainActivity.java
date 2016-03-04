@@ -8,9 +8,9 @@ import android.support.v4.app.Fragment;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.lordan.mark.PosseUp.AbstractActivity;
 import com.lordan.mark.PosseUp.Model.MyHandler;
+import com.lordan.mark.PosseUp.UI.ProfileGroup.ProfileActivity;
 import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.ProfileGroup.ProfileFragment;
-import com.lordan.mark.PosseUp.UI.SigninGroup.SigninActivity;
 
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -179,9 +179,10 @@ public class MainActivity extends AbstractActivity {
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.sign_out_menu) {
-            signOut();
-            startActivity(new Intent(MainActivity.this, SigninActivity.class));
-            finish();
+            startActivity(new Intent(this, ProfileActivity.class));
+//            signOut();
+//            startActivity(new Intent(MainActivity.this, SigninActivity.class));
+//            finish();
         }
 
         return super.onOptionsItemSelected(item);

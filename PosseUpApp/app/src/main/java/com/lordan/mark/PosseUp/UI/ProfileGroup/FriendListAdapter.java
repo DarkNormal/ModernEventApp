@@ -48,7 +48,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Vi
         public ViewHolder(View itemView) {
             super(itemView);
             mView = (TextView) itemView.findViewById(R.id.user_name);
-            addButton = (LinearLayout) itemView.findViewById(R.id.add_user_button);
+            //addButton = (LinearLayout) itemView.findViewById(R.id.add_user_button);
         }
     }
 
@@ -73,36 +73,36 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Vi
         holder.mView.setText(mDataset.get(position).getUsername());
 
         //icon within LinearLayout (button)
-        final ImageView icon = (ImageView) holder.addButton.findViewById(R.id.add_user_button_icon);
-        if (mDataset.get(position).isFriend()) {
-            //if the user is a friend, set the button to added
-            holder.addButton.setBackgroundResource(R.drawable.custom_button_background_selected);
-            icon.setImageResource(R.drawable.ic_people);
-        }
-        holder.addButton.setOnClickListener(new View.OnClickListener() {
+//        final ImageView icon = (ImageView) holder.addButton.findViewById(R.id.add_user_button_icon);
+//        if (mDataset.get(position).isFriend()) {
+//            //if the user is a friend, set the button to added
+//            holder.addButton.setBackgroundResource(R.drawable.custom_button_background_selected);
+//            icon.setImageResource(R.drawable.ic_people);
+//        }
+        //holder.addButton.setOnClickListener(new View.OnClickListener() {
             //
             //TODO
             //Add calls to web service to complete functionality
             //
-            @Override
-            public void onClick(View v) {
-                if (mDataset.get(position).isFriend()) {
-                    //if the user is a friend, we are now unfriending them
-                    updateButton(icon, R.drawable.tinted_ic_add, holder, false);
-                    updateFriendship(true, mDataset.get(position).getUsername(), position);
-
-                    mDataset.get(position).setFriend(false);
-                } else {
-                    //we are now adding the user as a friend
-                    updateButton(icon, R.drawable.ic_people, holder, true);
-                    updateFriendship(false, mDataset.get(position).getUsername(), position);
-
-                    mDataset.get(position).setFriend(true);
-                }
-
-
-            }
-        });
+//            @Override
+//            public void onClick(View v) {
+//                if (mDataset.get(position).isFriend()) {
+//                    //if the user is a friend, we are now unfriending them
+//                    updateButton(icon, R.drawable.tinted_ic_add, holder, false);
+//                    updateFriendship(true, mDataset.get(position).getUsername(), position);
+//
+//                    mDataset.get(position).setFriend(false);
+//                } else {
+//                    //we are now adding the user as a friend
+//                    updateButton(icon, R.drawable.ic_people, holder, true);
+//                    updateFriendship(false, mDataset.get(position).getUsername(), position);
+//
+//                    mDataset.get(position).setFriend(true);
+//                }
+//
+//
+//            }
+        //});
 
 
     }

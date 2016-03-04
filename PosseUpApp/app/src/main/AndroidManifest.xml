@@ -48,8 +48,8 @@ package="com.lordan.mark.PosseUp" xmlns:tools="http://schemas.android.com/tools"
 
     </activity>
 
-    <activity android:name=".UI.ProfileGroup.EditProfileActivity" android:theme="@style/RevisedAppTheme"
-        android:label="Edit" android:parentActivityName=".UI.MainActivityGroup.MainActivity" />
+    <activity android:name=".UI.ProfileGroup.ProfileActivity" android:theme="@style/RevisedAppTheme"
+        android:label="Profile"/>
 
     <activity android:name="com.facebook.FacebookActivity" android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
         android:theme="@android:style/Theme.Translucent.NoTitleBar" android:label="@string/app_name" />

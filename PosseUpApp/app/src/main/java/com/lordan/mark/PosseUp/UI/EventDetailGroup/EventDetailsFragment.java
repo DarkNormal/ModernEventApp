@@ -32,6 +32,7 @@ import com.google.gson.Gson;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.R;
+import com.lordan.mark.PosseUp.UI.ProfileGroup.ProfileActivity;
 import com.lordan.mark.PosseUp.databinding.FragmentEventDetailsBinding;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
@@ -201,19 +202,7 @@ public class EventDetailsFragment extends Fragment {
             }
         }
     }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Event e);
     }
 
@@ -277,7 +266,10 @@ public class EventDetailsFragment extends Fragment {
 
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getContext(), "View profile with ID " + event.getAttendees().get(position).getUserID(), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                    intent.putExtra("username", event.getAttendees().get(position).getUsername());
+                    startActivity(intent);
+                    //Toast.makeText(getContext(), "View profile with ID " + event.getAttendees().get(position).getUserID(), Toast.LENGTH_SHORT).show();
                 }
             });
             attendeeHolder.addView(attendee);

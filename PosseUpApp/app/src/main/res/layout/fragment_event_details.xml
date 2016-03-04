@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:id="@+id/imageView"
-            android:layout_below="@+id/event_detail_toolbar"
+            android:layout_below="@+id/scrolling_toolbar"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/gradient_background" />
         <com.mikhaellopez.circularimageview.CircularImageView
@@ -59,7 +59,7 @@
                 style="@style/RevisedAppTheme.DarkText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{event.startingTime}"
+                android:text="@{event.startingTime, default=PLACEHOLDER}"
                 android:paddingStart="@dimen/margin_medium"
                 android:paddingTop="@dimen/margin_small"
                 android:layout_toRightOf="@+id/event_time_icon"
@@ -98,12 +98,12 @@
                     android:paddingTop="@dimen/margin_small"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_toRightOf="@+id/event_location_icon"
-                    android:text="@{venue.venueName}"
+                    android:text="@{venue.venueName, default=PLACEHOLDER}"
                     android:layout_marginLeft="@dimen/margin_medium" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{venue.venueAddress}"
+                    android:text="@{venue.venueAddress, default=PLACEHOLDER}"
                     android:textSize="@dimen/material_text_body1"
                     android:textColor="@android:color/black"
                     android:layout_below="@+id/event_location_title"
@@ -124,6 +124,7 @@
         </LinearLayout>
 
         <RelativeLayout
+            android:id="@+id/attendee_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
@@ -169,9 +170,8 @@
             android:layout_height="wrap_content"
             android:text="Attend"
             android:id="@+id/button"
-            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="46dp"
+            android:layout_below="@+id/attendee_holder"
             android:textColor="@android:color/white" />
     </RelativeLayout>
 </layout>
