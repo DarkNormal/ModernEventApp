@@ -84,7 +84,11 @@ public class MainActivity extends AbstractActivity {
                         return true;
                     case R.id.drawer_profile:
                         Toast.makeText(getApplicationContext(), "Profile Selected", Toast.LENGTH_SHORT).show();
+                        Bundle args = new Bundle();
+                        args.putBoolean("isCurrentUser", true);
+                        args.putString("username", getCurrentUsername());
                         fragment = new ProfileFragment();
+                        fragment.setArguments(args);
                         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
                         return true;
                     default:

@@ -2,6 +2,7 @@ package com.lordan.mark.PosseUp.UI.ProfileGroup;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatButton;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,30 +23,78 @@ import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import com.google.gson.Gson;
 import com.lordan.mark.PosseUp.DataOperations.AzureService;
 
+import com.lordan.mark.PosseUp.Model.Constants;
+import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
 
+import com.lordan.mark.PosseUp.databinding.AccountProfileLayoutBinding;
 import com.rengwuxian.materialedittext.MaterialEditText;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Mark on 31/01/2016.
  */
 public class ProfileFragment extends Fragment {
-    private ViewSwitcher viewSwitcher;
-    private MaterialEditText materialEditText;
-    private TextView username;
-    private AlertDialog dialog;
+
+    private boolean whois;
+    private User user;
+    private RequestQueue queue;
+    private AzureService az;
+    private AccountProfileLayoutBinding mBinding;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.account_profile_layout, container, false);
 
-        AzureService az = new AzureService();
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.account_profile_layout, container, false);
+        queue = Volley.newRequestQueue(getContext());
+        user = new User();
+        mBinding.setUser(user);
+        View rootView = mBinding.getRoot();
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            //whois is true when the the user is viewing their own profile, allow editing or something
+            whois = bundle.getBoolean("isCurrentUser", false);
+            user.setUsername(bundle.getString("username"));
+
+        } else {
+            whois = false;
+        }
+        az = new AzureService();
+        getUserDetails(new VolleyCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+
+                try {
+                    String jsonarr = result.getJSONArray("Followers").toString();
+                    user.setFollowers(new Gson().fromJson(jsonarr, ArrayList.class));
+                    jsonarr = result.getJSONArray("Following").toString();
+                    user.setFollowing(new Gson().fromJson(jsonarr, ArrayList.class));
+                    Log.i("profilefragment", "followers updated");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 //        AppCompatButton btn =(AppCompatButton) rootView.findViewById(R.id.edit_profile_btn);
 //        btn.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -62,10 +112,9 @@ public class ProfileFragment extends Fragment {
 //        viewPager.setAdapter(new ProfilePagerAdapter(getChildFragmentManager(), getContext()));
 //        TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.profile_tabs);
 //        tabLayout.setupWithViewPager(viewPager);
-        RequestQueue queue = Volley.newRequestQueue(getContext());
-
         return rootView;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,35 +126,35 @@ public class ProfileFragment extends Fragment {
         inflater.inflate(R.menu.menu_profile, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
+
     @Override
-    public void onPrepareOptionsMenu(Menu menu){
+    public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         MenuItem checkItem = menu.findItem(R.id.edit_profile);
         MenuItem menuItem = menu.findItem(R.id.edit_profile_password);
-        if(checkItem.isChecked()){
+        if (checkItem.isChecked()) {
             menuItem.setVisible(false);
-        }
-        else menuItem.setVisible(true);
+        } else menuItem.setVisible(true);
 
 
     }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch(item.getItemId()){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.edit_profile:
                 if (!item.isChecked()) {
-                    username.setText(materialEditText.getText().toString());
-                    viewSwitcher.showPrevious();
-                    item.setIcon(R.drawable.ic_mode_edit);
-                    item.setChecked(true);
+//                    username.setText(materialEditText.getText().toString());
+//                    viewSwitcher.showPrevious();
+//                    item.setIcon(R.drawable.ic_mode_edit);
+//                    item.setChecked(true);
                     //TODO save changes to web service
                     //TODO also discard changes if cancelled
-                }
-                else{
-                    materialEditText.setText(username.getText().toString());
-                    viewSwitcher.showNext();
-                    item.setIcon(R.drawable.ic_action_tick);
-                    item.setChecked(false);
+                } else {
+//                    materialEditText.setText(username.getText().toString());
+//                    viewSwitcher.showNext();
+//                    item.setIcon(R.drawable.ic_action_tick);
+//                    item.setChecked(false);
                 }
                 Toast.makeText(getContext(), "Edit profile", Toast.LENGTH_SHORT).show();
                 return true;
@@ -115,7 +164,8 @@ public class ProfileFragment extends Fragment {
 
         }
     }
-    private AlertDialog getPasswordDialog(LinearLayout linearLayout){
+
+    private AlertDialog getPasswordDialog(LinearLayout linearLayout) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
         builder.setTitle("Change Password");
@@ -140,5 +190,32 @@ public class ProfileFragment extends Fragment {
         return builder.create();
     }
 
+    public void getUserDetails(final VolleyCallback callback) {
+        String url = Constants.baseUrl + "api/Account/UserInfo";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                callback.onSuccess(response);
+                Log.i("profilefragment", "got response");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("profilefragment", "got error");
+
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "Bearer " + az.getToken(getContext()));
+                return params;
+            }
+        };
+        queue.add(jsonObjectRequest);
+    }
+    public interface VolleyCallback{
+        void onSuccess(JSONObject result);
+    }
 
 }

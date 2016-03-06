@@ -31,6 +31,13 @@ public class AzureService {
         }
         return null;
     }
+    public String getToken(Context context){
+        SharedPreferences prefs = context.getSharedPreferences("PosseUpData", Context.MODE_PRIVATE);
+        if(prefs != null){
+            return prefs.getString("access_token", null);
+        }
+        return null;
+    }
 
 
 }

@@ -1,10 +1,21 @@
 package com.lordan.mark.PosseUp.Model;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
 import com.google.gson.annotations.SerializedName;
+import com.lordan.mark.PosseUp.BR;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Mark on 10/1/2015.
  */
-public class User {
+public class User  extends BaseObservable{
 
 
 
@@ -26,14 +37,27 @@ public class User {
     @SerializedName("EmailOrUsername")
     private String emailOrUsername;
 
+
+
+    @SerializedName("Location")
+    private String location;
+
+
+
+    @SerializedName("Followers")
+    private ArrayList<User> followers;
+
+    @SerializedName("Following")
+    private List<User> following;
+
     private boolean isFriend;
 
     public User(){
+        followers = new ArrayList<>();
 
     }
     public User(String email, String password, String username){
         userID = 99;
-        String name = "mark";
         this.email = email;
         this.password = password;
         this.username = username;
@@ -46,6 +70,7 @@ public class User {
         this.username = username;
         this.userID = id;
     }
+
 
 
     public int getUserID() {
@@ -71,12 +96,43 @@ public class User {
         this.password = password;
     }
 
+    @Bindable
     public String getUsername() {
         return username;
     }
 
+
     public void setUsername(String username) {
         this.username = username;
+        notifyPropertyChanged(BR.username);
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+    @Bindable
+    public List<User> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(ArrayList<User> followers) {
+        this.followers = followers;
+        notifyPropertyChanged(BR.followers);
+
+    }
+
+    @Bindable
+    public List<User> getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(List<User> following) {
+        this.following = following;
+        notifyPropertyChanged(BR.following);
     }
 
     public boolean isFriend() {

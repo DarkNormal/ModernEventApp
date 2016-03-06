@@ -30,8 +30,10 @@ public class ProfileActivity extends AbstractActivity {
             e.printStackTrace();
         }
         if (username != null) {
+            boolean isCurrentUser = getCurrentUsername() == username;
             Bundle fragmentBundle = new Bundle();
             fragmentBundle.putString("username", username);
+            fragmentBundle.putBoolean("isCurrentUser", isCurrentUser);
             fragmentBundle.putString("currentUsername", getCurrentUsername());
             if(savedInstanceState == null) {
                 ProfileFragment fragment = new ProfileFragment();
