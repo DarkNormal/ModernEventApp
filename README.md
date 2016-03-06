@@ -23,6 +23,7 @@ Google Maps API<br>
 Google Nearby API<br>
 AppCompat (Support Library)<br>
 Design Support Libary<br>
+Android Data Binding<br>
 
 Features List
 -----------
@@ -34,6 +35,7 @@ Find Events - Working <br>
 Join Events - TODO <br>
 Leave Events - TODO <br>
 Manage Events - TODO <br>
+Social Interaction - Working <br>
 Google Cloud Messaging (Notifications) - Working <br>
 Edit Profile - Working <br>
 Rank System - TODO <br>
