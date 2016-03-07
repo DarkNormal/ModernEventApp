@@ -1,5 +1,6 @@
 package com.lordan.mark.PosseUp.UI.ProfileGroup;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -39,6 +40,7 @@ import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
 
+import com.lordan.mark.PosseUp.UI.EventDetailGroup.UserFragment;
 import com.lordan.mark.PosseUp.databinding.AccountProfileLayoutBinding;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -53,11 +55,12 @@ import java.util.Map;
 /**
  * Created by Mark on 31/01/2016.
  */
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements View.OnClickListener{
 
     private boolean whois;
     private User user;
     private RequestQueue queue;
+    private OnFragmentInteractionListener mListener;
     private AzureService az;
     private AccountProfileLayoutBinding mBinding;
 
@@ -85,16 +88,30 @@ public class ProfileFragment extends Fragment {
             public void onSuccess(JSONObject result) {
 
                 try {
-                    String jsonarr = result.getJSONArray("Followers").toString();
-                    user.setFollowers(new Gson().fromJson(jsonarr, ArrayList.class));
-                    jsonarr = result.getJSONArray("Following").toString();
-                    user.setFollowing(new Gson().fromJson(jsonarr, ArrayList.class));
+                    ArrayList<User> userlists = new ArrayList<>();
+                    for (int i = 0; i < result.getJSONArray("Followers").length(); i++) {
+                        JSONObject jsonObject = result.getJSONArray("Followers").getJSONObject(i);
+                        userlists.add(new Gson().fromJson(jsonObject.toString(), User.class));
+                    }
+                    user.setFollowers(userlists);
+                    userlists = new ArrayList<>();
+                    for (int i = 0; i < result.getJSONArray("Following").length(); i++) {
+                        JSONObject jsonObject = result.getJSONArray("Following").getJSONObject(i);
+                        userlists.add(new Gson().fromJson(jsonObject.toString(), User.class));
+                    }
+                    user.setFollowing(userlists);
                     Log.i("profilefragment", "followers updated");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
+        LinearLayout followers = (LinearLayout) rootView.findViewById(R.id.user_followers);
+        followers.setOnClickListener(this);
+        LinearLayout following = (LinearLayout) rootView.findViewById(R.id.user_following);
+        following.setOnClickListener(this);
+        LinearLayout events = (LinearLayout) rootView.findViewById(R.id.user_events);
+        events.setOnClickListener(this);
 //        AppCompatButton btn =(AppCompatButton) rootView.findViewById(R.id.edit_profile_btn);
 //        btn.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -191,7 +208,7 @@ public class ProfileFragment extends Fragment {
     }
 
     public void getUserDetails(final VolleyCallback callback) {
-        String url = Constants.baseUrl + "api/Account/UserInfo";
+        String url = Constants.baseUrl + "api/Account/UserInfo/" + user.getUsername();
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -204,18 +221,46 @@ public class ProfileFragment extends Fragment {
                 Log.e("profilefragment", "got error");
 
             }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("Authorization", "Bearer " + az.getToken(getContext()));
-                return params;
-            }
-        };
+        });
         queue.add(jsonObjectRequest);
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.user_followers:
+                mListener.onFragmentInteraction(user, "followers");
+                break;
+            case R.id.user_events:
+                break;
+            case R.id.user_following:
+                mListener.onFragmentInteraction(user, "following");
+                break;
+        }
+    }
+
     public interface VolleyCallback{
         void onSuccess(JSONObject result);
+    }
+    public interface OnFragmentInteractionListener {
+        void onFragmentInteraction(User u, String viewType );
     }
 
 }

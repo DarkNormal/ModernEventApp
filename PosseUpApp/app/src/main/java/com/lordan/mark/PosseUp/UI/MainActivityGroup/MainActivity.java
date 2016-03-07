@@ -8,11 +8,14 @@ import android.support.v4.app.Fragment;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.lordan.mark.PosseUp.AbstractActivity;
 import com.lordan.mark.PosseUp.Model.MyHandler;
+import com.lordan.mark.PosseUp.Model.User;
+import com.lordan.mark.PosseUp.UI.EventDetailGroup.UserFragment;
 import com.lordan.mark.PosseUp.UI.ProfileGroup.ProfileActivity;
 import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.ProfileGroup.ProfileFragment;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -27,7 +30,7 @@ import com.microsoft.windowsazure.messaging.NotificationHub;
 import com.microsoft.windowsazure.notifications.NotificationsManager;
 
 
-public class MainActivity extends AbstractActivity {
+public class MainActivity extends AbstractActivity implements ProfileFragment.OnFragmentInteractionListener{
 
 
     private String SENDER_ID = "851010273767";
@@ -224,5 +227,18 @@ public class MainActivity extends AbstractActivity {
                     Toast.makeText(MainActivity.this, notificationMessage, Toast.LENGTH_LONG).show();
                 }
             });
+    }
+
+    @Override
+    public void onFragmentInteraction(User u, String viewType) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("User", u);
+        bundle.putString("viewType", viewType);
+        UserFragment userFragment = new UserFragment();
+        userFragment.setArguments(bundle);
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.content_frame, userFragment).addToBackStack(null);
+        fragmentTransaction.commit();
+
     }
 }

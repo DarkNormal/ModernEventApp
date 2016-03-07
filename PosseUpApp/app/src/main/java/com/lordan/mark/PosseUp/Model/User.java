@@ -2,6 +2,8 @@ package com.lordan.mark.PosseUp.Model;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 import com.lordan.mark.PosseUp.BR;
@@ -9,13 +11,14 @@ import com.lordan.mark.PosseUp.BR;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Mark on 10/1/2015.
  */
-public class User  extends BaseObservable{
+public class User  extends BaseObservable implements Parcelable{
 
 
 
@@ -48,12 +51,18 @@ public class User  extends BaseObservable{
     private ArrayList<User> followers;
 
     @SerializedName("Following")
-    private List<User> following;
+    private ArrayList<User> following;
 
     private boolean isFriend;
 
     public User(){
         followers = new ArrayList<>();
+
+    }
+    public User(Parcel in){
+        this.userID = in.readInt();
+        this.username = in.readString();
+        this.followers = (ArrayList<User>) in.readSerializable();
 
     }
     public User(String email, String password, String username){
@@ -115,7 +124,7 @@ public class User  extends BaseObservable{
         this.location = location;
     }
     @Bindable
-    public List<User> getFollowers() {
+    public ArrayList<User> getFollowers() {
         return followers;
     }
 
@@ -126,11 +135,11 @@ public class User  extends BaseObservable{
     }
 
     @Bindable
-    public List<User> getFollowing() {
+    public ArrayList<User> getFollowing() {
         return following;
     }
 
-    public void setFollowing(List<User> following) {
+    public void setFollowing(ArrayList<User> following) {
         this.following = following;
         notifyPropertyChanged(BR.following);
     }
@@ -143,4 +152,28 @@ public class User  extends BaseObservable{
         isFriend = friend;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(userID);
+        dest.writeString(username);
+        dest.writeSerializable(followers);
+
+    }
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>(){
+
+        @Override
+        public User createFromParcel(Parcel source) {
+            return new User(source);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }

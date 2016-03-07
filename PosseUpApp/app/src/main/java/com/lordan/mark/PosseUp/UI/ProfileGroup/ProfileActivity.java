@@ -5,16 +5,19 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.lordan.mark.PosseUp.AbstractActivity;
+import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.EventDetailGroup.EventDetailsFragment;
+import com.lordan.mark.PosseUp.UI.EventDetailGroup.UserFragment;
 
 /**
  * Created by Mark on 04/03/2016.
  */
-public class ProfileActivity extends AbstractActivity {
+public class ProfileActivity extends AbstractActivity implements ProfileFragment.OnFragmentInteractionListener, UserFragment.OnListFragmentInteractionListener {
     private String username;
     private FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -47,14 +50,21 @@ public class ProfileActivity extends AbstractActivity {
 
     }
 
-    public void viewFollowers(View view) {
-        Toast.makeText(getApplicationContext(), "TODO display recyclerview of followers", Toast.LENGTH_SHORT).show();
-    }
-    public void viewFollowing(View view) {
-        Toast.makeText(getApplicationContext(), "TODO display recyclerview of following", Toast.LENGTH_SHORT).show();
+
+    @Override
+    public void onFragmentInteraction(User u, String viewType) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("User", u);
+        bundle.putString("viewType", viewType);
+        UserFragment userFragment = new UserFragment();
+        userFragment.setArguments(bundle);
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_content_holder, userFragment).addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
-    public void viewEvents(View view) {
-        Toast.makeText(getApplicationContext(), "TODO display recyclerview of events attended and hosted", Toast.LENGTH_SHORT).show();
+    @Override
+    public void onListFragmentInteraction(User u) {
+
     }
 }

@@ -52,14 +52,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:onClick="viewFollowers"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/user_follower_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/user_location"
                         android:layout_gravity="center_horizontal"
                         android:gravity="center"
                         android:padding="4dp"
@@ -68,7 +66,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/user_follower_count"
+
                         android:layout_gravity="center_horizontal"
                         android:gravity="center"
                         android:padding="4dp"
@@ -80,14 +78,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:onClick="viewEvents"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/user_number_of_events"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/user_location"
                         android:layout_gravity="center_horizontal"
                         android:gravity="center"
                         android:padding="4dp"
@@ -96,7 +92,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/user_follower_count"
                         android:layout_gravity="center_horizontal"
                         android:gravity="center"
                         android:padding="4dp"
@@ -108,7 +103,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:onClick="viewFollowing"
                     android:orientation="vertical">
 
                     <TextView

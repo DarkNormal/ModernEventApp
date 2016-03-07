@@ -28,6 +28,8 @@ public class UserFragment extends Fragment {
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
     private Event e;
+    private User u;
+    private String userType;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -53,6 +55,10 @@ public class UserFragment extends Fragment {
         if (getArguments() != null) {
             Bundle b = this.getArguments();
             e = b.getParcelable("Event");
+            u = b.getParcelable("User");
+            if(u != null){
+                userType = b.getString("viewType");
+            }
 
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
@@ -72,7 +78,19 @@ public class UserFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new UserAdapter(e.getAttendees(), mListener));
+            if(e != null) {
+                recyclerView.setAdapter(new UserAdapter(e.getAttendees(), mListener));
+            }
+            else {
+                switch (userType) {
+                    case "followers":
+                        recyclerView.setAdapter(new UserAdapter(u.getFollowers(), mListener));
+                        break;
+                    case "following":
+                        recyclerView.setAdapter(new UserAdapter(u.getFollowing(), mListener));
+                        break;
+                }
+            }
         }
         return view;
     }
