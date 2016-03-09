@@ -26,11 +26,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lordan.mark.PosseUp.UI.SettingsActivity;
+import com.lordan.mark.PosseUp.UI.SigninGroup.SigninActivity;
 import com.microsoft.windowsazure.messaging.NotificationHub;
 import com.microsoft.windowsazure.notifications.NotificationsManager;
 
 
-public class MainActivity extends AbstractActivity implements ProfileFragment.OnFragmentInteractionListener{
+public class MainActivity extends AbstractActivity implements ProfileFragment.OnFragmentInteractionListener, UserFragment.OnListFragmentInteractionListener{
 
 
     private String SENDER_ID = "851010273767";
@@ -184,12 +186,13 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
             return true;
         } else if (id == R.id.sign_out_menu) {
-            startActivity(new Intent(this, ProfileActivity.class));
-//            signOut();
-//            startActivity(new Intent(MainActivity.this, SigninActivity.class));
-//            finish();
+            signOut();
+            startActivity(new Intent(MainActivity.this, SigninActivity.class));
+            finish();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -239,6 +242,11 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.content_frame, userFragment).addToBackStack(null);
         fragmentTransaction.commit();
+
+    }
+
+    @Override
+    public void onListFragmentInteraction(User u) {
 
     }
 }

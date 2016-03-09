@@ -1,76 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-package="com.lordan.mark.PosseUp" xmlns:tools="http://schemas.android.com/tools">
-<uses-permission android:name="android.permission.INTERNET" />
-<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-<uses-permission android:name="android.permission.GET_ACCOUNTS" />
-<uses-permission android:name="android.permission.WAKE_LOCK" />
-<uses-permission android:name="com.google.android.c2dm.permission.RECEIEVE" />
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.lordan.mark.PosseUp">
 
-<permission android:name="com.lordan.mark.PosseUp.permission.C2D_MESSAGE"
-    android:protectionLevel="signature" />
-<uses-permission android:name="com.lordan.mark.PosseUp.permission.C2D_MESSAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIEVE" />
 
-<application tools:replace="android:icon" android:allowBackup="true" android:icon="@mipmap/ic_launcher"
-    android:label="@string/app_name" android:theme="@style/AppTheme">
+    <permission
+        android:name="com.lordan.mark.PosseUp.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
 
-    <activity android:name=".UI.MainActivityGroup.MainActivity" android:label="@string/app_name"
-        android:theme="@style/RevisedAppTheme">
+    <uses-permission android:name="com.lordan.mark.PosseUp.permission.C2D_MESSAGE" />
 
-    </activity>
-    <activity android:name=".UI.StartActivity" android:label="@string/app_name" android:theme="@style/fullscreenStartPage">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon">
+        <activity
+            android:name=".UI.MainActivityGroup.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/RevisedAppTheme"></activity>
+        <activity
+            android:name=".UI.StartActivity"
+            android:label="@string/app_name"
+            android:theme="@style/fullscreenStartPage">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".UI.SigninGroup.SigninActivity"
+            android:label="Posse Up"
+            android:theme="@style/TranslucentStatusBar"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity
+            android:name=".UI.EventDetailGroup.EventDetailsActivity"
+            android:label="Posse Up"
+            android:theme="@style/RevisedAppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity" />
+        </activity>
+        <activity
+            android:name=".UI.EventDetailGroup.EventLocationActivity"
+            android:label="@string/title_activity_event__location_">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.lordan.mark.PosseUp.UI.EventDetailGroup.EventDetailsActivity" />
+        </activity>
+        <activity
+            android:name=".ConfigureAccount"
+            android:label="Posse Up"
+            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".UI.CreateEventGroup.AddEventActivity"
+            android:label="Create Event"
+            android:theme="@style/RevisedAppTheme"></activity>
+        <activity
+            android:name=".UI.ProfileGroup.ProfileActivity"
+            android:label="Profile"
+            android:theme="@style/RevisedAppTheme" />
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-    </activity>
-    <activity android:name=".UI.SigninGroup.SigninActivity" android:label="Posse Up"
-        android:windowSoftInputMode="stateHidden" android:theme="@style/TranslucentStatusBar">
+        <meta-data
+            android:name="com.google.android.nearby.messages.API_KEY"
+            android:value="AIzaSyAQNI42nA_azUDuRe9O6XWW4bRqf13rOa8" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCQQCZspXPNl_KS7xqgoTM9r7YNaF3NHOA" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
-    </activity>
-    <activity android:name=".UI.EventDetailGroup.EventDetailsActivity" android:label="Posse Up"
-        android:theme="@style/RevisedAppTheme">
-        <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity" />
+        <receiver
+            android:name="com.microsoft.windowsazure.notifications.NotificationsBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
 
-    </activity>
-    <activity android:name=".UI.EventDetailGroup.EventLocationActivity"
-        android:label="@string/title_activity_event__location_">
-        <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="com.lordan.mark.PosseUp.UI.EventDetailGroup.EventDetailsActivity" />
+                <category android:name="com.lordan.mark.PosseUp" />
+            </intent-filter>
+        </receiver>
 
-    </activity>
-    <activity android:name=".ConfigureAccount" android:label="Posse Up" android:theme="@style/AppTheme">
+        <activity
+            android:name=".UI.SettingsActivity"
+            android:label="@string/title_activity_settings" android:parentActivityName=".UI.MainActivityGroup.MainActivity" />
+    </application>
 
-    </activity>
-    <activity android:name=".UI.CreateEventGroup.AddEventActivity" android:theme="@style/RevisedAppTheme"
-        android:label="Create Event">
-
-    </activity>
-
-    <activity android:name=".UI.ProfileGroup.ProfileActivity" android:theme="@style/RevisedAppTheme"
-        android:label="Profile"/>
-
-    <activity android:name="com.facebook.FacebookActivity" android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-        android:theme="@android:style/Theme.Translucent.NoTitleBar" android:label="@string/app_name" />
-
-    <meta-data android:name="com.google.android.nearby.messages.API_KEY" android:value="AIzaSyAQNI42nA_azUDuRe9O6XWW4bRqf13rOa8" />
-    <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
-
-    <meta-data
-
-        android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCQQCZspXPNl_KS7xqgoTM9r7YNaF3NHOA" />
-
-    <meta-data android:name="com.facebook.sdk.ApplicationId"
-        android:value="@string/facebook_app_id" />
-
-
-    <receiver android:name="com.microsoft.windowsazure.notifications.NotificationsBroadcastReceiver"
-        android:permission="com.google.android.c2dm.permission.SEND">
-        <intent-filter>
-            <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-            <category android:name="com.lordan.mark.PosseUp" />
-        </intent-filter>
-    </receiver>
-</application>
 </manifest>

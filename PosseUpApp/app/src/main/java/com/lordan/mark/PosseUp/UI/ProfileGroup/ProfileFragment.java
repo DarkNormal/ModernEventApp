@@ -112,23 +112,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         following.setOnClickListener(this);
         LinearLayout events = (LinearLayout) rootView.findViewById(R.id.user_events);
         events.setOnClickListener(this);
-//        AppCompatButton btn =(AppCompatButton) rootView.findViewById(R.id.edit_profile_btn);
-//        btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getActivity(), ProfileActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//        viewSwitcher = (ViewSwitcher) rootView.findViewById(R.id.profile_username_swticher);
-//        materialEditText = (MaterialEditText) rootView.findViewById(R.id.profile_username_edit);
-//        username = (TextView) rootView.findViewById(R.id.profile_username);
-//        username.setText(az.getCurrentUsername(getContext()));
-//
-//        ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.profile_pager);
-//        viewPager.setAdapter(new ProfilePagerAdapter(getChildFragmentManager(), getContext()));
-//        TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.profile_tabs);
-//        tabLayout.setupWithViewPager(viewPager);
         return rootView;
     }
 
@@ -136,50 +119,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_profile, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-        MenuItem checkItem = menu.findItem(R.id.edit_profile);
-        MenuItem menuItem = menu.findItem(R.id.edit_profile_password);
-        if (checkItem.isChecked()) {
-            menuItem.setVisible(false);
-        } else menuItem.setVisible(true);
-
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.edit_profile:
-                if (!item.isChecked()) {
-//                    username.setText(materialEditText.getText().toString());
-//                    viewSwitcher.showPrevious();
-//                    item.setIcon(R.drawable.ic_mode_edit);
-//                    item.setChecked(true);
-                    //TODO save changes to web service
-                    //TODO also discard changes if cancelled
-                } else {
-//                    materialEditText.setText(username.getText().toString());
-//                    viewSwitcher.showNext();
-//                    item.setIcon(R.drawable.ic_action_tick);
-//                    item.setChecked(false);
-                }
-                Toast.makeText(getContext(), "Edit profile", Toast.LENGTH_SHORT).show();
-                return true;
-
-            default:
-                return false;
-
-        }
     }
 
     private AlertDialog getPasswordDialog(LinearLayout linearLayout) {
