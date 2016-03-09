@@ -13,8 +13,8 @@ Used libraries
 -----------
 [MaterialEditText](https://github.com/rengwuxian/MaterialEditText)<br>
 [CircularImageView](https://github.com/lopspower/CircularImageView)<br>
-Facebook SDK
-Twitter SDK (Crashlytics)
+Facebook SDK <br>
+Twitter SDK (Crashlytics) <br>
 
 Google Libraries
 -----------
