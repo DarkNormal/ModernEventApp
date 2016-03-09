@@ -17,10 +17,14 @@ import android.support.v7.app.ActionBar;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 
 import com.lordan.mark.PosseUp.R;
+import com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity;
 
 import java.util.List;
 
@@ -128,12 +132,23 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      * Set up the {@link android.app.ActionBar}, if the API is available.
      */
     private void setupActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            // Show the Up button in the action bar.
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+        Toolbar toolbar;
+        ViewGroup root = (ViewGroup) findViewById(android.R.id.list).getParent().getParent().getParent();
+        toolbar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.tool_bar, root, false);
+        root.addView(toolbar, 0);
+        setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+           finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     /**
      * {@inheritDoc}
