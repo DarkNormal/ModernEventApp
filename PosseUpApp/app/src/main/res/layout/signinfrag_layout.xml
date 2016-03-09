@@ -31,6 +31,7 @@
         android:layout_alignParentStart="true" />
 
     <LinearLayout
+        android:id="@+id/signin_fields_holder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -84,11 +85,36 @@
             android:background="#FF3366"
             android:text="@string/sign_in_button"
             android:textColor="#FFF8F8"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_below="@+id/signin_fields_holder"
+        android:id="@+id/signin_option"
+        android:textColor="@color/offWhite"
+        android:layout_centerHorizontal="true"
+        android:text="OR"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_below="@+id/signin_option"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <com.facebook.login.widget.LoginButton
             android:id="@+id/login_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+        <com.twitter.sdk.android.core.identity.TwitterLoginButton
+            android:layout_below="@+id/login_button"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/twitter_login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
+
 
 
     <LinearLayout

@@ -92,11 +92,17 @@
         android:layout_centerVertical="true"
         android:layout_toEndOf="@+id/linearLayout2"
         android:layout_marginStart="60dp"
-        android:id="@+id/linearLayout3">
+        android:id="@+id/linearLayout3"
+        android:orientation="vertical">
         <com.facebook.login.widget.LoginButton
             android:id="@+id/login_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+        <com.twitter.sdk.android.core.identity.TwitterLoginButton
+            android:layout_marginTop="@dimen/margin_small"
+            android:id="@+id/twitter_login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
 

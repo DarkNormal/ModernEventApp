@@ -6,12 +6,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 
+import com.crashlytics.android.Crashlytics;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.lordan.mark.PosseUp.AbstractActivity;
 import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity;
 import com.lordan.mark.PosseUp.UI.SigninGroup.SigninActivity;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by Mark on 8/31/2015.
@@ -24,6 +29,9 @@ public class StartActivity extends AbstractActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TwitterAuthConfig authConfig = new TwitterAuthConfig("1IYKulpvPMfNOTX88TGMMB5KZ", "Ozzrm0w697wRB5F2E8GzYVfjRcBBw1fy35GMpEUo89MTfjqKvH");
+        Fabric.with(getApplicationContext(), new Crashlytics(), new Twitter(authConfig));
+
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.start_layout);
         SharedPreferences settings = getApplicationContext().getSharedPreferences("PosseUpData", MODE_PRIVATE);
