@@ -40,11 +40,19 @@
                 android:layout_below="@+id/user_name"
                 android:gravity="center"
                 android:text="@{user.location, default=PLACEHOLDER}" />
+            <Button
+                android:id="@+id/follow_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/user_location"
+                android:layout_centerHorizontal="true"
+                android:text="Follow"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/user_location"
+                android:layout_below="@+id/follow_button"
+                android:layout_alignWithParentIfMissing="true"
                 android:orientation="horizontal">
 
                 <LinearLayout

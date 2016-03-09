@@ -59,6 +59,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
 
     private boolean whois;
     private User user;
+    private String currentUsername;
     private RequestQueue queue;
     private OnFragmentInteractionListener mListener;
     private AzureService az;
@@ -70,6 +71,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
 
         mBinding = DataBindingUtil.inflate(inflater, R.layout.account_profile_layout, container, false);
         queue = Volley.newRequestQueue(getContext());
+        az = new AzureService();
+        currentUsername = az.getCurrentUsername(getContext());
         user = new User();
         mBinding.setUser(user);
         View rootView = mBinding.getRoot();
@@ -79,10 +82,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
             whois = bundle.getBoolean("isCurrentUser", false);
             user.setUsername(bundle.getString("username"));
 
-        } else {
-            whois = false;
         }
-        az = new AzureService();
+        if(currentUsername.equals(user.getUsername())){
+            whois = true;
+        }
         getUserDetails(new VolleyCallback() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -104,14 +107,28 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                if(whois){
+                    mBinding.followButton.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    for (User u: user.getFollowers()) {
+                        if(u.getUsername().equals(currentUsername)){
+                            mBinding.followButton.setText("Unfollow");
+                            break;
+                        }
+                    }
+                }
             }
         });
-        LinearLayout followers = (LinearLayout) rootView.findViewById(R.id.user_followers);
-        followers.setOnClickListener(this);
-        LinearLayout following = (LinearLayout) rootView.findViewById(R.id.user_following);
-        following.setOnClickListener(this);
-        LinearLayout events = (LinearLayout) rootView.findViewById(R.id.user_events);
-        events.setOnClickListener(this);
+
+
+
+
+
+        mBinding.followButton.setOnClickListener(this);
+        mBinding.userFollowers.setOnClickListener(this);
+        mBinding.userFollowing.setOnClickListener(this);
+        mBinding.userEvents.setOnClickListener(this);
         return rootView;
     }
 
@@ -192,6 +209,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
             case R.id.user_following:
                 mListener.onFragmentInteraction(user, "following");
                 break;
+            case R.id.follow_button:
+                break;
+
         }
     }
 
