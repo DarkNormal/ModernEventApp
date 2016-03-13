@@ -71,9 +71,8 @@ public class User  extends BaseObservable implements Parcelable{
         this.password = password;
         this.username = username;
     }
-    public User(String username, boolean isFriend){
+    public User(String username){
         this.username = username;
-        this.isFriend = isFriend;
     }
     public User(String username, int id){
         this.username = username;
@@ -130,6 +129,17 @@ public class User  extends BaseObservable implements Parcelable{
 
     public void setFollowers(ArrayList<User> followers) {
         this.followers = followers;
+        notifyPropertyChanged(BR.followers);
+
+    }
+    public void updateFollowers(boolean remove ,User u) {
+        if(remove){
+            this.followers.remove(u);
+        }
+        else{
+            this.followers.add(u);
+        }
+
         notifyPropertyChanged(BR.followers);
 
     }

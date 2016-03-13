@@ -9,9 +9,6 @@ public class Friendship {
 
     @SerializedName("FromUsername")
     private String FromUsername;
-
-
-
     @SerializedName("ToUsername")
     private String ToUsername;
     @SerializedName("HasAccepted")

@@ -81,7 +81,7 @@ public class ProfileFriendList extends Fragment {
                 try {
                     for (int i = 0; i < response.length(); i++) {
                         JSONObject jsonObject = response.getJSONObject(i);
-                        User user = new User(jsonObject.getString("Username"), jsonObject.getBoolean("IsFriend"));
+                        User user = new User(jsonObject.getString("Username"));
                         tempUsers.add(user);
                     }
                     list.clear();

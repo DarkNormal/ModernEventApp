@@ -37,6 +37,7 @@ import com.google.gson.Gson;
 import com.lordan.mark.PosseUp.DataOperations.AzureService;
 
 import com.lordan.mark.PosseUp.Model.Constants;
+import com.lordan.mark.PosseUp.Model.Friendship;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
 
@@ -85,6 +86,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         }
         if(currentUsername.equals(user.getUsername())){
             whois = true;
+            mBinding.followButton.setVisibility(View.INVISIBLE);
         }
         getUserDetails(new VolleyCallback() {
             @Override
@@ -107,24 +109,19 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                if(whois){
-                    mBinding.followButton.setVisibility(View.INVISIBLE);
-                }
-                else{
+                if(!whois){
+                    boolean friend = false;
                     for (User u: user.getFollowers()) {
                         if(u.getUsername().equals(currentUsername)){
-                            mBinding.followButton.setText("Unfollow");
+                            mBinding.followButton.setText("unfollow");
+                            friend = true;
                             break;
                         }
                     }
+                    if(!friend) mBinding.followButton.setText("follow");
                 }
             }
         });
-
-
-
-
-
         mBinding.followButton.setOnClickListener(this);
         mBinding.userFollowers.setOnClickListener(this);
         mBinding.userFollowing.setOnClickListener(this);
@@ -136,31 +133,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-    }
-
-    private AlertDialog getPasswordDialog(LinearLayout linearLayout) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
-        builder.setTitle("Change Password");
-        builder.setView(linearLayout);
-        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-//                MaterialEditText oldPassword = (MaterialEditText) linearLayout.findViewById(R.id.edit_profile_oldPassword);
-//                MaterialEditText newPassword = (MaterialEditText) linearLayout.findViewById(R.id.edit_profile_newPassword);
-//                MaterialEditText confirmPassword = (MaterialEditText) linearLayout.findViewById(R.id.edit_profile_confirmPassword);
-//                changePassword(oldPassword, newPassword, confirmPassword);
-
-
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        return builder.create();
     }
 
     public void getUserDetails(final VolleyCallback callback) {
@@ -210,9 +182,38 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
                 mListener.onFragmentInteraction(user, "following");
                 break;
             case R.id.follow_button:
+                follow(mBinding.followButton.getText().toString());
                 break;
 
         }
+    }
+
+    private void follow(String text) {
+        final boolean currentlyFollowing = text.equals("follow");
+        followFunction(currentlyFollowing,new VolleyCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                try {
+                    if(result.getString("success").equals("true")){
+                        if(currentlyFollowing) {
+                            mBinding.followButton.setText("unfollow");
+                            user.updateFollowers(false,new User(currentUsername));
+                        }
+                        else {
+                            mBinding.followButton.setText("follow");
+                            for (User u: user.getFollowers()) {
+                                if(u.getUsername().equals(currentUsername)){
+                                    user.updateFollowers(true,u);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     public interface VolleyCallback{
@@ -221,5 +222,39 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(User u, String viewType );
     }
+    public void followFunction(boolean currentFollowing, final VolleyCallback callback) {
+        String url = Constants.baseUrl + "api/Account/";
+        if(currentFollowing) {
+            url += "Follow";
+        }
+        else{
+            url += "Unfollow";
+        }
+        Friendship following = new Friendship(currentUsername, user.getUsername(), false);
+        Gson gson = new Gson();
+        String event = gson.toJson(following);
+        JSONObject obj = new JSONObject();
+        try {
+            obj = new JSONObject(event);
+
+        } catch (JSONException e1) {
+            e1.printStackTrace();
+        }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, obj , new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                callback.onSuccess(response);
+                Log.i("profilefragment", "friend");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("profilefragment", "friend error");
+
+            }
+        });
+        queue.add(jsonObjectRequest);
+    }
+
 
 }
