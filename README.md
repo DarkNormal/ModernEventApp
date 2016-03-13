@@ -13,6 +13,8 @@ Used libraries
 -----------
 [MaterialEditText](https://github.com/rengwuxian/MaterialEditText)<br>
 [CircularImageView](https://github.com/lopspower/CircularImageView)<br>
+Facebook SDK <br>
+Twitter SDK (Crashlytics) <br>
 
 Google Libraries
 -----------
@@ -40,7 +42,8 @@ Google Cloud Messaging (Notifications) - Working <br>
 Edit Profile - Working <br>
 Rank System - TODO <br>
 Image Storage - TODO <br>
-External Sign-in - Working <br>
+Mobile Analytics - Working <br>
+External Sign-in - Working (Facebook & Twitter) <br>
 Marshmallow Permissions - TODO <br>
 
 
