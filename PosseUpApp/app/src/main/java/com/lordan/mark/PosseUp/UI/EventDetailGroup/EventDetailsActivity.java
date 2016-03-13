@@ -4,7 +4,9 @@ package com.lordan.mark.PosseUp.UI.EventDetailGroup;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -60,7 +62,15 @@ public class EventDetailsActivity extends AbstractActivity implements EventDetai
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.scrolling_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        try {
+            ActionBar ab = getSupportActionBar();
+            if (ab != null) {
+                ab.setDisplayHomeAsUpEnabled(true);
+            }
+        }
+        catch(NullPointerException npe){
+            Log.e(TAG, "getSupportActionBar is null");
+        }
 
 
     }

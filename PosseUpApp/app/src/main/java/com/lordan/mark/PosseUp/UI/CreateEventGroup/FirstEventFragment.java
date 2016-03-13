@@ -140,13 +140,13 @@ public class FirstEventFragment extends Fragment {
         dateTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar mcurrentDate = Calendar.getInstance();
+                Calendar mCurrentDate = Calendar.getInstance();
                 if (addDay) {
-                    mcurrentDate.add(Calendar.DATE, 1);
+                    mCurrentDate.add(Calendar.DATE, 1);
                 }
-                int mYear = mcurrentDate.get(Calendar.YEAR);
-                int mMonth = mcurrentDate.get(Calendar.MONTH);
-                int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
+                int mYear = mCurrentDate.get(Calendar.YEAR);
+                int mMonth = mCurrentDate.get(Calendar.MONTH);
+                int mDay = mCurrentDate.get(Calendar.DAY_OF_MONTH);
                 DatePickerDialog mDatePicker;
                 mDatePicker = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     public void onDateSet(DatePicker datepicker, int selectedYear, int selectedMonth, int selectedDay) {
@@ -167,9 +167,9 @@ public class FirstEventFragment extends Fragment {
         timeTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar mcurrentTime = Calendar.getInstance();
-                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-                int minute = mcurrentTime.get(Calendar.MINUTE);
+                Calendar mCurrentTime = Calendar.getInstance();
+                int hour = mCurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mCurrentTime.get(Calendar.MINUTE);
                 TimePickerDialog mTimePicker;
                 mTimePicker = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
@@ -271,9 +271,6 @@ public class FirstEventFragment extends Fragment {
         return null;
     }
     private boolean isEmpty(MaterialEditText v){
-        if(v.getText().toString().equals("")){
-            return true;
-        }
-        else return false;
+        return v.getText().toString().equals("");
     }
 }

@@ -2,12 +2,14 @@ package com.lordan.mark.PosseUp.DataOperations;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 
 /**
  * Created by Mark on 10/3/2015.
  */
 public class AzureService {
+    private final String TAG = "AzureService";
     public AzureService(){
 
     }
@@ -22,7 +24,14 @@ public class AzureService {
     }
     public String getCurrentUsername(Context context){
         SharedPreferences settings = context.getSharedPreferences("PosseUpData", Context.MODE_PRIVATE);
-        return settings.getString("username", null);
+        String result = "";
+        try{
+            result = settings.getString("username", null).toLowerCase();
+        }
+        catch(NullPointerException npe){
+            Log.e(TAG, "username null");
+        }
+        return result;
     }
     public String getCurrentEmail(Context context){
         SharedPreferences prefs = context.getSharedPreferences("PosseUpData", Context.MODE_PRIVATE);

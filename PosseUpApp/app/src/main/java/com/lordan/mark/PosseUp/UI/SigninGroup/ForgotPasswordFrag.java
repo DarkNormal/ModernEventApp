@@ -32,23 +32,23 @@ public class ForgotPasswordFrag extends Fragment {
         View forgotPasswordView = inflater.inflate(R.layout.forgotpasswordfrag_layout, container, false);
         final EditText emailInput = (EditText) forgotPasswordView.findViewById(R.id.forgotpassword_email);
         emailInput.setText(email);
-        final EditText temppassword = (EditText) forgotPasswordView.findViewById(R.id.uid);
+        final EditText mTemporaryPassword = (EditText) forgotPasswordView.findViewById(R.id.uid);
         Button confirm = (Button) forgotPasswordView.findViewById(R.id.reset_begin);
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!emailInput.getText().toString().isEmpty() && !temppassword.getText().toString().isEmpty()){
+                if(!emailInput.getText().toString().isEmpty() && !mTemporaryPassword.getText().toString().isEmpty()){
                     mProgressDialog = ProgressDialog.show(getActivity(), "Resetting password",
                             "Please wait...", true);
 
-                    tempLogin(emailInput.getText().toString(), temppassword.getText().toString() );
+                    tempLogin(emailInput.getText().toString(), mTemporaryPassword.getText().toString() );
                 }
                 else{
                     if(emailInput.getText().toString().isEmpty()){
                         emailInput.setError("Enter a username or email");
                     }
                     else{
-                        temppassword.setError("Enter a password");
+                        mTemporaryPassword.setError("Enter a password");
                     }
                 }
 
@@ -61,8 +61,8 @@ public class ForgotPasswordFrag extends Fragment {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
 
-                SigninFrag newFragment = new SigninFrag();
-                ft.replace(R.id.fragmentHolder, newFragment, "forgotpass_frag");
+                SignInFrag newFragment = new SignInFrag();
+                ft.replace(R.id.fragmentHolder, newFragment);
                 ft.commit();
             }
         });

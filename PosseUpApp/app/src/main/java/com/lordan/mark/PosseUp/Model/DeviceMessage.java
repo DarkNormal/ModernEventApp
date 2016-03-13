@@ -43,7 +43,6 @@ public class DeviceMessage {
     }
 
     private DeviceMessage(String instanceId, String email) {
-        String mInstanceId = instanceId;
         this.mMessageBody = Build.MODEL;
         this.mEmail = email;
     }

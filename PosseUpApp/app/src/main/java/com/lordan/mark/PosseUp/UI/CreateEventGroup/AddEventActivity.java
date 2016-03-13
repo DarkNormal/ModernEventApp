@@ -76,9 +76,12 @@ public class AddEventActivity extends AbstractActivity {
         setSupportActionBar(toolbar);
         // Show menu icon
         final ActionBar ab = getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.drawable.ic_action_cancel);
+        if (ab != null) {
+            ab.setHomeAsUpIndicator(R.drawable.ic_action_cancel);
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
 
-        ab.setDisplayHomeAsUpEnabled(true);
+
     }
 
 

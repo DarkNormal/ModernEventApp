@@ -34,7 +34,7 @@ public class SigninActivity extends AbstractActivity {
         fragMan = getSupportFragmentManager();
         FragmentTransaction fragTransaction = fragMan.beginTransaction();
         if(savedInstanceState == null){
-            myFrag = new SigninFrag();
+            myFrag = new SignInFrag();
             fragTransaction.add(fragmentHolder.getId(), myFrag, "signin_fragment");
             fragTransaction.commit();
         }

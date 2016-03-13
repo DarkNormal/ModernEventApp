@@ -1,30 +1,16 @@
 package com.lordan.mark.PosseUp.UI.ProfileGroup;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.AppCompatButton;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ViewSwitcher;
 
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 
@@ -41,17 +27,12 @@ import com.lordan.mark.PosseUp.Model.Friendship;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
 
-import com.lordan.mark.PosseUp.UI.EventDetailGroup.UserFragment;
 import com.lordan.mark.PosseUp.databinding.AccountProfileLayoutBinding;
-import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Mark on 31/01/2016.

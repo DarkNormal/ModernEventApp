@@ -32,6 +32,7 @@
         android:layout_width="85dp"
         android:layout_height="85dp"
         android:src="@drawable/profiler"
+        android:contentDescription="event image"
         android:layout_alignParentStart="true"
         android:scaleType="centerCrop" />
 

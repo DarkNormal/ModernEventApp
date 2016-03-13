@@ -4,14 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
-import android.widget.Switch;
-import android.widget.Toast;
 
 import com.lordan.mark.PosseUp.AbstractActivity;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
-import com.lordan.mark.PosseUp.UI.EventDetailGroup.EventDetailsFragment;
 import com.lordan.mark.PosseUp.UI.EventDetailGroup.UserFragment;
 
 /**

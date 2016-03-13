@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:id="@+id/imageView"
-            android:layout_below="@+id/scrolling_toolbar"
+            android:contentDescription="background"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/gradient_background" />
         <com.mikhaellopez.circularimageview.CircularImageView

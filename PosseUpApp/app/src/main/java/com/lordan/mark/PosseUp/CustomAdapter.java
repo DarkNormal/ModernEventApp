@@ -45,7 +45,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     }
 
     /**
-     * Initialize the dataset of the Adapter.
+     * Initialize the data set of the Adapter.
      *
      * @param dataSet String[] containing the data to populate views to be used by RecyclerView.
      */
@@ -78,11 +78,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         Log.d(TAG, "Element " + position + " set.");
 
         viewHolder.mTextView.setText(mDataSet.get(position).toString());
-        // Get element from your dataset at this position and replace the contents of the view
+        // Get element from your data set at this position and replace the contents of the view
         // with that element
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
+    // Return the size of your data set (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return mDataSet.size();

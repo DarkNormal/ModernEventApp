@@ -99,11 +99,12 @@
 
         <activity
             android:name=".UI.SettingsActivity"
-            android:label="@string/title_activity_settings" >
+            android:label="@string/title_activity_settings">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity" />
         </activity>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="48008938d29bf48fd34d3aca183790bfbfdf8b99" />

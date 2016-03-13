@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group
-        android:id="@+id/drawer_menu_top"
-        android:checkableBehavior="single">
+        android:id="@+id/drawer_menu_top">
         <item
             android:id="@+id/drawer_home"
             android:checked="true"
@@ -10,27 +9,20 @@
             android:title="@string/drawer_home"/>
         <item
             android:id="@+id/drawer_profile"
-            android:checked="false"
+
             android:icon="@drawable/ic_account_circle_grey"
             android:title="@string/drawer_profile"/>
         <item
             android:id="@+id/drawer_events"
-            android:checked="false"
             android:icon="@drawable/ic_event_grey"
             android:title="@string/drawer_events"/>
-        <item
-            android:id="@+id/drawer_friends"
-            android:checked="false"
-            android:icon="@drawable/ic_people_grey"
-            android:title="@string/drawer_friends"/>
+        <group
+            android:id="@+id/drawer_menu_bottom">
+            <item
+                android:id="@+id/drawer_settings"
+                android:icon="@drawable/ic_settings_grey"
+                android:title="@string/drawer_settings"/>
+        </group>
     </group>
-    <group
-        android:id="@+id/drawer_menu_bottom"
-        android:checkableBehavior="none">
-        <item
-            android:id="@+id/drawer_settings"
-            android:checked="false"
-            android:icon="@drawable/ic_settings_grey"
-            android:title="@string/drawer_settings"/>
-    </group>
+
 </menu>

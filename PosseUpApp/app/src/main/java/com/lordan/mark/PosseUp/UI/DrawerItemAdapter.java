@@ -17,11 +17,11 @@ import com.lordan.mark.PosseUp.R;
 class DrawerItemAdapter extends BaseAdapter {
     private Context context;
     private String[] listTitles;
-    private TypedArray imgs;
+    private TypedArray mImage;
     public DrawerItemAdapter(Context context){
         this.context = context;
         listTitles = context.getResources().getStringArray(R.array.nav_drawer_items);
-        imgs = context.getResources().obtainTypedArray(R.array.nav_drawer_icons);
+        mImage = context.getResources().obtainTypedArray(R.array.nav_drawer_icons);
     }
     @Override
     public int getCount() {
@@ -51,7 +51,7 @@ class DrawerItemAdapter extends BaseAdapter {
         TextView textView = (TextView) row.findViewById(R.id.drawer_item_text);
         ImageView imageView = (ImageView) row.findViewById(R.id.drawer_item_icon);
         textView.setText(listTitles[position]);
-        imageView.setImageResource(imgs.getResourceId(position, R.drawable.ic_cancel_light));
+        imageView.setImageResource(mImage.getResourceId(position, R.drawable.ic_cancel_light));
         return row;
     }
 }

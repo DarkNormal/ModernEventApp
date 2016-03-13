@@ -8,12 +8,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 import com.lordan.mark.PosseUp.BR;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Mark on 10/1/2015.

@@ -10,15 +10,16 @@ import com.lordan.mark.PosseUp.AbstractActivity;
 import com.lordan.mark.PosseUp.Model.MyHandler;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.UI.EventDetailGroup.UserFragment;
-import com.lordan.mark.PosseUp.UI.ProfileGroup.ProfileActivity;
 import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.ProfileGroup.ProfileFragment;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,14 +36,18 @@ import com.microsoft.windowsazure.notifications.NotificationsManager;
 public class MainActivity extends AbstractActivity implements ProfileFragment.OnFragmentInteractionListener, UserFragment.OnListFragmentInteractionListener{
 
 
+    private final String TAG = "MainActivity";
     private String SENDER_ID = "851010273767";
     private GoogleCloudMessaging gcm;
     private NotificationHub hub;
     private static Boolean isVisible = false;
+    private MenuItem mPreviousMenuItem;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle;
+    private NavigationView navView;
     private CharSequence mTitle;
+    private ActionBar mActionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +64,14 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
         setupGcm();
 
         mTitle = mDrawerTitle = getTitle();
+        try{
+            mActionBar = getSupportActionBar();
+        }
+        catch(NullPointerException npe){
+            Log.e(TAG, "ActionBar null");
+        }
 
-        NavigationView navView = (NavigationView) findViewById(R.id.drawer_nav_view);
+        navView = (NavigationView) findViewById(R.id.drawer_nav_view);
         View header = navView.getHeaderView(0);
         TextView drawerUsername = (TextView) header.findViewById(R.id.drawer_username);
         drawerUsername.setText(getCurrentUsername());
@@ -70,50 +81,14 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
 
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-                //Checking if the item is in checked state or not, if not make it in checked state
-                if (menuItem.isChecked()) menuItem.setChecked(false);
-                else menuItem.setChecked(true);
-
-                //Closing drawer on item click
-                mDrawerLayout.closeDrawers();
-
-                Fragment fragment;
-                //Check to see which item was being clicked and perform appropriate action
-                switch (menuItem.getItemId()) {
-                    //Replacing the main content with ContentFragment Which is our Inbox View;
-                    case R.id.drawer_home:
-
-                        Toast.makeText(getApplicationContext(), "Home Selected", Toast.LENGTH_SHORT).show();
-                        fragment = new Tab1();
-                        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
-                        return true;
-                    case R.id.drawer_profile:
-                        Toast.makeText(getApplicationContext(), "Profile Selected", Toast.LENGTH_SHORT).show();
-                        Bundle args = new Bundle();
-                        args.putBoolean("isCurrentUser", true);
-                        args.putString("username", getCurrentUsername());
-                        fragment = new ProfileFragment();
-                        fragment.setArguments(args);
-                        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
-                        return true;
-                    default:
-                        Toast.makeText(getApplicationContext(), "Somethings Wrong", Toast.LENGTH_SHORT).show();
-                        return true;
-
-                }
+                selectDrawerItem(menuItem);
+                return true;
             }
         });
-        String[] navDrawerTitles = getResources().getStringArray(R.array.nav_drawer_items);
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-        LinearLayout drawerLinear = (LinearLayout) findViewById(R.id.drawer_linear);
-        //mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        //mDrawerList.setAdapter(new DrawerItemAdapter(this));
-//        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-//
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setHomeButtonEnabled(true);
-//
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
@@ -122,23 +97,71 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
                 R.string.closeddrawer  /* "close drawer" description for accessibility */
         ) {
             public void onDrawerClosed(View view) {
-                getSupportActionBar().setTitle(mTitle);
+                try {
+                    mActionBar.setTitle(mTitle);
+                }catch(NullPointerException npe){
+                    Log.e(TAG, "MActionBar null onDrawerClosed");
+                }
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             public void onDrawerOpened(View drawerView) {
-                getSupportActionBar().setTitle(mDrawerTitle);
+                try {
+                    mActionBar.setTitle(mDrawerTitle);
+                }catch(NullPointerException npe){
+                    Log.e(TAG, "MActionBar null onDrawerOpened");
+                }
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
         // Initialize the ViewPager and set an adapter
+    }
 
+    private void selectDrawerItem(MenuItem menuItem) {
+        if(menuItem.getItemId() != R.id.drawer_settings) {
+            menuItem.setCheckable(true);
+            menuItem.setChecked(true);
+            if (mPreviousMenuItem != null && mPreviousMenuItem != menuItem) {
+                mPreviousMenuItem.setChecked(false);
+            }
+            mPreviousMenuItem = menuItem;
+        }
 
-        getSupportActionBar().setElevation(0);
+        //Closing drawer on item click
+        mDrawerLayout.closeDrawers();
 
+        Fragment fragment;
+        //Check to see which item was being clicked and perform appropriate action
+        switch (menuItem.getItemId()) {
+            //Replacing the main content with ContentFragment Which is our Inbox View;
+            case R.id.drawer_home:
+                Toast.makeText(getApplicationContext(), "Home Selected", Toast.LENGTH_SHORT).show();
+                fragment = new Tab1();
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+                break;
+            case R.id.drawer_profile:
+                Toast.makeText(getApplicationContext(), "Profile Selected", Toast.LENGTH_SHORT).show();
+                Bundle args = new Bundle();
+                args.putBoolean("isCurrentUser", true);
+                args.putString("username", getCurrentUsername());
+                fragment = new ProfileFragment();
+                fragment.setArguments(args);
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+                break;
+            case R.id.drawer_settings:
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                break;
+            case R.id.drawer_events:
+                fragment = new Tab3();
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+                break;
+            default:
+                Toast.makeText(getApplicationContext(), "Somethings Wrong", Toast.LENGTH_SHORT).show();
+                break;
 
+        }
     }
 
     private void setupGcm() {
@@ -223,7 +246,7 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
     }
 
     public void ToastNotify(final String notificationMessage) {
-        if (isVisible == true)
+        if (isVisible)
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

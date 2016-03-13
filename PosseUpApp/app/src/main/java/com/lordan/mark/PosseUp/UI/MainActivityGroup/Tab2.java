@@ -46,6 +46,7 @@ import java.util.ArrayList;
 
 public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
+    private final String TAG = "Tab2";
     private SupportMapFragment fragment;
     private GoogleMap map;
     ArrayList<Event> nearbyList = new ArrayList<>();
@@ -163,6 +164,7 @@ public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallback
             location.put("Longitude", longitude);
         }
         catch(JSONException je){
+            Log.e(TAG, "JSONException getNearbyEvents");
 
         }
         JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {

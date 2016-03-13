@@ -52,7 +52,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/follow_button"
                 android:layout_alignWithParentIfMissing="true"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:baselineAligned="false">
 
                 <LinearLayout
                     android:id="@+id/user_followers"

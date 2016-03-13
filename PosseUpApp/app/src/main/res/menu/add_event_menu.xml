@@ -4,6 +4,6 @@
 
     <item android:id="@+id/create_event_next"
         android:icon="@drawable/ic_action_tick"
-        android:title="Create" app:showAsAction="always"></item>
+        android:title="Create" app:showAsAction="always"/>
 
 </menu>

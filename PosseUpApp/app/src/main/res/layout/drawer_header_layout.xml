@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:text="Email Address"
                 android:fontFamily="sans-serif-regular"
-                android:textSize="@dimen/abc_text_size_small_material"/>
+                android:textSize="@dimen/material_text_body1"/>
         </LinearLayout>
 
     </LinearLayout>

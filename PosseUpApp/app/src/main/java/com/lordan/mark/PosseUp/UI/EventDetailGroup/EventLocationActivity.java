@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -21,6 +23,7 @@ import com.lordan.mark.PosseUp.databinding.ActivityEventLocationBinding;
 public class EventLocationActivity extends AbstractActivity implements OnMapReadyCallback {
 
     private PlaceVenue venue;
+    private final String TAG = "EventLocationActivity";
 
 
     @Override
@@ -29,7 +32,15 @@ public class EventLocationActivity extends AbstractActivity implements OnMapRead
         ActivityEventLocationBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_event_location);
         Toolbar toolbar = (Toolbar) findViewById(R.id.event_detail_map_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        try {
+            ActionBar ab = getSupportActionBar();
+            if (ab != null) {
+                ab.setDisplayHomeAsUpEnabled(true);
+            }
+        }
+        catch(NullPointerException npe){
+            Log.e(TAG, "getSupportActionBar is null");
+        }
 
         Intent i = getIntent();
         venue = i.getParcelableExtra("VenueDetails");
@@ -81,10 +92,8 @@ public class EventLocationActivity extends AbstractActivity implements OnMapRead
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        GoogleMap mMap = googleMap;
-
         // Add a marker in Sydney and move the camera
-        mMap.addMarker(new MarkerOptions().position(venue.getVenueLocation()));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(venue.getVenueLocation(), 12));
+        googleMap.addMarker(new MarkerOptions().position(venue.getVenueLocation()));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(venue.getVenueLocation(), 12));
     }
 }

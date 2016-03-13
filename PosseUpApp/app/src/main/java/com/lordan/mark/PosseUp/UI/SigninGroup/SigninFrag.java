@@ -31,7 +31,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import com.crashlytics.android.Crashlytics;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -45,10 +44,8 @@ import com.lordan.mark.PosseUp.Model.Constants;
 
 import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity;
-import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
@@ -60,19 +57,17 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.fabric.sdk.android.Fabric;
-
 /**
  * Created by Mark on 10/10/2015.
  */
-public class SigninFrag extends Fragment implements View.OnClickListener {
+public class SignInFrag extends Fragment implements View.OnClickListener {
     private View detailsView;
     private EditText username, password;
     private RequestQueue queue;
     private TwitterLoginButton twitterLoginButton;
 
     private ProgressDialog mProgressDialog;
-    private static final String TAG = "SigninFrag";
+    private static final String TAG = "SignInFrag";
     CallbackManager callbackManager;
     @Override
     public void onCreate(Bundle savedInstanceState) {

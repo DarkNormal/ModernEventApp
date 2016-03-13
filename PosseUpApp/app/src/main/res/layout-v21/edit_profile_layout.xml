@@ -51,7 +51,7 @@
             android:textColorHint="@color/offWhite"
             android:layout_marginBottom="@dimen/margin_small"
             android:text="@string/username"
-            android:textSize="@dimen/abc_text_size_small_material" />
+            android:textSize="@dimen/material_text_body1" />
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/profile_bio_edit"
             android:layout_width="match_parent"
@@ -62,7 +62,7 @@
             app:met_floatingLabel="highlight"
             app:met_primaryColor="@color/ColorPrimary"
             android:text="Bio"
-            android:textSize="@dimen/abc_text_size_small_material" />
+            android:textSize="@dimen/material_text_body1" />
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/change_password_button"
             android:layout_width="wrap_content"

@@ -19,9 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -30,7 +28,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
-import com.lordan.mark.PosseUp.DataOperations.AzureService;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.R;
@@ -41,25 +38,11 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link EventDetailsFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link EventDetailsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class EventDetailsFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String TAG = "Event Details Fragment";
+    private final String TAG = "EventDetailsFragment";
+
+
 
     private Event event;
     private int eventID;
@@ -74,31 +57,9 @@ public class EventDetailsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment EventDetailsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static EventDetailsFragment newInstance(String param1, String param2) {
-        EventDetailsFragment fragment = new EventDetailsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            String mParam1 = getArguments().getString(ARG_PARAM1);
-            String mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -197,10 +158,10 @@ public class EventDetailsFragment extends Fragment {
             displayAttendeeList();
         } else {
             if (event != null) {
-                //returning from backstack, data is fine, do nothing
+                //returning from back stack, data is fine, do nothing
             } else {
                 //newly created, compute data
-                Log.i(TAG, "null savedinstancestate");
+                Log.i(TAG, "null savedInstanceState");
                 if (eventID != -1) {
                     getEventDetails(eventID);
                 }
