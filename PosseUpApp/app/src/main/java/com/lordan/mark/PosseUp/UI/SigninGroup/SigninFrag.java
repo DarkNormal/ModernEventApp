@@ -46,6 +46,7 @@ import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
@@ -58,7 +59,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Mark on 10/10/2015.
+ * Created by Mark on 10/10/2015
  */
 public class SignInFrag extends Fragment implements View.OnClickListener {
     private View detailsView;
@@ -68,7 +69,7 @@ public class SignInFrag extends Fragment implements View.OnClickListener {
 
     private ProgressDialog mProgressDialog;
     private static final String TAG = "SignInFrag";
-    CallbackManager callbackManager;
+    private CallbackManager callbackManager;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -197,13 +198,13 @@ public class SignInFrag extends Fragment implements View.OnClickListener {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        twitterLoginButton.onActivityResult(requestCode, resultCode, data);
-//        if(requestCode == TwitterAuthConfig.DEFAULT_AUTH_REQUEST_CODE){
-//
-//        }
-//        else {
-//            callbackManager.onActivityResult(requestCode, resultCode, data);
-//        }
+
+        if(requestCode == TwitterAuthConfig.DEFAULT_AUTH_REQUEST_CODE){
+            twitterLoginButton.onActivityResult(requestCode, resultCode, data);
+        }
+        // TODO figure out request code for facebook callback
+        // callbackManager.onActivityResult(requestCode, resultCode, data);
+
     }
 
 
@@ -349,8 +350,8 @@ public class SignInFrag extends Fragment implements View.OnClickListener {
 
     }
 
-    public String trimMessage(String json, String key) {
-        String error="";
+    private String trimMessage(String json, String key) {
+        String error;
 
         try {
             JSONObject obj = new JSONObject(json);
@@ -362,7 +363,7 @@ public class SignInFrag extends Fragment implements View.OnClickListener {
         return error;
     }
 
-    public void setErrors(String toastString, EditText username, EditText email) {
+    private void setErrors(String toastString, EditText username, EditText email) {
 
                 if (toastString.startsWith("Account")) {
                     Toast.makeText(getActivity(), "An account with this email/username and password combination was not found", Toast.LENGTH_LONG).show();
@@ -381,22 +382,6 @@ public class SignInFrag extends Fragment implements View.OnClickListener {
     class ExternalLogin{
          public ExternalLogin(String provider, String token) {
              Provider = provider;
-             Token = token;
-         }
-
-         public String getProvider() {
-             return Provider;
-         }
-
-         public void setProvider(String provider) {
-             Provider = provider;
-         }
-
-         public String getToken() {
-             return Token;
-         }
-
-         public void setToken(String token) {
              Token = token;
          }
 

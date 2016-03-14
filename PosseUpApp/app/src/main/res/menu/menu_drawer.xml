@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group
-        android:id="@+id/drawer_menu_top">
+    <group>
         <item
             android:id="@+id/drawer_home"
             android:checked="true"
@@ -16,12 +15,11 @@
             android:id="@+id/drawer_events"
             android:icon="@drawable/ic_event_grey"
             android:title="@string/drawer_events"/>
-        <group
-            android:id="@+id/drawer_menu_bottom">
+        <group>
             <item
                 android:id="@+id/drawer_settings"
                 android:icon="@drawable/ic_settings_grey"
-                android:title="@string/drawer_settings"/>
+                android:title="@string/action_settings"/>
         </group>
     </group>
 

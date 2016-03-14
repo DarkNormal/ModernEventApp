@@ -6,7 +6,7 @@ import android.util.Log;
 
 
 /**
- * Created by Mark on 10/3/2015.
+ * Created by Mark on 10/3/2015
  */
 public class AzureService {
     private final String TAG = "AzureService";
@@ -29,6 +29,7 @@ public class AzureService {
             result = settings.getString("username", null).toLowerCase();
         }
         catch(NullPointerException npe){
+
             Log.e(TAG, "username null");
         }
         return result;

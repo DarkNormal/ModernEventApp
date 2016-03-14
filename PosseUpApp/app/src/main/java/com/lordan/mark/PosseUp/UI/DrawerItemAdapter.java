@@ -12,12 +12,12 @@ import android.widget.TextView;
 import com.lordan.mark.PosseUp.R;
 
 /**
- * Created by Mark on 31/01/2016.
+ * Created by Mark on 31/01/2016
  */
 class DrawerItemAdapter extends BaseAdapter {
-    private Context context;
-    private String[] listTitles;
-    private TypedArray mImage;
+    private final Context context;
+    private final String[] listTitles;
+    private final TypedArray mImage;
     public DrawerItemAdapter(Context context){
         this.context = context;
         listTitles = context.getResources().getStringArray(R.array.nav_drawer_items);

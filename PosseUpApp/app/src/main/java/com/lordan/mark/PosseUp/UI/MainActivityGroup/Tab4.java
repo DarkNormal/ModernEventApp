@@ -1,7 +1,7 @@
 package com.lordan.mark.PosseUp.UI.MainActivityGroup;
 
 /**
- * Created by Mark on 7/15/2015.
+ * Created by Mark on 7/15/2015
  */
 import android.content.Context;
 import android.content.IntentSender;
@@ -40,9 +40,6 @@ import com.lordan.mark.PosseUp.R;
 
 import java.util.ArrayList;
 
-/**
- * Created by hp1 on 21-01-2015.
- */
 public class Tab4 extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String TAG = "Nearby";
@@ -280,7 +277,7 @@ public class Tab4 extends Fragment implements GoogleApiClient.ConnectionCallback
                 .getString(taskKey, Constants.TASK_NONE);
     }
 
-    void executePendingTasks() {
+    private void executePendingTasks() {
         executePendingSubscriptionTask();
         executePendingPublicationTask();
     }
@@ -288,7 +285,7 @@ public class Tab4 extends Fragment implements GoogleApiClient.ConnectionCallback
     /**
      * Invokes a pending task based on the subscription state.
      */
-    void executePendingSubscriptionTask() {
+    private void executePendingSubscriptionTask() {
         String pendingSubscriptionTask = getPubSubTask(Constants.KEY_SUBSCRIPTION_TASK);
         if (TextUtils.equals(pendingSubscriptionTask, Constants.TASK_SUBSCRIBE)) {
             subscribe();
@@ -300,7 +297,7 @@ public class Tab4 extends Fragment implements GoogleApiClient.ConnectionCallback
     /**
      * Invokes a pending task based on the publication state.
      */
-    void executePendingPublicationTask() {
+    private void executePendingPublicationTask() {
         String pendingPublicationTask = getPubSubTask(Constants.KEY_PUBLICATION_TASK);
         if (TextUtils.equals(pendingPublicationTask, Constants.TASK_PUBLISH)) {
             publish();
@@ -509,7 +506,7 @@ public class Tab4 extends Fragment implements GoogleApiClient.ConnectionCallback
     /**
      * Resets the state of pending subscription and publication tasks.
      */
-    void resetToDefaultState() {
+    private void resetToDefaultState() {
         getActivity().getPreferences(Context.MODE_PRIVATE)
                 .edit()
                 .putString(Constants.KEY_SUBSCRIPTION_TASK, Constants.TASK_NONE)

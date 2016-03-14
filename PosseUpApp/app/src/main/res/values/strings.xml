@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">Posse Up</string>
-    <string name="upcoming_events">Your Upcoming Events</string>
+    <string name="app_name" translatable="false">Posse Up</string>
     <string name="app_basic_info">
         Form groups and make new friends, whatever the event!
         You can join in on public events, or create your own private sessions for you and your friends
@@ -16,21 +15,15 @@
     <string name="no_account">Create Account</string>
     <string name="sign_up">Sign Up</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="element_text_title_text">Element Title Text</string>
-    <string name="element_text_snippet">Element Snippet Text</string>
     <string name="element_date_time">THU, FEB 4, 7:30PM</string>
-    <string name="grid_layout_manager">Grid Layout Manager</string>
-    <string name="linear_layout_manager">Linear Layout Manager</string>
 
     <string name="full_name">Full Name</string>
     <string name="already_account">Already have an account? Sign in</string>
-    <string name="username">Username</string>
 
     <string name="hi">Hi </string>
 
-    <string name="menu_profile">My profile</string>
     <string name="menu_sign_out">Sign out</string>
     <string-array name="event_type">
         <item>Public</item>
@@ -46,8 +39,6 @@
     <string name="drawer_home">Home</string>
     <string name="drawer_profile">Profile</string>
     <string name="drawer_events">Events</string>
-    <string name="drawer_friends">Friends</string>
-    <string name="drawer_settings">Settings</string>
 
 
     <string-array name="nav_drawer_items">
@@ -72,15 +63,10 @@
     <string name="share_device_information">Share information</string>
     <string name="share_device_information_button">Share device information button</string>
 
-    <string name="facebook_app_id">1543886725935090</string>
-    <string name="title_activity_event__location_">Map</string>
+    <string name="facebook_app_id" translatable="false">1543886725935090</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
-
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>
 
@@ -89,23 +75,7 @@
         based on your message history
     </string>
 
-    <string name="pref_title_display_name">Display name</string>
-    <string name="pref_default_display_name">John Smith</string>
-
-    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
-    <string-array name="pref_example_list_titles">
-        <item>Always</item>
-        <item>When possible</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_example_list_values">
-        <item>1</item>
-        <item>0</item>
-        <item>-1</item>
-    </string-array>
-
     <!-- Example settings for Data & Sync -->
-    <string name="pref_header_data_sync">Data &amp; sync</string>
 
     <string name="pref_title_sync_frequency">Sync frequency</string>
     <string-array name="pref_sync_frequency_titles">

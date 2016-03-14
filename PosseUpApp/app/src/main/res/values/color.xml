@@ -2,7 +2,6 @@
 <resources>
     <color name="ColorPrimary">#FF3366</color>
     <color name="ColorPrimaryDark">#c13257</color>
-    <color name="tabsScrollColor">#8a140e</color>
 
     <color name="offWhite">#FFF8F8</color>
     <color name="white">#fff</color>
@@ -10,7 +9,6 @@
 
     <color name="yellow">#FFEB3B</color>
     <color name="dark_grey">#757575</color>
-    <color name="grey">#9E9E9E</color>
     <color name="light_grey">#E8E8E8</color>
 
     <color name="blue">#2f8bed</color>

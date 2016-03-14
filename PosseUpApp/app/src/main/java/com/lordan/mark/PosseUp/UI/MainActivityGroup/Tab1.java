@@ -1,7 +1,7 @@
 package com.lordan.mark.PosseUp.UI.MainActivityGroup;
 
 /**
- * Created by Mark on 7/14/2015.
+ * Created by Mark on 7/14/2015
  */
 import android.content.Intent;
 import android.graphics.Color;
@@ -75,7 +75,6 @@ public class Tab1 extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
 
 
 

@@ -19,12 +19,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
- * Created by Mark on 10/28/2015.
+ * Created by Mark on 10/28/2015
  */
 public class Event extends BaseObservable implements Parcelable{
 
-    private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-    private SimpleDateFormat fancyFormatter = new SimpleDateFormat("E, MMM d, h:mm aa");
+    private final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    private final SimpleDateFormat fancyFormatter = new SimpleDateFormat("E, MMM d, h:mm aa");
 
 
     @SerializedName("EventID")
@@ -115,7 +115,7 @@ public class Event extends BaseObservable implements Parcelable{
         this.eventName = eventName;
     }
 
-    public String getHostEmail() {
+    private String getHostEmail() {
         return hostEmail;
     }
 

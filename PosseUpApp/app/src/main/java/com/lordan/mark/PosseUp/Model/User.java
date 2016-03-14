@@ -11,7 +11,7 @@ import com.lordan.mark.PosseUp.BR;
 import java.util.ArrayList;
 
 /**
- * Created by Mark on 10/1/2015.
+ * Created by Mark on 10/1/2015
  */
 public class User  extends BaseObservable implements Parcelable{
 
@@ -29,11 +29,6 @@ public class User  extends BaseObservable implements Parcelable{
     @SerializedName("Username")
     private String username;
 
-    @SerializedName("Verified")
-    private boolean verified;
-
-    @SerializedName("EmailOrUsername")
-    private String emailOrUsername;
 
 
 
@@ -57,7 +52,8 @@ public class User  extends BaseObservable implements Parcelable{
     public User(Parcel in){
         this.userID = in.readInt();
         this.username = in.readString();
-        this.followers = (ArrayList<User>) in.readSerializable();
+        followers = new ArrayList<>();
+        in.readTypedList(followers, User.CREATOR);
 
     }
     public User(String email, String password, String username){
@@ -166,7 +162,7 @@ public class User  extends BaseObservable implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(userID);
         dest.writeString(username);
-        dest.writeSerializable(followers);
+        dest.writeTypedList(followers);
 
     }
     public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>(){

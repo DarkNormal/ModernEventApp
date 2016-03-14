@@ -50,13 +50,6 @@
                 android:value="com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity" />
         </activity>
         <activity
-            android:name=".UI.EventDetailGroup.EventLocationActivity"
-            android:label="@string/title_activity_event__location_">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.lordan.mark.PosseUp.UI.EventDetailGroup.EventDetailsActivity" />
-        </activity>
-        <activity
             android:name=".ConfigureAccount"
             android:label="Posse Up"
             android:theme="@style/AppTheme" />
@@ -99,7 +92,7 @@
 
         <activity
             android:name=".UI.SettingsActivity"
-            android:label="@string/title_activity_settings">
+            android:label="@string/action_settings">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity" />

@@ -9,12 +9,12 @@ import android.widget.ImageView;
 import com.lordan.mark.PosseUp.R;
 
 /**
- * Created by Mark on 7/18/2015.
+ * Created by Mark on 7/18/2015
  */
-public class ImageAdapter extends PagerAdapter {
-    private Context context;
+class ImageAdapter extends PagerAdapter {
+    private final Context context;
 
-    private int[] GalImages = new int[] {
+    private final int[] GalImages = new int[] {
             R.drawable.slide1,
             R.drawable.slide2,
             R.drawable.slide3,

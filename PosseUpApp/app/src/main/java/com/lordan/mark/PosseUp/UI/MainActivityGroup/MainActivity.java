@@ -23,7 +23,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +36,7 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
 
 
     private final String TAG = "MainActivity";
-    private String SENDER_ID = "851010273767";
+    private final String SENDER_ID = "851010273767";
     private GoogleCloudMessaging gcm;
     private NotificationHub hub;
     private static Boolean isVisible = false;
@@ -45,7 +44,6 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle;
-    private NavigationView navView;
     private CharSequence mTitle;
     private ActionBar mActionBar;
 
@@ -71,7 +69,7 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
             Log.e(TAG, "ActionBar null");
         }
 
-        navView = (NavigationView) findViewById(R.id.drawer_nav_view);
+        NavigationView navView = (NavigationView) findViewById(R.id.drawer_nav_view);
         View header = navView.getHeaderView(0);
         TextView drawerUsername = (TextView) header.findViewById(R.id.drawer_username);
         drawerUsername.setText(getCurrentUsername());

@@ -1,7 +1,7 @@
 package com.lordan.mark.PosseUp.UI.MainActivityGroup;
 
 /**
- * Created by Mark on 7/14/2015.
+ * Created by Mark on 7/14/2015
  */
 
 import android.Manifest;
@@ -46,23 +46,17 @@ import java.util.ArrayList;
 
 public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    private final String TAG = "Tab2";
     private SupportMapFragment fragment;
     private GoogleMap map;
-    ArrayList<Event> nearbyList = new ArrayList<>();
+    private final ArrayList<Event> nearbyList = new ArrayList<>();
     ArrayList<Marker> markers = new ArrayList<>();
 
-    RequestQueue queue;
+    private RequestQueue queue;
 
     /**
      * Provides the entry point to Google Play services.
      */
-    protected GoogleApiClient mGoogleApiClient;
-
-    /**
-     * Represents a geographical location.
-     */
-    protected Location mLastLocation;
+    private GoogleApiClient mGoogleApiClient;
 
     private String mLatitudeLabel;
     private String mLongitudeLabel;
@@ -98,7 +92,7 @@ public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallback
         }
     }
 
-    protected synchronized void buildGoogleApiClient() {
+    private synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -137,7 +131,10 @@ public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallback
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        /*
+      Represents a geographical location.
+     */
+        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if(mLastLocation != null) {
             getNearbyEvents(mLastLocation.getLatitude(), mLastLocation.getLongitude());
         }
@@ -164,6 +161,7 @@ public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallback
             location.put("Longitude", longitude);
         }
         catch(JSONException je){
+            String TAG = "Tab2";
             Log.e(TAG, "JSONException getNearbyEvents");
 
         }
@@ -205,7 +203,7 @@ public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallback
                     .snippet(c.getPlaceDetails().getVenueName() + "\n" + c.getPlaceDetails().getVenueAddress() + "\n" +c.getEventDesc()));
             }
             LatLngBounds bounds = builder.build();
-            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 50);
+//            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 50);
 //            map.moveCamera(cu);
 
         }

@@ -3,7 +3,7 @@ package com.lordan.mark.PosseUp.Model;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by Mark on 30/01/2016.
+ * Created by Mark on 30/01/2016
  */
 public class Friendship {
 

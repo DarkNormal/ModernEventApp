@@ -24,7 +24,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -45,10 +44,9 @@ import org.json.JSONObject;
 
 
 /**
- * Created by Mark on 10/27/2015.
+ * Created by Mark on 10/27/2015
  */
 public class AddEventActivity extends AbstractActivity {
-    private static Event newEvent;
     private FirstEventFragment myFrag;
     private RequestQueue queue;
     Fragment secondFrag;
@@ -100,7 +98,7 @@ public class AddEventActivity extends AbstractActivity {
                 confirm.show(fm, "confirm_dialog");
                 break;
             case (R.id.create_event_next):
-                newEvent = myFrag.getEvent();
+                Event newEvent = myFrag.getEvent();
                 if(newEvent != null){
                     AzureService az = new AzureService();
                     newEvent.setHostEmail(az.getCurrentEmail(this));
@@ -164,7 +162,6 @@ public class AddEventActivity extends AbstractActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                NetworkResponse response = error.networkResponse;
                 Log.e("Create Event Error", "");
             }
         });

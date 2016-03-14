@@ -29,7 +29,7 @@ import com.lordan.mark.PosseUp.R;
 
 
 /**
- * Created by Mark on 14/01/2016.
+ * Created by Mark on 14/01/2016
  */
 public class SecondEventFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
@@ -39,7 +39,7 @@ public class SecondEventFragment extends Fragment implements GoogleApiClient.Con
     private Marker marker;
     private GoogleApiClient mGoogleApiClient;
 
-    public static final String TAG = "AddEventActivity";
+    private static final String TAG = "AddEventActivity";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -113,7 +113,7 @@ public class SecondEventFragment extends Fragment implements GoogleApiClient.Con
             fm.beginTransaction().replace(R.id.map_event, fragment).commit();
         }
     }
-    protected synchronized void buildGoogleApiClient() {
+    private synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(getContext())
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)

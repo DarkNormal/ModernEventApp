@@ -1,7 +1,7 @@
 package com.lordan.mark.PosseUp.Model;
 
 /**
- * Created by Mark on 27/01/2016.
+ * Created by Mark on 27/01/2016
  */
 
 import android.app.NotificationManager;
@@ -18,9 +18,9 @@ import com.microsoft.windowsazure.notifications.NotificationsHandler;
 
 
 public class MyHandler extends NotificationsHandler {
-    public static final int NOTIFICATION_ID = 1;
+    private static final int NOTIFICATION_ID = 1;
     NotificationCompat.Builder builder;
-    Context ctx;
+    private Context ctx;
 
     static public MainActivity mainActivity;
 

@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 
 /**
- * Created by Mark on 04/03/2016.
+ * Created by Mark on 04/03/2016
  */
 public class CircularTextView extends TextView
 {

@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 /**
- * Created by Mark on 10/3/2015.
+ * Created by Mark on 10/3/2015
  */
 public class ConfigureAccount extends AbstractActivity{
     @Override

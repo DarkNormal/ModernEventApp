@@ -16,7 +16,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.maps.model.LatLng;
 import com.lordan.mark.PosseUp.AbstractActivity;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.Event;
@@ -27,7 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by Mark on 07/02/2016.
+ * Created by Mark on 07/02/2016
  */
 
 
@@ -37,7 +36,7 @@ public class EventDetailsActivity extends AbstractActivity implements EventDetai
     private static final String TAG = "EventDetailsActivity";
     private RequestQueue queue;
 
-    private FragmentManager fragmentManager = getSupportFragmentManager();
+    private final FragmentManager fragmentManager = getSupportFragmentManager();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +44,7 @@ public class EventDetailsActivity extends AbstractActivity implements EventDetai
         setContentView(R.layout.scrollview_layout);
         Bundle bundle = getIntent().getExtras();
         int eventID = bundle.getInt("EventID");
-        LatLng location = new LatLng(bundle.getDouble("EventLat"), bundle.getDouble("EventLng"));
+        //LatLng location = new LatLng(bundle.getDouble("EventLat"), bundle.getDouble("EventLng"));
         if (eventID != -1) {
             Bundle fragmentBundle = new Bundle();
             fragmentBundle.putInt("EventID", eventID);
@@ -98,12 +97,6 @@ public class EventDetailsActivity extends AbstractActivity implements EventDetai
         fragmentManager.beginTransaction().replace(R.id.fragment_content_holder, fragment).addToBackStack("EventAttendeeList").commit();
 
     }
-    @Override
-    public void onBackPressed()
-    {
-        super.onBackPressed();
-    }
-
     @Override
     public void onListFragmentInteraction(User u) {
         checkFriendStatus(u);

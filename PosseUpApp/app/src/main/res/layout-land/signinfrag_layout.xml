@@ -24,11 +24,11 @@
         android:paddingLeft="35dp"
         android:paddingRight="35dp"
         android:textSize="16sp"
-        android:textAlignment="gravity"
         android:gravity="center_horizontal"
         android:paddingTop="@dimen/margin_medium"
         android:layout_below="@+id/signin_header"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -37,7 +37,8 @@
         android:background="#ffffff"
         android:layout_marginStart="63dp"
         android:id="@+id/linearLayout2"
-        android:layout_alignTop="@+id/linearLayout3">
+        android:layout_alignTop="@+id/linearLayout3"
+        android:layout_marginLeft="63dp">
 
         <EditText
             android:id="@+id/username_signin"
@@ -54,7 +55,8 @@
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_small"
-            android:drawablePadding="@dimen/margin_small" />
+            android:drawablePadding="@dimen/margin_small"
+            android:drawableLeft="@drawable/ic_account_circle_grey" />
 
         <EditText
             android:id="@+id/password"
@@ -75,7 +77,8 @@
             android:layout_marginEnd="@dimen/margin_medium"
             android:drawablePadding="@dimen/margin_small"
             android:layout_marginTop="@dimen/margin_small"
-            android:layout_marginBottom="@dimen/margin_small" />
+            android:layout_marginBottom="@dimen/margin_small"
+            android:drawableLeft="@drawable/ic_lock_outline" />
 
         <Button
             android:id="@+id/signin_button"
@@ -93,7 +96,9 @@
         android:layout_toEndOf="@+id/linearLayout2"
         android:layout_marginStart="60dp"
         android:id="@+id/linearLayout3"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_toRightOf="@+id/linearLayout2"
+        android:layout_marginLeft="60dp">
         <com.facebook.login.widget.LoginButton
             android:id="@+id/login_button"
             android:layout_width="match_parent"
@@ -119,7 +124,9 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="@dimen/margin_medium"
-        android:paddingBottom="@dimen/margin_medium" />
+        android:paddingBottom="@dimen/margin_medium"
+        android:paddingLeft="@dimen/margin_small"
+        android:layout_alignParentRight="true" />
 
     <TextView
         android:focusableInTouchMode="false"
@@ -134,7 +141,9 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="@dimen/margin_medium"
-        android:paddingBottom="@dimen/margin_medium" />
+        android:paddingBottom="@dimen/margin_medium"
+        android:layout_alignParentLeft="true"
+        android:paddingRight="@dimen/margin_small" />
 
 
 </RelativeLayout>

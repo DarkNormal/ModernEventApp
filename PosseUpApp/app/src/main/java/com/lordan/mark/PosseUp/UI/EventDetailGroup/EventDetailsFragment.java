@@ -56,12 +56,6 @@ public class EventDetailsFragment extends Fragment {
     public EventDetailsFragment() {
         // Required empty public constructor
     }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -172,7 +166,7 @@ public class EventDetailsFragment extends Fragment {
         void onFragmentInteraction(Event e);
     }
 
-    public void getEventDetails(int id) {
+    private void getEventDetails(int id) {
         String url = Constants.baseUrl + "api/Events/" + id;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -258,7 +252,7 @@ public class EventDetailsFragment extends Fragment {
         });
         queue.add(jsonObjectRequest);
     }
-    public int convertPixelsToDp(int dp) {
+    private int convertPixelsToDp(int dp) {
         Resources r = getResources();
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
         return Math.round(px);

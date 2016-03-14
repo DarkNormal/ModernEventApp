@@ -1,10 +1,10 @@
 package com.lordan.mark.PosseUp.Model;
 
 /**
- * Created by Mark on 10/4/2015.
+ * Created by Mark on 10/4/2015
  */
 public final class Constants {
-    public static String baseUrl = "http://possenetapiapp.azurewebsites.net/";
+    public static final String baseUrl = "http://possenetapiapp.azurewebsites.net/";
     public static final int TTL_IN_SECONDS = 3 * 60;
 
     public static final int REQUEST_RESOLVE_ERROR = 1001;

@@ -18,7 +18,7 @@ import com.lordan.mark.PosseUp.R;
 
 
 /**
- * Created by Mark on 8/31/2015.
+ * Created by Mark on 8/31/2015
  */
 public class SigninActivity extends AbstractActivity {
 

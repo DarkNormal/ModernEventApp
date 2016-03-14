@@ -1,7 +1,7 @@
 package com.lordan.mark.PosseUp.UI.MainActivityGroup;
 
 /**
- * Created by Mark on 7/15/2015.
+ * Created by Mark on 7/15/2015
  */
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,9 +12,6 @@ import android.view.ViewGroup;
 
 import com.lordan.mark.PosseUp.R;
 
-/**
- * Created by hp1 on 21-01-2015.
- */
 public class Tab3 extends Fragment {
 
     @Override

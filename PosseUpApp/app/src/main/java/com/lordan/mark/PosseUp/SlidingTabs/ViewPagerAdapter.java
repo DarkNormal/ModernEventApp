@@ -10,13 +10,13 @@ import com.lordan.mark.PosseUp.UI.MainActivityGroup.Tab3;
 import com.lordan.mark.PosseUp.UI.MainActivityGroup.Tab4;
 
 /**
- * Created by hp1 on 21-01-2015.
+ * Created by hp1 on 21-01-2015
  */
 
-public class ViewPagerAdapter extends FragmentStatePagerAdapter {
+class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
-    private CharSequence Titles[];      //Stores the titles of all tabs
-    private int NumTabs;
+    private final CharSequence[] Titles;      //Stores the titles of all tabs
+    private final int NumTabs;
 
     public ViewPagerAdapter(FragmentManager fm,CharSequence mTitles[], int mNumTabs) {
         super(fm);

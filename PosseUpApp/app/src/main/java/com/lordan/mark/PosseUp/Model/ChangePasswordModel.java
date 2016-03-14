@@ -3,9 +3,9 @@ package com.lordan.mark.PosseUp.Model;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by Mark on 03/02/2016.
+ * Created by Mark on 03/02/2016
  */
-public class ChangePasswordModel {
+class ChangePasswordModel {
 
     @SerializedName("OldPassword")
     private String oldPassword;

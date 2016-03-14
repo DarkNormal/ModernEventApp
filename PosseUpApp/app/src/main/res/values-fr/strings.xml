@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Posse Up</string>
-    <string name="upcoming_events">Vos Événements à venir</string>
     <string name="app_basic_info">
         Formez des groupes et faire de nouveaux amis, quel que soit l\'événement! Vous pouvez vous joindre à des événements publics, ou créer vos propres séances privées pour vous et vos amis
     </string>
@@ -10,4 +8,10 @@
     <string name="sign_in_button">S\'inscrire</string>
     <string name="forgot_password">Mot de passe oublié?</string>
     <string name="sign_up">Ne pas avoir un compte? Signer</string>
+    <string name="action_settings">Paramètres</string>
+    <string name="already_account">Vous avez déjà un compte? se connecter</string>
+    <string name="cancel">Annuler</string>
+    <string name="drawer_events">Événements</string>
+    <string name="drawer_home">Accueil</string>
+    <string name="drawer_profile">Profil</string>
 </resources>

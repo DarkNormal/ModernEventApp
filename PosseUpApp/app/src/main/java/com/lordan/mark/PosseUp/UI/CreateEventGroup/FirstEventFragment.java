@@ -34,14 +34,14 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Created by Mark on 14/01/2016.
+ * Created by Mark on 14/01/2016
  */
 public class FirstEventFragment extends Fragment {
     private SwitchCompat mSwitch;
     private View v;
-    private Event newEvent = new Event();
+    private final Event newEvent = new Event();
     private boolean allDayEvent;
-    int PLACE_PICKER_REQUEST = 1;
+    private final int PLACE_PICKER_REQUEST = 1;
     private TextView chosenLocation;
     private Place chosenPlace;
 
@@ -81,9 +81,7 @@ public class FirstEventFragment extends Fragment {
 
                 try {
                     startActivityForResult(builder.build(getActivity()), PLACE_PICKER_REQUEST);
-                } catch (GooglePlayServicesRepairableException e) {
-                    e.printStackTrace();
-                } catch (GooglePlayServicesNotAvailableException e) {
+                } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
                     e.printStackTrace();
                 }
             }

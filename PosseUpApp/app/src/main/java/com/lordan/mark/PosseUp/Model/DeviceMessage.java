@@ -1,7 +1,7 @@
 package com.lordan.mark.PosseUp.Model;
 
 /**
- * Created by Mark on 11/7/2015.
+ * Created by Mark on 11/7/2015
  */
 
 import android.os.Build;

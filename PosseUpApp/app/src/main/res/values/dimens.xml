@@ -3,7 +3,6 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="padding_overlap">-2dp</dimen>
-    <dimen name="list_item_height">72dp</dimen>
 
 
     <dimen name="margin_tiny">4dp</dimen>
@@ -13,9 +12,6 @@
     <dimen name="margin_huge">64dp</dimen>
 
     <!-- Semantic definitions -->
-
-    <dimen name="horizontal_page_margin">@dimen/margin_medium</dimen>
-    <dimen name="vertical_page_margin">@dimen/margin_medium</dimen>
 
 
     <dimen name="textsize_default">16sp</dimen>
@@ -27,16 +23,6 @@
     <!--Same sizes of text from Material Design specs-->
     <!--https://gist.github.com/passsy/9ab560b8877b316a14ea-->
     <dimen name="material_text_button">14sp</dimen>
-    <dimen name="material_text_menu">14sp</dimen>
-    <dimen name="material_text_caption">12sp</dimen>
     <dimen name="material_text_body1">14sp</dimen>
-    <dimen name="material_text_body2">13sp</dimen>
     <dimen name="material_text_subhead">16sp</dimen>
-    <dimen name="material_text_title">20sp</dimen>
-    <dimen name="material_text_headline">24sp</dimen>
-    <dimen name="material_text_display1">34sp</dimen>
-    <dimen name="material_text_display2">45sp</dimen>
-    <dimen name="material_text_display3">56sp</dimen>
-    <dimen name="material_text_display4">112sp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
 </resources>

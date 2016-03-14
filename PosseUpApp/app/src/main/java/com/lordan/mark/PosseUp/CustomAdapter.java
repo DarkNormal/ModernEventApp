@@ -1,7 +1,7 @@
 package com.lordan.mark.PosseUp;
 
 /**
- * Created by Mark on 8/31/2015.
+ * Created by Mark on 8/31/2015
  */
 
 import android.content.Context;
@@ -22,15 +22,14 @@ import java.util.List;
  */
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
     private static final String TAG = "CustomAdapter";
-    private CustomItemClickListener listener;
-    private Context mContext;
-    private List<Event> mDataSet;
+    private final CustomItemClickListener listener;
+    private final List<Event> mDataSet;
 
     /**
      * Provide a reference to the type of views that you are using (custom ViewHolder)
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView mTextView;
+        public final TextView mTextView;
         public ViewHolder(View v) {
             super(v);
             // Define click listener for the ViewHolder's View.
@@ -50,7 +49,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
      * @param dataSet String[] containing the data to populate views to be used by RecyclerView.
      */
     public CustomAdapter(Context mContext,List<Event> dataSet, CustomItemClickListener listener) {
-        this.mContext = mContext;
         this.listener = listener;
         mDataSet = dataSet;
     }

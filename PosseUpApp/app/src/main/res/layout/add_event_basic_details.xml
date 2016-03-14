@@ -85,7 +85,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Event visibility"
-                android:id="@+id/create_event_visibility"
                 android:textSize="20sp"
                 android:layout_weight="1"/>
 
@@ -137,7 +136,6 @@
 
                 </LinearLayout>
                 <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/event_online_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Online Event"

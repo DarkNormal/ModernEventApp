@@ -11,11 +11,11 @@ import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.EventDetailGroup.UserFragment;
 
 /**
- * Created by Mark on 04/03/2016.
+ * Created by Mark on 04/03/2016
  */
 public class ProfileActivity extends AbstractActivity implements ProfileFragment.OnFragmentInteractionListener, UserFragment.OnListFragmentInteractionListener {
     private String username;
-    private FragmentManager fragmentManager = getSupportFragmentManager();
+    private final FragmentManager fragmentManager = getSupportFragmentManager();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class ProfileActivity extends AbstractActivity implements ProfileFragment
             e.printStackTrace();
         }
         if (username != null) {
-            boolean isCurrentUser = getCurrentUsername() == username;
+            boolean isCurrentUser = getCurrentUsername().equals(username);
             Bundle fragmentBundle = new Bundle();
             fragmentBundle.putString("username", username);
             fragmentBundle.putBoolean("isCurrentUser", isCurrentUser);

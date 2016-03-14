@@ -61,10 +61,5 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.user_name);
         }
-
-        @Override
-        public String toString() {
-            return super.toString();
-        }
     }
 }

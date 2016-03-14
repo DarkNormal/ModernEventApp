@@ -1,9 +1,9 @@
 package com.lordan.mark.PosseUp;
 
 /**
- * Created by Mark on 22/08/2015.
+ * Created by Mark on 22/08/2015
  */
-public class Item {
+class Item {
     public String Id;
     public String Text;
 

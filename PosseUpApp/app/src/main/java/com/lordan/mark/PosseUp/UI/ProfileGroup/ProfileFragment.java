@@ -35,7 +35,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Created by Mark on 31/01/2016.
+ * Created by Mark on 31/01/2016
  */
 public class ProfileFragment extends Fragment implements View.OnClickListener{
 
@@ -44,7 +44,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
     private String currentUsername;
     private RequestQueue queue;
     private OnFragmentInteractionListener mListener;
-    private AzureService az;
     private AccountProfileLayoutBinding mBinding;
 
     @Override
@@ -53,7 +52,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
 
         mBinding = DataBindingUtil.inflate(inflater, R.layout.account_profile_layout, container, false);
         queue = Volley.newRequestQueue(getContext());
-        az = new AzureService();
+        AzureService az = new AzureService();
         currentUsername = az.getCurrentUsername(getContext());
         user = new User();
         mBinding.setUser(user);
@@ -116,7 +115,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         setHasOptionsMenu(true);
     }
 
-    public void getUserDetails(final VolleyCallback callback) {
+    private void getUserDetails(final VolleyCallback callback) {
         String url = Constants.baseUrl + "api/Account/UserInfo/" + user.getUsername();
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -203,7 +202,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(User u, String viewType );
     }
-    public void followFunction(boolean currentFollowing, final VolleyCallback callback) {
+    private void followFunction(boolean currentFollowing, final VolleyCallback callback) {
         String url = Constants.baseUrl + "api/Account/";
         if(currentFollowing) {
             url += "Follow";

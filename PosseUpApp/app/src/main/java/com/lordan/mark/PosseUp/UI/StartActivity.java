@@ -24,7 +24,7 @@ import io.fabric.sdk.android.Fabric;
  * Fullscreen with space available for a logo or something
  */
 public class StartActivity extends AbstractActivity {
-    private Handler mHandler = new Handler();
+    private final Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

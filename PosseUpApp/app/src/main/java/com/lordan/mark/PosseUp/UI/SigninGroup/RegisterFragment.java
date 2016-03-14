@@ -39,7 +39,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Mark on 9/30/2015.
+ * Created by Mark on 9/30/2015
  */
 public class RegisterFragment extends Fragment {
 
@@ -93,7 +93,7 @@ public class RegisterFragment extends Fragment {
     }
 
 
-    public void registerUser(final EditText username, final EditText email, EditText password) {
+    private void registerUser(final EditText username, final EditText email, EditText password) {
 
         //TODO
         //can now convert to JSONObject easier via Gson
@@ -121,11 +121,13 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 mProgressDialog.dismiss();
-                System.out.println(error.networkResponse.statusCode);
+                if (error.networkResponse != null) {
+                    System.out.println(error.networkResponse.statusCode);
+                }
                 String json;
 
                 NetworkResponse response = error.networkResponse;
-                if (response != null && response.data != null) {
+                if (response.data != null) {
                     switch (response.statusCode) {
                         case 400:
                             json = new String(response.data);
@@ -200,7 +202,7 @@ public class RegisterFragment extends Fragment {
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("grant_type", "password");
                 try {
                     params.put("username", jsonBody.getString("Email"));
@@ -226,7 +228,7 @@ public class RegisterFragment extends Fragment {
 
     }
 
-    public JSONArray trimMessage(String json, String key) {
+    private JSONArray trimMessage(String json, String key) {
         JSONArray jarray;
 
         try {
@@ -239,7 +241,7 @@ public class RegisterFragment extends Fragment {
         return jarray;
     }
 
-    public void setErrors(JSONArray toastString, EditText username, EditText email) {
+    private void setErrors(JSONArray toastString, EditText username, EditText email) {
         for (int i = 0; i < toastString.length(); i++) {
             try {
                 if (toastString.getString(i).startsWith("Name")) {
