@@ -64,7 +64,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
             user.setUsername(bundle.getString("username"));
 
         }
-        if(currentUsername.equals(user.getUsername())){
+        if(currentUsername.equals(user.getUsername().toLowerCase())){
             whois = true;
             mBinding.followButton.setVisibility(View.INVISIBLE);
         }
@@ -92,7 +92,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
                 if(!whois){
                     boolean friend = false;
                     for (User u: user.getFollowers()) {
-                        if(u.getUsername().equals(currentUsername)){
+                        if(u.getUsername().toLowerCase().equals(currentUsername)){
                             mBinding.followButton.setText("unfollow");
                             friend = true;
                             break;
@@ -116,7 +116,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
     }
 
     private void getUserDetails(final VolleyCallback callback) {
-        String url = Constants.baseUrl + "api/Account/UserInfo/" + user.getUsername();
+        String url = Constants.baseUrl + "api/Account/UserInfo/" + user.getUsername().replace(" ", "%20");
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {

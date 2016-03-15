@@ -73,6 +73,11 @@ public class EventDetailsActivity extends AbstractActivity implements EventDetai
 
 
     }
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        Log.i(TAG, "destroyed");
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

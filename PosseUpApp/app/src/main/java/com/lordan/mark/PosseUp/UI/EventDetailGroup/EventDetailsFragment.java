@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -38,7 +39,7 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class EventDetailsFragment extends Fragment {
+public class EventDetailsFragment extends Fragment implements View.OnClickListener{
 
     private final String TAG = "EventDetailsFragment";
 
@@ -112,6 +113,7 @@ public class EventDetailsFragment extends Fragment {
                 }
             });
 
+        mBinding.attendButton.setOnClickListener(this);
         return v;
     }
 
@@ -162,6 +164,18 @@ public class EventDetailsFragment extends Fragment {
             }
         }
     }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.attend_button:
+                attendEvent();
+                break;
+            default:
+                break;
+        }
+    }
+
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Event e);
     }
@@ -235,13 +249,24 @@ public class EventDetailsFragment extends Fragment {
             attendeeHolder.addView(attendee);
         }
     }
-    public void attendEvent(View v) {
+    public void attendEvent() {
 
-        String url = Constants.baseUrl + "/AttendEvent?id=" + eventID + "&username=" + currentUser;
+        String url = Constants.baseUrl + "AttendEvent?id=" + eventID + "&username=" + currentUser;
+        url = url.replace(" ", "%20");
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                //Log.i(TAG, response.toString());
+                try {
+                    if(response.getBoolean("success") == false){
+                        Toast.makeText(getContext(), "Already attending this event", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(getContext(), "RSVP'd to event", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
 
             }
         }, new Response.ErrorListener() {

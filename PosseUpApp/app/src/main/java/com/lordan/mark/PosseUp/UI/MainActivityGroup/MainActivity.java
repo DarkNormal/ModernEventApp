@@ -244,13 +244,13 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
     }
 
     public void ToastNotify(final String notificationMessage) {
-        if (isVisible)
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(MainActivity.this, notificationMessage, Toast.LENGTH_LONG).show();
-                }
-            });
+//        if (isVisible)
+//            runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    Toast.makeText(MainActivity.this, notificationMessage, Toast.LENGTH_LONG).show();
+//                }
+//            });
     }
 
     @Override

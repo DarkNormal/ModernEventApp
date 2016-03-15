@@ -61,7 +61,7 @@ import java.util.Map;
 /**
  * Created by Mark on 10/10/2015
  */
-public class SignInFrag extends Fragment implements View.OnClickListener {
+public class SignInFragment extends Fragment implements View.OnClickListener {
     private View detailsView;
     private EditText username, password;
     private RequestQueue queue;
@@ -202,8 +202,10 @@ public class SignInFrag extends Fragment implements View.OnClickListener {
         if(requestCode == TwitterAuthConfig.DEFAULT_AUTH_REQUEST_CODE){
             twitterLoginButton.onActivityResult(requestCode, resultCode, data);
         }
-        // TODO figure out request code for facebook callback
-        // callbackManager.onActivityResult(requestCode, resultCode, data);
+        else {
+            // TODO figure out request code for facebook callback
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+        }
 
     }
 
@@ -231,7 +233,6 @@ public class SignInFrag extends Fragment implements View.OnClickListener {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println(error.getMessage());
                 mProgressDialog.dismiss();
                 String json;
 
