@@ -131,9 +131,11 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
         mDrawerLayout.closeDrawers();
 
         Fragment fragment;
+        Bundle args;
         //Check to see which item was being clicked and perform appropriate action
         switch (menuItem.getItemId()) {
             //Replacing the main content with ContentFragment Which is our Inbox View;
+
             case R.id.drawer_home:
                 Toast.makeText(getApplicationContext(), "Home Selected", Toast.LENGTH_SHORT).show();
                 fragment = new Tab1();
@@ -141,7 +143,7 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
                 break;
             case R.id.drawer_profile:
                 Toast.makeText(getApplicationContext(), "Profile Selected", Toast.LENGTH_SHORT).show();
-                Bundle args = new Bundle();
+                args = new Bundle();
                 args.putBoolean("isCurrentUser", true);
                 args.putString("username", getCurrentUsername());
                 fragment = new ProfileFragment();
@@ -152,7 +154,10 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                 break;
             case R.id.drawer_events:
+                args = new Bundle();
+                args.putString("username", getCurrentUsername());
                 fragment = new Tab3();
+                fragment.setArguments(args);
                 getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
                 break;
             default:

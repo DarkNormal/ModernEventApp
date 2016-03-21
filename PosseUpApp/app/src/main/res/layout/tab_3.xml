@@ -8,9 +8,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Past events of the user and upcoming RSVPd events"
-        android:id="@+id/textView"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:text="Past"
+        android:textAllCaps="true"
+        android:id="@+id/pastEventsTitle"
+        />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/pastEventsRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pastEventsTitle"/>
 
 </RelativeLayout>
