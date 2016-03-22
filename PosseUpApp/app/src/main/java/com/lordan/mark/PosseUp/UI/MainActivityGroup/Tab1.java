@@ -48,6 +48,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -177,9 +178,11 @@ public class Tab1 extends Fragment {
                         JSONObject event = response.getJSONObject(i);
                         Gson gson = new Gson();
                         PlaceVenue venue = gson.fromJson(event.getJSONObject("EventVenue").toString(), PlaceVenue.class);
-                        Event c = new Event(event.getInt("EventID"), event.getString("EventTitle"),
-                                event.getString("EventDescription"), event.getString("EventHost"), venue);
-                        tempEvents.add(c);
+                        Event c = gson.fromJson(response.getJSONObject(i).toString(), Event.class);
+                        c.setPlaceDetails(venue);
+                        if(c.getTime().after(Calendar.getInstance())) {
+                            tempEvents.add(c);
+                        }
                         Log.i("JSON RESPONSE", event.toString());
                     }
                 } catch (JSONException e) {

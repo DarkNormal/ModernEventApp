@@ -3,6 +3,7 @@ package com.lordan.mark.PosseUp.UI.MainActivityGroup;
 /**
  * Created by Mark on 7/15/2015
  */
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,7 @@ import com.lordan.mark.PosseUp.CustomAdapter;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.R;
+import com.lordan.mark.PosseUp.UI.EventDetailGroup.EventDetailsActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,12 +53,33 @@ public class Tab3 extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         LinearLayoutManager nextLayoutManager = new LinearLayoutManager(getContext());
 
-        nextLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        nextLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         pastRecyclerView.setLayoutManager(layoutManager);
         upcomingRecyclerView.setLayoutManager(nextLayoutManager);
 
+
+
+
+        pastAdapter = new CustomAdapter(getContext(), pastDataset, new CustomItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                onEventClick(pastDataset, position);
+            }
+        });
+        pastRecyclerView.setAdapter(pastAdapter);
+        upcomingAdapter = new CustomAdapter(getContext(), upcomingDataset, new CustomItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                onEventClick(upcomingDataset, position);
+            }
+        });
+        upcomingRecyclerView.setAdapter(upcomingAdapter);
+
+        return v;
+    }
+    private void getEvents(){
         getUserDetails(new VolleyCallback() {
             @Override
             public void onSuccess(JSONObject result) {
@@ -77,32 +100,12 @@ public class Tab3 extends Fragment {
 
                     }
                     pastAdapter.notifyDataSetChanged();
+                    upcomingAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
-
-
-        pastAdapter = new CustomAdapter(getContext(), pastDataset, new CustomItemClickListener() {
-            @Override
-            public void onItemClick(View v, int position) {
-                Toast.makeText(getContext(), "clicked position: " + position, Toast.LENGTH_SHORT).show();
-            }
-        });
-        pastRecyclerView.setAdapter(pastAdapter);
-        upcomingAdapter = new CustomAdapter(getContext(), upcomingDataset, new CustomItemClickListener() {
-            @Override
-            public void onItemClick(View v, int position) {
-                Toast.makeText(getContext(), "clicked position: " + position, Toast.LENGTH_SHORT).show();
-            }
-        });
-        upcomingRecyclerView.setAdapter(upcomingAdapter);
-
-        return v;
-    }
-    private void getEvents(){
-
     }
 
     private void getUserDetails(final VolleyCallback callback) {
@@ -141,6 +144,20 @@ public class Tab3 extends Fragment {
         pastDataset = new ArrayList<>();
         upcomingDataset = new ArrayList<>();
         getEvents();
+    }
+
+    private void onEventClick(List<Event> mDataset, int position){
+        Intent intent = new Intent(getContext(), EventDetailsActivity.class);
+        intent.putExtra("EventID", mDataset.get(position).getEventID());
+        try {
+            intent.putExtra("EventLat", mDataset.get(position).getPlaceDetails().getVenueLocation().latitude);
+            intent.putExtra("EventLng", mDataset.get(position).getPlaceDetails().getVenueLocation().longitude);
+        }
+        catch(NullPointerException npe){
+            Log.e(TAG, "Place Details null");
+        }
+        startActivity(intent);
+        Toast.makeText(getContext(), "clicked position: " + position, Toast.LENGTH_SHORT).show();
     }
 
 }

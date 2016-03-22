@@ -31,6 +31,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.Event;
+import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.ProfileGroup.ProfileActivity;
 import com.lordan.mark.PosseUp.databinding.FragmentEventDetailsBinding;
@@ -169,7 +170,13 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.attend_button:
-                attendEvent();
+                String btnText = mBinding.attendButton.getText().toString().toUpperCase();
+                if(btnText.equals("RSVP")) {
+                    interactEvent(true);
+                }
+                else{
+                    interactEvent(false);
+                }
                 break;
             default:
                 break;
@@ -194,6 +201,14 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
                     event.setAttendees(response.getJSONArray("EventAttendees"));
                 } catch (JSONException e) {
                     e.printStackTrace();
+                }
+                boolean isUserAttending = false;
+                for (User u: event.getAttendees()) {
+                    if(u.getUsername().equals(currentUser)){
+                        mBinding.attendButton.setText("Leave");
+                        isUserAttending = true;
+                        break;
+                    }
                 }
                 mBinding.setEvent(event);
                 displayAttendeeList();
@@ -227,6 +242,7 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
     }
     private void displayAttendee(final int loopVar){
         LinearLayout attendeeHolder = (LinearLayout) v.findViewById(R.id.event_details_pictures);
+        attendeeHolder.removeAllViews();
         int pixelsDP = Math.round(convertPixelsToDp(55));
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams( pixelsDP, pixelsDP );
         for (int i = 0; i < loopVar; i++) {
@@ -249,19 +265,41 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
             attendeeHolder.addView(attendee);
         }
     }
-    public void attendEvent() {
 
-        String url = Constants.baseUrl + "AttendEvent?id=" + eventID + "&username=" + currentUser;
+    public interface VolleyCallback{
+        void onSuccess(JSONObject result);
+    }
+    public void interactEvent(final boolean attend){
+        String url = Constants.baseUrl;
+        if(attend){
+            url += "api/Event/Attend/" + eventID + "?username=" + currentUser;
+        }
+        else{
+            url += "api/Event/Leave/" + eventID + "?username=" + currentUser;
+        }
+        interactEvent(url, new VolleyCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                if(attend){
+                    mBinding.attendButton.setText("Leave");
+                    getEventDetails(eventID);
+                }
+                else{
+                    mBinding.attendButton.setText("Rsvp");
+                    getEventDetails(eventID);
+                }
+            }
+        });
+    }
+    public void interactEvent(String url, final VolleyCallback callback) {
+
         url = url.replace(" ", "%20");
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    if(response.getBoolean("success") == false){
-                        Toast.makeText(getContext(), "Already attending this event", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
-                        Toast.makeText(getContext(), "RSVP'd to event", Toast.LENGTH_SHORT).show();
+                    if(response.getBoolean("success") != false){
+                        callback.onSuccess(response);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

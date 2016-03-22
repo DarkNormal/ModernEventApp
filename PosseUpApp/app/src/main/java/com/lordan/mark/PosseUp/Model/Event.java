@@ -54,6 +54,9 @@ public class Event extends BaseObservable implements Parcelable{
 
     @SerializedName("EventAttendees")
     private ArrayList<User> attendees;
+
+
+
     @SerializedName("EventVenue")
     private PlaceVenue placeDetails;
 
@@ -83,6 +86,15 @@ public class Event extends BaseObservable implements Parcelable{
         this.placeDetails = venue;
         this.eventName = eventTitle;
         this.eventDesc = eventDescription;
+        this.hostEmail = eventHost;
+    }
+    public Event(int id, String eventTitle, String eventDescription, String eventHost, String eventStartTime, String eventEndTime, PlaceVenue venue) {
+        this.eventID = id;
+        this.placeDetails = venue;
+        this.eventName = eventTitle;
+        this.eventDesc = eventDescription;
+        this.startDateTime = eventStartTime;
+        this.endDateTime = eventEndTime;
         this.hostEmail = eventHost;
     }
 
@@ -161,6 +173,9 @@ public class Event extends BaseObservable implements Parcelable{
         return fancyFormatter.format(startingCal.getTime());
     }
 
+    public void setStartTime(String time){
+        this.startDateTime = time;
+    }
 
     public void setStartingTime() {
         Calendar cal = Calendar.getInstance();
@@ -220,6 +235,10 @@ public class Event extends BaseObservable implements Parcelable{
             }
         }
 
+    }
+
+    public void setPlaceDetails(PlaceVenue placeDetails) {
+        this.placeDetails = placeDetails;
     }
 
     @Override
