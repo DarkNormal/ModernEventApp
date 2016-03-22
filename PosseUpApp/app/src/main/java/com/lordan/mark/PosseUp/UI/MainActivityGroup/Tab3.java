@@ -31,50 +31,78 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class Tab3 extends Fragment {
 
-    private List<Event> mDataset;
+    private List<Event> pastDataset, upcomingDataset;
     private String username;
     private final String TAG = "TAB3";
     private RequestQueue queue;
-    private CustomAdapter mAdapter;
+    private CustomAdapter pastAdapter, upcomingAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.tab_3,container,false);
-        RecyclerView mRecyclerView = (RecyclerView) v.findViewById(R.id.pastEventsRecycler);
+        RecyclerView pastRecyclerView = (RecyclerView) v.findViewById(R.id.pastEventsRecycler);
+        RecyclerView upcomingRecyclerView = (RecyclerView) v.findViewById(R.id.upcomingEventsRecycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager nextLayoutManager = new LinearLayoutManager(getContext());
+
+        nextLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        mRecyclerView.setLayoutManager(layoutManager);
 
+        pastRecyclerView.setLayoutManager(layoutManager);
+        upcomingRecyclerView.setLayoutManager(nextLayoutManager);
 
-
-        mAdapter = new CustomAdapter(getContext(), mDataset, new CustomItemClickListener() {
-            @Override
-            public void onItemClick(View v, int position) {
-                Toast.makeText(getContext(), "clicked position: " + position, Toast.LENGTH_SHORT).show();
-            }
-        });
-        mRecyclerView.setAdapter(mAdapter);
-
-        return v;
-    }
-    private void getEvents(){
         getUserDetails(new VolleyCallback() {
             @Override
             public void onSuccess(JSONObject result) {
                 try {
+                    Gson gson = new Gson();
                     for (int i = 0; i < result.getJSONArray("Events").length(); i++) {
-                        mDataset.add(new Gson().fromJson(result.getJSONArray("Events").getJSONObject(i).toString(), Event.class));
+
+                        Event e = gson.fromJson(result.getJSONArray("Events").getJSONObject(i).toString(), Event.class);
+                        Calendar now = Calendar.getInstance();
+                        if(e.getTime().after(now)){
+                            Log.i(TAG, "event in the future");
+                            upcomingDataset.add(gson.fromJson(result.getJSONArray("Events").getJSONObject(i).toString(), Event.class));
+                        }
+                        else{
+                            Log.i(TAG, "event in the past");
+                            pastDataset.add(gson.fromJson(result.getJSONArray("Events").getJSONObject(i).toString(), Event.class));
+                        }
+
                     }
-                        mAdapter.notifyDataSetChanged();
+                    pastAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
+
+
+        pastAdapter = new CustomAdapter(getContext(), pastDataset, new CustomItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                Toast.makeText(getContext(), "clicked position: " + position, Toast.LENGTH_SHORT).show();
+            }
+        });
+        pastRecyclerView.setAdapter(pastAdapter);
+        upcomingAdapter = new CustomAdapter(getContext(), upcomingDataset, new CustomItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                Toast.makeText(getContext(), "clicked position: " + position, Toast.LENGTH_SHORT).show();
+            }
+        });
+        upcomingRecyclerView.setAdapter(upcomingAdapter);
+
+        return v;
+    }
+    private void getEvents(){
+
     }
 
     private void getUserDetails(final VolleyCallback callback) {
@@ -110,7 +138,8 @@ public class Tab3 extends Fragment {
     }
 
     private void initDataset() {
-        mDataset = new ArrayList<>();
+        pastDataset = new ArrayList<>();
+        upcomingDataset = new ArrayList<>();
         getEvents();
     }
 

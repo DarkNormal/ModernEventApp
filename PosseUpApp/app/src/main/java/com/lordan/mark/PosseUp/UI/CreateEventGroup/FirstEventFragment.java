@@ -229,7 +229,7 @@ public class FirstEventFragment extends Fragment {
             }
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
-            newEvent.setStartingTime(cal);
+            newEvent.setStartingCal(cal);
             Calendar endCal = Calendar.getInstance();
             if(!allDayEvent){
                 MaterialEditText dateEnd = (MaterialEditText) v.findViewById(R.id.create_event_date_end);

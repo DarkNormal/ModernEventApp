@@ -57,7 +57,7 @@
                 style="@style/RevisedAppTheme.DarkText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{event.startingTime, default=PLACEHOLDER}"
+                android:text="@{event.startingCal, default=PLACEHOLDER}"
                 android:paddingStart="@dimen/margin_medium"
                 android:paddingTop="@dimen/margin_small"
                 android:layout_toRightOf="@+id/event_time_icon"

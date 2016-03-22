@@ -17,5 +17,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/pastEventsTitle"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Upcoming"
+        android:textAllCaps="true"
+        android:layout_below="@+id/pastEventsRecycler"
+        android:id="@+id/upcomingEventsTitle"
+        />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/upcomingEventsRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/upcomingEventsTitle"/>
 
 </RelativeLayout>

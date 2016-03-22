@@ -38,15 +38,17 @@ public class Event extends BaseObservable implements Parcelable{
     @SerializedName("EventHost")
     private String hostEmail;
 
+
     @SerializedName("EventStartTime")
     private String startDateTime;
-
-    private Calendar startingTime;
-
-    private Calendar endingTime;
-
     @SerializedName("EventEndTime")
     private String endDateTime;
+
+    private Calendar startingCal;
+
+    private Calendar endingCal;
+
+
 
 
 
@@ -155,8 +157,8 @@ public class Event extends BaseObservable implements Parcelable{
     }
 
     @Bindable
-    public String getStartingTime() {
-        return fancyFormatter.format(startingTime.getTime());
+    public String getStartingCal() {
+        return fancyFormatter.format(startingCal.getTime());
     }
 
 
@@ -167,16 +169,27 @@ public class Event extends BaseObservable implements Parcelable{
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        notifyPropertyChanged(BR.startingTime);
-        this.startingTime = cal;
+        notifyPropertyChanged(BR.startingCal);
+        this.startingCal = cal;
     }
-    public void setStartingTime(Calendar cal) {
-        this.startingTime = cal;
+    public void setStartingCal(Calendar cal) {
+        this.startingCal = cal;
+    }
+    public Calendar getTime(){
+        if(startingCal == null){
+            try {
+                startingCal = Calendar.getInstance();
+                startingCal.setTime(formatter.parse(startDateTime));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return startingCal;
     }
 
     @Bindable
-    public String getEndingTime() {
-        return fancyFormatter.format(endingTime.getTime());
+    public String getEndingCal() {
+        return fancyFormatter.format(endingCal.getTime());
     }
 
     public void setEndingTime() {
@@ -186,11 +199,11 @@ public class Event extends BaseObservable implements Parcelable{
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        notifyPropertyChanged(BR.endingTime);
-        this.endingTime = cal;
+        notifyPropertyChanged(BR.endingCal);
+        this.endingCal = cal;
     }
-    public void setEndingTime(Calendar cal){
-        this.endingTime = cal;
+    public void setEndingCal(Calendar cal){
+        this.endingCal = cal;
     }
 
     public ArrayList<User> getAttendees() {
