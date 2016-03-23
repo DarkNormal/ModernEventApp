@@ -1,36 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent">
+
+<android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/event_list_swipe"
     android:layout_width="match_parent"
-    android:background="@color/light_grey"
     android:layout_height="match_parent">
+<android.support.v7.widget.RecyclerView
+    android:id="@+id/eventsRecycler"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>
+</android.support.v4.widget.SwipeRefreshLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Upcoming"
-        android:textAllCaps="true"
-        android:id="@+id/upcomingEventsTitle"
-        />
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/upcomingEventsRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/upcomingEventsTitle"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Past"
-        android:textAllCaps="true"
-        android:layout_below="@+id/upcomingEventsRecycler"
-        android:id="@+id/pastEventsTitle"
-        />
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/pastEventsRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/pastEventsTitle"/>
-
-
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
