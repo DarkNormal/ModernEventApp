@@ -10,9 +10,16 @@
         <item name="android:textColorHint">@color/dark_grey</item>
         <item name="colorAccent">@color/ColorPrimary</item>
 
+
     </style>
 
-    <style name="DarkUnderline" parent="BaseAppTheme">
+    <style name="CreateEventStyle" parent="BaseAppTheme">
+        <item name="editTextStyle">@style/EditTextStyle</item>
+        <item name="android:textColorSecondary">@color/dark_grey</item>
+    </style>
+
+    <style name="EditTextStyle" parent="@android:style/Widget.EditText">
+        <item name="android:textColor">@color/dark_grey</item>
         <item name="android:textColorSecondary">@color/dark_grey</item>
     </style>
 
@@ -27,5 +34,16 @@
         <item name="colorAccent">@color/ColorPrimary</item>
         <item name="android:background">@android:color/white</item>
     </style>
+
+    <style name="fullscreenStartPage" parent="@style/Theme.AppCompat.Light">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="TranslucentStatusBar" parent="AppTheme">
+    </style>
+
 
 </resources>

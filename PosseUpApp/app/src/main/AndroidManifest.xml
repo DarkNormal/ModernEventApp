@@ -57,7 +57,7 @@
         <activity
             android:name=".UI.CreateEventGroup.AddEventActivity"
             android:label="Create Event"
-            android:theme="@style/DarkUnderline" />
+            android:theme="@style/CreateEventStyle" />
         <activity
             android:name=".UI.ProfileGroup.ProfileActivity"
             android:label="Profile"

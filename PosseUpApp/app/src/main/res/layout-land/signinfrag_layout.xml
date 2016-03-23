@@ -15,25 +15,11 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/app_basic_info"
-        android:id="@+id/signin_desc"
-        android:textColor="#FFF8F8"
-        android:paddingLeft="35dp"
-        android:paddingRight="35dp"
-        android:textSize="16sp"
-        android:gravity="center_horizontal"
-        android:paddingTop="@dimen/margin_medium"
-        android:layout_below="@+id/signin_header"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_centerInParent="true"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/signin_desc"
+        android:layout_below="@+id/signin_header"
         android:orientation="horizontal">
         <LinearLayout
             android:layout_width="0dp"
