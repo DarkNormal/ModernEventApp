@@ -15,7 +15,6 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:background="@color/light_grey"
-        style="@style/RevisedAppTheme.DarkText"
         android:layout_height="match_parent">
 
 
@@ -54,7 +53,6 @@
                 android:paddingBottom="@dimen/margin_small"
                 android:src="@drawable/ic_query_builder" />
             <TextView
-                style="@style/RevisedAppTheme.DarkText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{event.startingCal, default=PLACEHOLDER}"

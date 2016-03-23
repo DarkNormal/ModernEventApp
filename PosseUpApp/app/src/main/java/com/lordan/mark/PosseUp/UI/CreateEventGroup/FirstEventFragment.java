@@ -26,7 +26,6 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.R;
-import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -198,10 +197,10 @@ public class FirstEventFragment extends Fragment {
         });
     }
     public Event getEvent(){
-        MaterialEditText title =(MaterialEditText) v.findViewById(R.id.create_event_title_input);
-        MaterialEditText startDate =(MaterialEditText) v.findViewById(R.id.create_event_date);
-        MaterialEditText startTime = (MaterialEditText) v.findViewById(R.id.create_event_time);
-        MaterialEditText eventDesc = (MaterialEditText) v.findViewById(R.id.add_event_desc);
+        EditText title =(EditText) v.findViewById(R.id.create_event_title_input);
+        EditText startDate =(EditText) v.findViewById(R.id.create_event_date);
+        EditText startTime = (EditText) v.findViewById(R.id.create_event_time);
+        EditText eventDesc = (EditText) v.findViewById(R.id.add_event_desc);
         boolean emptyTitle = false;
         boolean emptyDate = false;
         boolean emptyDesc = false;
@@ -232,8 +231,8 @@ public class FirstEventFragment extends Fragment {
             newEvent.setStartingCal(cal);
             Calendar endCal = Calendar.getInstance();
             if(!allDayEvent){
-                MaterialEditText dateEnd = (MaterialEditText) v.findViewById(R.id.create_event_date_end);
-                MaterialEditText timeEnd = (MaterialEditText) v.findViewById(R.id.create_event_time_end);
+                EditText dateEnd = (EditText) v.findViewById(R.id.create_event_date_end);
+                EditText timeEnd = (EditText) v.findViewById(R.id.create_event_time_end);
                 if(isEmpty(dateEnd) || isEmpty(timeEnd)){
                     dateEnd.setError("Date & Time Required");
                     return null;
@@ -268,7 +267,7 @@ public class FirstEventFragment extends Fragment {
         }
         return null;
     }
-    private boolean isEmpty(MaterialEditText v){
+    private boolean isEmpty(EditText v){
         return v.getText().toString().equals("");
     }
 }

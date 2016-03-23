@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
@@ -228,8 +229,9 @@ public class Tab1 extends Fragment {
                         refreshEvents();
                     }
                 });
+
+
                 alert.setActionTextColor(Color.RED);
-                alert.show();
                 break;
             case 403:
             case 503:
@@ -241,7 +243,6 @@ public class Tab1 extends Fragment {
                     }
                 });
                 alert.setActionTextColor(Color.YELLOW);
-                alert.show();
                 break;
             default:
                 alert = Snackbar.make(mFab, "Failed to get Events", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
@@ -251,9 +252,13 @@ public class Tab1 extends Fragment {
                     }
                 });
                 alert.setActionTextColor(Color.YELLOW);
-                alert.show();
+
                 break;
         }
+        View v = alert.getView();
+        TextView textView = (TextView) v.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.WHITE);
+        alert.show();
     }
 
 

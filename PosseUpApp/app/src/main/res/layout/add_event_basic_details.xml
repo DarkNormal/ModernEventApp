@@ -5,70 +5,106 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="24dp">
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/create_event_title_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
             android:id="@+id/create_event_title_input"
-            android:textSize="24sp"
-            android:inputType="text"
-            app:met_floatingLabel="highlight"
-            app:met_floatingLabelAlwaysShown="true"
-            app:met_floatingLabelText="Event Title"
-            android:hint="Event Title"
-            style="@style/Widget.AppCompat.EditText"
-            />
-        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <com.rengwuxian.materialedittext.MaterialEditText
+            android:hint="Title" />
+
+    </android.support.design.widget.TextInputLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/create_event_date_wrapper"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content">
+
+            <EditText
                 android:id="@+id/create_event_date"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:met_floatingLabel="highlight"
-                app:met_floatingLabelAlwaysShown="true"
-                app:met_floatingLabelText="From"
-                android:layout_weight="2"
-                android:focusable="false"
-                android:drawableRight="@drawable/ic_caret_down"
-                android:layout_marginRight="16dp"
 
-                />
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/create_event_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:focusable="false"
                 android:drawableRight="@drawable/ic_caret_down"
-                />
+                android:layout_marginRight="16dp"/>
+
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/create_event_time_wrapper"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/create_event_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:drawableRight="@drawable/ic_caret_down"
+                android:layout_marginRight="16dp"/>
+
+        </android.support.design.widget.TextInputLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/create_event_date_end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:met_floatingLabel="highlight"
-                app:met_floatingLabelAlwaysShown="true"
-                app:met_floatingLabelText="To"
-                android:focusable="false"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/create_event_date_end_wrapper"
+                android:layout_width="0dp"
                 android:layout_weight="2"
-                android:drawableRight="@drawable/ic_caret_down"
-                android:layout_marginRight="16dp"
-                />
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/create_event_time_end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:focusable="false"
-                android:drawableRight="@drawable/ic_caret_down"
-                />
+                android:layout_height="wrap_content">
 
+                <EditText
+                    android:id="@+id/create_event_date_end"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:focusable="false"
+                    android:drawableRight="@drawable/ic_caret_down"
+                    android:layout_marginRight="16dp"/>
+
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/create_event_time_end_wrapper"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/create_event_time_end"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:drawableRight="@drawable/ic_caret_down"
+                    android:layout_marginRight="16dp"/>
+
+            </android.support.design.widget.TextInputLayout>
         </LinearLayout>
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/add_event_desc_wrapper"
+        android:layout_width="match_parent"
+        android:hint="Event Description"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/add_event_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:inputType="textMultiLine"
+            android:drawableRight="@drawable/ic_caret_down"
+            android:layout_marginRight="16dp"/>
+
+    </android.support.design.widget.TextInputLayout>
 
         <CheckBox
             android:layout_width="wrap_content"
@@ -147,11 +183,5 @@
 
         </android.support.v7.widget.CardView>
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/add_event_desc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Event Description"
-            android:textSize="24sp"
-            android:inputType="textMultiLine"/>
+
 </LinearLayout>

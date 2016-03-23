@@ -26,7 +26,7 @@
         <activity
             android:name=".UI.MainActivityGroup.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/RevisedAppTheme" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".UI.StartActivity"
             android:label="@string/app_name"
@@ -45,7 +45,7 @@
         <activity
             android:name=".UI.EventDetailGroup.EventDetailsActivity"
             android:label="Posse Up"
-            android:theme="@style/RevisedAppTheme">
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity" />
@@ -57,11 +57,11 @@
         <activity
             android:name=".UI.CreateEventGroup.AddEventActivity"
             android:label="Create Event"
-            android:theme="@style/RevisedAppTheme" />
+            android:theme="@style/DarkUnderline" />
         <activity
             android:name=".UI.ProfileGroup.ProfileActivity"
             android:label="Profile"
-            android:theme="@style/RevisedAppTheme" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
