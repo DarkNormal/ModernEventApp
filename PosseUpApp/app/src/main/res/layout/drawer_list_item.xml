@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="48dp"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="?android:attr/activatedBackgroundIndicator"
     android:minHeight="?android:attr/listPreferredItemHeightSmall"
     android:paddingStart="@dimen/margin_medium"
@@ -11,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:contentDescription="drawer item"
+        android:contentDescription="@string/drawer_icon"
         android:paddingEnd="@dimen/margin_medium"/>
     <TextView
         android:id="@+id/drawer_item_text"
@@ -20,7 +21,7 @@
         android:layout_marginStart="@dimen/margin_medium"
         android:layout_gravity="center_vertical"
         android:textColor="@android:color/black"
-        android:text="placeholder"
+        tools:text="@string/placeholder"
         android:textSize="@dimen/material_text_body1"
         android:fontFamily="sans-serif-medium"
         />

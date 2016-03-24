@@ -51,10 +51,6 @@
                 android:value="com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity" />
         </activity>
         <activity
-            android:name=".ConfigureAccount"
-            android:label="Posse Up"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name=".UI.CreateEventGroup.AddEventActivity"
             android:label="Create Event"
             android:theme="@style/CreateEventStyle" />

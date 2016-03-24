@@ -67,12 +67,12 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
     }
 
     @Override
-    public void onBindViewHolder(SimpleViewHolder holder, final int position) {
-        holder.title.setText(mData.get(position).getEventName());
+    public void onBindViewHolder(final SimpleViewHolder holder, final int position) {
+        holder.title.setText(mData.get(holder.getAdapterPosition()).getEventName());
         holder.title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext,"Position ="+position,Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext,"Position ="+holder.getAdapterPosition(),Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -205,7 +205,7 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
                 boolean isUserAttending = false;
                 for (User u: event.getAttendees()) {
                     if(u.getUsername().equals(currentUser)){
-                        mBinding.attendButton.setText("Leave");
+                        mBinding.attendButton.setText("@string/leave");
                         isUserAttending = true;
                         break;
                     }

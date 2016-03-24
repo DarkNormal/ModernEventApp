@@ -4,6 +4,7 @@
         Form groups and make new friends, whatever the event!
         You can join in on public events, or create your own private sessions for you and your friends
     </string>
+    <string name="email_field">Email</string>
     <string name="username_field">Username</string>
     <string name="password_field">Password</string>
     <string name="sign_in_button">Sign in</string>
@@ -106,4 +107,29 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
+
+
+    <string name="refresh">Refresh</string>
+    <string name="create_event">Create</string>
+    <string name="image_description">Background</string>
+    <string name="event_image">Event image</string>
+    <string name="drawer_icon">Drawer item icon</string>
+    <string name="placeholder">PLACEHOLDER</string>
+
+    <!--Create Event strings-->
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="visibility">Visibility</string>
+    <string name="venue">Venue</string>
+    <string name="current_location">Current Location</string>
+    <string name="default_venue_name">Not set</string>
+    <string name="online_event">Online event</string>
+
+    <string name="or">or</string>
+    <string name="followers">Followers</string>
+    <string name="following">Following</string>
+    <string name="view_all">View all</string>
+
+    <string name="rsvp">rsvp</string>
+    <string name="leave">leave</string>
 </resources>

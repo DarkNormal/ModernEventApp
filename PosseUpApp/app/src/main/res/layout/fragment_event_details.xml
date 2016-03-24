@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:id="@+id/imageView"
-            android:contentDescription="background"
+            android:contentDescription="@string/image_description"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/gradient_background" />
         <com.mikhaellopez.circularimageview.CircularImageView
@@ -131,7 +131,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/dark_grey"
-                android:text=""
                 android:textAllCaps="true"
                 android:paddingTop="@dimen/margin_medium"
                 android:textSize="@dimen/material_text_button"
@@ -153,7 +152,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#2196F3"
-                android:text="View All"
+                android:text="@string/view_all"
                 style="?android:attr/borderlessButtonStyle"
                 android:background="@android:color/transparent"
                 android:layout_below="@+id/event_details_pictures"
@@ -165,7 +164,7 @@
             android:id="@+id/attend_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="RSVP"
+            android:text="@string/rsvp"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/attendee_holder"
             android:textColor="@android:color/white" />

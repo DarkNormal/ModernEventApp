@@ -19,7 +19,7 @@
             android:maxLines="1"
             android:inputType="text"
             android:layout_height="wrap_content"
-            android:hint="Title" />
+            android:hint="@string/title" />
 
     </android.support.design.widget.TextInputLayout>
     <LinearLayout
@@ -97,7 +97,7 @@
     <android.support.design.widget.TextInputLayout
         android:id="@+id/add_event_desc_wrapper"
         android:layout_width="match_parent"
-        android:hint="Event Description"
+        android:hint="@string/description"
         android:layout_height="wrap_content">
 
         <EditText
@@ -111,13 +111,6 @@
 
     </android.support.design.widget.TextInputLayout>
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="All Day"
-            android:id="@+id/all_day_event"
-            android:layout_gravity="end"/>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -125,7 +118,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Event visibility"
+                android:text="@string/visibility"
                 android:textSize="20sp"
                 android:layout_weight="1"/>
 
@@ -151,7 +144,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Venue"
+                        android:text="@string/venue"
                         android:layout_alignParentLeft="true"
                         android:layout_centerInParent="true"
                         android:paddingLeft="8dp"
@@ -167,19 +160,19 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:text="Current Location"
+                        android:text="@string/current_location"
                         android:layout_weight="8"/>
                     <TextView
                         android:id="@+id/event_current_location"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Not set" />
+                        android:text="@string/default_venue_name" />
 
                 </LinearLayout>
                 <android.support.v7.widget.SwitchCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Online Event"
+                    android:text="@string/online_event"
                     android:layout_gravity="end"/>
 
 

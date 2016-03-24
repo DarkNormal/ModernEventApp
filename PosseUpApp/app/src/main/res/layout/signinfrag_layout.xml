@@ -79,7 +79,7 @@
         android:id="@+id/signin_option"
         android:textColor="@color/offWhite"
         android:layout_centerHorizontal="true"
-        android:text="OR"/>
+        android:text="@string/or"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_centerHorizontal="true"

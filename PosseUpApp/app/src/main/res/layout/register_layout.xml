@@ -74,7 +74,7 @@
         android:ems="10"
         android:id="@+id/email_signup"
         android:minWidth="200dp"
-        android:hint="Email"
+        android:hint="@string/email_field"
         android:textColor="#801D1D26"
         android:textSize="14sp"
         android:textColorHint="#801D1D26"

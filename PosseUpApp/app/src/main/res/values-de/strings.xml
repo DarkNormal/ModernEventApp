@@ -15,4 +15,13 @@
     <string name="drawer_events">Veranstaltungen</string>
     <string name="drawer_home">Zuhause</string>
     <string name="drawer_profile">Profil</string>
+    <string name="closeddrawer">Abgeschlossen</string>
+    <string name="full_name">Vollständiger Name</string>
+    <string name="hi">Hallo</string>
+    <string name="menu_sign_out">Ausloggen</string>
+    <string name="no_account">Ein Konto erstellen</string>
+    <string name="opendrawer">Eröffnet</string>
+    <string name="password_code">Code</string>
+    <string name="pref_header_notifications">Benachrichtigungen</string>
+    <string name="pref_header_general">General</string>
 </resources>

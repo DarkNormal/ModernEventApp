@@ -110,21 +110,6 @@ public class FirstEventFragment extends Fragment {
         configTimeChooser(startTimeInput, false);
         configTimeChooser(endTimeInput, true);
 
-        final CheckBox allDay = (CheckBox) v.findViewById(R.id.all_day_event);
-        allDay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    allDayEvent = true;
-                    endDateInput.setVisibility(View.INVISIBLE);
-                    endTimeInput.setVisibility(View.INVISIBLE);
-                } else {
-                    allDayEvent = false;
-                    endDateInput.setVisibility(View.VISIBLE);
-                    endTimeInput.setVisibility(View.VISIBLE);
-                }
-            }
-        });
     }
 
     private void configDateChooser(final EditText dateTextView, final boolean addDay){
