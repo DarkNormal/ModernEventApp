@@ -12,11 +12,10 @@ import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.UI.MainActivityGroup.CustomItemClickListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by Mark on 23/03/2016.
+ ** Created by Mark on 23/03/2016.
  */
 public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleViewHolder> {
 

@@ -23,7 +23,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.lordan.mark.PosseUp.CustomAdapter;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.R;
@@ -32,13 +31,11 @@ import com.lordan.mark.PosseUp.SimpleSectionedRecyclerViewAdapter;
 import com.lordan.mark.PosseUp.UI.DividerItemDecoration;
 import com.lordan.mark.PosseUp.UI.EventDetailGroup.EventDetailsActivity;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class Tab3 extends Fragment {

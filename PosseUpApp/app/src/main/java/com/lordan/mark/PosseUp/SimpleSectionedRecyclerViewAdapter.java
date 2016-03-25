@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 /**
- * Created by Mark on 23/03/2016.
+ ** Created by Mark on 23/03/2016.
  */
 public class SimpleSectionedRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 

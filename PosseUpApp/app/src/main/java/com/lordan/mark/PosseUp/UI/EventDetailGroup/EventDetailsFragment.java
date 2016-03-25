@@ -19,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -205,7 +204,7 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
                 boolean isUserAttending = false;
                 for (User u: event.getAttendees()) {
                     if(u.getUsername().equals(currentUser)){
-                        mBinding.attendButton.setText("@string/leave");
+                        mBinding.attendButton.setText(getString(R.string.leave));
                         isUserAttending = true;
                         break;
                     }
@@ -228,11 +227,11 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
 
         int numberOfGuests = event.getAttendees().size();
         TextView numGuestsHeading =(TextView) v.findViewById(R.id.event_guests_heading);
-        numGuestsHeading.setText("guests (" + numberOfGuests +")");
+        numGuestsHeading.setText(getString(R.string.guests_heading, numberOfGuests));
         if(numberOfGuests > 4){
             displayAttendee(4);
             TextView extraGuests = new TextView(getContext());
-            extraGuests.setText("+" + (numberOfGuests - 4) + " guests" );
+            extraGuests.setText(getString(R.string.extra_guests, numberOfGuests - 4));
         }
         else{
             displayAttendee(numberOfGuests);
@@ -281,11 +280,11 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
             @Override
             public void onSuccess(JSONObject result) {
                 if(attend){
-                    mBinding.attendButton.setText("Leave");
+                    mBinding.attendButton.setText(getString(R.string.leave));
                     getEventDetails(eventID);
                 }
                 else{
-                    mBinding.attendButton.setText("Rsvp");
+                    mBinding.attendButton.setText(getString(R.string.rsvp));
                     getEventDetails(eventID);
                 }
             }

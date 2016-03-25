@@ -11,8 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -135,7 +133,7 @@ public class FirstEventFragment extends Fragment {
                         // TODO Auto-generated method stub
                     /*      Your code   to get date and time    */
                         selectedMonth = selectedMonth + 1;
-                        dateTextView.setText("" + selectedDay + "/" + selectedMonth + "/" + selectedYear);
+                        dateTextView.setText(getString(R.string.event_date,selectedDay, selectedMonth,selectedYear));
                     }
                 }, mYear, mMonth, mDay);
                 mDatePicker.show();
