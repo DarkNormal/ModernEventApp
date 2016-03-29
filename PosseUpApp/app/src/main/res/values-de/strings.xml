@@ -33,4 +33,12 @@
     <string name="or">oder</string>
     <string name="leave">verlassen</string>
     <string name="guests_heading">Gäste (%1$d)</string>
+    <string name="create_event">Erstellen</string>
+    <string name="current_location">aktueller Standort</string>
+    <string name="description">Beschreibung</string>
+    <string name="email_field">Email</string>
+    <string name="extra_guests">+ %1d Gäste</string>
+    <string name="follow">Folgen</string>
+    <string name="following">Folgende</string>
+    <string name="followers">Folgen</string>
 </resources>

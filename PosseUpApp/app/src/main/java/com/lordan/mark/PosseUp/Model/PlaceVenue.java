@@ -7,6 +7,7 @@ import android.os.Parcelable;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.SerializedName;
+import com.lordan.mark.PosseUp.BR;
 
 
 import java.util.List;
@@ -53,7 +54,6 @@ public class PlaceVenue extends BaseObservable implements Parcelable{
    public void setVenueRating(double venueRating) {
        this.venueRating = venueRating;
    }
-
 
     @Bindable
    public String getVenueName() {

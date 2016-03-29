@@ -13,7 +13,7 @@
         android:layout_below="@+id/signup_header"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="42dp"
-        android:id="@+id/view" />
+        android:id="@+id/profiler" />
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addImage_Button"
         android:layout_width="wrap_content"
@@ -25,7 +25,7 @@
         app:fabSize="mini"
         android:layout_marginRight="16dp"
         android:layout_marginEnd="@dimen/margin_medium"
-        android:layout_alignTop="@+id/view"
+        android:layout_alignTop="@+id/profiler"
         android:layout_toEndOf="@+id/signup_header"
         android:layout_toRightOf="@+id/signup_header">
 
@@ -47,7 +47,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@android:color/white"
-    android:layout_below="@+id/view"
+    android:layout_below="@+id/profiler"
     android:layout_centerHorizontal="true"
     android:layout_marginTop="30dp">
     <EditText

@@ -30,7 +30,7 @@ public class MyHandler extends NotificationsHandler {
         String nhMessage = bundle.getString("message");
 
         sendNotification(nhMessage);
-        mainActivity.ToastNotify(nhMessage);
+        //mainActivity.ToastNotify(nhMessage);
     }
 
     private void sendNotification(String msg) {

@@ -6,6 +6,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
+import com.lordan.mark.PosseUp.BR;
 
 import java.util.ArrayList;
 

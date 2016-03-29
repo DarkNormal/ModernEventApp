@@ -113,7 +113,7 @@
                 app:civ_shadow="false"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="42dp"
-                android:id="@+id/view" />
+                android:id="@+id/profiler" />
             <android.support.design.widget.FloatingActionButton
             android:id="@+id/addImage_Button"
             android:layout_width="wrap_content"
@@ -124,8 +124,8 @@
             android:clickable="true"
             app:fabSize="mini"
                 android:layout_alignParentTop="true"
-                android:layout_alignRight="@+id/view"
-                android:layout_alignEnd="@+id/view">
+                android:layout_alignRight="@+id/profiler"
+                android:layout_alignEnd="@+id/profiler">
 
             </android.support.design.widget.FloatingActionButton>
         </RelativeLayout>

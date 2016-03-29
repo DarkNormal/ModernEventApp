@@ -74,7 +74,6 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getContext());
-
         callbackManager = CallbackManager.Factory.create();
 
     }
@@ -82,7 +81,6 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Toast.makeText(getContext(), "Sign in frag made!", Toast.LENGTH_SHORT).show();
         detailsView = inflater.inflate(R.layout.signinfrag_layout, container, false);
         queue = Volley.newRequestQueue(getActivity());
         TextView forgotPassword = (TextView) detailsView.findViewById(R.id.forgot_password);

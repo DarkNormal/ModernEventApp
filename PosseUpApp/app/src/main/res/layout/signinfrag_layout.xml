@@ -81,65 +81,55 @@
         android:id="@+id/signin_option"
         android:textColor="@color/offWhite"
         android:layout_centerHorizontal="true"
+        android:textAllCaps="true"
         android:text="@string/or"/>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/margin_small"
-        android:layout_below="@+id/signin_option"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+
         <com.facebook.login.widget.LoginButton
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_below="@+id/signin_option"
+            android:layout_centerHorizontal="true"
             android:id="@+id/login_button"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <com.twitter.sdk.android.core.identity.TwitterLoginButton
             android:layout_marginTop="@dimen/margin_small"
+            android:layout_below="@+id/login_button"
+            android:layout_centerHorizontal="true"
             android:id="@+id/twitter_login_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-    </LinearLayout>
 
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="@dimen/margin_small"
-        android:layout_marginRight="@dimen/margin_small">
+
         <TextView
             android:id="@+id/signup_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:layout_marginStart="@dimen/margin_small"
             android:paddingEnd="@dimen/margin_small"
             android:text="@string/no_account"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#FFF8F8"
-            android:paddingRight="@dimen/margin_small" />
+            android:paddingRight="@dimen/margin_small"
+            android:layout_marginLeft="@dimen/margin_small" />
 
-
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:layout_weight="1" />
         <TextView
 
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="@dimen/margin_small"
             android:id="@+id/forgot_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="@dimen/margin_small"
             android:text="@string/forgot_password"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#FFF8F8"
-            android:paddingBottom="@dimen/margin_medium"
-            android:paddingLeft="@dimen/margin_small" />
-
-
-    </LinearLayout>
+            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_small"
+            android:layout_alignParentRight="true" />
 
 
 

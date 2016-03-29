@@ -1,16 +1,28 @@
 package com.lordan.mark.PosseUp.UI.SigninGroup;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,13 +53,16 @@ import java.util.Map;
 /**
  * Created by Mark on 9/30/2015
  */
-public class RegisterFragment extends Fragment {
+public class RegisterFragment extends Fragment implements View.OnClickListener{
 
     private ProgressDialog mProgressDialog; //dialog used for all Volley requests
     private RequestQueue queue;             //Volley queue
     private View view;
     private EditText email;
+    private ImageSelectorDialog dialog;
     private static final String TAG ="RegisterFrag";
+    private ImageView profiler;
+    private static final int CAMERA_OPTION = 11, GALLERY_OPTION = 12;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,13 +97,8 @@ public class RegisterFragment extends Fragment {
             }
         });
         FloatingActionButton addImage = (FloatingActionButton) view.findViewById(R.id.addImage_Button);
-        addImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast toast = Toast.makeText(getContext(), "Functionality coming soon!", Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        });
+        addImage.setOnClickListener(this);
+        profiler = (ImageView) view.findViewById(R.id.profiler);
         return view;
     }
 
@@ -254,5 +264,94 @@ public class RegisterFragment extends Fragment {
             }
         }
     }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()){
+            case R.id.addImage_Button:
+                getProfileImage();
+        }
+    }
+
+    private void getProfileImage(){
+        FragmentManager fm = getFragmentManager();
+        dialog = new ImageSelectorDialog();
+        dialog.setTargetFragment(this, 0);
+        dialog.show(fm, "image_selector");
+    }
+
+    public static class ImageSelectorDialog extends DialogFragment {
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the Builder class for convenient dialog construction
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.CustomAlertDialogStyle);
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+
+            View v =inflater.inflate(R.layout.image_selector_layout, null);
+            // Inflate and set the layout for the dialog
+            // Pass null as the parent view because its going in the dialog layout
+            builder.setView(v);
+            TextView camera = (TextView) v.findViewById(R.id.camera_button);
+            camera.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getTargetFragment().onActivityResult(getTargetRequestCode(), CAMERA_OPTION , getActivity().getIntent());
+
+                }
+            });
+            TextView gallery = (TextView) v.findViewById(R.id.gallery_button);
+            gallery.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getTargetFragment().onActivityResult(getTargetRequestCode(), GALLERY_OPTION , getActivity().getIntent());
+
+                }
+            });
+            builder.setTitle("Select image");
+            // Create the AlertDialog object and return it
+            return builder.create();
+        }
+
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch(requestCode) {
+            case 0:
+                dialog.dismiss();
+                if (resultCode == CAMERA_OPTION) {
+                    Log.i(TAG, "got the result from the dialog");
+
+                    Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(takePicture, 1);//zero can be replaced with any action code
+                } else if (resultCode == GALLERY_OPTION){
+                    Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(pickPhoto , 2);//one can be replaced with any action code
+                }
+                break;
+            case 1:
+                if(resultCode == Activity.RESULT_OK){
+                    Bundle extras = data.getExtras();
+                    Bitmap imageBitmap = (Bitmap) extras.get("data");
+                    if(profiler != null) {
+                        profiler.setImageBitmap(imageBitmap);
+                    }
+                }
+                break;
+
+            case 2:
+                if(resultCode == Activity.RESULT_OK){
+                    Uri selectedImage = data.getData();
+                    if(profiler != null) {
+                        profiler.setImageURI(selectedImage);
+                    }
+                }
+                break;
+
+        }
+    }
 }
+
 

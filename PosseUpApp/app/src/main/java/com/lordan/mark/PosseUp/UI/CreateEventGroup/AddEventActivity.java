@@ -50,7 +50,6 @@ import org.json.JSONObject;
 public class AddEventActivity extends AbstractActivity {
     private FirstEventFragment myFrag;
     private RequestQueue queue;
-    Fragment secondFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
