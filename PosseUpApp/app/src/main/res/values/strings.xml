@@ -124,9 +124,9 @@
     <string name="current_location">Current Location</string>
     <string name="default_venue_name">Not set</string>
     <string name="online_event">Online event</string>
-    <string name="event_date">%1d/%2d/%3d</string>
+    <string name="event_date">%1$d/%2$d/%3$d</string>
     <string name="add_zero"></string>
-    <string name="event_time">%1d:%2d</string>
+    <string name="event_time">%1$d:%2$d</string>
 
 
     <string name="or">or</string>
@@ -134,8 +134,11 @@
     <string name="following">Following</string>
     <string name="view_all">View all</string>
 
-    <string name="rsvp">rsvp</string>
+    <string name="rsvp" translatable="false">rsvp</string>
     <string name="leave">leave</string>
-    <string name="guests_heading">guests (%1d)</string>
+    <string name="guests_heading">guests (%1$d)</string>
     <string name="extra_guests">+ %1d guests</string>
+
+    <string name="follow">follow</string>
+    <string name="unfollow">unfollow</string>
 </resources>

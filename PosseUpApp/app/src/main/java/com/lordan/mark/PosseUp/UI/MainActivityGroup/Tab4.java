@@ -85,12 +85,6 @@ public class Tab4 extends Fragment implements GoogleApiClient.ConnectionCallback
     private boolean mResolvingNearbyPermissionError = false;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // Use a retained fragment to avoid re-publishing or re-subscribing upon orientation
-        // changes.
-    }
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab_4, container, false);
@@ -192,11 +186,6 @@ public class Tab4 extends Fragment implements GoogleApiClient.ConnectionCallback
                 mNearbyDevicesArrayAdapter.clear();
             }
         });
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
     }
 
     @Override

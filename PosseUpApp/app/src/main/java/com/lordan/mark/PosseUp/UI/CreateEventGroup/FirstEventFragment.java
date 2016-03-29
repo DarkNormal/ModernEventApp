@@ -162,15 +162,18 @@ public class FirstEventFragment extends Fragment {
                         if (selectedMinute < 10) {
                             addZeroMinute = true;
                         }
+                        String timeText;
                         if (addZeroHour && !addZeroMinute) {
-                            timeTextView.setText("0" + selectedHour + ":" + selectedMinute);
+                            timeText = "0" + selectedHour + ":" + selectedMinute;
+
                         } else if (!addZeroHour && addZeroMinute) {
-                            timeTextView.setText(selectedHour + ":0" + selectedMinute);
+                            timeText = selectedHour + ":0" + selectedMinute;
                         } else if (addZeroHour && addZeroMinute) {
-                            timeTextView.setText("0" + selectedHour + ":0" + selectedMinute);
+                            timeText = "0" + selectedHour + ":0" + selectedMinute;
                         } else {
-                            timeTextView.setText(selectedHour + ":" + selectedMinute);
+                            timeText = selectedHour + ":" + selectedMinute;
                         }
+                        timeTextView.setText(timeText);
 
                     }
                 }, hour, minute, true);

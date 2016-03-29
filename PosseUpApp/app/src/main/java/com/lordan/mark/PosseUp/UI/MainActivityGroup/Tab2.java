@@ -8,6 +8,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -146,7 +147,7 @@ public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallback
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
 
     }
@@ -200,9 +201,6 @@ public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallback
                     .title(c.getEventName())
                     .snippet(c.getPlaceDetails().getVenueName() + "\n" + c.getPlaceDetails().getVenueAddress() + "\n" +c.getEventDesc()));
             }
-            LatLngBounds bounds = builder.build();
-//            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 50);
-//            map.moveCamera(cu);
 
         }
     }

@@ -93,12 +93,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
                     boolean friend = false;
                     for (User u: user.getFollowers()) {
                         if(u.getUsername().toLowerCase().equals(currentUsername)){
-                            mBinding.followButton.setText("unfollow");
+                            setFollowButtonText(getString(R.string.unfollow));
                             friend = true;
                             break;
                         }
                     }
-                    if(!friend) mBinding.followButton.setText("follow");
+                    if(!friend) setFollowButtonText(getString(R.string.follow));
                 }
             }
         });
@@ -176,11 +176,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
                 try {
                     if(result.getString("success").equals("true")){
                         if(currentlyFollowing) {
-                            mBinding.followButton.setText("unfollow");
+                            setFollowButtonText(getString(R.string.unfollow));
                             user.updateFollowers(false,new User(currentUsername));
                         }
                         else {
-                            mBinding.followButton.setText("follow");
+                            setFollowButtonText(getString(R.string.follow));
                             for (User u: user.getFollowers()) {
                                 if(u.getUsername().equals(currentUsername)){
                                     user.updateFollowers(true,u);
@@ -234,6 +234,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
             }
         });
         queue.add(jsonObjectRequest);
+    }
+    private void setFollowButtonText(String textToSet){
+        mBinding.followButton.setText(textToSet);
     }
 
 

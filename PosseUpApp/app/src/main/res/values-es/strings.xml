@@ -23,4 +23,13 @@
     <string name="password_code">Código</string>
     <string name="pref_header_notifications">Notificaciones</string>
     <string name="pref_header_general">General</string>
+    <string name="title">Título</string>
+    <string name="unfollow">dejar de seguir </string>
+    <string name="venue">Lugar de encuentro</string>
+    <string name="view_all">ver todo</string>
+    <string name="visibility">Visibilidad</string>
+    <string name="refresh">refrescar</string>
+    <string name="or">o</string>
+    <string name="leave">salir</string>
+    <string name="guests_heading">huésped (%1$d)</string>
 </resources>

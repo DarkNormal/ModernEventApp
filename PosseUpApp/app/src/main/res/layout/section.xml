@@ -4,6 +4,7 @@
     android:layout_height="48dp"
     android:gravity="center_vertical"
     android:paddingLeft="16dp"
+    android:paddingStart="@dimen/margin_medium"
     android:singleLine="true"
     android:textAllCaps="true"
     android:textColor="@color/dark_grey"

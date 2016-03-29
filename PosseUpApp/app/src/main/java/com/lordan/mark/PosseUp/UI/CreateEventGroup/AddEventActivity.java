@@ -7,6 +7,7 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 
@@ -63,8 +64,10 @@ public class AddEventActivity extends AbstractActivity {
         FragmentManager fragMan = getSupportFragmentManager();
         FragmentTransaction fragTransaction = fragMan.beginTransaction();
         myFrag = new FirstEventFragment();
-        fragTransaction.add(fragmentHolder.getId(), myFrag, "add_event_basic");
-        fragTransaction.commit();
+        if(fragmentHolder != null) {
+            fragTransaction.add(fragmentHolder.getId(), myFrag, "add_event_basic");
+            fragTransaction.commit();
+        }
         queue = Volley.newRequestQueue(this);
 
     }
@@ -148,15 +151,18 @@ public class AddEventActivity extends AbstractActivity {
             @Override
             public void onResponse(JSONObject response) {
                 Log.i("Create Event", response.toString());
-                Snackbar.make(findViewById(R.id.coordinatorLayout), "Event created", Snackbar.LENGTH_LONG)
-                        .setAction("View", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                finish();
-                            }
-                        })
-                        .setActionTextColor(Color.MAGENTA)
-                        .show();
+                CoordinatorLayout coordinatorLayout = (CoordinatorLayout)  findViewById(R.id.coordinatorLayout);
+                if (coordinatorLayout != null) {
+                    Snackbar.make(coordinatorLayout, "Event created", Snackbar.LENGTH_LONG)
+                            .setAction("View", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    finish();
+                                }
+                            })
+                            .setActionTextColor(Color.MAGENTA)
+                            .show();
+                }
 
             }
         }, new Response.ErrorListener() {

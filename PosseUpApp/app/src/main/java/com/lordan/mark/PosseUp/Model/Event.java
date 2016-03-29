@@ -7,7 +7,6 @@ import android.os.Parcelable;
 
 import com.google.android.gms.location.places.Place;
 import com.google.gson.annotations.SerializedName;
-import com.lordan.mark.PosseUp.BR;
 
 
 import org.json.JSONArray;

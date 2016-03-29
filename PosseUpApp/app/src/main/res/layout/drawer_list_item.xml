@@ -6,14 +6,16 @@
     android:background="?android:attr/activatedBackgroundIndicator"
     android:minHeight="?android:attr/listPreferredItemHeightSmall"
     android:paddingStart="@dimen/margin_medium"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/margin_medium">
     <ImageView
         android:id="@+id/drawer_item_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:contentDescription="@string/drawer_icon"
-        android:paddingEnd="@dimen/margin_medium"/>
+        android:paddingEnd="@dimen/margin_medium"
+        android:paddingRight="@dimen/margin_medium" />
     <TextView
         android:id="@+id/drawer_item_text"
         android:layout_width="wrap_content"
@@ -24,5 +26,5 @@
         tools:text="@string/placeholder"
         android:textSize="@dimen/material_text_body1"
         android:fontFamily="sans-serif-medium"
-        />
+        android:layout_marginLeft="@dimen/margin_medium" />
     </LinearLayout>

@@ -29,6 +29,7 @@
             android:src="@drawable/ic_add"
             app:backgroundTint="@color/primaryThemeColor"
             app:borderWidth="0dp"
-            app:fabSize="normal" />
+            app:fabSize="normal"
+            android:layout_marginRight="@dimen/margin_medium" />
 
 </android.support.design.widget.CoordinatorLayout>

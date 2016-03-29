@@ -32,8 +32,10 @@
             android:src="@drawable/profiler"
             android:layout_alignParentStart="true"
             android:layout_marginLeft="16dp"
+            android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginBottom="@dimen/margin_medium"
-            android:layout_alignBottom="@id/imageView" />
+            android:layout_alignBottom="@id/imageView"
+            android:layout_alignParentLeft="true" />
 
         <RelativeLayout
             android:id="@+id/event_time_group"
@@ -42,7 +44,8 @@
             android:background="@android:color/white"
             android:layout_below="@+id/imageView"
             android:layout_marginBottom="1dp"
-            android:layout_marginEnd="1dp">
+            android:layout_marginEnd="1dp"
+            android:layout_marginRight="1dp">
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/event_time_icon"
                 android:layout_width="wrap_content"
@@ -51,7 +54,8 @@
                 android:layout_marginStart="@dimen/margin_medium"
                 android:paddingTop="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_small"
-                android:src="@drawable/ic_query_builder" />
+                android:src="@drawable/ic_query_builder"
+                android:layout_marginLeft="@dimen/margin_medium" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,7 +63,8 @@
                 android:paddingStart="@dimen/margin_medium"
                 android:paddingTop="@dimen/margin_small"
                 android:layout_toRightOf="@+id/event_time_icon"
-                android:textAllCaps="true"/>
+                android:textAllCaps="true"
+                android:paddingLeft="@dimen/margin_medium" />
         </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -74,7 +79,8 @@
                 android:clickable="true"
                 android:background="@android:color/white"
                 android:layout_marginEnd="1dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:layout_marginRight="1dp">
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/event_location_icon"
                     android:layout_width="wrap_content"
@@ -83,7 +89,8 @@
                     android:layout_marginStart="@dimen/margin_medium"
                     android:paddingTop="@dimen/margin_small"
                     android:paddingBottom="@dimen/margin_small"
-                    android:src="@drawable/ic_place" />
+                    android:src="@drawable/ic_place"
+                    android:layout_marginLeft="@dimen/margin_medium" />
                 <TextView
                     android:id="@+id/event_location_title"
                     android:layout_width="wrap_content"
@@ -135,7 +142,7 @@
                 android:paddingTop="@dimen/margin_medium"
                 android:textSize="@dimen/material_text_button"
                 android:layout_marginStart="@dimen/margin_medium"
-                />
+                android:layout_marginLeft="@dimen/margin_medium" />
             <LinearLayout
                 android:id="@+id/event_details_pictures"
                 android:layout_width="match_parent"
@@ -144,7 +151,8 @@
                 android:layout_marginTop="@dimen/margin_tiny"
                 android:layout_marginBottom="@dimen/margin_tiny"
                 android:layout_marginStart="@dimen/margin_medium"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginLeft="@dimen/margin_medium">
 
             </LinearLayout>
             <Button

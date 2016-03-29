@@ -184,9 +184,9 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
             protected Object doInBackground(Object... params) {
                 try {
                     String regid = gcm.register(SENDER_ID);
-                    ToastNotify("Registered Successfully - RegID: " + hub.register(regid, getCurrentEmail()).getRegistrationId());
+                    Log.i(TAG,"Registered Successfully - RegID: " + hub.register(regid, getCurrentEmail()).getRegistrationId());
                 } catch (Exception e) {
-                    ToastNotify("Registration Exception Message - " + e.getMessage());
+                    Log.e(TAG, "GCM register exception");
                 }
                 return null;
             }
@@ -246,16 +246,6 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
     protected void onStop() {
         super.onStop();
         isVisible = false;
-    }
-
-    public void ToastNotify(final String notificationMessage) {
-//        if (isVisible)
-//            runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    Toast.makeText(MainActivity.this, notificationMessage, Toast.LENGTH_LONG).show();
-//                }
-//            });
     }
 
     @Override

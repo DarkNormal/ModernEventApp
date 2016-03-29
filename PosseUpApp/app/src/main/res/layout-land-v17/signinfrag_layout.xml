@@ -29,8 +29,7 @@
             android:orientation="vertical"
             android:background="#ffffff"
             android:layout_marginStart="63dp"
-            android:id="@+id/linearLayout2"
-            android:layout_marginLeft="63dp">
+            android:id="@+id/linearLayout2">
 
             <EditText
                 android:id="@+id/username_signin"

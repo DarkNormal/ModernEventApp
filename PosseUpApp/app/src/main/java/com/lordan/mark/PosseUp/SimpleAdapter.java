@@ -50,7 +50,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
         this.listener = listener;
         if (data != null)
             mData = new ArrayList<>(data);
-        else mData = new ArrayList<Event>();
+        else mData = new ArrayList<>();
     }
 
     public SimpleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

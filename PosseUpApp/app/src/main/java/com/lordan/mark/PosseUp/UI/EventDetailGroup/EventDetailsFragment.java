@@ -153,14 +153,11 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
             mBinding.setVenue(event.getPlaceDetails());
             displayAttendeeList();
         } else {
-            if (event != null) {
-                //returning from back stack, data is fine, do nothing
-            } else {
-                //newly created, compute data
+            if (event == null) {
                 Log.i(TAG, "null savedInstanceState");
                 if (eventID != -1) {
                     getEventDetails(eventID);
-                }
+            }
             }
         }
     }
@@ -297,7 +294,7 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    if(response.getBoolean("success") != false){
+                    if(response.getBoolean("success")){
                         callback.onSuccess(response);
                     }
                 } catch (JSONException e) {
