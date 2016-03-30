@@ -117,8 +117,10 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         //TODO
         //can now convert to JSONObject easier via Gson
         final User newUser = new User(email.getText().toString(), password.getText().toString(), username.getText().toString());
-        mProgressDialog = ProgressDialog.show(getContext(), "Registering",
-                "Please wait...", true);
+        mProgressDialog = new ProgressDialog(getContext(), R.style.CustomAlertDialogStyle);
+        mProgressDialog.setTitle("Registering");
+        mProgressDialog.setMessage("Please wait...");
+        mProgressDialog.show();
         final JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("Email", newUser.getEmail());
@@ -201,8 +203,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
     }
 
     private void login(final JSONObject jsonBody) {
-        ProgressDialog.show(getContext(), "Logging in",
-                "1 moment...", true);
+        mProgressDialog.setTitle("Logging in");
+        mProgressDialog.show();
         String url = Constants.baseUrl + "Token";
         StringRequest req = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
