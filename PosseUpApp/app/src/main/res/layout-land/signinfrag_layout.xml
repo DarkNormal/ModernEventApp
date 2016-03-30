@@ -77,6 +77,8 @@
                 android:layout_height="wrap_content"
                 android:background="#FF3366"
                 android:text="@string/sign_in_button"
+                android:alpha="0.5"
+                android:enabled="false"
                 android:textColor="#FFF8F8"/>
 
         </LinearLayout>

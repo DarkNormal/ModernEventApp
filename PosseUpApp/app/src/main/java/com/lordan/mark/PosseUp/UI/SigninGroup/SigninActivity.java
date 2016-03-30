@@ -13,27 +13,29 @@ import android.widget.LinearLayout;
 import com.lordan.mark.PosseUp.AbstractActivity;
 import com.lordan.mark.PosseUp.R;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 
 /**
  * Created by Mark on 8/31/2015
  */
 public class SigninActivity extends AbstractActivity {
 
-    private LinearLayout fragmentHolder;
+    @Bind(R.id.fragmentHolder) LinearLayout fragmentHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signin_layout);
+        ButterKnife.bind(this);
         if(savedInstanceState == null){
-            fragmentHolder = (LinearLayout) findViewById(R.id.fragmentHolder);
             Fragment myFrag = new SignInFragment();
             getSupportFragmentManager().beginTransaction().add(fragmentHolder.getId(), myFrag, "signin_fragment").commit();
         }
     }
     public void switchToRegister(){
         Fragment registerFrag = new RegisterFragment();
-        fragmentHolder = (LinearLayout) findViewById(R.id.fragmentHolder);
         getSupportFragmentManager().beginTransaction().replace(fragmentHolder.getId(), registerFrag).addToBackStack("register").commit();
 
     }

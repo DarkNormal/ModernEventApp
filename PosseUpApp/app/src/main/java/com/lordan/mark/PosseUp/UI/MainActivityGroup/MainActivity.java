@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.lordan.mark.PosseUp.AbstractActivity;
+import com.lordan.mark.PosseUp.DataOperations.AzureService;
 import com.lordan.mark.PosseUp.Model.MyHandler;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.UI.EventDetailGroup.UserFragment;
@@ -30,6 +31,8 @@ import com.lordan.mark.PosseUp.UI.SettingsActivity;
 import com.lordan.mark.PosseUp.UI.SigninGroup.SigninActivity;
 import com.microsoft.windowsazure.messaging.NotificationHub;
 import com.microsoft.windowsazure.notifications.NotificationsManager;
+import com.mikhaellopez.circularimageview.CircularImageView;
+import com.squareup.picasso.Picasso;
 
 
 public class MainActivity extends AbstractActivity implements ProfileFragment.OnFragmentInteractionListener, UserFragment.OnListFragmentInteractionListener{
@@ -46,6 +49,7 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     private ActionBar mActionBar;
+    private AzureService az;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,12 +73,15 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
             Log.e(TAG, "ActionBar null");
         }
 
+        az = new AzureService();
         NavigationView navView = (NavigationView) findViewById(R.id.drawer_nav_view);
         View header = navView.getHeaderView(0);
         TextView drawerUsername = (TextView) header.findViewById(R.id.drawer_username);
         drawerUsername.setText(getCurrentUsername());
         TextView drawerEmail = (TextView) header.findViewById(R.id.drawer_email);
         drawerEmail.setText(getCurrentEmail());
+        CircularImageView drawerProfilePicture = (CircularImageView) header.findViewById(R.id.drawer_profile_picture);
+        Picasso.with(this).load(az.getProfileImageURL(this)).into(drawerProfilePicture);
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override

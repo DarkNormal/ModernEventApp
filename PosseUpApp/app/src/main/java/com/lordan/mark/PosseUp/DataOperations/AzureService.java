@@ -49,5 +49,16 @@ public class AzureService {
         return null;
     }
 
+    public void saveProfileImage(Context context, String imageUrl){
+        SharedPreferences settings = context.getSharedPreferences("PosseUpData", Context.MODE_PRIVATE);
+        SharedPreferences.Editor preferencesEditor = settings.edit();
+        preferencesEditor.putString("profileImageURL", imageUrl);
+        preferencesEditor.apply();
+    }
+    public String getProfileImageURL(Context context){
+        SharedPreferences settings = context.getSharedPreferences("PosseUpData", Context.MODE_PRIVATE);
+        return settings.getString("profileImageURL", null);
+    }
+
 
 }

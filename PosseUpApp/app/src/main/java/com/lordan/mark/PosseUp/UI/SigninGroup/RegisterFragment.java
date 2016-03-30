@@ -15,6 +15,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +46,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,6 +64,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
     private static final String TAG ="RegisterFrag";
     private ImageView profiler;
     private Bitmap profileImage;
+    private AzureService az;
     private static final int CAMERA_OPTION = 11, GALLERY_OPTION = 12;
 
     @Override
@@ -108,6 +111,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
     }
 
 
+
     private void registerUser(final EditText username, final EditText email, EditText password) {
 
         //TODO
@@ -120,6 +124,14 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
             jsonBody.put("Email", newUser.getEmail());
             jsonBody.put("Password", newUser.getPassword());
             jsonBody.put("Username", newUser.getUsername());
+            if(profileImage != null) {
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                profileImage.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                byte[] byteArray = byteArrayOutputStream .toByteArray();
+                String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                jsonBody.put("ProfileImage", encoded);
+                byteArray = null;
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -130,6 +142,12 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
             public void onResponse(JSONObject response) {
                 mProgressDialog.dismiss();
                 System.out.println("user registered");
+                az = new AzureService();
+                try {
+                    az.saveProfileImage(getContext(), response.getString("profileImage"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 login(response);
             }
         }, new Response.ErrorListener() {
@@ -142,7 +160,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
                 String json;
 
                 NetworkResponse response = error.networkResponse;
-                if (response.data != null) {
+                if (response != null) {
                     switch (response.statusCode) {
                         case 400:
                             json = new String(response.data);

@@ -27,6 +27,7 @@ import com.lordan.mark.PosseUp.Model.Friendship;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
 
+import com.lordan.mark.PosseUp.VolleyCallback;
 import com.lordan.mark.PosseUp.databinding.AccountProfileLayoutBinding;
 
 import org.json.JSONException;
@@ -100,6 +101,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
                     }
                     if(!friend) setFollowButtonText(getString(R.string.follow));
                 }
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
             }
         });
         mBinding.followButton.setOnClickListener(this);
@@ -193,11 +199,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
                     e.printStackTrace();
                 }
             }
-        });
-    }
 
-    public interface VolleyCallback{
-        void onSuccess(JSONObject result);
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+        });
     }
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(User u, String viewType );

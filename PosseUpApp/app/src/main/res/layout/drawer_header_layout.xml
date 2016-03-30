@@ -12,6 +12,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:paddingLeft="@dimen/margin_medium">
         <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/drawer_profile_picture"
             android:layout_width="65dp"
             android:layout_height="65dp"
             app:civ_border="false"
