@@ -33,6 +33,7 @@ public class SigninActivity extends AbstractActivity {
     }
     public void switchToRegister(){
         Fragment registerFrag = new RegisterFragment();
+        fragmentHolder = (LinearLayout) findViewById(R.id.fragmentHolder);
         getSupportFragmentManager().beginTransaction().replace(fragmentHolder.getId(), registerFrag).addToBackStack("register").commit();
 
     }
@@ -56,6 +57,7 @@ public class SigninActivity extends AbstractActivity {
         ImageView background = (ImageView)findViewById(R.id.signin_background);
         if(background != null) {
             background.setImageDrawable(null);
+            background = null;
         }
     }
 }

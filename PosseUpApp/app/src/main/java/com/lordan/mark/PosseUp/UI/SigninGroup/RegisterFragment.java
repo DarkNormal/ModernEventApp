@@ -3,7 +3,6 @@ package com.lordan.mark.PosseUp.UI.SigninGroup;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -41,12 +40,12 @@ import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity;
-import com.lordan.mark.PosseUp.UI.SigninGroup.SigninActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,15 +61,21 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
     private ImageSelectorDialog dialog;
     private static final String TAG ="RegisterFrag";
     private ImageView profiler;
+    private Bitmap profileImage;
     private static final int CAMERA_OPTION = 11, GALLERY_OPTION = 12;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                         Bundle savedInstanceState) {
-
-        Toast.makeText(getContext(), "Register frag made!", Toast.LENGTH_SHORT).show();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         view = inflater.inflate(R.layout.register_layout, container, false);
+        profiler = (ImageView) view.findViewById(R.id.profiler);
+        if (savedInstanceState != null) {
+            profileImage = savedInstanceState.getParcelable("profileImage");
+            if(profileImage != null) {
+                profiler.setImageBitmap(profileImage);
+            }
+        }
+
         email = (EditText) view.findViewById(R.id.email_signup);
         Drawable[] leftDrawable = email.getCompoundDrawables();
         leftDrawable[0].setAlpha(128);
@@ -98,7 +103,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         });
         FloatingActionButton addImage = (FloatingActionButton) view.findViewById(R.id.addImage_Button);
         addImage.setOnClickListener(this);
-        profiler = (ImageView) view.findViewById(R.id.profiler);
+
         return view;
     }
 
@@ -334,9 +339,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
             case 1:
                 if(resultCode == Activity.RESULT_OK){
                     Bundle extras = data.getExtras();
-                    Bitmap imageBitmap = (Bitmap) extras.get("data");
-                    if(profiler != null) {
-                        profiler.setImageBitmap(imageBitmap);
+                    profileImage = (Bitmap) extras.get("data");
+                    if(profiler != null && profileImage != null) {
+                        profiler.setImageBitmap(profileImage);
                     }
                 }
                 break;
@@ -344,14 +349,49 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
             case 2:
                 if(resultCode == Activity.RESULT_OK){
                     Uri selectedImage = data.getData();
-                    if(profiler != null) {
-                        profiler.setImageURI(selectedImage);
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
+                        profileImage = createScaledBitmapKeepingAspectRatio(bitmap,960);
+                        bitmap = null;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if(profiler != null && profileImage != null) {
+                        profiler.setImageBitmap(profileImage);
+
                     }
                 }
                 break;
 
         }
     }
+    private Bitmap createScaledBitmapKeepingAspectRatio(Bitmap bitmap, int maxSide){
+        Bitmap scaledBitmap;
+        final int maxSize = 960;
+        int outWidth;
+        int outHeight;
+        int inWidth = bitmap.getWidth();
+        int inHeight = bitmap.getHeight();
+        if(inWidth > inHeight){
+            outWidth = maxSize;
+            outHeight = (inHeight * maxSize) / inWidth;
+        } else {
+            outHeight = maxSize;
+            outWidth = (inWidth * maxSize) / inHeight;
+        }
+        scaledBitmap = Bitmap.createScaledBitmap(bitmap, outWidth, outHeight, false);
+        return scaledBitmap;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        Log.i(TAG, "onSaveInstanceState");
+        if(profileImage != null) {
+            savedInstanceState.putParcelable("profileImage", profileImage);
+        }
+    }
+
 }
 
 
