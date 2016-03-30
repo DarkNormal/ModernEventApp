@@ -11,7 +11,6 @@ The source code for this can be found on GitHub [here](https://github.com/DarkNo
 
 Used libraries
 -----------
-[MaterialEditText](https://github.com/rengwuxian/MaterialEditText)<br>
 [CircularImageView](https://github.com/lopspower/CircularImageView)<br>
 Facebook SDK <br>
 Twitter SDK (Crashlytics) <br>
@@ -34,8 +33,8 @@ Google Nearby API (for attending events) - Basic implementation <br>
 Google Maps/Places API - Working <br>
 Create Event - Working <br>
 Find Events - Working <br>
-Join Events - TODO <br>
-Leave Events - TODO <br>
+Join Events - Working <br>
+Leave Events - Working <br>
 Manage Events - TODO <br>
 Social Interaction - Working <br>
 Google Cloud Messaging (Notifications) - Working <br>
