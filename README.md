@@ -12,6 +12,8 @@ The source code for this can be found on GitHub [here](https://github.com/DarkNo
 Used libraries
 -----------
 [CircularImageView](https://github.com/lopspower/CircularImageView)<br>
+[Picasso](https://github.com/square/picasso)<br>
+[Butterknife](https://github.com/JakeWharton/butterknife)<br>
 Facebook SDK <br>
 Twitter SDK (Crashlytics) <br>
 
@@ -40,7 +42,7 @@ Social Interaction - Working <br>
 Google Cloud Messaging (Notifications) - Working <br>
 Edit Profile - Working <br>
 Rank System - TODO <br>
-Image Storage - TODO <br>
+Image Storage - Working <br>
 Mobile Analytics - Working <br>
 External Sign-in - Working (Facebook & Twitter) <br>
 Marshmallow Permissions - TODO <br>
