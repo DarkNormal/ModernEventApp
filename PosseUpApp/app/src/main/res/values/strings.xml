@@ -124,6 +124,7 @@
     <string name="current_location">Current Location</string>
     <string name="default_venue_name">Not set</string>
     <string name="online_event">Online event</string>
+    <string name="all_day">All Day</string>
     <string name="event_date" translatable="false">%1$d/%2$d/%3$d</string>
     <string name="add_zero"></string>
     <string name="event_time" translatable="false">%1$d:%2$d</string>

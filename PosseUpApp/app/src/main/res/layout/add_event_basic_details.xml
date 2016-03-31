@@ -27,6 +27,12 @@
             android:hint="@string/title" />
 
     </android.support.design.widget.TextInputLayout>
+    <android.support.v7.widget.SwitchCompat
+        android:id="@+id/all_day_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/all_day"
+        android:layout_gravity="end"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

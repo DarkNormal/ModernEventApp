@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -43,12 +44,20 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import fr.ganfra.materialspinner.MaterialSpinner;
 
 /**
  * Created by Mark on 14/01/2016
  */
 public class FirstEventFragment extends Fragment implements View.OnClickListener{
+    @Bind(R.id.all_day_switch) SwitchCompat allDaySwitch;
+    @Bind(R.id.create_event_date) EditText startDateInput;
+    @Bind(R.id.create_event_date_end) EditText endDateInput;
+    @Bind(R.id.create_event_time) EditText startTimeInput;
+    @Bind(R.id.create_event_time_end) EditText endTimeInput;
+
     private SwitchCompat mSwitch;
     private View v;
     private final Event newEvent = new Event();
@@ -65,6 +74,7 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState){
         v = inflater.inflate(R.layout.add_event_basic_details, container, false);
+        ButterKnife.bind(this, v);
         chosenLocation =(TextView) v.findViewById(R.id.event_current_location);
         addImage =(TextView) v.findViewById(R.id.add_event_image);
         addImage.setOnClickListener(this);
@@ -74,6 +84,20 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
                 R.array.event_type, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
+        allDaySwitch = (SwitchCompat) v.findViewById(R.id.all_day_switch);
+        allDaySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    startTimeInput.setVisibility(View.INVISIBLE);
+                    endTimeInput.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    startTimeInput.setVisibility(View.VISIBLE);
+                    endTimeInput.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         spinner.setAdapter(adapter);
         configDateTimeChooser();
         placePickerOnClick();
@@ -154,12 +178,8 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
 
 
     private void configDateTimeChooser() {
-        final EditText startDateInput = (EditText) v.findViewById(R.id.create_event_date);
-        final EditText endDateInput = (EditText) v.findViewById(R.id.create_event_date_end);
         configDateChooser(startDateInput, false);
         configDateChooser(endDateInput, true);
-        final EditText startTimeInput = (EditText) v.findViewById(R.id.create_event_time);
-        final EditText endTimeInput = (EditText) v.findViewById(R.id.create_event_time_end);
         configTimeChooser(startTimeInput, false);
         configTimeChooser(endTimeInput, true);
 
@@ -185,8 +205,13 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
                 DatePickerDialog mDatePicker;
                 mDatePicker = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     public void onDateSet(DatePicker datepicker, int selectedYear, int selectedMonth, int selectedDay) {
-                        // TODO Auto-generated method stub
-                    /*      Your code   to get date and time    */
+
+                        if(dateTextView.getId() == startDateInput.getId()){
+                            Calendar dayAfter = Calendar.getInstance();
+                            dayAfter.set(selectedYear, selectedMonth, selectedDay);
+                            dayAfter.add(Calendar.DAY_OF_MONTH, 1);
+                            endDateInput.setText(getString(R.string.event_date, dayAfter.get(Calendar.DAY_OF_MONTH), dayAfter.get(Calendar.MONTH), dayAfter.get(Calendar.YEAR)));
+                        }
                         selectedMonth = selectedMonth + 1;
                         dateTextView.setText(getString(R.string.event_date,selectedDay, selectedMonth,selectedYear));
                     }
@@ -195,6 +220,10 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
             }
         });
     }
+
+    //TODO allow submission of a full day event
+
+
     private void configTimeChooser(final EditText timeTextView, final boolean addHour){
         Calendar now = Calendar.getInstance();
         final SimpleDateFormat timeFormat = new SimpleDateFormat("kk:mm");
