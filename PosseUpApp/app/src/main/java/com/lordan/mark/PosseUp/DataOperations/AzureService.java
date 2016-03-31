@@ -2,6 +2,7 @@ package com.lordan.mark.PosseUp.DataOperations;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 
@@ -59,6 +60,4 @@ public class AzureService {
         SharedPreferences settings = context.getSharedPreferences("PosseUpData", Context.MODE_PRIVATE);
         return settings.getString("profileImageURL", null);
     }
-
-
 }

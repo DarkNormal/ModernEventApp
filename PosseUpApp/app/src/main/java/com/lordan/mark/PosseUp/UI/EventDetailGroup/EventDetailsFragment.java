@@ -35,6 +35,10 @@ import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.ProfileGroup.ProfileActivity;
 import com.lordan.mark.PosseUp.databinding.FragmentEventDetailsBinding;
 import com.mikhaellopez.circularimageview.CircularImageView;
+import com.pubnub.api.Callback;
+import com.pubnub.api.Pubnub;
+import com.pubnub.api.PubnubError;
+import com.pubnub.api.PubnubException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -114,6 +118,45 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
             });
 
         mBinding.attendButton.setOnClickListener(this);
+
+        final Pubnub pubnub = new Pubnub("pub-c-80485b35-97d9-4403-8465-c5a6e2547d65", "sub-c-2b32666a-f73e-11e5-8cfb-0619f8945a4f");
+
+        try {
+            pubnub.subscribe("my_channel", new Callback() {
+                        @Override
+                        public void connectCallback(String channel, Object message) {
+                            pubnub.publish("my_channel", "Hello from the PubNub Java SDK", new Callback() {});
+                        }
+
+                        @Override
+                        public void disconnectCallback(String channel, Object message) {
+                            System.out.println("SUBSCRIBE : DISCONNECT on channel:" + channel
+                                    + " : " + message.getClass() + " : "
+                                    + message.toString());
+                        }
+
+                        public void reconnectCallback(String channel, Object message) {
+                            System.out.println("SUBSCRIBE : RECONNECT on channel:" + channel
+                                    + " : " + message.getClass() + " : "
+                                    + message.toString());
+                        }
+
+                        @Override
+                        public void successCallback(String channel, Object message) {
+                            System.out.println("SUBSCRIBE : " + channel + " : "
+                                    + message.getClass() + " : " + message.toString());
+                        }
+
+                        @Override
+                        public void errorCallback(String channel, PubnubError error) {
+                            System.out.println("SUBSCRIBE : ERROR on channel " + channel
+                                    + " : " + error.toString());
+                        }
+                    }
+            );
+        } catch (PubnubException e) {
+            System.out.println(e.toString());
+        }
         return v;
     }
 

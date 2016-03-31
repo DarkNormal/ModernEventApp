@@ -5,11 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.UI.MainActivityGroup.CustomItemClickListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,10 +40,12 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
 
     public static class SimpleViewHolder extends RecyclerView.ViewHolder {
         public final TextView title;
+        public final ImageView image;
 
         public SimpleViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.recycler_event_title);
+            image = (ImageView) view.findViewById(R.id.event_picture);
         }
     }
 
@@ -67,11 +71,12 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
 
     @Override
     public void onBindViewHolder(final SimpleViewHolder holder, final int position) {
-        holder.title.setText(mData.get(holder.getAdapterPosition()).getEventName());
+        holder.title.setText(mData.get(position).getEventName());
+        Picasso.with(mContext).load(mData.get(position).getEventImageURL()).into(holder.image);
         holder.title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext,"Position ="+holder.getAdapterPosition(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext,"Position ="+position,Toast.LENGTH_SHORT).show();
             }
         });
     }

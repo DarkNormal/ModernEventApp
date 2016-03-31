@@ -40,6 +40,7 @@ import com.lordan.mark.PosseUp.DataOperations.AzureService;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
+import com.lordan.mark.PosseUp.UI.ImageSelectorDialog;
 import com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity;
 
 import org.json.JSONArray;
@@ -306,40 +307,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         dialog.show(fm, "image_selector");
     }
 
-    public static class ImageSelectorDialog extends DialogFragment {
-        @NonNull
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the Builder class for convenient dialog construction
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.CustomAlertDialogStyle);
-            LayoutInflater inflater = getActivity().getLayoutInflater();
 
-            View v =inflater.inflate(R.layout.image_selector_layout, null);
-            // Inflate and set the layout for the dialog
-            // Pass null as the parent view because its going in the dialog layout
-            builder.setView(v);
-            TextView camera = (TextView) v.findViewById(R.id.camera_button);
-            camera.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getTargetFragment().onActivityResult(getTargetRequestCode(), CAMERA_OPTION , getActivity().getIntent());
-
-                }
-            });
-            TextView gallery = (TextView) v.findViewById(R.id.gallery_button);
-            gallery.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getTargetFragment().onActivityResult(getTargetRequestCode(), GALLERY_OPTION , getActivity().getIntent());
-
-                }
-            });
-            builder.setTitle("Select image");
-            // Create the AlertDialog object and return it
-            return builder.create();
-        }
-
-    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch(requestCode) {

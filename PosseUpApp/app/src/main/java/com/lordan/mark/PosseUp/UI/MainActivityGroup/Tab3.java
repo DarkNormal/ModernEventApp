@@ -80,14 +80,15 @@ public class Tab3 extends Fragment {
                     for (int i = 0; i < result.getJSONArray("Events").length(); i++) {
 
                         Event e = gson.fromJson(result.getJSONArray("Events").getJSONObject(i).toString(), Event.class);
+                        e.setEventImageURL(e.getEventImage());
                         Calendar now = Calendar.getInstance();
                         if(e.getTime().after(now)){
                             Log.i(TAG, "event in the future");
-                            upcomingDataSet.add(gson.fromJson(result.getJSONArray("Events").getJSONObject(i).toString(), Event.class));
+                            upcomingDataSet.add(e);
                         }
                         else{
                             Log.i(TAG, "event in the past");
-                            pastDataSet.add(gson.fromJson(result.getJSONArray("Events").getJSONObject(i).toString(), Event.class));
+                            pastDataSet.add(e);
                         }
 
                     }

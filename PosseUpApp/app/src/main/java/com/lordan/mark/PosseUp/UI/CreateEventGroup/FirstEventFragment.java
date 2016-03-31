@@ -1,18 +1,27 @@
 package com.lordan.mark.PosseUp.UI.CreateEventGroup;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -24,29 +33,42 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.R;
+import com.lordan.mark.PosseUp.UI.ImageSelectorDialog;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import fr.ganfra.materialspinner.MaterialSpinner;
+
 /**
  * Created by Mark on 14/01/2016
  */
-public class FirstEventFragment extends Fragment {
+public class FirstEventFragment extends Fragment implements View.OnClickListener{
     private SwitchCompat mSwitch;
     private View v;
     private final Event newEvent = new Event();
     private boolean allDayEvent;
-    private final int PLACE_PICKER_REQUEST = 1;
-    private TextView chosenLocation;
+    private final int PLACE_PICKER_REQUEST = 10;
+    private TextView chosenLocation, addImage;
     private Place chosenPlace;
+    private ImageSelectorDialog dialog;
+    private ImageView eventImageView;
+    private final String TAG = "FirstEventFragment";
+    private Bitmap eventImage;
+    private static final int CAMERA_OPTION = 11, GALLERY_OPTION = 12;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState){
         v = inflater.inflate(R.layout.add_event_basic_details, container, false);
         chosenLocation =(TextView) v.findViewById(R.id.event_current_location);
-        Spinner spinner = (Spinner) v.findViewById(R.id.create_event_type);
+        addImage =(TextView) v.findViewById(R.id.add_event_image);
+        addImage.setOnClickListener(this);
+        eventImageView = (ImageView) v.findViewById(R.id.event_image);
+        MaterialSpinner spinner = (MaterialSpinner) v.findViewById(R.id.create_event_type);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.event_type, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -56,17 +78,6 @@ public class FirstEventFragment extends Fragment {
         placePickerOnClick();
 
         return v;
-    }
-    public static FirstEventFragment newInstance(String text) {
-
-        FirstEventFragment f = new FirstEventFragment();
-
-        Bundle b = new Bundle();
-        b.putString("msg", text);
-
-        f.setArguments(b);
-
-        return f;
     }
     private void placePickerOnClick(){
         CardView placeCard = (CardView) v.findViewById(R.id.placePickerCard);
@@ -87,13 +98,55 @@ public class FirstEventFragment extends Fragment {
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
-        if(requestCode == PLACE_PICKER_REQUEST){
-            if(resultCode == -1){
-                 chosenPlace = PlacePicker.getPlace(getContext(), data);
-                String toastMsg  = String.format("%s", chosenPlace.getName());
-                chosenLocation.setText(toastMsg);
-                Toast.makeText(getContext(), toastMsg, Toast.LENGTH_SHORT).show();
-            }
+        switch(requestCode){
+
+            case 0:
+                dialog.dismiss();
+                if (resultCode == CAMERA_OPTION) {
+                    Log.i(TAG, "got the result from the dialog");
+
+                    Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(takePicture, 1);//zero can be replaced with any action code
+                } else if (resultCode == GALLERY_OPTION){
+                    Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(pickPhoto , 2);//one can be replaced with any action code
+                }
+                break;
+            case 1:
+                if(resultCode == Activity.RESULT_OK){
+                    Bundle extras = data.getExtras();
+                    eventImage = (Bitmap) extras.get("data");
+                    if(eventImageView != null && eventImage != null) {
+                        eventImageView.setImageBitmap(eventImage);
+                    }
+                }
+                break;
+
+            case 2:
+                if(resultCode == Activity.RESULT_OK){
+                    Uri selectedImage = data.getData();
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
+                        eventImage = createScaledBitmapKeepingAspectRatio(bitmap,960);
+                        bitmap = null;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if(eventImageView != null && eventImage != null) {
+                        eventImageView.setImageBitmap(eventImage);
+
+                    }
+                }
+                break;
+            case PLACE_PICKER_REQUEST:
+                if(resultCode == -1){
+                    chosenPlace = PlacePicker.getPlace(getContext(), data);
+                    String toastMsg  = String.format("%s", chosenPlace.getName());
+                    chosenLocation.setText(toastMsg);
+                    Toast.makeText(getContext(), toastMsg, Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
     }
 
@@ -248,6 +301,14 @@ public class FirstEventFragment extends Fragment {
             if(chosenPlace != null) {
                 newEvent.setPlaceDetails(chosenPlace);
             }
+            if(eventImage != null) {
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                eventImage.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                byte[] byteArray = byteArrayOutputStream .toByteArray();
+                String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                newEvent.setEventImage(encoded);
+                byteArray = null;
+            }
 
             return newEvent;
         }
@@ -255,5 +316,35 @@ public class FirstEventFragment extends Fragment {
     }
     private boolean isEmpty(EditText v){
         return v.getText().toString().equals("");
+    }
+
+    private Bitmap createScaledBitmapKeepingAspectRatio(Bitmap bitmap, int maxSide){
+        Bitmap scaledBitmap;
+        final int maxSize = 960;
+        int outWidth;
+        int outHeight;
+        int inWidth = bitmap.getWidth();
+        int inHeight = bitmap.getHeight();
+        if(inWidth > inHeight){
+            outWidth = maxSize;
+            outHeight = (inHeight * maxSize) / inWidth;
+        } else {
+            outHeight = maxSize;
+            outWidth = (inWidth * maxSize) / inHeight;
+        }
+        scaledBitmap = Bitmap.createScaledBitmap(bitmap, outWidth, outHeight, false);
+        return scaledBitmap;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.add_event_image:
+                FragmentManager fm = getFragmentManager();
+                dialog = new ImageSelectorDialog();
+                dialog.setTargetFragment(this, 0);
+                dialog.show(fm, "image_selector");
+                break;
+        }
     }
 }

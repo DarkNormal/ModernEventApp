@@ -29,6 +29,7 @@ import com.lordan.mark.PosseUp.R;
 
 import com.lordan.mark.PosseUp.VolleyCallback;
 import com.lordan.mark.PosseUp.databinding.AccountProfileLayoutBinding;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,6 +58,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         currentUsername = az.getCurrentUsername(getContext());
         user = new User();
         mBinding.setUser(user);
+        Picasso.with(getContext()).load(az.getProfileImageURL(getContext())).into(mBinding.userProfilePicture);
         View rootView = mBinding.getRoot();
         Bundle bundle = this.getArguments();
         if (bundle != null) {

@@ -208,6 +208,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
         signInProcess(Request.Method.POST, url, jobject, new VolleyCallback() {
             @Override
             public void onSuccess(JSONObject result) {
+                saveRetrievedData(1,result);
                 loginLocal(result);
             }
 
@@ -262,7 +263,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
         signInProcess(Request.Method.POST, url, jsonBody, new VolleyCallback() {
             @Override
             public void onSuccess(JSONObject result) {
-                saveRetrievedData(result);
+                saveRetrievedData(2,result);
             }
 
             @Override
@@ -271,17 +272,27 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
             }
         });
     }
-    private void saveRetrievedData(JSONObject json){
-        try {
-            AzureService az = new AzureService();
-            az.saveUserData(getActivity(), json.getString("access_token"), json.getString("userName"), json.getString("email"));
-        } catch (JSONException e) {
-            e.printStackTrace();
+    private void saveRetrievedData(int methodID, JSONObject json){
+        AzureService az = new AzureService();
+        if(methodID == 1){
+            try {
+                az.saveProfileImage(getActivity(), json.getString("ProfilePicture"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
-        mProgressDialog.dismiss();
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        startActivity(intent);
-        getActivity().finish();
+        if(methodID == 2) {
+            try {
+                az.saveUserData(getActivity(), json.getString("access_token"), json.getString("userName"), json.getString("email"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            mProgressDialog.dismiss();
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
+            getActivity().finish();
+        }
+
     }
     private void loginLocal(final JSONObject jsonBody) {
         String url = Constants.baseUrl + "Token";
@@ -296,7 +307,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                saveRetrievedData(json);
+                saveRetrievedData(2,json);
 
             }
         }, new Response.ErrorListener() {

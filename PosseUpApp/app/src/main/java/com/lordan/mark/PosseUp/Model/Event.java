@@ -38,6 +38,12 @@ public class Event extends BaseObservable implements Parcelable{
     @SerializedName("EventHost")
     private String hostEmail;
 
+    @SerializedName("EventImageURL")
+    private String eventImageURL;
+
+    @SerializedName("EventImage")
+    private String eventImage;
+
 
     @SerializedName("EventStartTime")
     private String startDateTime;
@@ -272,4 +278,19 @@ public class Event extends BaseObservable implements Parcelable{
             return new Event[size];
         }
     };
+
+    public String getEventImageURL() {
+        return eventImageURL;
+    }
+    public void setEventImageURL(String eventImageURL) {
+        this.eventImageURL = eventImageURL;
+    }
+
+    public String getEventImage() {
+        return eventImage;
+    }
+
+    public void setEventImage(String eventImage) {
+        this.eventImage = eventImage;
+    }
 }

@@ -22,8 +22,7 @@
                 android:layout_width="65dp"
                 android:layout_height="65dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/margin_huge"
-                android:src="@drawable/profiler" />
+                android:layout_marginTop="@dimen/margin_huge"/>
 
             <TextView
                 android:id="@+id/user_name"

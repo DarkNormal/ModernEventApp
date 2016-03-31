@@ -31,7 +31,7 @@
         android:paddingTop="@dimen/margin_small"
         android:background="@color/white"
         android:gravity="center_vertical">
-        <com.android.volley.toolbox.NetworkImageView
+        <ImageView
             android:id="@+id/event_picture"
             android:layout_width="85dp"
             android:layout_height="85dp"
