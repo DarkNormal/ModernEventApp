@@ -182,7 +182,7 @@ public class Tab1 extends Fragment {
                         Event c = gson.fromJson(response.getJSONObject(i).toString(), Event.class);
                         c.setEventImageURL(c.getEventImage());
                         c.setPlaceDetails(venue);
-                        if(c.getTime().after(Calendar.getInstance())) {
+                        if(c.getStartTimeCalendar().after(Calendar.getInstance())) {
                             tempEvents.add(c);
                         }
                         Log.i("JSON RESPONSE", event.toString());

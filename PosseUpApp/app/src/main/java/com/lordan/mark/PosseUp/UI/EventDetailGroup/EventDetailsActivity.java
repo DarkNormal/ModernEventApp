@@ -65,6 +65,7 @@ public class EventDetailsActivity extends AbstractActivity implements EventDetai
             ActionBar ab = getSupportActionBar();
             if (ab != null) {
                 ab.setDisplayHomeAsUpEnabled(true);
+                ab.setTitle("Event");
             }
         }
         catch(NullPointerException npe){

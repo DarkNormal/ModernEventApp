@@ -58,7 +58,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         currentUsername = az.getCurrentUsername(getContext());
         user = new User();
         mBinding.setUser(user);
-        Picasso.with(getContext()).load(az.getProfileImageURL(getContext())).into(mBinding.userProfilePicture);
+
         View rootView = mBinding.getRoot();
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -69,6 +69,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         }
         if(currentUsername.equals(user.getUsername().toLowerCase())){
             whois = true;
+            Picasso.with(getContext()).load(az.getProfileImageURL(getContext())).into(mBinding.userProfilePicture);
             mBinding.followButton.setVisibility(View.INVISIBLE);
         }
         getUserDetails(new VolleyCallback() {
@@ -88,11 +89,17 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
                         userlists.add(new Gson().fromJson(jsonObject.toString(), User.class));
                     }
                     user.setFollowing(userlists);
+
                     Log.i("profilefragment", "followers updated");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 if(!whois){
+                    try {
+                        Picasso.with(getContext()).load(result.getString("ProfileImageURL")).into(mBinding.userProfilePicture);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     boolean friend = false;
                     for (User u: user.getFollowers()) {
                         if(u.getUsername().toLowerCase().equals(currentUsername)){

@@ -196,7 +196,7 @@ public class Event extends BaseObservable implements Parcelable{
     public void setStartingCal(Calendar cal) {
         this.startingCal = cal;
     }
-    public Calendar getTime(){
+    public Calendar getStartTimeCalendar(){
         if(startingCal == null){
             try {
                 startingCal = Calendar.getInstance();
@@ -206,6 +206,17 @@ public class Event extends BaseObservable implements Parcelable{
             }
         }
         return startingCal;
+    }
+    public Calendar getEndTimeCalendar(){
+        if(endingCal == null){
+            try {
+                endingCal = Calendar.getInstance();
+                endingCal.setTime(formatter.parse(endDateTime));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return endingCal;
     }
 
     @Bindable

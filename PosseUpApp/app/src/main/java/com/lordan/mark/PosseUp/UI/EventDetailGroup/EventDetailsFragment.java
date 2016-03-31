@@ -6,18 +6,16 @@ import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -35,10 +33,7 @@ import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.ProfileGroup.ProfileActivity;
 import com.lordan.mark.PosseUp.databinding.FragmentEventDetailsBinding;
 import com.mikhaellopez.circularimageview.CircularImageView;
-import com.pubnub.api.Callback;
-import com.pubnub.api.Pubnub;
-import com.pubnub.api.PubnubError;
-import com.pubnub.api.PubnubException;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,96 +62,24 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
         // Inflate the layout for this fragment
         Bundle bundle = this.getArguments();
         eventID = bundle.getInt("EventID");
-
         currentUser = bundle.getString("currentUsername");
-
         if(event != null) {
             mBinding.setEvent(event);
             mBinding.setVenue(event.getPlaceDetails());
+            Picasso.with(getContext()).load(event.getEventImage()).into(mBinding.eventImageHeader);
         }
         else {
             mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_event_details, container, false);
             queue = Volley.newRequestQueue(getContext());
         }
-
-
-
             v = mBinding.getRoot();
-            AppCompatImageView directions = (AppCompatImageView) v.findViewById(R.id.directions_button);
+            AppCompatImageView directions = mBinding.directionsButton;
             directions.setImageAlpha(128);
-            directions.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    LatLng location = event.getPlaceDetails().getVenueLocation();
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr=" + location.latitude + "," + location.longitude));
-                    startActivity(intent);
-                }
-            });
-        RelativeLayout holder = (RelativeLayout) v.findViewById(R.id.event_location_holder);
-        holder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LatLng location = event.getPlaceDetails().getVenueLocation();
-                String label = event.getPlaceDetails().getVenueName();
-                String uriBegin = "geo:" + location.latitude + "," + location.longitude;
-                String query = location.latitude+"," + location.longitude + "(" + label +")";
-                String encodedQuery = Uri.encode(query);
-                String uriString = uriBegin + "?q=" + encodedQuery;
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse( uriString + "&z=12"));
-                startActivity(intent);
-            }
-        });
-            Button viewAll = (Button) v.findViewById(R.id.event_guests_button);
-            viewAll.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mListener != null) {
-                        mListener.onFragmentInteraction(event);
-                    }
-                }
-            });
-
+            directions.setOnClickListener(this);
+        mBinding.eventLocationHolder.setOnClickListener(this);
+        mBinding.eventGuestsButton.setOnClickListener(this);
         mBinding.attendButton.setOnClickListener(this);
-
-        final Pubnub pubnub = new Pubnub("pub-c-80485b35-97d9-4403-8465-c5a6e2547d65", "sub-c-2b32666a-f73e-11e5-8cfb-0619f8945a4f");
-
-        try {
-            pubnub.subscribe("my_channel", new Callback() {
-                        @Override
-                        public void connectCallback(String channel, Object message) {
-                            pubnub.publish("my_channel", "Hello from the PubNub Java SDK", new Callback() {});
-                        }
-
-                        @Override
-                        public void disconnectCallback(String channel, Object message) {
-                            System.out.println("SUBSCRIBE : DISCONNECT on channel:" + channel
-                                    + " : " + message.getClass() + " : "
-                                    + message.toString());
-                        }
-
-                        public void reconnectCallback(String channel, Object message) {
-                            System.out.println("SUBSCRIBE : RECONNECT on channel:" + channel
-                                    + " : " + message.getClass() + " : "
-                                    + message.toString());
-                        }
-
-                        @Override
-                        public void successCallback(String channel, Object message) {
-                            System.out.println("SUBSCRIBE : " + channel + " : "
-                                    + message.getClass() + " : " + message.toString());
-                        }
-
-                        @Override
-                        public void errorCallback(String channel, PubnubError error) {
-                            System.out.println("SUBSCRIBE : ERROR on channel " + channel
-                                    + " : " + error.toString());
-                        }
-                    }
-            );
-        } catch (PubnubException e) {
-            System.out.println(e.toString());
-        }
+        mBinding.eventTimeGroup.setOnClickListener(this);
         return v;
     }
 
@@ -168,8 +91,7 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }
     }
 
@@ -194,6 +116,7 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
             event = savedInstanceState.getParcelable("event");
             mBinding.setEvent(event);
             mBinding.setVenue(event.getPlaceDetails());
+            Picasso.with(getContext()).load(event.getEventImage()).into(mBinding.eventImageHeader);
             displayAttendeeList();
         } else {
             if (event == null) {
@@ -217,6 +140,38 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
                     interactEvent(false);
                 }
                 break;
+            case R.id.directions_button:
+                LatLng location = event.getPlaceDetails().getVenueLocation();
+                Intent directionIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr=" + location.latitude + "," + location.longitude));
+                startActivity(directionIntent);
+                break;
+            case R.id.event_location_holder:
+                location = event.getPlaceDetails().getVenueLocation();
+                String label = event.getPlaceDetails().getVenueName();
+                String uriBegin = "geo:" + location.latitude + "," + location.longitude;
+                String query = location.latitude+"," + location.longitude + "(" + label +")";
+                String encodedQuery = Uri.encode(query);
+                String uriString = uriBegin + "?q=" + encodedQuery;
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, Uri.parse( uriString + "&z=12"));
+                startActivity(mapIntent);
+                break;
+            case R.id.event_guests_button:
+                if (mListener != null) {
+                    mListener.onFragmentInteraction(event);
+                }
+                break;
+            case R.id.event_time_group:
+                Intent intent = new Intent(Intent.ACTION_EDIT);
+                intent.setType("vnd.android.cursor.item/event");
+                intent.putExtra(CalendarContract.Events.TITLE, event.getEventName());
+                intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,
+                        event.getStartTimeCalendar().getTimeInMillis());
+                intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
+                        event.getEndTimeCalendar().getTimeInMillis());
+                intent.putExtra(CalendarContract.Events.ALL_DAY, false);// periodicity
+                intent.putExtra(CalendarContract.Events.DESCRIPTION,event.getEventDesc());
+                startActivity(intent);
+                break;
             default:
                 break;
         }
@@ -236,11 +191,6 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
                 event = gson.fromJson(response.toString(), Event.class);
                 event.setEndingTime();
                 event.setStartingTime();
-                try {
-                    event.setAttendees(response.getJSONArray("EventAttendees"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
                 boolean isUserAttending = false;
                 for (User u: event.getAttendees()) {
                     if(u.getUsername().equals(currentUser)){
@@ -250,6 +200,7 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
                     }
                 }
                 mBinding.setEvent(event);
+                Picasso.with(getContext()).load(event.getEventImage()).into(mBinding.eventImageHeader);
                 displayAttendeeList();
                 mBinding.setVenue(event.getPlaceDetails());
 
@@ -286,11 +237,11 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams( pixelsDP, pixelsDP );
         for (int i = 0; i < loopVar; i++) {
             CircularImageView attendee = new CircularImageView(getContext());
-
-            attendee.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.profiler));
+            final int position = i;
+            Picasso.with(getContext()).load(event.getAttendees().get(position).getProfileImage()).into(attendee);
             attendee.setScaleType(ImageView.ScaleType.FIT_CENTER);
             attendee.setLayoutParams(layoutParams);
-            final int position = i;
+
             attendee.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -298,7 +249,6 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
                     Intent intent = new Intent(getActivity(), ProfileActivity.class);
                     intent.putExtra("username", event.getAttendees().get(position).getUsername());
                     startActivity(intent);
-                    //Toast.makeText(getContext(), "View profile with ID " + event.getAttendees().get(position).getUserID(), Toast.LENGTH_SHORT).show();
                 }
             });
             attendeeHolder.addView(attendee);
@@ -358,6 +308,12 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
         Resources r = getResources();
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
         return Math.round(px);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //mBinding.eventImageHeader.setImageBitmap(null);
     }
 
 }

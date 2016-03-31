@@ -21,28 +21,61 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:id="@+id/imageView"
+            android:scaleType="centerCrop"
+            android:id="@+id/event_image_header"
             android:contentDescription="@string/image_description"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/gradient_background" />
-        <com.mikhaellopez.circularimageview.CircularImageView
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            app:civ_border="false"
-            android:src="@drawable/profiler"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginBottom="@dimen/margin_medium"
-            android:layout_alignBottom="@id/imageView"
-            android:layout_alignParentLeft="true" />
+        <RelativeLayout
+            android:id="@+id/event_details"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="1dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:layout_below="@+id/event_image_header">
+
+            <Space
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:id="@+id/space" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{event.eventName, default =PLACEHOLDER}"
+                android:textSize="@dimen/material_text_title"
+                android:id="@+id/event_name"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/space"
+                android:layout_toLeftOf="@+id/spacer"
+                android:layout_toEndOf="@+id/space" />
+
+            <Space
+                android:layout_width="64dp"
+                android:layout_height="36dp"
+                android:id="@+id/spacer"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{event.eventDesc, default =PLACEHOLDER}"
+                android:id="@+id/textView"
+                android:layout_below="@+id/event_name"
+                android:layout_toRightOf="@+id/space"
+                android:layout_toLeftOf="@+id/spacer"
+                android:layout_toEndOf="@+id/space" />
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/event_time_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
-            android:layout_below="@+id/imageView"
+            android:layout_below="@+id/event_details"
             android:layout_marginBottom="1dp"
             android:layout_marginEnd="1dp"
             android:layout_marginRight="1dp">
@@ -57,6 +90,7 @@
                 android:src="@drawable/ic_query_builder"
                 android:layout_marginLeft="@dimen/margin_medium" />
             <TextView
+                android:id="@+id/event_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{event.startingCal, default=PLACEHOLDER}"
@@ -116,7 +150,7 @@
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/directions_button"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:src="@drawable/ic_directions"
                 android:clickable="true"
                 android:background="@android:color/white"
@@ -176,5 +210,6 @@
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/attendee_holder"
             android:textColor="@android:color/white" />
+
     </RelativeLayout>
 </layout>

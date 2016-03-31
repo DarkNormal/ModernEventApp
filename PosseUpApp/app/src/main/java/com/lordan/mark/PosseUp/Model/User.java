@@ -31,6 +31,9 @@ public class User  extends BaseObservable implements Parcelable{
 
 
 
+    @SerializedName("ProfilePicture")
+    private String profileImage;
+
 
     @SerializedName("Location")
     private String location;
@@ -143,6 +146,14 @@ public class User  extends BaseObservable implements Parcelable{
     public void setFollowing(ArrayList<User> following) {
         this.following = following;
         notifyPropertyChanged(BR.following);
+    }
+
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 
     public boolean isFriend() {
