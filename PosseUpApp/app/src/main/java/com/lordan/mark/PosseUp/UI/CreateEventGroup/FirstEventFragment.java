@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -76,6 +77,7 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
         spinner.setAdapter(adapter);
         configDateTimeChooser();
         placePickerOnClick();
+
 
         return v;
     }

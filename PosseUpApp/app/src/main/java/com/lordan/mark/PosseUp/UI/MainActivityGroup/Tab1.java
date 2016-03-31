@@ -33,6 +33,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
 
+import com.github.fabtransitionactivity.SheetLayout;
 import com.google.gson.Gson;
 import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.Model.PlaceVenue;
@@ -54,7 +55,7 @@ import java.util.List;
 
 
 
-public class Tab1 extends Fragment {
+public class Tab1 extends Fragment{
 
     private FloatingActionButton mFab;
     private LinearLayout toolbar;
@@ -103,7 +104,6 @@ public class Tab1 extends Fragment {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(getContext(), AddEventActivity.class);
                 startActivityForResult(intent, REQUEST_CODE);
             }
@@ -120,6 +120,7 @@ public class Tab1 extends Fragment {
 
         return v;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -4,6 +4,7 @@ package com.lordan.mark.PosseUp.UI.CreateEventGroup;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 
 import com.android.volley.Request;
@@ -67,6 +70,7 @@ public class AddEventActivity extends AbstractActivity {
             fragTransaction.add(fragmentHolder.getId(), myFrag, "add_event_basic");
             fragTransaction.commit();
         }
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         queue = Volley.newRequestQueue(this);
 
     }
@@ -96,6 +100,11 @@ public class AddEventActivity extends AbstractActivity {
         switch (item.getItemId()) {
             case (android.R.id.home):
                 android.app.FragmentManager fm = getFragmentManager();
+                View view = this.getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
                 ConfirmExitDialog confirm = new ConfirmExitDialog();
                 confirm.show(fm, "confirm_dialog");
                 break;
@@ -128,7 +137,6 @@ public class AddEventActivity extends AbstractActivity {
                     })
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            dismiss();
                         }
                     });
             // Create the AlertDialog object and return it
