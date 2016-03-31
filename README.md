@@ -14,6 +14,7 @@ Used libraries
 [CircularImageView](https://github.com/lopspower/CircularImageView)<br>
 [Picasso](https://github.com/square/picasso)<br>
 [Butterknife](https://github.com/JakeWharton/butterknife)<br>
+[Material Spinner](https://github.com/ganfra/MaterialSpinner)<br>
 Facebook SDK <br>
 Twitter SDK (Crashlytics) <br>
 
