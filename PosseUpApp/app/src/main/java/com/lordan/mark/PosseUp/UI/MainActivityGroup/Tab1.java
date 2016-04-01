@@ -20,7 +20,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,13 +56,10 @@ import java.util.List;
 public class Tab1 extends Fragment{
 
     private FloatingActionButton mFab;
-    private LinearLayout toolbar;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private static final String TAG = "MainActivity - TAB1";
 
     private static final int REQUEST_CODE = 1;
-    private static final int DATASET_COUNT = 10;
-
     private CustomAdapter mAdapter;
     private List<Event> mDataset;
 
@@ -158,14 +154,9 @@ public class Tab1 extends Fragment{
 
     private void initDataset() {
         mDataset = new ArrayList<>();
-//        for (int i = 0; i < DATASET_COUNT; i++) {
-//            mDataset.add(new Event(1, "Event", "Event description", "host email"));
-//        }
         refreshEvents();
     }
     private void refreshEvents() {
-
-
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         String url = Constants.baseUrl + "api/Events";
 
@@ -180,6 +171,8 @@ public class Tab1 extends Fragment{
                         Gson gson = new Gson();
                         PlaceVenue venue = gson.fromJson(event.getJSONObject("EventVenue").toString(), PlaceVenue.class);
                         Event c = gson.fromJson(response.getJSONObject(i).toString(), Event.class);
+                        c.setEndingTime();
+                        c.setStartingTime();
                         c.setEventImageURL(c.getEventImage());
                         c.setPlaceDetails(venue);
                         if(c.getStartTimeCalendar().after(Calendar.getInstance())) {

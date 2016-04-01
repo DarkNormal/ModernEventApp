@@ -2,7 +2,6 @@ package com.lordan.mark.PosseUp.DataOperations;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 

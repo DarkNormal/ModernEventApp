@@ -33,18 +33,16 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView mTextView;
+        public final TextView eventSnippet;
         public final ImageView image;
+        final TextView eventTime;
         public ViewHolder(View v) {
             super(v);
             // Define click listener for the ViewHolder's View.
             mTextView = (TextView) v.findViewById(R.id.recycler_event_title);
+            eventSnippet = (TextView) v.findViewById(R.id.recycler_event_snippet);
+            eventTime = (TextView) v.findViewById(R.id.recycler_event_time);
             image = (ImageView) v.findViewById(R.id.event_picture);
-            v.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d(TAG, "Element " + getPosition() + " clicked.");
-                }
-            });
         }
     }
 
@@ -81,7 +79,15 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         Log.d(TAG, "Element " + position + " set.");
         Picasso.with(mContext).load(mDataSet.get(position).getEventImageURL()).into(viewHolder.image);
-        viewHolder.mTextView.setText(mDataSet.get(position).toString());
+        viewHolder.mTextView.setText(mDataSet.get(position).getEventName());
+        viewHolder.eventSnippet.setText(mDataSet.get(position).getEventDesc());
+        if(mDataSet.get(position).isAllDay()){
+            viewHolder.eventTime.setText(mDataSet.get(position).getAllDayStartingCal());
+        }
+        else{
+            viewHolder.eventTime.setText(mDataSet.get(position).getStartingCal());
+        }
+
         // Get element from your data set at this position and replace the contents of the view
         // with that element
     }
