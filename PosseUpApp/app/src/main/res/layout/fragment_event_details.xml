@@ -93,7 +93,7 @@
                 android:id="@+id/event_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{event.startingCal, default=PLACEHOLDER}"
+                android:text="@{event.allDay ? event.allDayStartingCal : event.startingCal, default=PLACEHOLDER}"
                 android:paddingStart="@dimen/margin_medium"
                 android:paddingTop="@dimen/margin_small"
                 android:layout_toRightOf="@+id/event_time_icon"

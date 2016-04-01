@@ -168,7 +168,12 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
                         event.getStartTimeCalendar().getTimeInMillis());
                 intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,
                         event.getEndTimeCalendar().getTimeInMillis());
-                intent.putExtra(CalendarContract.Events.ALL_DAY, false);// periodicity
+                if(event.isAllDay()){
+                    intent.putExtra(CalendarContract.Events.ALL_DAY, true);// periodicity
+                }
+                else {
+                    intent.putExtra(CalendarContract.Events.ALL_DAY, false);// periodicity
+                }
                 intent.putExtra(CalendarContract.Events.DESCRIPTION,event.getEventDesc());
                 startActivity(intent);
                 break;
@@ -191,11 +196,9 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
                 event = gson.fromJson(response.toString(), Event.class);
                 event.setEndingTime();
                 event.setStartingTime();
-                boolean isUserAttending = false;
                 for (User u: event.getAttendees()) {
                     if(u.getUsername().equals(currentUser)){
                         mBinding.attendButton.setText(getString(R.string.leave));
-                        isUserAttending = true;
                         break;
                     }
                 }

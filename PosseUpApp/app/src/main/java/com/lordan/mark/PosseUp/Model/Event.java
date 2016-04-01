@@ -25,6 +25,7 @@ public class Event extends BaseObservable implements Parcelable{
 
     private final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     private final SimpleDateFormat fancyFormatter = new SimpleDateFormat("E, MMM d, h:mm aa");
+    private final SimpleDateFormat allDayFancyFormatter = new SimpleDateFormat("E, MMM d, 'All Day'");
 
 
     @SerializedName("EventID")
@@ -50,9 +51,14 @@ public class Event extends BaseObservable implements Parcelable{
     @SerializedName("EventEndTime")
     private String endDateTime;
 
-    private Calendar startingCal;
 
-    private Calendar endingCal;
+
+    @SerializedName("EventAllDay")
+    private boolean mAllDay;
+
+    private transient Calendar startingCal;
+
+    private transient Calendar endingCal;
 
 
 
@@ -94,14 +100,15 @@ public class Event extends BaseObservable implements Parcelable{
         this.eventDesc = eventDescription;
         this.hostEmail = eventHost;
     }
-    public Event(int id, String eventTitle, String eventDescription, String eventHost, String eventStartTime, String eventEndTime, PlaceVenue venue) {
+    public Event(int id, String eventTitle, String eventDescription, String eventVisibility, boolean allDay, Place venue) {
         this.eventID = id;
-        this.placeDetails = venue;
+        if(venue != null) {
+            setPlaceDetails(venue);
+        }
         this.eventName = eventTitle;
         this.eventDesc = eventDescription;
-        this.startDateTime = eventStartTime;
-        this.endDateTime = eventEndTime;
-        this.hostEmail = eventHost;
+        this.eventVisibility = eventVisibility;
+        this.mAllDay = allDay;
     }
 
     public Event() {
@@ -116,23 +123,18 @@ public class Event extends BaseObservable implements Parcelable{
         this.placeDetails = new PlaceVenue(placeDetails.getName().toString(), placeDetails.getAddress().toString(), placeDetails.getLatLng(),
                 placeDetails.getPlaceTypes(), placeDetails.getRating());
     }
+    public void setPlaceDetails(PlaceVenue placeDetails) {
+        this.placeDetails = placeDetails;
+    }
+
 
     public int getEventID() {
         return eventID;
     }
 
-    public void setEventID(int eventID) {
-        this.eventID = eventID;
-    }
-
     @Bindable
     public String getEventName() {
         return eventName;
-    }
-
-    public void setEventName(String eventName) {
-        notifyPropertyChanged(BR.eventName);
-        this.eventName = eventName;
     }
 
     private String getHostEmail() {
@@ -143,45 +145,25 @@ public class Event extends BaseObservable implements Parcelable{
         this.hostEmail = hostEmail;
     }
 
-    public String getEventVisibility() {
-        return eventVisibility;
-    }
-
-    public void setEventVisibility(String eventVisibility) {
-        this.eventVisibility = eventVisibility;
-    }
     public String getEventDesc() {
         return eventDesc;
-    }
-
-    public void setEventDesc(String eventDesc) {
-        this.eventDesc = eventDesc;
-    }
-
-
-    public String getStartDateTime() {
-        return startDateTime;
     }
 
     public void setStartDateTime(Calendar startDateTime) {
         this.startDateTime = formatter.format(startDateTime.getTime());
     }
-    public String getEndDateTime() {
-        return endDateTime;
-    }
-
     public void setEndDateTime(Calendar endDateTime) {
         this.endDateTime = formatter.format(endDateTime.getTime());
     }
 
-    @Bindable
-    public String getStartingCal() {
-        return fancyFormatter.format(startingCal.getTime());
+    public boolean isAllDay() {
+        return mAllDay;
     }
 
-    public void setStartTime(String time){
-        this.startDateTime = time;
+    public void setAllDay(boolean mAllDay) {
+        this.mAllDay = mAllDay;
     }
+
 
     public void setStartingTime() {
         Calendar cal = Calendar.getInstance();
@@ -193,9 +175,28 @@ public class Event extends BaseObservable implements Parcelable{
         notifyPropertyChanged(BR.startingCal);
         this.startingCal = cal;
     }
-    public void setStartingCal(Calendar cal) {
-        this.startingCal = cal;
+    public void setEndingTime() {
+        Calendar cal = Calendar.getInstance();
+        try {
+            cal.setTime(formatter.parse(endDateTime));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        notifyPropertyChanged(BR.endingCal);
+        this.endingCal = cal;
     }
+
+    //Return the event's start time as a formatted string
+    @Bindable
+    public String getStartingCal() {
+        return fancyFormatter.format(startingCal.getTime());
+    }
+    @Bindable
+    public String getAllDayStartingCal() {
+        return allDayFancyFormatter.format(startingCal.getTime());
+    }
+    //Return the event's start time as a Calendar object
+    //Create it from the String recieved from the Server if it's null
     public Calendar getStartTimeCalendar(){
         if(startingCal == null){
             try {
@@ -207,6 +208,14 @@ public class Event extends BaseObservable implements Parcelable{
         }
         return startingCal;
     }
+    //set the calendar but also set the String time to a pre-formatted version accepted by Server
+    public void setStartingCal(Calendar cal) {
+        this.startingCal = cal;
+        setStartDateTime(this.startingCal);
+    }
+
+    //Return the event's end time as a Calendar object
+    //Create it from the String recieved from the Server if it's null
     public Calendar getEndTimeCalendar(){
         if(endingCal == null){
             try {
@@ -223,20 +232,13 @@ public class Event extends BaseObservable implements Parcelable{
     public String getEndingCal() {
         return fancyFormatter.format(endingCal.getTime());
     }
-
-    public void setEndingTime() {
-        Calendar cal = Calendar.getInstance();
-        try {
-            cal.setTime(formatter.parse(endDateTime));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        notifyPropertyChanged(BR.endingCal);
-        this.endingCal = cal;
-    }
     public void setEndingCal(Calendar cal){
         this.endingCal = cal;
+        setEndDateTime(this.endingCal);
     }
+
+
+
 
     public ArrayList<User> getAttendees() {
         return this.attendees;
@@ -254,9 +256,6 @@ public class Event extends BaseObservable implements Parcelable{
 
     }
 
-    public void setPlaceDetails(PlaceVenue placeDetails) {
-        this.placeDetails = placeDetails;
-    }
 
     @Override
     public String toString(){

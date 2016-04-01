@@ -33,6 +33,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.R;
@@ -169,11 +170,10 @@ public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallback
             public void onResponse(JSONArray response) {
                 try {
                     for(int i = 0; i < response.length(); i++){
-                        JSONObject event = response.getJSONObject(i);
-                        Event c = new Event(event.getInt("EventID"), event.getString("EventTitle"),
-                                event.getString("EventDescription"), event.getString("EventHost"));
+                        String event = response.getJSONObject(i).toString();
+                        Gson gson = new Gson();
+                        Event c = gson.fromJson(event, Event.class);
                         nearbyList.add(c);
-                        Log.i("JSON RESPONSE", event.toString());
                     }
                     addMarkers();
                 } catch (JSONException e) {

@@ -31,6 +31,7 @@
         android:id="@+id/all_day_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
         android:text="@string/all_day"
         android:layout_gravity="end"/>
     <LinearLayout
@@ -120,6 +121,13 @@
             android:layout_marginRight="16dp"/>
 
     </android.support.design.widget.TextInputLayout>
+    <android.support.v7.widget.SwitchCompat
+        android:id="@+id/online_event_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:text="@string/online_event"
+        android:layout_gravity="end"/>
     <android.support.v7.widget.CardView
         android:id="@+id/placePickerCard"
         android:layout_width="match_parent"
@@ -160,11 +168,7 @@
                     android:text="@string/default_venue_name" />
 
             </LinearLayout>
-            <android.support.v7.widget.SwitchCompat
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/online_event"
-                android:layout_gravity="end"/>
+
 
 
         </LinearLayout>
