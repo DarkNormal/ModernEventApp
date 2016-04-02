@@ -44,7 +44,6 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".UI.EventDetailGroup.EventDetailsActivity"
-            android:label="Posse Up"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -98,6 +97,13 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="48008938d29bf48fd34d3aca183790bfbfdf8b99" />
+
+        <activity
+            android:name=".UI.EventDetailGroup.AttendanceActivity"
+            android:label="@string/title_activity_attendance"
+            android:parentActivityName=".UI.EventDetailGroup.EventDetailsActivity"
+            android:theme="@style/AppTheme">
+        </activity>
     </application>
 
 </manifest>

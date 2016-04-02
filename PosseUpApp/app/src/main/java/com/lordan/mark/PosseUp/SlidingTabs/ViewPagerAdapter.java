@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.lordan.mark.PosseUp.UI.MainActivityGroup.Tab1;
 import com.lordan.mark.PosseUp.UI.MainActivityGroup.Tab2;
-import com.lordan.mark.PosseUp.UI.MainActivityGroup.Tab3;
+import com.lordan.mark.PosseUp.UI.MainActivityGroup.EventBreakdownFragment;
 import com.lordan.mark.PosseUp.UI.MainActivityGroup.Tab4;
 
 /**
@@ -38,7 +38,7 @@ class ViewPagerAdapter extends FragmentStatePagerAdapter {
         }
         else if(position == 2)
         {
-            return new Tab3();
+            return new EventBreakdownFragment();
         }
         else
         {

@@ -146,4 +146,16 @@
 
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
+
+
+    <string name="delete_event">Delete event</string>
+    <string name="edit_event">Edit event</string>
+    <string name="invite">Invite</string>
+    <string name="take_attendance">Take Attendance</string>
+    <string name="title_activity_attendance">Take Attendance</string>
+    <string name="start_nearby_scan">Find Nearby Attendees</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

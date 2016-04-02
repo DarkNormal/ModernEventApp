@@ -1,0 +1,32 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/start_attendance_tracking"
+        android:layout_width="wrap_content"
+        style="?android:attr/borderlessButtonStyle"
+        android:background="@android:color/transparent"
+        android:layout_centerHorizontal="true"
+        android:text="@string/start_nearby_scan"
+        android:layout_height="wrap_content" />
+    <ProgressBar
+        android:id="@+id/nearby_progress_bar"
+        style="@android:style/Widget.ProgressBar.Small"
+        android:layout_toRightOf="@+id/start_attendance_tracking"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="invisible" />
+    <ListView
+        android:id="@+id/nearby_devices_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/start_attendance_tracking"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:transcriptMode="alwaysScroll" />
+
+</RelativeLayout>

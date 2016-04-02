@@ -137,7 +137,7 @@ public class Event extends BaseObservable implements Parcelable{
         return eventName;
     }
 
-    private String getHostEmail() {
+    public String getHostEmail() {
         return hostEmail;
     }
 

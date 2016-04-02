@@ -83,6 +83,15 @@ public class Tab4 extends Fragment implements GoogleApiClient.ConnectionCallback
      * actions without having opted into Nearby.
      */
     private boolean mResolvingNearbyPermissionError = false;
+    private static final String ARG_SECTION_NUMBER = "section_number";
+
+    public static Tab4 newInstance(int sectionNumber) {
+        Tab4 fragment = new Tab4();
+        Bundle args = new Bundle();
+        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

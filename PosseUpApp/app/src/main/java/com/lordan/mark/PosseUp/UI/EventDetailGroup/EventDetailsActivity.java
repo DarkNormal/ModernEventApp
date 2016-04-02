@@ -44,10 +44,12 @@ public class EventDetailsActivity extends AbstractActivity implements EventDetai
         setContentView(R.layout.scrollview_layout);
         Bundle bundle = getIntent().getExtras();
         int eventID = bundle.getInt("EventID");
+        boolean isUserHost = bundle.getBoolean("CurrentUserIsHost");
         //LatLng location = new LatLng(bundle.getDouble("EventLat"), bundle.getDouble("EventLng"));
         if (eventID != -1) {
             Bundle fragmentBundle = new Bundle();
             fragmentBundle.putInt("EventID", eventID);
+            fragmentBundle.putBoolean("CurrentUserIsHost",isUserHost);
             fragmentBundle.putString("currentUsername", getCurrentUsername());
             if(savedInstanceState == null) {
                 EventDetailsFragment fragment = new EventDetailsFragment();

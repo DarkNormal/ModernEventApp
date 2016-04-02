@@ -33,6 +33,7 @@ import com.android.volley.toolbox.Volley;
 
 
 import com.google.gson.Gson;
+import com.lordan.mark.PosseUp.DataOperations.AzureService;
 import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.Model.PlaceVenue;
 import com.lordan.mark.PosseUp.UI.CreateEventGroup.AddEventActivity;
@@ -42,6 +43,7 @@ import com.lordan.mark.PosseUp.Model.Constants;
 
 import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.EventDetailGroup.EventDetailsActivity;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -81,18 +83,16 @@ public class Tab1 extends Fragment{
             public void onItemClick(View v, int position) {
                 Intent intent = new Intent(getContext(), EventDetailsActivity.class);
                 intent.putExtra("EventID", mDataset.get(position).getEventID());
-                try {
-                    intent.putExtra("EventLat", mDataset.get(position).getPlaceDetails().getVenueLocation().latitude);
-                    intent.putExtra("EventLng", mDataset.get(position).getPlaceDetails().getVenueLocation().longitude);
+                String currentEmail = new AzureService().getCurrentEmail(getContext());
+                if(currentEmail.equals(mDataset.get(position).getHostEmail())){
+                    intent.putExtra("CurrentUserIsHost", true);
                 }
-                catch(NullPointerException npe){
-                    Log.e(TAG, "Place Details null");
+                else{
+                    intent.putExtra("CurrentUserIsHost", false);
                 }
                 startActivity(intent);
-                Toast.makeText(getContext(), "clicked position: " + position, Toast.LENGTH_SHORT).show();
             }
         });
-        // Set CustomAdapter as the adapter for RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
 
 
@@ -134,6 +134,7 @@ public class Tab1 extends Fragment{
             //return from create event
         }
     }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
         inflater.inflate(R.menu.menu_tab1_events, menu);

@@ -207,9 +207,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/rsvp"
-            android:layout_centerHorizontal="true"
+            android:textColor="@android:color/white"
             android:layout_below="@+id/attendee_holder"
-            android:textColor="@android:color/white" />
+            android:layout_centerHorizontal="true" />
 
     </RelativeLayout>
 </layout>

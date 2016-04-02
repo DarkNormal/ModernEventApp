@@ -27,6 +27,7 @@
         <item name="colorButtonNormal">@color/ColorPrimary</item>
         <item name="toolbarStyle">@style/custom_toolbar</item>
         <item name="colorAccent">@color/ColorPrimary</item>
+        <item name="android:colorBackground">@color/white</item>
     </style>
 
     <style name="CustomAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
@@ -42,7 +43,10 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
-    <style name="TranslucentStatusBar" parent="AppTheme">
-    </style>
+    <style name="TranslucentStatusBar" parent="AppTheme"></style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

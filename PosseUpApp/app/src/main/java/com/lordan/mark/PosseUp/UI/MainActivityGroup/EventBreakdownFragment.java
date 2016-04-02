@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class Tab3 extends Fragment {
+public class EventBreakdownFragment extends Fragment {
 
     private List<Event> eventDataSet, pastDataSet, upcomingDataSet;
     private String username;

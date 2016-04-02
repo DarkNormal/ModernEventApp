@@ -163,7 +163,7 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
             case R.id.drawer_events:
                 args = new Bundle();
                 args.putString("username", getCurrentUsername());
-                fragment = new Tab3();
+                fragment = new EventBreakdownFragment();
                 fragment.setArguments(args);
                 getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
                 break;
