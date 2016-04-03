@@ -8,6 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +29,7 @@ import com.google.android.gms.nearby.messages.MessageListener;
 import com.google.android.gms.nearby.messages.NearbyMessagesStatusCodes;
 import com.google.android.gms.nearby.messages.SubscribeCallback;
 import com.google.android.gms.nearby.messages.SubscribeOptions;
+import com.lordan.mark.PosseUp.BasicAdapter;
 import com.lordan.mark.PosseUp.DataOperations.Settings;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.DeviceMessage;
@@ -36,6 +39,10 @@ import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.util.NearbyApiUtil;
 
 import java.util.ArrayList;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Activities that contain this fragment must implement the
@@ -53,7 +60,7 @@ public class NearbySubscribeFragment extends Fragment implements
      */
     private MessageListener mMessageListener;
     private final ArrayList<String> mNearbyDevicesArrayList = new ArrayList<>();
-    private ArrayAdapter<String> mNearbyDevicesArrayAdapter;
+    private RecyclerView.Adapter mNearbyDevicesArrayAdapter;
     /**
      * Tracks if we are currently resolving an error related to Nearby permissions. Used to avoid
      * duplicate Nearby permission dialogs if the user initiates both subscription and publication
@@ -65,10 +72,15 @@ public class NearbySubscribeFragment extends Fragment implements
     private OnNearbyFragmentInteractionListener mListener;
     private static final String ARG_SECTION_NUMBER = "section_number";
     private GoogleApiClient mGoogleApiClient;
+    private LinearLayoutManager mLayoutManager;
 
-    AppCompatButton nearbyButton, broadcastButton;
+    @Bind(R.id.start_attendance_tracking)
+    AppCompatButton nearbyButton;
 
+    @Bind(R.id.nearby_progress_bar)
     ProgressBar nearbyProgressBar;
+    @Bind(R.id.add_to_confirmed_list)
+    AppCompatButton confirmButton;
 
     public NearbySubscribeFragment() {
         // Required empty public constructor
@@ -96,37 +108,31 @@ public class NearbySubscribeFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_attendance, container, false);
-        nearbyButton = (AppCompatButton) rootView.findViewById(R.id.start_attendance_tracking);
-        broadcastButton = (AppCompatButton) rootView.findViewById(R.id.broadcast);
-        broadcastButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Settings.isPublishing(getActivity()) || Settings.isSubscribing(getActivity())) {
-                    nearbyInterface.unsubscribe();
-                } else {
-                    nearbyInterface.subscribe();
-                }
-            }
-        });
-        nearbyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Settings.isPublishing(getActivity()) || Settings.isSubscribing(getActivity())) {
-                    nearbyInterface.unsubscribe();
-                } else {
-                    nearbyInterface.subscribe();
-                }
-            }
-        });
-        nearbyProgressBar = (ProgressBar) rootView.findViewById(R.id.nearby_progress_bar);
-        final ListView nearbyDevicesListView = (ListView) rootView.findViewById(
-                R.id.nearby_devices_list_view);
-        mNearbyDevicesArrayAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
-                R.layout.simple_text_item,
-                mNearbyDevicesArrayList);
+        ButterKnife.bind(this, rootView);
+        final RecyclerView nearbyDevicesListView = (RecyclerView) rootView.findViewById(R.id.nearby_devices_list_view);
+        mLayoutManager = new LinearLayoutManager(getContext());
+        nearbyDevicesListView.setLayoutManager(mLayoutManager);
+        mNearbyDevicesArrayAdapter = new BasicAdapter(mNearbyDevicesArrayList);
         nearbyDevicesListView.setAdapter(mNearbyDevicesArrayAdapter);
         initializeMessageListener();
         return rootView;
+    }
+
+    @OnClick(R.id.start_attendance_tracking)
+    public void beginNearby(View v){
+        if (Settings.isPublishing(getActivity()) || Settings.isSubscribing(getActivity())) {
+            nearbyInterface.unsubscribe();
+            nearbyButton.setText(getResources().getString(R.string.start_nearby_scan));
+            nearbyProgressBar.setVisibility(View.INVISIBLE);
+        } else {
+            nearbyInterface.subscribe();
+            nearbyButton.setText(getResources().getString(R.string.stop_nearby_scan));
+            nearbyProgressBar.setVisibility(View.VISIBLE);
+        }
+    }
+    @OnClick(R.id.add_to_confirmed_list)
+    public void confirmUsers(View v){
+        mListener.onFragmentInteraction(mNearbyDevicesArrayList);
     }
 
     @Override
@@ -307,15 +313,17 @@ public class NearbySubscribeFragment extends Fragment implements
             @Override
             public void onFound(final Message message) {
                 final User user = NearbyApiUtil.parseNearbyMessage(message);
+                Log.i(TAG, user.getUsername());
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(mNearbyDevicesArrayAdapter.getCount() > 0) {
-                            for (int i = 0; i < mNearbyDevicesArrayAdapter.getCount(); i++) {
+                        if(mNearbyDevicesArrayList.size() > 0) {
+                            for (int i = 0; i < mNearbyDevicesArrayList.size(); i++) {
 
                                 //check if the attendee is already present in the current list
-                                if (!mNearbyDevicesArrayAdapter.getItem(i).equals(user.getUsername())) {
-                                    mNearbyDevicesArrayAdapter.add(user.getUsername());
+                                if (!mNearbyDevicesArrayList.get(i).equals(user.getUsername())) {
+                                    mNearbyDevicesArrayList.add(user.getUsername());
+                                    mNearbyDevicesArrayAdapter.notifyItemInserted(mNearbyDevicesArrayList.size()-1);
                                 }
                                 else{
                                     //User is already in the list
@@ -323,7 +331,10 @@ public class NearbySubscribeFragment extends Fragment implements
                             }
                         }
                         else{
-                            mNearbyDevicesArrayAdapter.add(user.getUsername());
+                            mNearbyDevicesArrayList.add(user.getUsername());
+                            confirmButton.setVisibility(View.VISIBLE);
+                            mNearbyDevicesArrayAdapter.notifyItemInserted(mNearbyDevicesArrayList.size()-1);
+
                         }
 
                     }
@@ -342,6 +353,6 @@ public class NearbySubscribeFragment extends Fragment implements
     }
 
     public interface OnNearbyFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(ArrayList<String> usersList);
     }
 }

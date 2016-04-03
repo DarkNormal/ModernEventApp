@@ -14,7 +14,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.lordan.mark.PosseUp.R;
-import com.lordan.mark.PosseUp.UI.MainActivityGroup.Tab4;
+
+import java.util.ArrayList;
 
 public class AttendanceActivity extends AppCompatActivity implements
         NearbySubscribeFragment.OnNearbyFragmentInteractionListener{
@@ -79,7 +80,7 @@ public class AttendanceActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
+    public void onFragmentInteraction(ArrayList<String> users) {
 
     }
 
@@ -102,9 +103,10 @@ public class AttendanceActivity extends AppCompatActivity implements
                 case 0:
                     return NearbySubscribeFragment.newInstance(position + 1);
                 case 1:
-                    return Tab4.newInstance(position +1);
+                    //TODO get current list of attendees for this event
+                    //return Tab4.newInstance(position +1);
                 default:
-                    return Tab4.newInstance(position +1);
+                    return NearbySubscribeFragment.newInstance(position + 1);
             }
         }
 

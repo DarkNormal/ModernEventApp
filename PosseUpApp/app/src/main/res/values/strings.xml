@@ -154,6 +154,8 @@
     <string name="take_attendance">Take Attendance</string>
     <string name="title_activity_attendance">Take Attendance</string>
     <string name="start_nearby_scan">Find Nearby Attendees</string>
+    <string name="stop_nearby_scan">Stop searching for Attendees</string>
+    <string name="add_to_confirmed">Confirm these attendees</string>
     <string name="section_format">Hello World from section: %1$d</string>
 
     <!-- TODO: Remove or change this placeholder text -->

@@ -14,29 +14,30 @@
         android:layout_centerHorizontal="true"
         android:text="@string/start_nearby_scan"
         android:layout_height="wrap_content" />
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/broadcast"
-        android:layout_width="wrap_content"
-        style="?android:attr/borderlessButtonStyle"
-        android:background="@android:color/transparent"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/start_attendance_tracking"
-        android:text="broadcast"
-        android:layout_height="wrap_content" />
+
     <ProgressBar
         android:id="@+id/nearby_progress_bar"
-        style="@android:style/Widget.ProgressBar.Small"
-        android:layout_toRightOf="@+id/start_attendance_tracking"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:visibility="invisible" />
-    <ListView
-        android:id="@+id/nearby_devices_list_view"
-
+        android:theme="@style/LinearProgress"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:indeterminate="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/broadcast"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:transcriptMode="alwaysScroll" />
+        android:visibility="invisible"
+        android:layout_below="@+id/start_attendance_tracking" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/nearby_devices_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:transcriptMode="alwaysScroll"
+        android:layout_above="@+id/add_to_confirmed_list"
+        android:layout_below="@+id/nearby_progress_bar" />
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/add_to_confirmed_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_to_confirmed"
+        android:textColor="@color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
