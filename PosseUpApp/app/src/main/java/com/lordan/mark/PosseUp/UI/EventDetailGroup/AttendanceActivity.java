@@ -2,10 +2,7 @@ package com.lordan.mark.PosseUp.UI.EventDetailGroup;
 
 import android.net.Uri;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
@@ -13,21 +10,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-
-import android.widget.TextView;
 
 import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.MainActivityGroup.Tab4;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
-public class AttendanceActivity extends AppCompatActivity implements NearbyFragment.OnNearbyFragmentInteractionListener{
+public class AttendanceActivity extends AppCompatActivity implements
+        NearbySubscribeFragment.OnNearbyFragmentInteractionListener{
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -110,7 +100,7 @@ public class AttendanceActivity extends AppCompatActivity implements NearbyFragm
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position){
                 case 0:
-                    return NearbyFragment.newInstance(position + 1);
+                    return NearbySubscribeFragment.newInstance(position + 1);
                 case 1:
                     return Tab4.newInstance(position +1);
                 default:

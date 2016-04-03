@@ -62,7 +62,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Create a new view.
         View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.text_row_item, viewGroup, false);
+                .inflate(R.layout.event_row_item, viewGroup, false);
         final ViewHolder mViewHolder = new ViewHolder(v);
         v.setOnClickListener(new View.OnClickListener() {
             @Override

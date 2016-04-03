@@ -2,9 +2,11 @@ package com.lordan.mark.PosseUp.UI.EventDetailGroup;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
@@ -12,6 +14,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -35,15 +39,29 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.nearby.Nearby;
+import com.google.android.gms.nearby.messages.Message;
+import com.google.android.gms.nearby.messages.NearbyMessagesStatusCodes;
+import com.google.android.gms.nearby.messages.PublishCallback;
+import com.google.android.gms.nearby.messages.PublishOptions;
 import com.google.gson.Gson;
+import com.lordan.mark.PosseUp.DataOperations.Settings;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.Model.User;
+import com.lordan.mark.PosseUp.NearbyPublishInterface;
 import com.lordan.mark.PosseUp.R;
+import com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity;
 import com.lordan.mark.PosseUp.UI.ProfileGroup.ProfileActivity;
 import com.lordan.mark.PosseUp.databinding.FragmentEventDetailsBinding;
+import com.lordan.mark.PosseUp.util.NearbyApiUtil;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
@@ -52,7 +70,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
-public class EventDetailsFragment extends Fragment implements View.OnClickListener {
+public class EventDetailsFragment extends Fragment implements
+        View.OnClickListener{
 
     private final String TAG = "EventDetailsFragment";
 
@@ -66,6 +85,14 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
     private FragmentEventDetailsBinding mBinding;
     private OnFragmentInteractionListener mListener;
     private final int DELETE_EVENT = 5;
+    private ProgressDialog mProgressDialog;
+    private GoogleApiClient mGoogleApiClient;
+    /**
+     * Tracks if we are currently resolving an error related to Nearby permissions. Used to avoid
+     * duplicate Nearby permission dialogs if the user initiates both subscription and publication
+     * actions without having opted into Nearby.
+     */
+    private boolean mResolvingNearbyPermissionError = false;
 
     public EventDetailsFragment() {
         // Required empty public constructor
@@ -164,10 +191,18 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
                 Toast.makeText(getContext(), "Invite followers or non-users to event", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.take_attendance:
-                Intent intent = new Intent(getContext(), AttendanceActivity.class);
-                intent.putExtra("EventID", eventID);
-                intent.putExtra("CurrentUserIsHost", isUserHost );
-                startActivity(intent);
+                if(isUserHost) {
+                    Intent intent = new Intent(getContext(), AttendanceActivity.class);
+                    intent.putExtra("EventID", eventID);
+                    intent.putExtra("CurrentUserIsHost", isUserHost);
+                    startActivity(intent);
+                }
+                else{
+                    Intent intent = new Intent(getContext(), AttendActivity.class);
+                    intent.putExtra("currentUsername", currentUser);
+                    startActivity(intent);
+
+                }
             default:
                 return false;
 
@@ -178,7 +213,7 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
         if(!isUserHost){
             menu.removeItem(R.id.edit_event);
             menu.removeItem(R.id.delete_event);
-            menu.removeItem(R.id.take_attendance);
+            menu.findItem(R.id.take_attendance).setTitle("Attend");
         }
     }
     @Override
@@ -250,6 +285,7 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
                 break;
         }
     }
+
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Event e);
@@ -417,11 +453,6 @@ public class EventDetailsFragment extends Fragment implements View.OnClickListen
         return Math.round(px);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        //mBinding.eventImageHeader.setImageBitmap(null);
-    }
     private void deleteEvent(final VolleyCallback callback){
         String url = Constants.baseUrl + "api/Events/" + eventID;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, url, null, new Response.Listener<JSONObject>() {

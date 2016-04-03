@@ -58,7 +58,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleView
     }
 
     public SimpleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(mContext).inflate(R.layout.text_row_item, parent, false);
+        final View view = LayoutInflater.from(mContext).inflate(R.layout.event_row_item, parent, false);
         final SimpleViewHolder mViewHolder = new SimpleViewHolder(view);
         view.setOnClickListener(new View.OnClickListener() {
             @Override

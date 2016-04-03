@@ -2,86 +2,90 @@ package com.lordan.mark.PosseUp.UI.EventDetailGroup;
 
 import android.content.Context;
 import android.content.IntentSender;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatButton;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.iid.InstanceID;
 import com.google.android.gms.nearby.Nearby;
+import com.google.android.gms.nearby.messages.Message;
 import com.google.android.gms.nearby.messages.MessageListener;
 import com.google.android.gms.nearby.messages.NearbyMessagesStatusCodes;
-import com.google.android.gms.nearby.messages.PublishCallback;
-import com.google.android.gms.nearby.messages.PublishOptions;
-import com.google.android.gms.nearby.messages.Strategy;
 import com.google.android.gms.nearby.messages.SubscribeCallback;
 import com.google.android.gms.nearby.messages.SubscribeOptions;
-import com.lordan.mark.PosseUp.DataOperations.AzureService;
+import com.lordan.mark.PosseUp.DataOperations.Settings;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.DeviceMessage;
+import com.lordan.mark.PosseUp.Model.User;
+import com.lordan.mark.PosseUp.NearbySubscribeInterface;
 import com.lordan.mark.PosseUp.R;
+import com.lordan.mark.PosseUp.util.NearbyApiUtil;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link NearbyFragment.OnNearbyFragmentInteractionListener} interface
+ * {@link NearbySubscribeFragment.OnNearbyFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link NearbyFragment#newInstance} factory method to
+ * Use the {@link NearbySubscribeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NearbyFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, SharedPreferences.OnSharedPreferenceChangeListener{
-
-    private static final Strategy PUB_SUB_STRATEGY = new Strategy.Builder()
-            .setTtlSeconds(Constants.TTL_IN_SECONDS).build();
+public class NearbySubscribeFragment extends Fragment implements
+        NearbySubscribeInterface,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener{
     /**
      * A {@link MessageListener} for processing messages from nearby devices.
      */
     private MessageListener mMessageListener;
+    private final ArrayList<String> mNearbyDevicesArrayList = new ArrayList<>();
+    private ArrayAdapter<String> mNearbyDevicesArrayAdapter;
     /**
      * Tracks if we are currently resolving an error related to Nearby permissions. Used to avoid
      * duplicate Nearby permission dialogs if the user initiates both subscription and publication
      * actions without having opted into Nearby.
      */
     private boolean mResolvingNearbyPermissionError = false;
-    private static final String TAG = "NearbyFragment";
+    private NearbySubscribeInterface nearbyInterface;
+    private static final String TAG = "NearbySubscribeFragment";
     private OnNearbyFragmentInteractionListener mListener;
     private static final String ARG_SECTION_NUMBER = "section_number";
     private GoogleApiClient mGoogleApiClient;
 
-    AppCompatButton nearbyButton;
+    AppCompatButton nearbyButton, broadcastButton;
 
     ProgressBar nearbyProgressBar;
 
-    public NearbyFragment() {
+    public NearbySubscribeFragment() {
         // Required empty public constructor
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .addApi(Nearby.MESSAGES_API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
     }
 
-    public static NearbyFragment newInstance(int sectionNumber) {
-        NearbyFragment fragment = new NearbyFragment();
+    public static NearbySubscribeFragment newInstance(int sectionNumber) {
+        NearbySubscribeFragment fragment = new NearbySubscribeFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
@@ -93,27 +97,42 @@ public class NearbyFragment extends Fragment implements GoogleApiClient.Connecti
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_attendance, container, false);
         nearbyButton = (AppCompatButton) rootView.findViewById(R.id.start_attendance_tracking);
+        broadcastButton = (AppCompatButton) rootView.findViewById(R.id.broadcast);
+        broadcastButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Settings.isPublishing(getActivity()) || Settings.isSubscribing(getActivity())) {
+                    nearbyInterface.unsubscribe();
+                } else {
+                    nearbyInterface.subscribe();
+                }
+            }
+        });
+        nearbyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Settings.isPublishing(getActivity()) || Settings.isSubscribing(getActivity())) {
+                    nearbyInterface.unsubscribe();
+                } else {
+                    nearbyInterface.subscribe();
+                }
+            }
+        });
         nearbyProgressBar = (ProgressBar) rootView.findViewById(R.id.nearby_progress_bar);
+        final ListView nearbyDevicesListView = (ListView) rootView.findViewById(
+                R.id.nearby_devices_list_view);
+        mNearbyDevicesArrayAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
+                R.layout.simple_text_item,
+                mNearbyDevicesArrayList);
+        nearbyDevicesListView.setAdapter(mNearbyDevicesArrayAdapter);
+        initializeMessageListener();
         return rootView;
     }
-
-
-    public void determineTask(){
-        String subscriptionTask = getPubSubTask(Constants.KEY_SUBSCRIPTION_TASK);
-        if (TextUtils.equals(subscriptionTask, Constants.TASK_NONE) ||
-                TextUtils.equals(subscriptionTask, Constants.TASK_UNSUBSCRIBE)) {
-            updateSharedPreference(Constants.KEY_SUBSCRIPTION_TASK,
-                    Constants.TASK_SUBSCRIBE);
-        } else {
-            updateSharedPreference(Constants.KEY_SUBSCRIPTION_TASK,
-                    Constants.TASK_UNSUBSCRIBE);
-        }
-    }
-
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        nearbyInterface = this;
         if (context instanceof OnNearbyFragmentInteractionListener) {
             mListener = (OnNearbyFragmentInteractionListener) context;
         } else {
@@ -130,28 +149,28 @@ public class NearbyFragment extends Fragment implements GoogleApiClient.Connecti
     @Override
     public void onStart(){
         super.onStart();
-        mGoogleApiClient = new GoogleApiClient.Builder(getActivity().getApplicationContext())
-                .addApi(Nearby.MESSAGES_API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
-        mGoogleApiClient.connect();
+       if(!mGoogleApiClient.isConnected()){
+           mGoogleApiClient.connect();
+       }
     }
     @Override
     public void onStop(){
         super.onStop();
+        unsubscribe();
         if(mGoogleApiClient.isConnected()){
             mGoogleApiClient.disconnect();
         }
+        Settings.setSubscribing(getContext(), false);
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         Log.i(TAG, "GoogleApiClient connected");
-        // If the user has requested a subscription or publication task that requires
-        // GoogleApiClient to be connected, we keep track of that task and execute it here, since
-        // we now have a connected GoogleApiClient at this point.
-        executePendingTasks();
+        if (Settings.isSubscribing(getContext())) {
+            subscribe();
+        } else {
+            unsubscribe();
+        }
     }
 
     @Override
@@ -159,7 +178,7 @@ public class NearbyFragment extends Fragment implements GoogleApiClient.Connecti
         Log.i(TAG, "GoogleApiClient connection suspended: "
                 + connectionSuspendedCauseToString(cause));
     }
-    //Determines what caused the error
+
     private static String connectionSuspendedCauseToString(int cause) {
         switch (cause) {
             case CAUSE_NETWORK_LOST:
@@ -176,46 +195,15 @@ public class NearbyFragment extends Fragment implements GoogleApiClient.Connecti
         Log.i(TAG, "connection to GoogleApiClient failed");
     }
 
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-
-    }
-    private void executePendingTasks() {
-        executePendingSubscriptionTask();
-    }
-    /**
-     * Invokes a pending task based on the subscription state.
-     */
-    private void executePendingSubscriptionTask() {
-        String pendingSubscriptionTask = getPubSubTask(Constants.KEY_SUBSCRIPTION_TASK);
-        if (TextUtils.equals(pendingSubscriptionTask, Constants.TASK_SUBSCRIBE)) {
-            subscribe();
-        } else if (TextUtils.equals(pendingSubscriptionTask, Constants.TASK_UNSUBSCRIBE)) {
-            unsubscribe();
-        }
-    }
-    private String getPubSubTask(String taskKey) {
-        return getActivity()
-                .getPreferences(Context.MODE_PRIVATE)
-                .getString(taskKey, Constants.TASK_NONE);
-    }
-    private void updateSharedPreference(String key, String value) {
-        if(getActivity() != null){
-            getActivity().getPreferences(Context.MODE_PRIVATE)
-                    .edit()
-                    .putString(key, value)
-                    .apply();
-        }
-
-    }
-
     /**
      * Subscribes to messages from nearby devices. If not successful, attempts to resolve any error
      * related to Nearby permissions by displaying an opt-in dialog. Registers a callback which
      * updates state when the subscription expires.
      */
-    private void subscribe() {
+    @Override
+    public void subscribe() {
         Log.i(TAG, "trying to subscribe");
+        Settings.setSubscribing(getContext(), true);
         // Cannot proceed without a connected GoogleApiClient. Reconnect and execute the pending
         // task in onConnected().
         if (!mGoogleApiClient.isConnected()) {
@@ -224,14 +212,13 @@ public class NearbyFragment extends Fragment implements GoogleApiClient.Connecti
             }
         } else {
             SubscribeOptions options = new SubscribeOptions.Builder()
-                    .setStrategy(PUB_SUB_STRATEGY)
+                    .setStrategy(NearbyApiUtil.MESSAGE_STRATEGY)
                     .setCallback(new SubscribeCallback() {
                         @Override
                         public void onExpired() {
                             super.onExpired();
                             Log.i(TAG, "no longer subscribing");
-                            updateSharedPreference(Constants.KEY_SUBSCRIPTION_TASK,
-                                    Constants.TASK_NONE);
+                            Settings.setSubscribing(getActivity(), false);
                         }
                     }).build();
 
@@ -242,8 +229,10 @@ public class NearbyFragment extends Fragment implements GoogleApiClient.Connecti
                         public void onResult(Status status) {
                             if (status.isSuccess()) {
                                 Log.i(TAG, "subscribed successfully");
+                                Settings.setSubscribing(getActivity(), true);
                             } else {
                                 Log.i(TAG, "could not subscribe");
+                                Settings.setSubscribing(getActivity(), false);
                                 handleUnsuccessfulNearbyResult(status);
                             }
                         }
@@ -256,7 +245,7 @@ public class NearbyFragment extends Fragment implements GoogleApiClient.Connecti
      * successful, attempts to resolve any error related to Nearby permissions by
      * displaying an opt-in dialog.
      */
-    private void unsubscribe() {
+    public void unsubscribe() {
         Log.i(TAG, "trying to unsubscribe");
         // Cannot proceed without a connected GoogleApiClient. Reconnect and execute the pending
         // task in onConnected().
@@ -272,10 +261,10 @@ public class NearbyFragment extends Fragment implements GoogleApiClient.Connecti
                         public void onResult(Status status) {
                             if (status.isSuccess()) {
                                 Log.i(TAG, "unsubscribed successfully");
-                                updateSharedPreference(Constants.KEY_SUBSCRIPTION_TASK,
-                                        Constants.TASK_NONE);
+                                Settings.setSubscribing(getActivity(), false);
                             } else {
                                 Log.i(TAG, "could not unsubscribe");
+                                Settings.setSubscribing(getActivity(), true);
                                 handleUnsuccessfulNearbyResult(status);
                             }
                         }
@@ -305,7 +294,6 @@ public class NearbyFragment extends Fragment implements GoogleApiClient.Connecti
                 Toast.makeText(getActivity(),
                         "No connectivity, cannot proceed. Fix in 'Settings' and try again.",
                         Toast.LENGTH_LONG).show();
-                resetToDefaultState();
             } else {
                 // To keep things simple, pop a toast for all other error messages.
                 Toast.makeText(getActivity(), "Unsuccessful: " +
@@ -314,28 +302,45 @@ public class NearbyFragment extends Fragment implements GoogleApiClient.Connecti
 
         }
     }
-    /**
-     * Resets the state of pending subscription and publication tasks.
-     */
-    private void resetToDefaultState() {
-        getActivity().getPreferences(Context.MODE_PRIVATE)
-                .edit()
-                .putString(Constants.KEY_SUBSCRIPTION_TASK, Constants.TASK_NONE)
-                .putString(Constants.KEY_PUBLICATION_TASK, Constants.TASK_NONE)
-                .apply();
+    private void initializeMessageListener() {
+        mMessageListener = new MessageListener() {
+            @Override
+            public void onFound(final Message message) {
+                final User user = NearbyApiUtil.parseNearbyMessage(message);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(mNearbyDevicesArrayAdapter.getCount() > 0) {
+                            for (int i = 0; i < mNearbyDevicesArrayAdapter.getCount(); i++) {
+
+                                //check if the attendee is already present in the current list
+                                if (!mNearbyDevicesArrayAdapter.getItem(i).equals(user.getUsername())) {
+                                    mNearbyDevicesArrayAdapter.add(user.getUsername());
+                                }
+                                else{
+                                    //User is already in the list
+                                }
+                            }
+                        }
+                        else{
+                            mNearbyDevicesArrayAdapter.add(user.getUsername());
+                        }
+
+                    }
+                });
+            }
+
+            @Override
+            public void onLost(final Message message) {
+                /** Called when a message is no longer detectable nearby.
+                 *  Ignored here as we want all detected attendees to remain in the list
+                 *  regardless of whether they move in/out of range
+                 */
+
+            }
+        };
     }
 
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnNearbyFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }

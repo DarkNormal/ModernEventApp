@@ -65,7 +65,7 @@
 
         <meta-data
             android:name="com.google.android.nearby.messages.API_KEY"
-            android:value="AIzaSyAQNI42nA_azUDuRe9O6XWW4bRqf13rOa8" />
+            android:value="AIzaSyAaIWjYI2KZZY_DEOJyuPrZyyP24lDesmM" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -102,8 +102,9 @@
             android:name=".UI.EventDetailGroup.AttendanceActivity"
             android:label="@string/title_activity_attendance"
             android:parentActivityName=".UI.EventDetailGroup.EventDetailsActivity"
-            android:theme="@style/AppTheme">
-        </activity>
+            android:theme="@style/AppTheme"></activity>
+        <activity android:name=".UI.EventDetailGroup.AttendActivity"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
