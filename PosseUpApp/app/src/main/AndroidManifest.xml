@@ -102,9 +102,10 @@
             android:name=".UI.EventDetailGroup.AttendanceActivity"
             android:label="@string/title_activity_attendance"
             android:parentActivityName=".UI.EventDetailGroup.EventDetailsActivity"
-            android:theme="@style/AppTheme"></activity>
-        <activity android:name=".UI.EventDetailGroup.AttendActivity"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".UI.EventDetailGroup.AttendActivity"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

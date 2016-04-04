@@ -63,6 +63,10 @@ import com.lordan.mark.PosseUp.UI.ProfileGroup.ProfileActivity;
 import com.lordan.mark.PosseUp.databinding.FragmentEventDetailsBinding;
 import com.lordan.mark.PosseUp.util.NearbyApiUtil;
 import com.mikhaellopez.circularimageview.CircularImageView;
+import com.pubnub.api.Callback;
+import com.pubnub.api.Pubnub;
+import com.pubnub.api.PubnubError;
+import com.pubnub.api.PubnubException;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -87,6 +91,7 @@ public class EventDetailsFragment extends Fragment implements
     private final int DELETE_EVENT = 5;
     private ProgressDialog mProgressDialog;
     private GoogleApiClient mGoogleApiClient;
+    private Pubnub pubnub;
     /**
      * Tracks if we are currently resolving an error related to Nearby permissions. Used to avoid
      * duplicate Nearby permission dialogs if the user initiates both subscription and publication
@@ -101,6 +106,7 @@ public class EventDetailsFragment extends Fragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        pubnub = new Pubnub("pub-c-80485b35-97d9-4403-8465-c5a6e2547d65", "sub-c-2b32666a-f73e-11e5-8cfb-0619f8945a4f");
     }
 
 
@@ -128,6 +134,7 @@ public class EventDetailsFragment extends Fragment implements
         mBinding.eventGuestsButton.setOnClickListener(this);
         mBinding.attendButton.setOnClickListener(this);
         mBinding.eventTimeGroup.setOnClickListener(this);
+
         return v;
     }
 

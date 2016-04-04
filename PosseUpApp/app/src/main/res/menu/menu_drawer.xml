@@ -12,6 +12,10 @@
             android:icon="@drawable/ic_account_circle_grey"
             android:title="@string/drawer_profile"/>
         <item
+            android:id="@+id/drawer_chat"
+            android:icon="@drawable/ic_chat_grey"
+            android:title="@string/drawer_chat"/>
+        <item
             android:id="@+id/drawer_events"
             android:icon="@drawable/ic_event_grey"
             android:title="@string/drawer_events"/>

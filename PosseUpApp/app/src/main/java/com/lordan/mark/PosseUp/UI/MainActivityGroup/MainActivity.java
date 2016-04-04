@@ -1,6 +1,7 @@
 package com.lordan.mark.PosseUp.UI.MainActivityGroup;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -35,7 +36,7 @@ import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
 
-public class MainActivity extends AbstractActivity implements ProfileFragment.OnFragmentInteractionListener, UserFragment.OnListFragmentInteractionListener{
+public class MainActivity extends AbstractActivity implements ProfileFragment.OnFragmentInteractionListener, UserFragment.OnListFragmentInteractionListener, ChatFragment.OnChatFragmentInteractionListener{
 
 
     private final String TAG = "MainActivity";
@@ -167,6 +168,10 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
                 fragment.setArguments(args);
                 getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
                 break;
+            case R.id.drawer_chat:
+                fragment = new ChatFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+                break;
             default:
                 Toast.makeText(getApplicationContext(), "Somethings Wrong", Toast.LENGTH_SHORT).show();
                 break;
@@ -270,6 +275,11 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
 
     @Override
     public void onListFragmentInteraction(User u) {
+
+    }
+
+    @Override
+    public void onChatFragmentInteraction(Uri uri) {
 
     }
 }
