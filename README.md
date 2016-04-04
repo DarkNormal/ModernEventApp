@@ -32,7 +32,7 @@ Android Data Binding<br>
 Features List
 -----------
 Authentication/Authorization - Working <br>
-Google Nearby API (for attending events) - Basic implementation <br>
+Google Nearby API (for attending events) - Working <br>
 Google Maps/Places API - Working <br>
 Create Event - Working <br>
 Find Events - Working <br>
