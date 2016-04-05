@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lordan.mark.PosseUp.Model.Event;
+import com.lordan.mark.PosseUp.UI.MainActivityGroup.CustomItemClickListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
     private ArrayList<Event> mDataset;
     private Context mComtext;
-
+    private CustomItemClickListener listener;
     // Provide a reference to the views for each data item
 // Complex data items may need more than one view per item, and
 // you provide access to all the views for a data item in a view holder
@@ -35,7 +36,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ChatAdapter(Context context, ArrayList<Event> myDataset) {
+    public ChatAdapter(Context context, ArrayList<Event> myDataset, CustomItemClickListener customItemClickListener) {
+        this.listener = customItemClickListener;
         mComtext = context;
         mDataset = myDataset;
     }
@@ -48,6 +50,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.chat_group_layout, parent, false);
         final ChatAdapter.ViewHolder mViewHolder = new ChatAdapter.ViewHolder(v);
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClick(v, mViewHolder.getAdapterPosition());
+            }
+        });
         return mViewHolder;
     }
 

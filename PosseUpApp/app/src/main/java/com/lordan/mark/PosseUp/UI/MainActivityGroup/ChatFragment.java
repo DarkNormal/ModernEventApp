@@ -120,7 +120,12 @@ public class ChatFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
-        mAdapter = new ChatAdapter(getContext(), mDataset);
+        mAdapter = new ChatAdapter(getContext(), mDataset, new CustomItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                startActivity(ChatActivity.newIntent(getContext(), mDataset.get(position).getEventName()));
+            }
+        });
         mRecyclerView.setAdapter(mAdapter);
         getChats();
         return v;

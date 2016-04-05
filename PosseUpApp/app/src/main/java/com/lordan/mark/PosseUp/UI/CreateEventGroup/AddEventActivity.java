@@ -41,6 +41,7 @@ import com.lordan.mark.PosseUp.DataOperations.AzureService;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.R;
+import com.lordan.mark.PosseUp.VolleyCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,6 +53,7 @@ import org.json.JSONObject;
 public class AddEventActivity extends AbstractActivity {
     private FirstEventFragment myFrag;
     private RequestQueue queue;
+    private String hostEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +62,7 @@ public class AddEventActivity extends AbstractActivity {
 
         setupToolbar();
 
-
+        hostEmail = new AzureService().getCurrentEmail(this);
         LinearLayout fragmentHolder = (LinearLayout) findViewById(R.id.add_event_fragment_holder);
         FragmentManager fragMan = getSupportFragmentManager();
         FragmentTransaction fragTransaction = fragMan.beginTransaction();
@@ -110,8 +112,7 @@ public class AddEventActivity extends AbstractActivity {
             case (R.id.create_event_next):
                 Event newEvent = myFrag.getEvent();
                 if(newEvent != null){
-                    AzureService az = new AzureService();
-                    newEvent.setHostEmail(az.getCurrentEmail(this));
+                    newEvent.setHostEmail(hostEmail);
                     sendEvent(newEvent);
                 }
                 break;
@@ -143,9 +144,28 @@ public class AddEventActivity extends AbstractActivity {
         }
     }
     private void sendEvent(Event e){
+        sendEvent(e, new VolleyCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                String eventID = null;
+                try {
+                    eventID = result.getString("EventID");
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
+                String url = Constants.baseUrl + "api/Event/Attend/" + eventID + "?username=" + new AzureService().getCurrentUsername(getApplicationContext());
+                addHostToEventList(url);
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+        });
+    }
+    private void sendEvent(Event e, final VolleyCallback callback) {
         String url = Constants.baseUrl + "api/Events";
-        Gson gson = new Gson();
-        String event = gson.toJson(e);
+        String event = new Gson().toJson(e);
         JSONObject eventObj = new JSONObject();
         try {
             eventObj = new JSONObject(event);
@@ -156,25 +176,46 @@ public class AddEventActivity extends AbstractActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, eventObj, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                callback.onSuccess(response);
                 Log.i("Create Event", response.toString());
-                CoordinatorLayout coordinatorLayout = (CoordinatorLayout)  findViewById(R.id.coordinatorLayout);
-                if (coordinatorLayout != null) {
-                    Snackbar.make(coordinatorLayout, "Event created", Snackbar.LENGTH_LONG)
-                            .setAction("View", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    finish();
-                                }
-                            })
-                            .setActionTextColor(Color.MAGENTA)
-                            .show();
-                }
-
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("Create Event Error", "");
+                callback.onError(error);
+            }
+        });
+        queue.add(jsonObjectRequest);
+    }
+    private void addHostToEventList(String url){
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if (response.getBoolean("success")) {
+                        CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+                        if (coordinatorLayout != null) {
+                            Snackbar.make(coordinatorLayout, "Event created", Snackbar.LENGTH_LONG)
+                                    .setAction("View", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            finish();
+                                        }
+                                    })
+                                    .setActionTextColor(Color.MAGENTA)
+                                    .show();
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
             }
         });
         queue.add(jsonObjectRequest);
