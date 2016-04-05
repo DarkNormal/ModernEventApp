@@ -22,6 +22,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.lordan.mark.PosseUp.ChatAdapter;
@@ -196,28 +197,18 @@ public class ChatFragment extends Fragment {
     }
     private void getChats() {
         RequestQueue queue = Volley.newRequestQueue(getActivity());
-        String url = Constants.baseUrl + "api/Events";
-
-        JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+        String url = Constants.baseUrl + "api/Account/UserInfo/" + new AzureService().getCurrentUsername(getContext()).replace(" ", "%20");
+        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(JSONArray response) {
-                ArrayList<Event> tempEvents = new ArrayList<>();
+            public void onResponse(JSONObject response) {
+                mDataset.clear();
                 try {
-                    for(int i = 0; i < response.length(); i++){
-                        JSONObject event = response.getJSONObject(i);
-                        Gson gson = new Gson();
-                        PlaceVenue venue = gson.fromJson(event.getJSONObject("EventVenue").toString(), PlaceVenue.class);
-                        Event c = gson.fromJson(response.getJSONObject(i).toString(), Event.class);
-                        c.setEndingTime();
-                        c.setStartingTime();
-                        c.setEventImageURL(c.getEventImage());
-                        c.setPlaceDetails(venue);
-                        mDataset.add(c);
+                    JSONArray events = response.getJSONArray("Events");
+                    for(int i = 0; i < events.length(); i++){
+                        JSONObject jsonEvent = events.getJSONObject(i);
+                        Event tempEvent = new Gson().fromJson(jsonEvent.toString(), Event.class);
+                        mDataset.add(tempEvent);
                         mAdapter.notifyItemInserted(mDataset.size()-1);
-                        if(c.getStartTimeCalendar().after(Calendar.getInstance())) {
-                            tempEvents.add(c);
-                        }
-                        Log.i("JSON RESPONSE", event.toString());
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -243,8 +234,6 @@ public class ChatFragment extends Fragment {
 
 
     }
-
-
 
     /**
      * This interface must be implemented by activities that contain this
