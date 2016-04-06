@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/margin_medium"
+    android:paddingTop="@dimen/margin_medium"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:id="@+id/message_profile_picture"
+        tools:src="@drawable/profiler"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/message_profile_picture"
+        android:paddingEnd="@dimen/margin_medium"
+        tools:text="message username"
+        android:id="@+id/message_username"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/message_username"
+        android:textColor="@color/dark_grey"
+        tools:text="timestamp"
+        android:id="@+id/message_timestamp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/message_profile_picture"
+        android:layout_below="@+id/message_username"
+        tools:text="message content"
+        android:id="@+id/message_content"/>
+
+</RelativeLayout>

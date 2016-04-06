@@ -65,7 +65,6 @@ public class ChatFragment extends Fragment {
     private String mParam2;
 
     private OnChatFragmentInteractionListener mListener;
-    private Pubnub pubnub;
     private ChatAdapter mAdapter;
     private ArrayList<Event> mDataset = new ArrayList<>();
 
@@ -93,10 +92,8 @@ public class ChatFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        pubnub = new Pubnub("pub-c-80485b35-97d9-4403-8465-c5a6e2547d65", "sub-c-2b32666a-f73e-11e5-8cfb-0619f8945a4f");
+
 
 
     }
@@ -106,16 +103,7 @@ public class ChatFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_chat, container, false);
         // Inflate the layout for this fragment
-        subscribeWithPubNub();
-        Callback callback = new Callback() {
-            public void successCallback(String channel, Object response) {
-                System.out.println(response.toString());
-            }
-            public void errorCallback(String channel, PubnubError error) {
-                System.out.println(error.toString());
-            }
-        };
-        pubnub.publish("test_channel", "Hello from the PubNub Java SDK!" , callback);
+
 
         RecyclerView mRecyclerView = (RecyclerView) v.findViewById(R.id.chat_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -132,45 +120,7 @@ public class ChatFragment extends Fragment {
         return v;
     }
 
-    private void subscribeWithPubNub() {
-        try {
-            pubnub.subscribe("test_channel", new Callback() {
-                @Override
-                public void connectCallback(String channel, Object message) {
-                    System.out.println("SUBSCRIBE : CONNECT on channel:" + channel
-                            + " : " + message.getClass() + " : "
-                            + message.toString());
-                }
 
-                @Override
-                public void disconnectCallback(String channel, Object message) {
-                    System.out.println("SUBSCRIBE : DISCONNECT on channel:" + channel
-                            + " : " + message.getClass() + " : "
-                            + message.toString());
-                }
-
-                public void reconnectCallback(String channel, Object message) {
-                    System.out.println("SUBSCRIBE : RECONNECT on channel:" + channel
-                            + " : " + message.getClass() + " : "
-                            + message.toString());
-                }
-
-                @Override
-                public void successCallback(String channel, Object message) {
-                    System.out.println("SUBSCRIBE : " + channel + " : "
-                            + message.getClass() + " : " + message.toString());
-                }
-
-                @Override
-                public void errorCallback(String channel, PubnubError error) {
-                    System.out.println("SUBSCRIBE : ERROR on channel " + channel
-                            + " : " + error.toString());
-                }
-            });
-        } catch (PubnubException e) {
-            e.printStackTrace();
-        }
-    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
