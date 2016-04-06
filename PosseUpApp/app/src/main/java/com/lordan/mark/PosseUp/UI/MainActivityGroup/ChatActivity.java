@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -31,6 +33,7 @@ public class ChatActivity extends AppCompatActivity {
     private Pubnub pubnub;
     private ArrayList<ChatMessage> chatLog = new ArrayList<>();
     private MessageAdapter adapter;
+    private RecyclerView chat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +47,12 @@ public class ChatActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        RecyclerView chat = (RecyclerView) findViewById(R.id.chat_message_recyclerview);
+
+        chat = (RecyclerView) findViewById(R.id.chat_message_recyclerview);
         chat.setLayoutManager(layoutManager);
         adapter = new MessageAdapter(getApplicationContext(),chatLog);
         chat.setAdapter(adapter);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        AppCompatButton btn = (AppCompatButton) findViewById(R.id.message_send_btn);
         final Callback callback = new Callback() {
             public void successCallback(String channel, Object response) {
                 System.out.println(response.toString());
@@ -57,10 +61,15 @@ public class ChatActivity extends AppCompatActivity {
                 System.out.println(error.toString());
             }
         };
-        fab.setOnClickListener(new View.OnClickListener() {
+        final EditText messageToSend = (EditText) findViewById(R.id.message_to_send);
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChatMessage message = new ChatMessage("Hello", Calendar.getInstance().getTime().toString(), new AzureService().getCurrentUsername(getApplicationContext()), new AzureService().getProfileImageURL(getApplicationContext()));
+                ChatMessage message = new ChatMessage("Hello",
+                        Calendar.getInstance().getTime().toString(),
+                        new AzureService().getCurrentUsername(getApplicationContext()),
+                        new AzureService().getProfileImageURL(getApplicationContext()));
+                messageToSend.getText().clear();
                 pubnub.publish("test_channel", new Gson().toJson(message), callback);
                 //pubnub.publish("test_channel", "Hello from the PubNub Java SDK!" , callback);
                 Toast.makeText(ChatActivity.this, chatLog.size() + " ", Toast.LENGTH_SHORT).show();
@@ -126,6 +135,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void run() {
                 adapter.notifyItemInserted(chatLog.size()-1);
+                chat.scrollToPosition(chatLog.size() -1);
             }
         });
     }
