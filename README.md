@@ -15,8 +15,9 @@ Used libraries
 [Picasso](https://github.com/square/picasso)<br>
 [Butterknife](https://github.com/JakeWharton/butterknife)<br>
 [Material Spinner](https://github.com/ganfra/MaterialSpinner)<br>
-Facebook SDK <br>
-Twitter SDK (Crashlytics) <br>
+[PubNub](https://www.pubnub.com/)<br>
+Facebook SDK (External Login) <br>
+[Fabric - Twitter SDK (Analytics)](https://fabric.io/) <br>
 
 Google Libraries
 -----------
