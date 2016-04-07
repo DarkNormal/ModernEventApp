@@ -26,12 +26,12 @@ public class User  extends BaseObservable implements Parcelable{
     @SerializedName("Password")
     private String password;
 
-    @SerializedName("Username")
+    @SerializedName("UserName")
     private String username;
 
 
 
-    @SerializedName("ProfilePicture")
+    @SerializedName("ProfileImageURL")
     private String profileImage;
 
 

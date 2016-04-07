@@ -143,7 +143,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
                 System.out.println("user registered");
                 az = new AzureService();
                 try {
-                    az.saveProfileImage(getContext(), response.getString("profileImage"));
+                    az.saveProfileImage(getContext(), response.getString("ProfileImageURL"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

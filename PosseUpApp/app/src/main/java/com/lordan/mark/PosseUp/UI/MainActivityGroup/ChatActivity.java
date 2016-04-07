@@ -25,6 +25,9 @@ import com.pubnub.api.Pubnub;
 import com.pubnub.api.PubnubError;
 import com.pubnub.api.PubnubException;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -49,7 +52,9 @@ public class ChatActivity extends AppCompatActivity {
 
 
         chat = (RecyclerView) findViewById(R.id.chat_message_recyclerview);
-        chat.setLayoutManager(layoutManager);
+        if(chat != null) {
+            chat.setLayoutManager(layoutManager);
+        }
         adapter = new MessageAdapter(getApplicationContext(),chatLog);
         chat.setAdapter(adapter);
         AppCompatButton btn = (AppCompatButton) findViewById(R.id.message_send_btn);
@@ -62,20 +67,51 @@ public class ChatActivity extends AppCompatActivity {
             }
         };
         final EditText messageToSend = (EditText) findViewById(R.id.message_to_send);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ChatMessage message = new ChatMessage("Hello",
-                        Calendar.getInstance().getTime().toString(),
-                        new AzureService().getCurrentUsername(getApplicationContext()),
-                        new AzureService().getProfileImageURL(getApplicationContext()));
-                messageToSend.getText().clear();
-                pubnub.publish("test_channel", new Gson().toJson(message), callback);
-                //pubnub.publish("test_channel", "Hello from the PubNub Java SDK!" , callback);
-                Toast.makeText(ChatActivity.this, chatLog.size() + " ", Toast.LENGTH_SHORT).show();
-            }
-        });
+        if(btn != null) {
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ChatMessage message = new ChatMessage(messageToSend.getText().toString(),
+                            Calendar.getInstance().getTime().toString(),
+                            new AzureService().getCurrentUsername(getApplicationContext()),
+                            new AzureService().getProfileImageURL(getApplicationContext()));
+                    if(messageToSend != null) {
+                        messageToSend.getText().clear();
+                    }
+                    pubnub.publish("test_channel", new Gson().toJson(message), callback);
+                    //pubnub.publish("test_channel", "Hello from the PubNub Java SDK!" , callback);
+                    Toast.makeText(ChatActivity.this, chatLog.size() + " ", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
         pubnub = new Pubnub("pub-c-80485b35-97d9-4403-8465-c5a6e2547d65", "sub-c-2b32666a-f73e-11e5-8cfb-0619f8945a4f");
+        pubnub.history("test_channel", 20, true, new Callback() {
+            @Override
+            public void successCallback(String channel, Object message) {
+                super.successCallback(channel, message);
+                JSONArray jsonArray = (JSONArray) message;
+                JSONArray messages = null;
+                try {
+                    messages = jsonArray.getJSONArray(0);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                for (int i = 0; i < messages.length(); i++) {
+                    try {
+                        addMessage(messages.getString(i));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+            @Override
+            public void errorCallback(String channel, PubnubError error) {
+                System.out.println("History Error : ERROR on channel " + channel
+                        + " : " + error.toString());
+            }
+
+        });
         subscribeWithPubNub();
 
 
@@ -125,6 +161,7 @@ public class ChatActivity extends AppCompatActivity {
                             + " : " + error.toString());
                 }
             });
+
         } catch (PubnubException e) {
             e.printStackTrace();
         }
