@@ -41,6 +41,7 @@ Join Events - Working <br>
 Leave Events - Working <br>
 Manage Events - TODO <br>
 Social Interaction - Working <br>
+Instant Messaging / Chat for each Event - Working <br>
 Google Cloud Messaging (Notifications) - Working <br>
 Edit Profile - Working <br>
 Rank System - TODO <br>
