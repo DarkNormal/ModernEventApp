@@ -167,7 +167,7 @@ public class ChatFragment extends Fragment {
                                 JSONArray jsonArray = (JSONArray) message;
                                 String lastMessage = null;
                                 try {
-                                    JSONObject jsonObject = jsonArray.getJSONArray(0).getJSONObject(0);
+                                    JSONObject jsonObject = new JSONObject(jsonArray.getJSONArray(0).getString(0));
                                     lastMessage = jsonObject.getString("username") + ": " + jsonObject.getString("content");
                                 } catch (JSONException e) {
                                     e.printStackTrace();
