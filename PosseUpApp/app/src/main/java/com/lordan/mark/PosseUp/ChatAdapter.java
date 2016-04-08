@@ -28,10 +28,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
         // each data item is just a string in this case
         public TextView mTextView;
         public CircularImageView chatImage;
+        public TextView lastMessage;
         public ViewHolder(View v) {
             super(v);
             mTextView = (TextView) v.findViewById(R.id.recycler_chat_title);
             chatImage = (CircularImageView) v.findViewById(R.id.chat_picture);
+            lastMessage = (TextView) v.findViewById(R.id.recycler_event_snippet);
         }
     }
 
@@ -66,6 +68,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
         // - replace the contents of the view with that element
         holder.mTextView.setText(mDataset.get(position).getEventName());
         Picasso.with(mComtext).load(mDataset.get(position).getEventImage()).into(holder.chatImage);
+        if(mDataset.get(position).getLastChatMessage() != null){
+            holder.lastMessage.setText(mDataset.get(position).getLastChatMessage());
+        }
 
     }
 

@@ -28,6 +28,7 @@ import com.google.gson.Gson;
 import com.lordan.mark.PosseUp.ChatAdapter;
 import com.lordan.mark.PosseUp.CustomAdapter;
 import com.lordan.mark.PosseUp.DataOperations.AzureService;
+import com.lordan.mark.PosseUp.Model.ChatMessage;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.Model.PlaceVenue;
@@ -66,6 +67,7 @@ public class ChatFragment extends Fragment {
 
     private OnChatFragmentInteractionListener mListener;
     private ChatAdapter mAdapter;
+    private Pubnub pubnub;
     private ArrayList<Event> mDataset = new ArrayList<>();
 
     public ChatFragment() {
@@ -117,6 +119,7 @@ public class ChatFragment extends Fragment {
         });
         mRecyclerView.setAdapter(mAdapter);
         getChats();
+        pubnub = new Pubnub("pub-c-80485b35-97d9-4403-8465-c5a6e2547d65", "sub-c-2b32666a-f73e-11e5-8cfb-0619f8945a4f");
         return v;
     }
 
@@ -156,9 +159,30 @@ public class ChatFragment extends Fragment {
                     JSONArray events = response.getJSONArray("Events");
                     for(int i = 0; i < events.length(); i++){
                         JSONObject jsonEvent = events.getJSONObject(i);
-                        Event tempEvent = new Gson().fromJson(jsonEvent.toString(), Event.class);
-                        mDataset.add(tempEvent);
-                        mAdapter.notifyItemInserted(mDataset.size()-1);
+                        final Event tempEvent = new Gson().fromJson(jsonEvent.toString(), Event.class);
+                        pubnub.history("test_channel", 20, true, new Callback() {
+                            @Override
+                            public void successCallback(String channel, Object message) {
+                                super.successCallback(channel, message);
+                                JSONArray jsonArray = (JSONArray) message;
+                                String lastMessage = null;
+                                try {
+                                    JSONObject jsonObject = jsonArray.getJSONArray(0).getJSONObject(0);
+                                    lastMessage = jsonObject.getString("username") + ": " + jsonObject.getString("content");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                tempEvent.setLastChatMessage(lastMessage);
+                                setChatDetails(tempEvent);
+
+                            }
+                            @Override
+                            public void errorCallback(String channel, PubnubError error) {
+                                System.out.println("History Error : ERROR on channel " + channel
+                                        + " : " + error.toString());
+                            }
+                        });
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -184,6 +208,16 @@ public class ChatFragment extends Fragment {
 
 
     }
+    private void setChatDetails(final Event e){
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mDataset.add(e);
+                mAdapter.notifyItemInserted(mDataset.size()-1);
+            }
+        });
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this

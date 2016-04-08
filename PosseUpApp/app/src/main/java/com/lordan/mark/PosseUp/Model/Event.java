@@ -57,8 +57,11 @@ public class Event extends BaseObservable implements Parcelable{
     private boolean mAllDay;
 
     private transient Calendar startingCal;
-
     private transient Calendar endingCal;
+
+
+
+    private String lastChatMessage;
 
 
 
@@ -256,12 +259,6 @@ public class Event extends BaseObservable implements Parcelable{
 
     }
 
-
-    @Override
-    public String toString(){
-        return getEventName() + " " + getEventDesc() + " " + getHostEmail();
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -302,5 +299,13 @@ public class Event extends BaseObservable implements Parcelable{
 
     public void setEventImage(String eventImage) {
         this.eventImage = eventImage;
+    }
+
+    public String getLastChatMessage() {
+        return lastChatMessage;
+    }
+
+    public void setLastChatMessage(String lastChatMessage) {
+        this.lastChatMessage = lastChatMessage;
     }
 }
