@@ -26,8 +26,8 @@ import com.google.gson.Gson;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.R;
-import com.lordan.mark.PosseUp.SimpleAdapter;
-import com.lordan.mark.PosseUp.SimpleSectionedRecyclerViewAdapter;
+import com.lordan.mark.PosseUp.util.SimpleAdapter;
+import com.lordan.mark.PosseUp.util.SimpleSectionedRecyclerViewAdapter;
 import com.lordan.mark.PosseUp.UI.DividerItemDecoration;
 import com.lordan.mark.PosseUp.UI.EventDetailGroup.EventDetailsActivity;
 

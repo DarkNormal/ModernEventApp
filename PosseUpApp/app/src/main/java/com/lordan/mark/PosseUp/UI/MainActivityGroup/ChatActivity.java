@@ -3,8 +3,6 @@ package com.lordan.mark.PosseUp.UI.MainActivityGroup;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,11 +13,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.lordan.mark.PosseUp.BasicAdapter;
 import com.lordan.mark.PosseUp.DataOperations.AzureService;
-import com.lordan.mark.PosseUp.MessageAdapter;
+import com.lordan.mark.PosseUp.util.MessageAdapter;
 import com.lordan.mark.PosseUp.Model.ChatMessage;
-import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.R;
 import com.pubnub.api.Callback;
 import com.pubnub.api.Pubnub;
@@ -80,7 +76,6 @@ public class ChatActivity extends AppCompatActivity {
                         messageToSend.getText().clear();
                     }
                     pubnub.publish("test_channel", new Gson().toJson(message), callback);
-                    //pubnub.publish("test_channel", "Hello from the PubNub Java SDK!" , callback);
                     Toast.makeText(ChatActivity.this, chatLog.size() + " ", Toast.LENGTH_SHORT).show();
                 }
             });

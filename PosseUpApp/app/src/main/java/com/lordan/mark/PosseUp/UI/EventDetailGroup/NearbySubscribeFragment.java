@@ -2,7 +2,6 @@ package com.lordan.mark.PosseUp.UI.EventDetailGroup;
 
 import android.content.Context;
 import android.content.IntentSender;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,8 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -29,10 +26,9 @@ import com.google.android.gms.nearby.messages.MessageListener;
 import com.google.android.gms.nearby.messages.NearbyMessagesStatusCodes;
 import com.google.android.gms.nearby.messages.SubscribeCallback;
 import com.google.android.gms.nearby.messages.SubscribeOptions;
-import com.lordan.mark.PosseUp.BasicAdapter;
+import com.lordan.mark.PosseUp.util.BasicAdapter;
 import com.lordan.mark.PosseUp.DataOperations.Settings;
 import com.lordan.mark.PosseUp.Model.Constants;
-import com.lordan.mark.PosseUp.Model.DeviceMessage;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.NearbySubscribeInterface;
 import com.lordan.mark.PosseUp.R;

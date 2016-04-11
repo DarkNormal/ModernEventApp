@@ -1,4 +1,4 @@
-package com.lordan.mark.PosseUp;
+package com.lordan.mark.PosseUp.util;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

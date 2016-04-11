@@ -1,4 +1,4 @@
-package com.lordan.mark.PosseUp;
+package com.lordan.mark.PosseUp.util;
 
 /**
  * Created by Mark on 8/31/2015
@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lordan.mark.PosseUp.Model.Event;
+import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.MainActivityGroup.CustomItemClickListener;
 import com.squareup.picasso.Picasso;
 

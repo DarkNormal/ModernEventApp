@@ -89,9 +89,6 @@ public class EventDetailsFragment extends Fragment implements
     private FragmentEventDetailsBinding mBinding;
     private OnFragmentInteractionListener mListener;
     private final int DELETE_EVENT = 5;
-    private ProgressDialog mProgressDialog;
-    private GoogleApiClient mGoogleApiClient;
-    private Pubnub pubnub;
     /**
      * Tracks if we are currently resolving an error related to Nearby permissions. Used to avoid
      * duplicate Nearby permission dialogs if the user initiates both subscription and publication
@@ -106,7 +103,6 @@ public class EventDetailsFragment extends Fragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        pubnub = new Pubnub("pub-c-80485b35-97d9-4403-8465-c5a6e2547d65", "sub-c-2b32666a-f73e-11e5-8cfb-0619f8945a4f");
     }
 
 
@@ -475,5 +471,4 @@ public class EventDetailsFragment extends Fragment implements
         });
         queue.add(jsonObjectRequest);
     }
-
 }

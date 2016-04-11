@@ -1,7 +1,6 @@
 package com.lordan.mark.PosseUp.UI.MainActivityGroup;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,44 +8,31 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.lordan.mark.PosseUp.ChatAdapter;
-import com.lordan.mark.PosseUp.CustomAdapter;
+import com.lordan.mark.PosseUp.util.ChatAdapter;
 import com.lordan.mark.PosseUp.DataOperations.AzureService;
-import com.lordan.mark.PosseUp.Model.ChatMessage;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.Event;
-import com.lordan.mark.PosseUp.Model.PlaceVenue;
 import com.lordan.mark.PosseUp.R;
-import com.lordan.mark.PosseUp.UI.EventDetailGroup.AttendActivity;
-import com.lordan.mark.PosseUp.UI.EventDetailGroup.AttendanceActivity;
-import com.lordan.mark.PosseUp.UI.EventDetailGroup.EventDetailsActivity;
 import com.pubnub.api.Callback;
 import com.pubnub.api.Pubnub;
 import com.pubnub.api.PubnubError;
-import com.pubnub.api.PubnubException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 /**

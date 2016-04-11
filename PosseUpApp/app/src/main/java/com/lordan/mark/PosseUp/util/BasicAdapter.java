@@ -1,10 +1,12 @@
-package com.lordan.mark.PosseUp;
+package com.lordan.mark.PosseUp.util;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.lordan.mark.PosseUp.R;
 
 import java.util.ArrayList;
 

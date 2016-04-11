@@ -22,9 +22,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -41,12 +39,11 @@ import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.Model.PlaceVenue;
 import com.lordan.mark.PosseUp.UI.CreateEventGroup.AddEventActivity;
 
-import com.lordan.mark.PosseUp.CustomAdapter;
+import com.lordan.mark.PosseUp.util.CustomAdapter;
 import com.lordan.mark.PosseUp.Model.Constants;
 
 import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.EventDetailGroup.EventDetailsActivity;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -84,7 +81,7 @@ public class Tab1 extends Fragment{
         mAdapter = new CustomAdapter(getContext(), mDataset, new CustomItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
-                Intent intent = EventDetailsActivity.newIntent(mDataset.get(position).getEventID(),
+                Intent intent = EventDetailsActivity.newIntent(getContext(),mDataset.get(position).getEventID(),
                         TextUtils.equals(new AzureService().getCurrentEmail(getContext()), mDataset.get(position).getHostEmail()));
                 startActivity(intent);
             }
@@ -239,7 +236,6 @@ public class Tab1 extends Fragment{
                     if(c.getStartTimeCalendar().after(Calendar.getInstance())) {
                         tempEvents.add(c);
                     }
-                    Log.i("JSON RESPONSE", event.toString());
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

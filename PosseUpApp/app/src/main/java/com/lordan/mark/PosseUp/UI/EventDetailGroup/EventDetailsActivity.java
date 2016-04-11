@@ -1,6 +1,7 @@
 package com.lordan.mark.PosseUp.UI.EventDetailGroup;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -40,8 +41,8 @@ public class EventDetailsActivity extends AbstractActivity implements EventDetai
     private RequestQueue queue;
 
     private final FragmentManager fragmentManager = getSupportFragmentManager();
-    public static Intent newIntent(int eventID, boolean isHost){
-        Intent intent = new Intent();
+    public static Intent newIntent(Context context, int eventID, boolean isHost){
+        Intent intent = new Intent(context, EventDetailsActivity.class);
         intent.putExtra(EXTRA_EVENT_ID, eventID);
         intent.putExtra(EXTRA_IS_USER_HOST, isHost);
         return intent;

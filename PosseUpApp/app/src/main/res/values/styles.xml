@@ -36,6 +36,14 @@
         <item name="background">@android:color/white</item>
     </style>
 
+    <style name="LightTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorControlNormal">#ffffff</item>
+        <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
+        <!--<item name="android:textColor">#000</item>-->
+        <!--<item name="android:colorBackground">#fff</item>-->
+        <!-- tools:ignore="NewApi" to shut IDE up -->
+        <!-- on API 21 the overflow icon ignores colorControlNormal attr in favor of the native version -->
+    </style>
     <style name="fullscreenStartPage" parent="@style/Theme.AppCompat.Light">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>

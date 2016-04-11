@@ -1,11 +1,5 @@
 package com.lordan.mark.PosseUp.Model;
 
-import com.lordan.mark.PosseUp.ChatAdapter;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.ParseException;
 import java.util.Calendar;
 
 /**

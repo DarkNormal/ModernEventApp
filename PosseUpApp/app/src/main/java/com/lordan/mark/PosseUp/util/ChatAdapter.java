@@ -1,4 +1,4 @@
-package com.lordan.mark.PosseUp;
+package com.lordan.mark.PosseUp.util;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.lordan.mark.PosseUp.Model.Event;
+import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.MainActivityGroup.CustomItemClickListener;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;

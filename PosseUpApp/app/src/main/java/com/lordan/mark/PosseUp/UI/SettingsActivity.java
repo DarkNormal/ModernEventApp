@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -124,6 +125,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupActionBar();
+
     }
 
     /**
@@ -133,6 +135,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         Toolbar toolbar;
         ViewGroup root = (ViewGroup) findViewById(android.R.id.list).getParent().getParent().getParent();
         toolbar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.tool_bar, root, false);
+        toolbar.setTitleTextColor(Color.WHITE);
+        toolbar.setSubtitleTextColor(Color.WHITE);
         root.addView(toolbar, 0);
         setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -30,13 +30,8 @@ public class ProfileActivity extends AbstractActivity implements ProfileFragment
         }
         if (username != null) {
             boolean isCurrentUser = getCurrentUsername().equals(username);
-            Bundle fragmentBundle = new Bundle();
-            fragmentBundle.putString("username", username);
-            fragmentBundle.putBoolean("isCurrentUser", isCurrentUser);
-            fragmentBundle.putString("currentUsername", getCurrentUsername());
             if(savedInstanceState == null) {
-                ProfileFragment fragment = new ProfileFragment();
-                fragment.setArguments(fragmentBundle);
+                ProfileFragment fragment = ProfileFragment.newInstance(isCurrentUser, username);
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.add(R.id.fragment_content_holder, fragment);
                 fragmentTransaction.commit();
