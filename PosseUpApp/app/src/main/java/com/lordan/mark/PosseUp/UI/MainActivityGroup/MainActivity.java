@@ -43,9 +43,6 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
 
 
     private final String TAG = "MainActivity";
-    private String CURRRENT_FRAGMENT = null;
-    private static final String SELECTED_POSITION = "SELECTED_POSITION";
-    private MenuItem mPreviousMenuItem;
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
@@ -72,12 +69,9 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
         }
 
         View header = navView.getHeaderView(0);
-        TextView drawerUsername = (TextView) header.findViewById(R.id.drawer_username);
-        drawerUsername.setText(getCurrentUsername());
-        TextView drawerEmail = (TextView) header.findViewById(R.id.drawer_email);
-        drawerEmail.setText(getCurrentEmail());
-        CircularImageView drawerProfilePicture = (CircularImageView) header.findViewById(R.id.drawer_profile_picture);
-        Picasso.with(this).load(new AzureService().getProfileImageURL(this)).into(drawerProfilePicture);
+        ((TextView) header.findViewById(R.id.drawer_username)).setText(getCurrentUsername());
+        ((TextView) header.findViewById(R.id.drawer_email)).setText(getCurrentEmail());
+        Picasso.with(this).load(new AzureService().getProfileImageURL(this)).into((CircularImageView) header.findViewById(R.id.drawer_profile_picture));
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
@@ -133,8 +127,6 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
         mDrawerLayout.closeDrawers();
         //Check to see which item was being clicked and perform appropriate action
         switch (menuItem.getItemId()) {
-            //Replacing the main content with ContentFragment Which is our Inbox View;
-
             case R.id.drawer_home:
                 changeFragments(new Tab1(), "TAB1");
                 break;
@@ -155,7 +147,6 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
     }
 
     private void changeFragments(Fragment fragment,String tag){
-        CURRRENT_FRAGMENT = tag;
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment, tag).commit();
     }
 
@@ -194,19 +185,11 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
 
     @Override
     public void onFragmentInteraction(User u, String viewType) {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("User", u);
-        bundle.putString("viewType", viewType);
-        UserFragment userFragment = new UserFragment();
-        userFragment.setArguments(bundle);
+        UserFragment userFragment = UserFragment.newInstance(u, viewType);
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.content_frame, userFragment).addToBackStack(null);
         fragmentTransaction.commit();
 
-    }
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString(SELECTED_POSITION, CURRRENT_FRAGMENT);
     }
 
     @Override

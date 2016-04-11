@@ -22,10 +22,9 @@ import com.lordan.mark.PosseUp.R;
  */
 public class UserFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
+    private static final String EXTRA_USER_OBJECT = "UserFragment.user";
+    private static final String EXTRA_VIEW_TYPE = "UserFragment.viewtype";
+
     private OnListFragmentInteractionListener mListener;
     private Event e;
     private User u;
@@ -37,13 +36,11 @@ public class UserFragment extends Fragment {
      */
     public UserFragment() {
     }
-
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static UserFragment newInstance(int columnCount) {
+    public static UserFragment newInstance(User u, String viewType) {
         UserFragment fragment = new UserFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
+        args.putParcelable(EXTRA_USER_OBJECT, u);
+        args.putString(EXTRA_VIEW_TYPE, viewType);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,12 +52,10 @@ public class UserFragment extends Fragment {
         if (getArguments() != null) {
             Bundle b = this.getArguments();
             e = b.getParcelable("Event");
-            u = b.getParcelable("User");
+            u = b.getParcelable(EXTRA_USER_OBJECT);
             if(u != null){
-                userType = b.getString("viewType");
+                userType = b.getString(EXTRA_VIEW_TYPE);
             }
-
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
     }
 
@@ -73,11 +68,7 @@ public class UserFragment extends Fragment {
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
             if(e != null) {
                 recyclerView.setAdapter(new UserAdapter(e.getAttendees(), mListener));
             }

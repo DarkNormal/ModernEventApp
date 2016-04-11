@@ -5,6 +5,7 @@ package com.lordan.mark.PosseUp.UI.MainActivityGroup;
  */
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -21,6 +22,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -148,29 +150,9 @@ public class Tab1 extends Fragment{
         JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                ArrayList<Event> tempEvents = new ArrayList<>();
-                try {
-                    mSwipeRefreshLayout.setRefreshing(false);
-                    for(int i = 0; i < response.length(); i++){
-                        JSONObject event = response.getJSONObject(i);
-                        PlaceVenue venue = new Gson().fromJson(event.getJSONObject("EventVenue").toString(), PlaceVenue.class);
-                        Event c = new Gson().fromJson(response.getJSONObject(i).toString(), Event.class);
-                        c.setEndingTime();
-                        c.setStartingTime();
-                        c.setEventImageURL(c.getEventImage());
-                        c.setPlaceDetails(venue);
-                        if(c.getStartTimeCalendar().after(Calendar.getInstance())) {
-                            tempEvents.add(c);
-                        }
-                        Log.i("JSON RESPONSE", event.toString());
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                    mDataset.clear();
-                    mDataset.addAll(tempEvents);
-                    mAdapter.notifyDataSetChanged();
-
+                mSwipeRefreshLayout.setRefreshing(false);
+                FetchEventsTask task = new FetchEventsTask();
+                task.execute(response);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -185,7 +167,6 @@ public class Tab1 extends Fragment{
                     displaySnack(0);
                     Log.e(TAG, "Volley refresh events error");
                 }
-
             }
         });
         queue.add(jsonRequest);
@@ -240,6 +221,38 @@ public class Tab1 extends Fragment{
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
+    public class FetchEventsTask extends AsyncTask<JSONArray, Void, ArrayList<Event>>{
 
+        @Override
+        protected ArrayList<Event> doInBackground(JSONArray... jsonArrays) {
+            final JSONArray response = jsonArrays[0];
+            ArrayList<Event> tempEvents = new ArrayList<>();
+            try {
+                for(int i = 0; i < response.length(); i++){
+                    JSONObject event = response.getJSONObject(i);
+                    PlaceVenue venue = new Gson().fromJson(event.getJSONObject("EventVenue").toString(), PlaceVenue.class);
+                    Event c = new Gson().fromJson(response.getJSONObject(i).toString(), Event.class);
+                    c.setEndingTime();
+                    c.setStartingTime();
+                    c.setEventImageURL(c.getEventImage());
+                    c.setPlaceDetails(venue);
+                    if(c.getStartTimeCalendar().after(Calendar.getInstance())) {
+                        tempEvents.add(c);
+                    }
+                    Log.i("JSON RESPONSE", event.toString());
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return tempEvents;
+        }
 
+        @Override
+        protected void onPostExecute(ArrayList<Event> arrayList) {
+            super.onPostExecute(arrayList);
+            mDataset.clear();
+            mDataset.addAll(arrayList);
+            mAdapter.notifyDataSetChanged();
+        }
+    }
 }
