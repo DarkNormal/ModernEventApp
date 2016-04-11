@@ -35,36 +35,33 @@ import com.microsoft.windowsazure.notifications.NotificationsManager;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 
 public class MainActivity extends AbstractActivity implements ProfileFragment.OnFragmentInteractionListener, UserFragment.OnListFragmentInteractionListener, ChatFragment.OnChatFragmentInteractionListener{
 
 
     private final String TAG = "MainActivity";
-    private final String SENDER_ID = "851010273767";
-    private GoogleCloudMessaging gcm;
-    private NotificationHub hub;
-    private static Boolean isVisible = false;
+    private String CURRRENT_FRAGMENT = null;
+    private static final String SELECTED_POSITION = "SELECTED_POSITION";
     private MenuItem mPreviousMenuItem;
-    private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     private ActionBar mActionBar;
-    private AzureService az;
+    @Bind(R.id.drawer_nav_view)
+    public NavigationView navView;
+    @Bind(R.id.drawer_layout)
+    public DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         Toolbar mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
-
-
         setSupportActionBar(mToolbar);
-
-        Fragment fragment = new Tab1();
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
-
-        setupGcm();
 
         mTitle = mDrawerTitle = getTitle();
         try{
@@ -74,15 +71,13 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
             Log.e(TAG, "ActionBar null");
         }
 
-        az = new AzureService();
-        NavigationView navView = (NavigationView) findViewById(R.id.drawer_nav_view);
         View header = navView.getHeaderView(0);
         TextView drawerUsername = (TextView) header.findViewById(R.id.drawer_username);
         drawerUsername.setText(getCurrentUsername());
         TextView drawerEmail = (TextView) header.findViewById(R.id.drawer_email);
         drawerEmail.setText(getCurrentEmail());
         CircularImageView drawerProfilePicture = (CircularImageView) header.findViewById(R.id.drawer_profile_picture);
-        Picasso.with(this).load(az.getProfileImageURL(this)).into(drawerProfilePicture);
+        Picasso.with(this).load(new AzureService().getProfileImageURL(this)).into(drawerProfilePicture);
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
@@ -91,10 +86,7 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
                 return true;
             }
         });
-
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
-
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
@@ -122,88 +114,52 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
         };
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
-        // Initialize the ViewPager and set an adapter
+
+        if (savedInstanceState == null) {
+            navView.getMenu().performIdentifierAction(R.id.drawer_home, 0);
+        }
     }
 
     private void selectDrawerItem(MenuItem menuItem) {
-        if(menuItem.getItemId() != R.id.drawer_settings) {
-            menuItem.setCheckable(true);
-            menuItem.setChecked(true);
-            if (mPreviousMenuItem != null && mPreviousMenuItem != menuItem) {
-                mPreviousMenuItem.setChecked(false);
-            }
-            mPreviousMenuItem = menuItem;
-        }
-
         //Closing drawer on item click
+        if(menuItem.getItemId() != R.id.drawer_settings){
+            if(menuItem.isChecked()){
+                menuItem.setChecked(false);
+            }
+            else {
+                menuItem.setChecked(true);
+            }
+        }
         mDrawerLayout.closeDrawers();
-
-        Fragment fragment;
-        Bundle args;
         //Check to see which item was being clicked and perform appropriate action
         switch (menuItem.getItemId()) {
             //Replacing the main content with ContentFragment Which is our Inbox View;
 
             case R.id.drawer_home:
-                Toast.makeText(getApplicationContext(), "Home Selected", Toast.LENGTH_SHORT).show();
-                fragment = new Tab1();
-                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+                changeFragments(new Tab1(), "TAB1");
                 break;
             case R.id.drawer_profile:
-                Toast.makeText(getApplicationContext(), "Profile Selected", Toast.LENGTH_SHORT).show();
-                args = new Bundle();
-                args.putBoolean("isCurrentUser", true);
-                args.putString("username", getCurrentUsername());
-                fragment = new ProfileFragment();
-                fragment.setArguments(args);
-                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+                changeFragments(ProfileFragment.newInstance(true, getCurrentUsername()), "PROFILE_TAB");
                 break;
             case R.id.drawer_settings:
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                 break;
             case R.id.drawer_events:
-                args = new Bundle();
-                args.putString("username", getCurrentUsername());
-                fragment = new EventBreakdownFragment();
-                fragment.setArguments(args);
-                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+                changeFragments(EventBreakdownFragment.newInstance(getCurrentUsername()), "BREAKDOWN_TAB");
                 break;
             case R.id.drawer_chat:
-                fragment = new ChatFragment();
-                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+                changeFragments(new ChatFragment(), "CHAT_TAB");
                 break;
-            default:
-                Toast.makeText(getApplicationContext(), "Somethings Wrong", Toast.LENGTH_SHORT).show();
-                break;
-
         }
+
     }
 
-    private void setupGcm() {
-        MyHandler.mainActivity = this;
-        NotificationsManager.handleNotifications(this, SENDER_ID, MyHandler.class);
-        gcm = GoogleCloudMessaging.getInstance(this);
-        String hubListenConnectionString = "Endpoint=sb://posseup-notificationhub.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=ULoYyvlyIcvWKY1XFmUYB8OGNTOfzIKHT11m1AukTuc=";
-        String hubName = "PosseUp-Notifications";
-        hub = new NotificationHub(hubName, hubListenConnectionString, this);
-        registerWithNotificationHubs();
+    private void changeFragments(Fragment fragment,String tag){
+        CURRRENT_FRAGMENT = tag;
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment, tag).commit();
     }
 
-    @SuppressWarnings("unchecked")
-    private void registerWithNotificationHubs() {
-        new AsyncTask() {
-            @Override
-            protected Object doInBackground(Object... params) {
-                try {
-                    String regid = gcm.register(SENDER_ID);
-                    Log.i(TAG,"Registered Successfully - RegID: " + hub.register(regid, getCurrentEmail()).getRegistrationId());
-                } catch (Exception e) {
-                    Log.e(TAG, "GCM register exception");
-                }
-                return null;
-            }
-        }.execute(null, null, null);
-    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -237,30 +193,6 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        isVisible = true;
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        isVisible = false;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        isVisible = true;
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        isVisible = false;
-    }
-
-    @Override
     public void onFragmentInteraction(User u, String viewType) {
         Bundle bundle = new Bundle();
         bundle.putParcelable("User", u);
@@ -271,6 +203,10 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
         fragmentTransaction.replace(R.id.content_frame, userFragment).addToBackStack(null);
         fragmentTransaction.commit();
 
+    }
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(SELECTED_POSITION, CURRRENT_FRAGMENT);
     }
 
     @Override

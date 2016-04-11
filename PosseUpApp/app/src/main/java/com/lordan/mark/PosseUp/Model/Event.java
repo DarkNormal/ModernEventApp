@@ -17,15 +17,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Mark on 10/28/2015
  */
 public class Event extends BaseObservable implements Parcelable{
 
-    private final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-    private final SimpleDateFormat fancyFormatter = new SimpleDateFormat("E, MMM d, h:mm aa");
-    private final SimpleDateFormat allDayFancyFormatter = new SimpleDateFormat("E, MMM d, 'All Day'");
+
 
 
     @SerializedName("EventID")
@@ -62,6 +61,7 @@ public class Event extends BaseObservable implements Parcelable{
 
 
     private String lastChatMessage;
+    private String lastMessageTimeStamp;
 
 
 
@@ -153,10 +153,10 @@ public class Event extends BaseObservable implements Parcelable{
     }
 
     public void setStartDateTime(Calendar startDateTime) {
-        this.startDateTime = formatter.format(startDateTime.getTime());
+        this.startDateTime = Constants.formatter.format(startDateTime.getTime());
     }
     public void setEndDateTime(Calendar endDateTime) {
-        this.endDateTime = formatter.format(endDateTime.getTime());
+        this.endDateTime = Constants.formatter.format(endDateTime.getTime());
     }
 
     public boolean isAllDay() {
@@ -171,7 +171,7 @@ public class Event extends BaseObservable implements Parcelable{
     public void setStartingTime() {
         Calendar cal = Calendar.getInstance();
         try {
-            cal.setTime(formatter.parse(startDateTime));
+            cal.setTime(Constants.formatter.parse(startDateTime));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -181,7 +181,7 @@ public class Event extends BaseObservable implements Parcelable{
     public void setEndingTime() {
         Calendar cal = Calendar.getInstance();
         try {
-            cal.setTime(formatter.parse(endDateTime));
+            cal.setTime(Constants.formatter.parse(endDateTime));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -192,11 +192,11 @@ public class Event extends BaseObservable implements Parcelable{
     //Return the event's start time as a formatted string
     @Bindable
     public String getStartingCal() {
-        return fancyFormatter.format(startingCal.getTime());
+        return Constants.fancyFormatter.format(startingCal.getTime());
     }
     @Bindable
     public String getAllDayStartingCal() {
-        return allDayFancyFormatter.format(startingCal.getTime());
+        return Constants.allDayFancyFormatter.format(startingCal.getTime());
     }
     //Return the event's start time as a Calendar object
     //Create it from the String recieved from the Server if it's null
@@ -204,7 +204,7 @@ public class Event extends BaseObservable implements Parcelable{
         if(startingCal == null){
             try {
                 startingCal = Calendar.getInstance();
-                startingCal.setTime(formatter.parse(startDateTime));
+                startingCal.setTime(Constants.formatter.parse(startDateTime));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -223,7 +223,7 @@ public class Event extends BaseObservable implements Parcelable{
         if(endingCal == null){
             try {
                 endingCal = Calendar.getInstance();
-                endingCal.setTime(formatter.parse(endDateTime));
+                endingCal.setTime(Constants.formatter.parse(endDateTime));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -233,7 +233,7 @@ public class Event extends BaseObservable implements Parcelable{
 
     @Bindable
     public String getEndingCal() {
-        return fancyFormatter.format(endingCal.getTime());
+        return Constants.fancyFormatter.format(endingCal.getTime());
     }
     public void setEndingCal(Calendar cal){
         this.endingCal = cal;
@@ -305,7 +305,11 @@ public class Event extends BaseObservable implements Parcelable{
         return lastChatMessage;
     }
 
-    public void setLastChatMessage(String lastChatMessage) {
+    public void setLastChatMessage(String lastChatMessage, Date timestamp) {
         this.lastChatMessage = lastChatMessage;
+        this.lastMessageTimeStamp = Constants.chatFormatter.format(timestamp);
+    }
+    public String getLastMessageTimeStamp(){
+        return lastMessageTimeStamp;
     }
 }

@@ -18,13 +18,17 @@
         android:layout_toEndOf="@+id/message_profile_picture"
         android:paddingEnd="@dimen/margin_medium"
         android:paddingRight="@dimen/margin_medium"
+        android:maxLines="1"
+        android:ellipsize="end"
         tools:text="message username"
+        android:textStyle="bold"
         android:id="@+id/message_username"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/message_username"
-        android:layout_toEndOf="@+id/message_username"
+        android:paddingEnd="@dimen/margin_medium"
+        android:paddingStart="@dimen/margin_medium"
+        android:layout_alignParentEnd="true"
         android:textColor="@color/dark_grey"
         tools:text="timestamp"
         android:id="@+id/message_timestamp"/>
@@ -35,7 +39,6 @@
         android:layout_toEndOf="@+id/message_profile_picture"
         android:layout_below="@+id/message_username"
         tools:text="message content"
-        android:textColor="@color/dark_grey"
         android:id="@+id/message_content"/>
 
 </RelativeLayout>

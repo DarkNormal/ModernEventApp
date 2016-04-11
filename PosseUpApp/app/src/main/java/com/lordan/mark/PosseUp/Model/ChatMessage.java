@@ -2,6 +2,12 @@ package com.lordan.mark.PosseUp.Model;
 
 import com.lordan.mark.PosseUp.ChatAdapter;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.util.Calendar;
+
 /**
  * Created by Mark on 06/04/2016.
  */
@@ -11,10 +17,10 @@ public class ChatMessage {
     private String username;
     private String userProfilePicture;
 
-    public ChatMessage(String content, String timestamp, String username, String userProfilePicture){
+    public ChatMessage(String content, Calendar timestamp, String username, String userProfilePicture){
         this.content = content;
         this.username = username;
-        this.timestamp = timestamp;
+        this.timestamp = Constants.chatFormatter.format(timestamp.getTime());
         this.userProfilePicture = userProfilePicture;
     }
 

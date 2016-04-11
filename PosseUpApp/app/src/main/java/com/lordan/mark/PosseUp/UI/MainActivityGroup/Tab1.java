@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -53,12 +54,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class Tab1 extends Fragment{
 
-    private FloatingActionButton mFab;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+    @Bind(R.id.addEvent_Button) public FloatingActionButton mFab;
+    @Bind(R.id.event_list_swipe) public SwipeRefreshLayout mSwipeRefreshLayout;
+    @Bind(R.id.cardList) public RecyclerView mRecyclerView;
     private static final String TAG = "MainActivity - TAB1";
 
     private static final int REQUEST_CODE = 1;
@@ -69,57 +74,38 @@ public class Tab1 extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tab_1, container, false);
+        ButterKnife.bind(this, v);
         v.setTag(TAG);
-        mFab = (FloatingActionButton) v.findViewById(R.id.addEvent_Button);
-        RecyclerView mRecyclerView = (RecyclerView) v.findViewById(R.id.cardList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
-
-
-
         mAdapter = new CustomAdapter(getContext(), mDataset, new CustomItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
-                Intent intent = new Intent(getContext(), EventDetailsActivity.class);
-                intent.putExtra("EventID", mDataset.get(position).getEventID());
-                String currentEmail = new AzureService().getCurrentEmail(getContext());
-                if(currentEmail.equals(mDataset.get(position).getHostEmail())){
-                    intent.putExtra("CurrentUserIsHost", true);
-                }
-                else{
-                    intent.putExtra("CurrentUserIsHost", false);
-                }
+                Intent intent = EventDetailsActivity.newIntent(mDataset.get(position).getEventID(),
+                        TextUtils.equals(new AzureService().getCurrentEmail(getContext()), mDataset.get(position).getHostEmail()));
                 startActivity(intent);
             }
         });
         mRecyclerView.setAdapter(mAdapter);
-
-
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), AddEventActivity.class);
-                startActivityForResult(intent, REQUEST_CODE);
-            }
-        });
-
-        mSwipeRefreshLayout =(SwipeRefreshLayout) v.findViewById(R.id.event_list_swipe);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // Refresh items
                 refreshEvents();
             }
         });
 
         return v;
     }
+    @OnClick(R.id.addEvent_Button)
+    public void addEvent(){
+        Intent intent = new Intent(getContext(), AddEventActivity.class);
+        startActivityForResult(intent, REQUEST_CODE);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setHasOptionsMenu(true);
         // Initialize dataset, this data would usually come from a local content provider or
         // remote server.
@@ -151,8 +137,6 @@ public class Tab1 extends Fragment{
         }
     }
 
-
-
     private void initDataset() {
         mDataset = new ArrayList<>();
         refreshEvents();
@@ -169,9 +153,8 @@ public class Tab1 extends Fragment{
                     mSwipeRefreshLayout.setRefreshing(false);
                     for(int i = 0; i < response.length(); i++){
                         JSONObject event = response.getJSONObject(i);
-                        Gson gson = new Gson();
-                        PlaceVenue venue = gson.fromJson(event.getJSONObject("EventVenue").toString(), PlaceVenue.class);
-                        Event c = gson.fromJson(response.getJSONObject(i).toString(), Event.class);
+                        PlaceVenue venue = new Gson().fromJson(event.getJSONObject("EventVenue").toString(), PlaceVenue.class);
+                        Event c = new Gson().fromJson(response.getJSONObject(i).toString(), Event.class);
                         c.setEndingTime();
                         c.setStartingTime();
                         c.setEventImageURL(c.getEventImage());
@@ -187,7 +170,6 @@ public class Tab1 extends Fragment{
                     mDataset.clear();
                     mDataset.addAll(tempEvents);
                     mAdapter.notifyDataSetChanged();
-                    //updateList();
 
             }
         }, new Response.ErrorListener() {
@@ -195,7 +177,6 @@ public class Tab1 extends Fragment{
             public void onErrorResponse(VolleyError error) {
                 mSwipeRefreshLayout.setRefreshing(false);
                 NetworkResponse response = error.networkResponse;
-
                 if(response != null){
                     displaySnack(response.statusCode);
                     Log.e(TAG, response.statusCode + " " + response.toString());
@@ -214,7 +195,6 @@ public class Tab1 extends Fragment{
     private void displaySnack(int errorCode){
         //displays a custom snackbar based on the error code
         Snackbar alert;
-
         switch (errorCode){
             case 401:
                 //Unauthorized - token probably gone
@@ -254,6 +234,11 @@ public class Tab1 extends Fragment{
         TextView textView = (TextView) v.findViewById(android.support.design.R.id.snackbar_text);
         textView.setTextColor(Color.WHITE);
         alert.show();
+    }
+
+    @Override public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 
 

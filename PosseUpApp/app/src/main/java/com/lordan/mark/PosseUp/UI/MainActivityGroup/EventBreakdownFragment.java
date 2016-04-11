@@ -49,6 +49,15 @@ public class EventBreakdownFragment extends Fragment {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private List<SimpleSectionedRecyclerViewAdapter.Section> sections;
     private View v;
+    private static final String EXTRA_USERNAME = "EventBreakdownFragment.username";
+
+    public static Fragment newInstance(String username){
+        Fragment fragment = new Fragment();
+        Bundle b = new Bundle();
+        b.putString(EXTRA_USERNAME, username);
+        fragment.setArguments(b);
+        return fragment;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
@@ -122,8 +131,7 @@ public class EventBreakdownFragment extends Fragment {
                         }
                     });
                     SimpleSectionedRecyclerViewAdapter.Section[] dummy = new SimpleSectionedRecyclerViewAdapter.Section[sections.size()];
-                    SimpleSectionedRecyclerViewAdapter mSectionedAdapter = new
-                            SimpleSectionedRecyclerViewAdapter(getContext(),R.layout.section,R.id.section_text,mAdapter);
+                    SimpleSectionedRecyclerViewAdapter mSectionedAdapter = new SimpleSectionedRecyclerViewAdapter(getContext(),R.layout.section,R.id.section_text,mAdapter);
                     mSectionedAdapter.setSections(sections.toArray(dummy));
                     eventRecycler.setAdapter(mSectionedAdapter);
                 } catch (JSONException e) {

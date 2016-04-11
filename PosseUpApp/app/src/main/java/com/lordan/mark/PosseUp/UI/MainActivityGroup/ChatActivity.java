@@ -19,6 +19,7 @@ import com.lordan.mark.PosseUp.BasicAdapter;
 import com.lordan.mark.PosseUp.DataOperations.AzureService;
 import com.lordan.mark.PosseUp.MessageAdapter;
 import com.lordan.mark.PosseUp.Model.ChatMessage;
+import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.R;
 import com.pubnub.api.Callback;
 import com.pubnub.api.Pubnub;
@@ -72,7 +73,7 @@ public class ChatActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     ChatMessage message = new ChatMessage(messageToSend.getText().toString(),
-                            Calendar.getInstance().getTime().toString(),
+                            Calendar.getInstance(),
                             new AzureService().getCurrentUsername(getApplicationContext()),
                             new AzureService().getProfileImageURL(getApplicationContext()));
                     if(messageToSend != null) {
@@ -166,11 +167,11 @@ public class ChatActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-    private void addMessage(Object message){
-        chatLog.add(new Gson().fromJson(message.toString(), ChatMessage.class));
-        this.runOnUiThread(new Runnable() {
+    private void addMessage(final Object message){
+        runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                chatLog.add(new Gson().fromJson(message.toString(), ChatMessage.class));
                 adapter.notifyItemInserted(chatLog.size()-1);
                 chat.scrollToPosition(chatLog.size() -1);
             }

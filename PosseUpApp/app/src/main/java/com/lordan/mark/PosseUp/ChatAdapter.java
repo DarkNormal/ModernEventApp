@@ -29,11 +29,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
         public TextView mTextView;
         public CircularImageView chatImage;
         public TextView lastMessage;
+        public TextView lastMessageTimeStamp;
         public ViewHolder(View v) {
             super(v);
             mTextView = (TextView) v.findViewById(R.id.recycler_chat_title);
             chatImage = (CircularImageView) v.findViewById(R.id.chat_picture);
             lastMessage = (TextView) v.findViewById(R.id.recycler_event_snippet);
+            lastMessageTimeStamp = (TextView) v.findViewById(R.id.chat_timestamp);
         }
     }
 
@@ -70,6 +72,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
         Picasso.with(mComtext).load(mDataset.get(position).getEventImage()).into(holder.chatImage);
         if(mDataset.get(position).getLastChatMessage() != null){
             holder.lastMessage.setText(mDataset.get(position).getLastChatMessage());
+            holder.lastMessageTimeStamp.setText(mDataset.get(position).getLastMessageTimeStamp());
         }
 
     }

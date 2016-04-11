@@ -47,6 +47,17 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
     private RequestQueue queue;
     private OnFragmentInteractionListener mListener;
     private AccountProfileLayoutBinding mBinding;
+    private static final String EXTRA_IS_CURRENT_USER = "profileFragment.isCurrentUser";
+    private static final String EXTRA_USERNAME = "profileFragment.username";
+
+    public static ProfileFragment newInstance(Boolean isCurrentUser, String username){
+        ProfileFragment fragment = new ProfileFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(EXTRA_IS_CURRENT_USER, isCurrentUser);
+        args.putString(EXTRA_USERNAME, username);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,8 +74,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             //whois is true when the the user is viewing their own profile, allow editing or something
-            whois = bundle.getBoolean("isCurrentUser", false);
-            user.setUsername(bundle.getString("username"));
+            whois = bundle.getBoolean(EXTRA_IS_CURRENT_USER, false);
+            user.setUsername(bundle.getString(EXTRA_USERNAME));
 
         }
         if(currentUsername.equals(user.getUsername().toLowerCase())){
@@ -80,7 +91,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
                     ArrayList<User> userlists = new ArrayList<>();
                     for (int i = 0; i < result.getJSONArray("Followers").length(); i++) {
                         JSONObject jsonObject = result.getJSONArray("Followers").getJSONObject(i);
-                        userlists.add(new Gson().fromJson(jsonObject.toString(), User.class));
+                        userlists.add(new User(jsonObject.getString("Username"), jsonObject.getString("ProfilePicture")));
                     }
                     user.setFollowers(userlists);
                     userlists = new ArrayList<>();

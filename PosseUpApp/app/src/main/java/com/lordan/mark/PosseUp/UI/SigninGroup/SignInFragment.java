@@ -406,6 +406,10 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
         private String Token;
 
     }
+    @Override public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
 
 
 }

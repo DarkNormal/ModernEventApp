@@ -355,4 +355,8 @@ public class NearbySubscribeFragment extends Fragment implements
     public interface OnNearbyFragmentInteractionListener {
         void onFragmentInteraction(ArrayList<String> usersList);
     }
+    @Override public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
 }

@@ -1,6 +1,7 @@
 package com.lordan.mark.PosseUp.UI.EventDetailGroup;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -34,17 +35,25 @@ public class EventDetailsActivity extends AbstractActivity implements EventDetai
 
 
     private static final String TAG = "EventDetailsActivity";
+    private static final String EXTRA_EVENT_ID = "EventDetailsActivity.eventID";
+    private static final String EXTRA_IS_USER_HOST = "EventDetailsActivity.isHost";
     private RequestQueue queue;
 
     private final FragmentManager fragmentManager = getSupportFragmentManager();
+    public static Intent newIntent(int eventID, boolean isHost){
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_EVENT_ID, eventID);
+        intent.putExtra(EXTRA_IS_USER_HOST, isHost);
+        return intent;
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         queue = Volley.newRequestQueue(this);
         setContentView(R.layout.scrollview_layout);
         Bundle bundle = getIntent().getExtras();
-        int eventID = bundle.getInt("EventID");
-        boolean isUserHost = bundle.getBoolean("CurrentUserIsHost");
+        int eventID = bundle.getInt(EXTRA_EVENT_ID);
+        boolean isUserHost = bundle.getBoolean(EXTRA_IS_USER_HOST);
         //LatLng location = new LatLng(bundle.getDouble("EventLat"), bundle.getDouble("EventLng"));
         if (eventID != -1) {
             Bundle fragmentBundle = new Bundle();

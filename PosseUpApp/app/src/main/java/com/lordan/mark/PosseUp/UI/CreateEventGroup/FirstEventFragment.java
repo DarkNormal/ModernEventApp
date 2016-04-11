@@ -407,4 +407,8 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
 
         }
     }
+    @Override public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
 }

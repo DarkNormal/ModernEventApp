@@ -47,6 +47,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -160,19 +161,23 @@ public class ChatFragment extends Fragment {
                     for(int i = 0; i < events.length(); i++){
                         JSONObject jsonEvent = events.getJSONObject(i);
                         final Event tempEvent = new Gson().fromJson(jsonEvent.toString(), Event.class);
-                        pubnub.history("test_channel", 20, true, new Callback() {
+                        pubnub.history("test_channel", 1, false, new Callback() {
                             @Override
                             public void successCallback(String channel, Object message) {
                                 super.successCallback(channel, message);
                                 JSONArray jsonArray = (JSONArray) message;
                                 String lastMessage = null;
+                                Date date = null;
                                 try {
+                                    long unixSeconds = jsonArray.getLong(2) / 10000000;
+                                    date = new Date(unixSeconds*1000L);
+                                    Log.i(TAG, date.toString());
                                     JSONObject jsonObject = new JSONObject(jsonArray.getJSONArray(0).getString(0));
                                     lastMessage = jsonObject.getString("username") + ": " + jsonObject.getString("content");
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-                                tempEvent.setLastChatMessage(lastMessage);
+                                tempEvent.setLastChatMessage(lastMessage, date);
                                 setChatDetails(tempEvent);
 
                             }

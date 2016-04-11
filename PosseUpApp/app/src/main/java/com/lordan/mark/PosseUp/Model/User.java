@@ -68,6 +68,10 @@ public class User  extends BaseObservable implements Parcelable{
     public User(String username){
         this.username = username;
     }
+    public User(String username, String profileImage){
+        this.username = username;
+        this.profileImage = profileImage;
+    }
     public User(String username, int id){
         this.username = username;
         this.userID = id;
