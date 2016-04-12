@@ -101,7 +101,7 @@ public class ChatFragment extends Fragment {
         mAdapter = new ChatAdapter(getContext(), mDataset, new CustomItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
-                startActivity(ChatActivity.newIntent(getContext(), mDataset.get(position).getEventName()));
+                startActivity(ChatActivity.newIntent(getContext(), mDataset.get(position).getEventName(), mDataset.get(position).getEventID()));
             }
         });
         mRecyclerView.setAdapter(mAdapter);
@@ -147,7 +147,7 @@ public class ChatFragment extends Fragment {
                     for(int i = 0; i < events.length(); i++){
                         JSONObject jsonEvent = events.getJSONObject(i);
                         final Event tempEvent = new Gson().fromJson(jsonEvent.toString(), Event.class);
-                        pubnub.history("test_channel", 1, false, new Callback() {
+                        pubnub.history(String.valueOf(tempEvent.getEventID()), 1, false, new Callback() {
                             @Override
                             public void successCallback(String channel, Object message) {
                                 super.successCallback(channel, message);

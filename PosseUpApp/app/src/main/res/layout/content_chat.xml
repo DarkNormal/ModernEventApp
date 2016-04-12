@@ -1,40 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     tools:context="com.lordan.mark.PosseUp.UI.MainActivityGroup.ChatActivity"
     tools:showIn="@layout/activity_chat">
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:layout_above="@+id/new_message_holder"
         android:id="@+id/chat_message_recyclerview"/>
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="3"
-        android:orientation="horizontal">
+        android:id="@+id/new_message_holder"
+        android:background="@android:color/white"
+        android:layout_alignParentBottom="true"
+        >
         <EditText
             android:id="@+id/message_to_send"
-            android:layout_width="0dp"
+            android:layout_alignParentStart="true"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_width="wrap_content"
             android:textColor="@android:color/black"
             android:textColorHint="@color/dark_grey"
-            android:hint="@string/write_message"/>
+
+            android:hint="@string/write_message"
+            android:layout_alignTop="@+id/message_send_btn"
+            android:layout_toLeftOf="@+id/message_send_btn"
+            android:layout_toStartOf="@+id/message_send_btn"
+            android:paddingLeft="@dimen/margin_medium"
+            android:paddingStart="@dimen/margin_medium" />
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/message_send_btn"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:textColor="@color/white"
             android:layout_height="wrap_content"
-            android:text="@string/send"/>
-    </LinearLayout>
+            android:text="@string/send"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
 
-
-</LinearLayout>
+    </RelativeLayout>

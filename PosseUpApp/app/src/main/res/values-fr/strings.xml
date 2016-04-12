@@ -8,7 +8,6 @@
     <string name="sign_in_button">S\'inscrire</string>
     <string name="forgot_password">Mot de passe oublié?</string>
     <string name="sign_up">Ne pas avoir un compte? Signer</string>
-    <string name="action_settings">Paramètres</string>
     <string name="already_account">Vous avez déjà un compte? se connecter</string>
     <string name="cancel">Annuler</string>
     <string name="drawer_events">Événements</string>
@@ -21,8 +20,6 @@
     <string name="no_account">Créer un compte</string>
     <string name="opendrawer">Ouvert</string>
     <string name="password_code">Code</string>
-    <string name="pref_header_general">Général</string>
-    <string name="pref_header_notifications">Notifications</string>
     <string name="title">Titre</string>
     <string name="unfollow">cesser de suivre </string>
     <string name="venue">Lieu</string>
@@ -40,4 +37,34 @@
     <string name="follow">suivre</string>
     <string name="following">Suivant</string>
     <string name="followers">Suiveurs</string>
+    <string name="add_image">Ajouter une photo de l\'événement</string>
+    <string name="add_to_confirmed">Confirmez ces participants</string>
+    <string name="all_day">Toute la journée </string>
+    <string name="camera">caméra</string>
+    <string name="delete_event">Supprimer l\'événement</string>
+    <string name="drawer_chat"> bavarder</string>
+    <string name="drawer_icon"> icône</string>
+    <string name="edit_event"> Modifier l\'événement</string>
+    <string name="event_image"> image de l\'événement</string>
+    <string name="gallery">Galerie</string>
+    <string name="default_venue_name"> pas encore défini</string>
+    <string name="image_description"> Contexte</string>
+    <string name="invite">Invitez</string>
+    <string name="online_event">événement en ligne</string>
+    <string name="reset_begin"> confirmer</string>
+    <string name="reset_info"> Vous recevrez rapidement un message avec un code unique . S\'il vous plaît le coller dans la zone de code ci-dessus , et cliquez sur confirmer pour continuer</string>
+    <string name="send"> envoyer</string>
+    <string name="start_nearby_scan"> Trouver Participants à proximité</string>
+    <string name="stop_nearby_scan">Arrêter la recherche de participants</string>
+    <string name="take_attendance"> Prendre les présences</string>
+    <string name="write_message"> Écrire un message</string>
+
+    <string-array name="event_type">
+        <item>public</item>
+        <item>Inviter seulement</item>
+        <item>Privé</item>
+    </string-array>
+
+
+
 </resources>

@@ -30,10 +30,12 @@ import java.util.Calendar;
 
 public class ChatActivity extends AppCompatActivity {
     private static final String EVENT_NAME = "com.marklordan.posseup.event_name";
+    private static final String EVENT_ID = "com.marklordan.posseup.event_id";
     private Pubnub pubnub;
     private ArrayList<ChatMessage> chatLog = new ArrayList<>();
     private MessageAdapter adapter;
     private RecyclerView chat;
+    private String eventID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        eventID = String.valueOf(getIntent().getIntExtra(EVENT_ID, 0));
         if (toolbar != null) {
             toolbar.setTitle(getIntent().getStringExtra(EVENT_NAME));
         }
@@ -75,13 +78,13 @@ public class ChatActivity extends AppCompatActivity {
                     if(messageToSend != null) {
                         messageToSend.getText().clear();
                     }
-                    pubnub.publish("test_channel", new Gson().toJson(message), callback);
-                    Toast.makeText(ChatActivity.this, chatLog.size() + " ", Toast.LENGTH_SHORT).show();
+                    pubnub.publish(eventID, new Gson().toJson(message), callback);
                 }
             });
         }
         pubnub = new Pubnub("pub-c-80485b35-97d9-4403-8465-c5a6e2547d65", "sub-c-2b32666a-f73e-11e5-8cfb-0619f8945a4f");
-        pubnub.history("test_channel", 20, true, new Callback() {
+
+        pubnub.history(eventID, 20, true, new Callback() {
             @Override
             public void successCallback(String channel, Object message) {
                 super.successCallback(channel, message);
@@ -115,15 +118,16 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
-    public static Intent newIntent(Context context, String eventName) {
+    public static Intent newIntent(Context context, String eventName, int eventID) {
         Intent i = new Intent(context, ChatActivity.class);
+        i.putExtra(EVENT_ID, eventID);
         i.putExtra(EVENT_NAME, eventName);
         return i;
     }
 
     private void subscribeWithPubNub() {
         try {
-            pubnub.subscribe("test_channel", new Callback() {
+            pubnub.subscribe(eventID, new Callback() {
                 @Override
                 public void connectCallback(String channel, Object message) {
                     System.out.println("SUBSCRIBE : CONNECT on channel:" + channel
@@ -175,7 +179,7 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     public void onDestroy(){
         super.onDestroy();
-        pubnub.unsubscribe("test_channel");
+        pubnub.unsubscribe(eventID);
     }
 
 }

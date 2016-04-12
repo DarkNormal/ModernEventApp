@@ -28,7 +28,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.lordan.mark.PosseUp.UI.SettingsActivity;
 import com.lordan.mark.PosseUp.UI.SigninGroup.SigninActivity;
 import com.microsoft.windowsazure.messaging.NotificationHub;
 import com.microsoft.windowsazure.notifications.NotificationsManager;
@@ -116,14 +115,12 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
 
     private void selectDrawerItem(MenuItem menuItem) {
         //Closing drawer on item click
-        if(menuItem.getItemId() != R.id.drawer_settings){
             if(menuItem.isChecked()){
                 menuItem.setChecked(false);
             }
             else {
                 menuItem.setChecked(true);
             }
-        }
         mDrawerLayout.closeDrawers();
         //Check to see which item was being clicked and perform appropriate action
         switch (menuItem.getItemId()) {
@@ -132,9 +129,6 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
                 break;
             case R.id.drawer_profile:
                 changeFragments(ProfileFragment.newInstance(true, getCurrentUsername()), "PROFILE_TAB");
-                break;
-            case R.id.drawer_settings:
-                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                 break;
             case R.id.drawer_events:
                 changeFragments(EventBreakdownFragment.newInstance(getCurrentUsername()), "BREAKDOWN_TAB");
@@ -169,11 +163,7 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
         }
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
-            return true;
-        } else if (id == R.id.sign_out_menu) {
+        if (id == R.id.sign_out_menu) {
             signOut();
             startActivity(new Intent(MainActivity.this, SigninActivity.class));
             finish();

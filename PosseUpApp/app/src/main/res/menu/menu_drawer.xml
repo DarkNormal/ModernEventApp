@@ -22,13 +22,6 @@
             android:icon="@drawable/ic_event_grey"
             android:checked="false"
             android:title="@string/drawer_events"/>
-        <group>
-            <item
-                android:id="@+id/drawer_settings"
-                android:icon="@drawable/ic_settings_grey"
-                android:checked="false"
-                android:title="@string/action_settings"/>
-        </group>
     </group>
 
 </menu>
