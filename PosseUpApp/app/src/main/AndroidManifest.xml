@@ -93,7 +93,7 @@
             android:name=".UI.EventDetailGroup.AttendanceActivity"
             android:label="@string/take_attendance"
             android:parentActivityName=".UI.EventDetailGroup.EventDetailsActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/DarkCheckbox" />
         <activity
             android:name=".UI.EventDetailGroup.AttendActivity"
             android:theme="@style/AppTheme" />

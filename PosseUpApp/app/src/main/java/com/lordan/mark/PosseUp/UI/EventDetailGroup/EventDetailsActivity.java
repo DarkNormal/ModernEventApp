@@ -73,16 +73,9 @@ public class EventDetailsActivity extends AbstractActivity implements EventDetai
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.scrolling_toolbar);
         setSupportActionBar(toolbar);
-        try {
-            ActionBar ab = getSupportActionBar();
-            if (ab != null) {
-                ab.setDisplayHomeAsUpEnabled(true);
-                ab.setTitle("Event");
-            }
-        }
-        catch(NullPointerException npe){
-            Log.e(TAG, "getSupportActionBar is null");
-        }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Event");
+
 
 
     }

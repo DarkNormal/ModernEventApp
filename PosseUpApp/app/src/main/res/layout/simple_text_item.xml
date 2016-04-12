@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/simpleTextViewItem"
+<LinearLayout android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:textAppearance="?android:attr/textAppearanceListItemSmall"
-    android:textColor="@android:color/black"
-    android:gravity="center_vertical"
-    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
-    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
-    android:minHeight="?android:attr/listPreferredItemHeightSmall" />
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/simpleTextViewItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:textColor="@android:color/black"
+        tools:text="name"
+        android:gravity="center_vertical"
+        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+        android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall" />
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:id="@+id/attendee_present_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>

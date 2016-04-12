@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
 
 import java.util.ArrayList;
@@ -35,12 +36,13 @@ public class AttendanceActivity extends AppCompatActivity implements
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    private ArrayList<User> attendeeList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendance);
-
+        attendeeList = getIntent().getParcelableArrayListExtra("AttendeeList");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -101,12 +103,12 @@ public class AttendanceActivity extends AppCompatActivity implements
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position){
                 case 0:
-                    return NearbySubscribeFragment.newInstance(position + 1);
+                    return NearbySubscribeFragment.newInstance(position + 1, attendeeList);
                 case 1:
                     //TODO get current list of attendees for this event
                     //return Tab4.newInstance(position +1);
                 default:
-                    return NearbySubscribeFragment.newInstance(position + 1);
+                    return NearbySubscribeFragment.newInstance(position + 1, attendeeList);
             }
         }
 

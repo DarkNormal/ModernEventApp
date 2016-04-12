@@ -198,6 +198,7 @@ public class EventDetailsFragment extends Fragment implements
                     Intent intent = new Intent(getContext(), AttendanceActivity.class);
                     intent.putExtra("EventID", eventID);
                     intent.putExtra("CurrentUserIsHost", isUserHost);
+                    intent.putExtra("AttendeeList", event.getAttendees());
                     startActivity(intent);
                 }
                 else{

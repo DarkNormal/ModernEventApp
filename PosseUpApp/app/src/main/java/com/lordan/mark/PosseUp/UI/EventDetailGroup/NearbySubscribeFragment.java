@@ -3,10 +3,12 @@ package com.lordan.mark.PosseUp.UI.EventDetailGroup;
 import android.content.Context;
 import android.content.IntentSender;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -26,6 +28,7 @@ import com.google.android.gms.nearby.messages.MessageListener;
 import com.google.android.gms.nearby.messages.NearbyMessagesStatusCodes;
 import com.google.android.gms.nearby.messages.SubscribeCallback;
 import com.google.android.gms.nearby.messages.SubscribeOptions;
+import com.lordan.mark.PosseUp.UI.MainActivityGroup.CustomItemClickListener;
 import com.lordan.mark.PosseUp.util.BasicAdapter;
 import com.lordan.mark.PosseUp.DataOperations.Settings;
 import com.lordan.mark.PosseUp.Model.Constants;
@@ -56,6 +59,7 @@ public class NearbySubscribeFragment extends Fragment implements
      */
     private MessageListener mMessageListener;
     private final ArrayList<String> mNearbyDevicesArrayList = new ArrayList<>();
+    private ArrayList<User> attendeeList;
     private RecyclerView.Adapter mNearbyDevicesArrayAdapter;
     /**
      * Tracks if we are currently resolving an error related to Nearby permissions. Used to avoid
@@ -67,6 +71,7 @@ public class NearbySubscribeFragment extends Fragment implements
     private static final String TAG = "NearbySubscribeFragment";
     private OnNearbyFragmentInteractionListener mListener;
     private static final String ARG_SECTION_NUMBER = "section_number";
+    private static final String ARG_ATTENDEE_LIST = "attendee_list";
     private GoogleApiClient mGoogleApiClient;
     private LinearLayoutManager mLayoutManager;
 
@@ -90,12 +95,15 @@ public class NearbySubscribeFragment extends Fragment implements
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
+        Bundle bundle = getArguments();
+        attendeeList = bundle.getParcelableArrayList(ARG_ATTENDEE_LIST);
     }
 
-    public static NearbySubscribeFragment newInstance(int sectionNumber) {
+    public static NearbySubscribeFragment newInstance(int sectionNumber, ArrayList<User> attendeeList) {
         NearbySubscribeFragment fragment = new NearbySubscribeFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        args.putParcelableArrayList(ARG_ATTENDEE_LIST, attendeeList);
         fragment.setArguments(args);
         return fragment;
     }
@@ -108,7 +116,15 @@ public class NearbySubscribeFragment extends Fragment implements
         final RecyclerView nearbyDevicesListView = (RecyclerView) rootView.findViewById(R.id.nearby_devices_list_view);
         mLayoutManager = new LinearLayoutManager(getContext());
         nearbyDevicesListView.setLayoutManager(mLayoutManager);
-        mNearbyDevicesArrayAdapter = new BasicAdapter(mNearbyDevicesArrayList);
+        mNearbyDevicesArrayAdapter = new BasicAdapter(getContext(), mNearbyDevicesArrayList, new CustomItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                AppCompatCheckBox checkBox = (AppCompatCheckBox) v.findViewById(R.id.attendee_present_checkbox);
+                if(checkBox != null){
+                    Log.i(TAG, "NOT NULL CHECKBOX!!!");
+                }
+            }
+        });
         nearbyDevicesListView.setAdapter(mNearbyDevicesArrayAdapter);
         initializeMessageListener();
         return rootView;
