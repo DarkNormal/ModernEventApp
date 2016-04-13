@@ -13,12 +13,11 @@ import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.MainActivityGroup.CustomItemClickListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by Mark on 03/04/2016.
  */
-public class BasicAdapter extends RecyclerView.Adapter<BasicAdapter.ViewHolder> {
+public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.ViewHolder> {
     private ArrayList<User> mDataset;
     private boolean[] isHere;
     private CustomItemClickListener listener;
@@ -40,7 +39,7 @@ public static class ViewHolder extends RecyclerView.ViewHolder {
 }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public BasicAdapter(Context context, ArrayList<User> myDataset, boolean[] isHere, CustomItemClickListener listener) {
+    public NearbyAdapter(Context context, ArrayList<User> myDataset, boolean[] isHere, CustomItemClickListener listener) {
         mDataset = myDataset;
         this.isHere = isHere;
         this.listener = listener;
@@ -49,12 +48,12 @@ public static class ViewHolder extends RecyclerView.ViewHolder {
 
     // Create new views (invoked by the layout manager)
     @Override
-    public BasicAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType) {
+    public NearbyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                       int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.simple_text_item, parent, false);
-        final BasicAdapter.ViewHolder mViewHolder = new BasicAdapter.ViewHolder(v);
+                .inflate(R.layout.text_item_checkbox, parent, false);
+        final NearbyAdapter.ViewHolder mViewHolder = new NearbyAdapter.ViewHolder(v);
         mViewHolder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

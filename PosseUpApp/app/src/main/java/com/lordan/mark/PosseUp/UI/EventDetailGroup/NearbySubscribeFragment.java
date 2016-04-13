@@ -3,7 +3,6 @@ package com.lordan.mark.PosseUp.UI.EventDetailGroup;
 import android.content.Context;
 import android.content.IntentSender;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -29,7 +28,7 @@ import com.google.android.gms.nearby.messages.NearbyMessagesStatusCodes;
 import com.google.android.gms.nearby.messages.SubscribeCallback;
 import com.google.android.gms.nearby.messages.SubscribeOptions;
 import com.lordan.mark.PosseUp.UI.MainActivityGroup.CustomItemClickListener;
-import com.lordan.mark.PosseUp.util.BasicAdapter;
+import com.lordan.mark.PosseUp.util.NearbyAdapter;
 import com.lordan.mark.PosseUp.DataOperations.Settings;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.User;
@@ -119,7 +118,7 @@ public class NearbySubscribeFragment extends Fragment implements
         final RecyclerView nearbyDevicesListView = (RecyclerView) rootView.findViewById(R.id.nearby_devices_list_view);
         mLayoutManager = new LinearLayoutManager(getContext());
         nearbyDevicesListView.setLayoutManager(mLayoutManager);
-        mNearbyDevicesArrayAdapter = new BasicAdapter(getContext(), attendeeList,isHere, new CustomItemClickListener() {
+        mNearbyDevicesArrayAdapter = new NearbyAdapter(getContext(), attendeeList,isHere, new CustomItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
                 AppCompatCheckBox checkBox = (AppCompatCheckBox) v.findViewById(R.id.attendee_present_checkbox);
@@ -149,7 +148,20 @@ public class NearbySubscribeFragment extends Fragment implements
     }
     @OnClick(R.id.add_to_confirmed_list)
     public void confirmUsers(View v){
-        mListener.onFragmentInteraction(attendeeList, isHere);
+        //At least 1 attendee should be present to upadte info
+        boolean minimumReached = false;
+        for (boolean present: isHere) {
+            if(present) {
+                minimumReached = true;
+                break;
+            }
+        }
+        if(minimumReached) {
+            mListener.onFragmentInteraction(attendeeList, isHere);
+        }
+        else{
+            Toast.makeText(getContext(), "No attendees currently selected", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
