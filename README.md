@@ -8,6 +8,9 @@ The associated server back-end for this Android application is a RESTful ASP.NET
 The source code for this can be found on GitHub [here](https://github.com/DarkNormal/PosseNetAPIApp) (note - it's poorly documented and commented, sorry!)
 
 
+Posse Up is available on the Play Store (currently in closed Beta, create an issue to receive an invite)
+
+
 
 Used libraries
 -----------
@@ -18,14 +21,15 @@ Used libraries
 [PubNub](https://www.pubnub.com/)<br>
 Facebook SDK (External Login) <br>
 [Fabric - Twitter SDK (Analytics)](https://fabric.io/) <br>
+Azure Notification Handle <br>
+
 
 Google Libraries
 -----------
 Volley (Networking)<br>
-Google Cloud Messaging<br>
+Google Cloud Messaging (Push Notifications)<br>
 Google Places API<br>
-Google Maps API<br>
-Google Nearby API<br>
+Google Nearby API (Proximity-based presence detection)<br>
 AppCompat (Support Library)<br>
 Design Support Libary<br>
 Android Data Binding<br>
