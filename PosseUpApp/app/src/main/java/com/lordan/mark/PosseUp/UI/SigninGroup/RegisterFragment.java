@@ -249,7 +249,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
             public byte[] getBody() throws AuthFailureError {
                 String httpPostBody = null;
                 try {
-                    httpPostBody = "grant_type=password&username=" + jsonBody.getString("Username") + "&password=" + jsonBody.getString("Password");
+                    httpPostBody = "grant_type=password&username=" + jsonBody.getString("UserName") + "&password=" + jsonBody.getString("Password");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
