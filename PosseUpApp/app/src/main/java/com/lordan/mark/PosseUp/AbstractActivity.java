@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,6 +54,10 @@ public abstract class AbstractActivity extends AppCompatActivity {
         editor.remove("username");
         editor.remove("profileImageURL");
         editor.apply();
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        if(accessToken != null){
+            LoginManager.getInstance().logOut();
+        }
     }
     protected String getCurrentEmail(){
         SharedPreferences prefs = getApplicationContext().getSharedPreferences("PosseUpData", MODE_PRIVATE);

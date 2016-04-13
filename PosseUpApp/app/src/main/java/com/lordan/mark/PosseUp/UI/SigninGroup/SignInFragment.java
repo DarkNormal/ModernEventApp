@@ -4,6 +4,7 @@ package com.lordan.mark.PosseUp.UI.SigninGroup;
 
 import android.app.ProgressDialog;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -17,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -191,9 +193,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
     }
 
     private void login(final EditText username, final EditText password) {
-        mProgressDialog = new ProgressDialog(getContext(), R.style.CustomAlertDialogStyle);
-        mProgressDialog.setTitle("Logging in");
-        mProgressDialog.setMessage("1 moment...");
+        mProgressDialog = getmProgressDialog();
         mProgressDialog.show();
         String url = Constants.baseUrl + "api/Account/TokenLogin";
         JSONObject jobject = new JSONObject();
@@ -207,6 +207,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
         signInProcess(Request.Method.POST, url, jobject, new VolleyCallback() {
             @Override
             public void onSuccess(JSONObject result) {
+                mProgressDialog.dismiss();
                 saveRetrievedData(1,result);
                 loginLocal(result);
             }
@@ -214,12 +215,11 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onError(VolleyError error) {
                 String json;
-
+                mProgressDialog.dismiss();
                 NetworkResponse response = error.networkResponse;
                 if (response != null && response.data != null) {
                     String errorReply;
                     switch (response.statusCode) {
-
                         case 400:
                             json = new String(response.data);
                             errorReply = trimMessage(json, "Message");
@@ -248,7 +248,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mProgressDialog.dismiss();
+
                 volleyCallback.onError(error);
             }
         });
@@ -257,16 +257,19 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
 
 
     private void loginExternal(final JSONObject jsonBody) {
-
+        mProgressDialog = getmProgressDialog();
+        mProgressDialog.show();
         String url = Constants.baseUrl + "api/Account/RegisterExternal";
         signInProcess(Request.Method.POST, url, jsonBody, new VolleyCallback() {
             @Override
             public void onSuccess(JSONObject result) {
+                mProgressDialog.dismiss();
                 saveRetrievedData(2,result);
             }
 
             @Override
             public void onError(VolleyError error) {
+                mProgressDialog.dismiss();
                 System.out.println("No Token recieved");
             }
         });
@@ -286,7 +289,6 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            mProgressDialog.dismiss();
             Intent intent = new Intent(getActivity(), MainActivity.class);
             startActivity(intent);
             getActivity().finish();
@@ -313,7 +315,6 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onErrorResponse(VolleyError error) {
                 System.out.println("No Token recieved");
-                mProgressDialog.dismiss();
             }
         }) {
             @Override
@@ -388,6 +389,11 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
                 ((SigninActivity)getActivity()).switchToRegister();
                 break;
             case R.id.signin_button:
+                View view = getActivity().getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
                 login(username, password);
                 break;
 
@@ -409,6 +415,13 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
     @Override public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    private ProgressDialog getmProgressDialog(){
+        ProgressDialog mDialog = new ProgressDialog(getContext(), R.style.CustomAlertDialogStyle);
+        mDialog.setTitle("Logging in");
+        mDialog.setMessage("1 moment...");
+        return mDialog;
     }
 
 
