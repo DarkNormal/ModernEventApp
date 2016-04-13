@@ -195,10 +195,7 @@ public class EventDetailsFragment extends Fragment implements
                 return true;
             case R.id.take_attendance:
                 if(isUserHost) {
-                    Intent intent = new Intent(getContext(), AttendanceActivity.class);
-                    intent.putExtra("EventID", eventID);
-                    intent.putExtra("CurrentUserIsHost", isUserHost);
-                    intent.putExtra("AttendeeList", event.getAttendees());
+                    Intent intent = AttendanceActivity.newIntent(getContext(), eventID,isUserHost, event.getAttendees());
                     startActivity(intent);
                 }
                 else{

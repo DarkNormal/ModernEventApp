@@ -149,7 +149,7 @@ public class NearbySubscribeFragment extends Fragment implements
     }
     @OnClick(R.id.add_to_confirmed_list)
     public void confirmUsers(View v){
-        mListener.onFragmentInteraction(attendeeList);
+        mListener.onFragmentInteraction(attendeeList, isHere);
     }
 
     @Override
@@ -361,7 +361,7 @@ public class NearbySubscribeFragment extends Fragment implements
     }
 
     public interface OnNearbyFragmentInteractionListener {
-        void onFragmentInteraction(ArrayList<User> usersList);
+        void onFragmentInteraction(ArrayList<User> usersList, boolean[] isHere);
     }
     @Override public void onDestroyView() {
         super.onDestroyView();
