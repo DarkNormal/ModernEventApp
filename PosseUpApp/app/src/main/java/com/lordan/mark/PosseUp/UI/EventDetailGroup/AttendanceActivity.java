@@ -82,7 +82,7 @@ public class AttendanceActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onFragmentInteraction(ArrayList<String> users) {
+    public void onFragmentInteraction(ArrayList<User> users) {
 
     }
 

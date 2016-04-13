@@ -23,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.lordan.mark.PosseUp.DataOperations.AzureService;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.R;
@@ -52,7 +53,7 @@ public class EventBreakdownFragment extends Fragment {
     private static final String EXTRA_USERNAME = "EventBreakdownFragment.username";
 
     public static Fragment newInstance(String username){
-        Fragment fragment = new Fragment();
+        Fragment fragment = new EventBreakdownFragment();
         Bundle b = new Bundle();
         b.putString(EXTRA_USERNAME, username);
         fragment.setArguments(b);
@@ -117,15 +118,9 @@ public class EventBreakdownFragment extends Fragment {
                                 position -= 2;
                             }
                             else position -=1;
-                            Intent intent = new Intent(getContext(), EventDetailsActivity.class);
-                            intent.putExtra("EventID", eventDataSet.get(position).getEventID());
-                            try {
-                                intent.putExtra("EventLat", eventDataSet.get(position).getPlaceDetails().getVenueLocation().latitude);
-                                intent.putExtra("EventLng", eventDataSet.get(position).getPlaceDetails().getVenueLocation().longitude);
-                            }
-                            catch(NullPointerException npe){
-                                Log.e(TAG, "Place Details null");
-                            }
+                            Intent intent = EventDetailsActivity.newIntent(getContext(),
+                                    eventDataSet.get(position).getEventID(),
+                                    new AzureService().getCurrentEmail(getContext()).equals(eventDataSet.get(position).getHostEmail()));
                             startActivity(intent);
                             Toast.makeText(getContext(), "clicked position: " + position, Toast.LENGTH_SHORT).show();
                         }
@@ -168,7 +163,7 @@ public class EventBreakdownFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
-        username = args.getString("username");
+        username = args.getString(EXTRA_USERNAME);
         queue = Volley.newRequestQueue(getContext());
         //setHasOptionsMenu(true);
         initDataset();

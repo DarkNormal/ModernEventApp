@@ -8,16 +8,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.MainActivityGroup.CustomItemClickListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by Mark on 03/04/2016.
  */
 public class BasicAdapter extends RecyclerView.Adapter<BasicAdapter.ViewHolder> {
-private ArrayList<String> mDataset;
+    private ArrayList<User> mDataset;
+    private boolean[] isHere;
     private CustomItemClickListener listener;
     private Context context;
 
@@ -37,8 +40,9 @@ public static class ViewHolder extends RecyclerView.ViewHolder {
 }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public BasicAdapter(Context context, ArrayList<String> myDataset, CustomItemClickListener listener) {
+    public BasicAdapter(Context context, ArrayList<User> myDataset, boolean[] isHere, CustomItemClickListener listener) {
         mDataset = myDataset;
+        this.isHere = isHere;
         this.listener = listener;
         this.context = context;
     }
@@ -65,8 +69,11 @@ public static class ViewHolder extends RecyclerView.ViewHolder {
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mTextView.setText(mDataset.get(position));
-        holder.checkBox.setChecked(true);
+        holder.mTextView.setText(mDataset.get(position).getUsername());
+        holder.checkBox.setChecked(isHere[position]);
+
+    }
+    public void notifyAttendeePresent(int position){
 
     }
 

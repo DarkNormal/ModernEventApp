@@ -38,6 +38,7 @@ import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.util.NearbyApiUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -58,8 +59,8 @@ public class NearbySubscribeFragment extends Fragment implements
      * A {@link MessageListener} for processing messages from nearby devices.
      */
     private MessageListener mMessageListener;
-    private final ArrayList<String> mNearbyDevicesArrayList = new ArrayList<>();
     private ArrayList<User> attendeeList;
+    private boolean[] isHere;
     private RecyclerView.Adapter mNearbyDevicesArrayAdapter;
     /**
      * Tracks if we are currently resolving an error related to Nearby permissions. Used to avoid
@@ -97,6 +98,8 @@ public class NearbySubscribeFragment extends Fragment implements
                 .build();
         Bundle bundle = getArguments();
         attendeeList = bundle.getParcelableArrayList(ARG_ATTENDEE_LIST);
+        isHere = new boolean[attendeeList.size()];
+        Arrays.fill(isHere, false);
     }
 
     public static NearbySubscribeFragment newInstance(int sectionNumber, ArrayList<User> attendeeList) {
@@ -116,12 +119,14 @@ public class NearbySubscribeFragment extends Fragment implements
         final RecyclerView nearbyDevicesListView = (RecyclerView) rootView.findViewById(R.id.nearby_devices_list_view);
         mLayoutManager = new LinearLayoutManager(getContext());
         nearbyDevicesListView.setLayoutManager(mLayoutManager);
-        mNearbyDevicesArrayAdapter = new BasicAdapter(getContext(), mNearbyDevicesArrayList, new CustomItemClickListener() {
+        mNearbyDevicesArrayAdapter = new BasicAdapter(getContext(), attendeeList,isHere, new CustomItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
                 AppCompatCheckBox checkBox = (AppCompatCheckBox) v.findViewById(R.id.attendee_present_checkbox);
                 if(checkBox != null){
+                    isHere[position] = !isHere[position];
                     Log.i(TAG, "NOT NULL CHECKBOX!!!");
+                    mNearbyDevicesArrayAdapter.notifyItemChanged(position);
                 }
             }
         });
@@ -144,7 +149,7 @@ public class NearbySubscribeFragment extends Fragment implements
     }
     @OnClick(R.id.add_to_confirmed_list)
     public void confirmUsers(View v){
-        mListener.onFragmentInteraction(mNearbyDevicesArrayList);
+        mListener.onFragmentInteraction(attendeeList);
     }
 
     @Override
@@ -329,27 +334,18 @@ public class NearbySubscribeFragment extends Fragment implements
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(mNearbyDevicesArrayList.size() > 0) {
-                            for (int i = 0; i < mNearbyDevicesArrayList.size(); i++) {
-
-                                //check if the attendee is already present in the current list
-                                if (!mNearbyDevicesArrayList.get(i).equals(user.getUsername())) {
-                                    mNearbyDevicesArrayList.add(user.getUsername());
-                                    mNearbyDevicesArrayAdapter.notifyItemInserted(mNearbyDevicesArrayList.size()-1);
+                            for (int i = 0; i < attendeeList.size(); i++) {
+                                if (attendeeList.get(i).getUsername().toLowerCase().equals(user.getUsername().toLowerCase())) {
+                                    isHere[i] = true;
+                                    mNearbyDevicesArrayAdapter.notifyItemChanged(i);
                                 }
                                 else{
                                     //User is already in the list
                                 }
                             }
-                        }
-                        else{
-                            mNearbyDevicesArrayList.add(user.getUsername());
-                            confirmButton.setVisibility(View.VISIBLE);
-                            mNearbyDevicesArrayAdapter.notifyItemInserted(mNearbyDevicesArrayList.size()-1);
-
-                        }
-
                     }
+
+
                 });
             }
 
@@ -365,7 +361,7 @@ public class NearbySubscribeFragment extends Fragment implements
     }
 
     public interface OnNearbyFragmentInteractionListener {
-        void onFragmentInteraction(ArrayList<String> usersList);
+        void onFragmentInteraction(ArrayList<User> usersList);
     }
     @Override public void onDestroyView() {
         super.onDestroyView();
