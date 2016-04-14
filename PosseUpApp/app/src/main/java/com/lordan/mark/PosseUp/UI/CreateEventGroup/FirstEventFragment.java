@@ -93,15 +93,9 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
         addImage = (TextView) v.findViewById(R.id.add_event_image);
         addImage.setOnClickListener(this);
         eventImageView = (ImageView) v.findViewById(R.id.event_image);
-        MaterialSpinner spinner = (MaterialSpinner) v.findViewById(R.id.create_event_type);
         visibilityTypes = getResources().getStringArray(R.array.event_type);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.event_type, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         allDaySwitch.setOnCheckedChangeListener(this);
         onlineEventSwitch.setOnCheckedChangeListener(this);
-        spinner.setAdapter(adapter);
         configDateTimeChooser();
         placeCard.setOnClickListener(this);
 
@@ -264,7 +258,6 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
     public Event getEvent() {
         boolean emptyTitle = false;
         boolean emptyDesc = false;
-        boolean unselectedVisibility = false;
 
         if (TextUtils.isEmpty(title.getText())) {
             title.setError("Title required");
@@ -274,11 +267,7 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
             description.setError("Description Required");
             emptyDesc = true;
         }
-        if(visibility.getSelectedItemPosition() == 0) {
-            unselectedVisibility = true;
-            visibility.setError("Choose who can see your event");
-        }
-        if (!emptyTitle && !emptyDesc && !unselectedVisibility) {
+        if (!emptyTitle && !emptyDesc) {
             String startingDate;
             String endingDate;
             if (allDaySwitch.isChecked()) {
@@ -293,7 +282,7 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
             newEvent = new Event(0,
                     title.getText().toString(),
                     description.getText().toString(),
-                    visibilityTypes[visibility.getSelectedItemPosition() -1],
+                    visibilityTypes[visibility.getSelectedItemPosition()],
                     allDaySwitch.isChecked(),
                     chosenPlace
                     );

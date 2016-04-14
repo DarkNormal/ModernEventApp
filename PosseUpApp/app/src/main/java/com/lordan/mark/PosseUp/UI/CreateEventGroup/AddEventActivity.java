@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -54,6 +55,7 @@ public class AddEventActivity extends AbstractActivity {
     private FirstEventFragment myFrag;
     private RequestQueue queue;
     private String hostEmail;
+    private String eventID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,7 +148,7 @@ public class AddEventActivity extends AbstractActivity {
     private void sendEvent(Event e){
         sendEvent(e, new VolleyCallback() {
             @Override
-            public void onSuccess(JSONObject result) {
+            public void onSuccess(final JSONObject result) {
                 String eventID = null;
                 try {
                     eventID = result.getString("EventID");
@@ -154,7 +156,24 @@ public class AddEventActivity extends AbstractActivity {
                     e1.printStackTrace();
                 }
                 String url = Constants.baseUrl + "api/Event/Attend/" + eventID + "?username=" + new AzureService().getCurrentUsername(getApplicationContext());
-                addHostToEventList(url);
+                addHostToEventList(url, new VolleyCallback() {
+                    @Override
+                    public void onSuccess(JSONObject mResult) {
+                        Intent data = new Intent();
+                        try {
+                            data.putExtra("EventID", result.getInt("EventID"));
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
+                        setResult(RESULT_OK,data);
+                        finish();
+                    }
+
+                    @Override
+                    public void onError(VolleyError error) {
+
+                    }
+                });
             }
 
             @Override
@@ -188,12 +207,13 @@ public class AddEventActivity extends AbstractActivity {
         });
         queue.add(jsonObjectRequest);
     }
-    private void addHostToEventList(String url){
+    private void addHostToEventList(String url, final VolleyCallback callback){
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
                     if (response.getBoolean("success")) {
+                        callback.onSuccess(response);
                         CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
                         if (coordinatorLayout != null) {
                             Snackbar.make(coordinatorLayout, "Event created", Snackbar.LENGTH_LONG)
@@ -208,6 +228,7 @@ public class AddEventActivity extends AbstractActivity {
                         }
                     }
                 } catch (JSONException e) {
+
                     e.printStackTrace();
                 }
 
@@ -216,6 +237,7 @@ public class AddEventActivity extends AbstractActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                callback.onError(error);
             }
         });
         queue.add(jsonObjectRequest);

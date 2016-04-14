@@ -3,11 +3,13 @@ package com.lordan.mark.PosseUp.UI.MainActivityGroup;
 /**
  * Created by Mark on 7/14/2015
  */
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -23,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -63,6 +66,7 @@ public class Tab1 extends Fragment{
     @Bind(R.id.addEvent_Button) public FloatingActionButton mFab;
     @Bind(R.id.event_list_swipe) public SwipeRefreshLayout mSwipeRefreshLayout;
     @Bind(R.id.cardList) public RecyclerView mRecyclerView;
+    @Bind(R.id.coordinatorLayout) public CoordinatorLayout mCoordinatorLayout;
     private static final String TAG = "MainActivity - TAB1";
 
     private static final int REQUEST_CODE = 1;
@@ -113,10 +117,26 @@ public class Tab1 extends Fragment{
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_CODE){
-            //return from create event
+            if(resultCode == Activity.RESULT_OK){
+                //event created successfully
+                Snackbar alert = Snackbar.make(mCoordinatorLayout, "Event created", Snackbar.LENGTH_LONG)
+                        .setAction("View", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //last param in intent is always true as the host will be the one creating and seeing this popup
+                                Intent intent = EventDetailsActivity.newIntent(getContext(),data.getIntExtra("EventID", 0), true);
+                                startActivity(intent);
+                            }
+                        })
+                        .setActionTextColor(Color.MAGENTA);
+                View v = alert.getView();
+                TextView textView = (TextView) v.findViewById(android.support.design.R.id.snackbar_text);
+                textView.setTextColor(Color.WHITE);
+                alert.show();
+            }
         }
     }
 

@@ -25,7 +25,6 @@
     <string-array name="event_type">
         <item>Public</item>
         <item>Invite-only</item>
-        <item>Limited</item>
         <item>Private</item>
     </string-array>
 

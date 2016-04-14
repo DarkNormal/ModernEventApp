@@ -121,6 +121,13 @@
             android:layout_marginRight="16dp"/>
 
     </android.support.design.widget.TextInputLayout>
+    <fr.ganfra.materialspinner.MaterialSpinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/event_type"
+        android:id="@+id/create_event_type"
+        android:popupBackground="@color/white"
+        android:layout_gravity="end"/>
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/online_event_switch"
         android:layout_width="wrap_content"
@@ -128,6 +135,22 @@
         android:textColor="@android:color/black"
         android:text="@string/online_event"
         android:layout_gravity="end"/>
+    <TextView
+        android:id="@+id/add_event_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_image"
+        android:textSize="@dimen/material_text_title"
+        android:clickable="true"
+        android:drawablePadding="@dimen/margin_large"
+        android:drawableEnd="@drawable/ic_camera"
+        android:layout_marginBottom="@dimen/margin_medium"
+        android:drawableRight="@drawable/ic_camera" />
+    <ImageView
+        android:id="@+id/event_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
     <android.support.v7.widget.CardView
         android:id="@+id/placePickerCard"
         android:layout_width="match_parent"
@@ -177,29 +200,8 @@
     </android.support.v7.widget.CardView>
 
 
-            <fr.ganfra.materialspinner.MaterialSpinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:ms_hint="Visibility"
-                android:id="@+id/create_event_type"
-                android:popupBackground="@color/white"
-                android:layout_gravity="end"/>
-    <TextView
-        android:id="@+id/add_event_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_image"
-        android:textSize="@dimen/material_text_title"
-        android:clickable="true"
-        android:drawablePadding="@dimen/margin_large"
-        android:drawableEnd="@drawable/ic_camera"
-        android:layout_marginBottom="@dimen/margin_medium"
-        android:drawableRight="@drawable/ic_camera" />
-    <ImageView
-        android:id="@+id/event_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+
+
 
 
 
