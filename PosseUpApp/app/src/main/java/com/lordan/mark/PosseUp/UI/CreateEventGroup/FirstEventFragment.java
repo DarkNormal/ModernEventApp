@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
@@ -51,26 +52,17 @@ import fr.ganfra.materialspinner.MaterialSpinner;
  * Created by Mark on 14/01/2016
  */
 public class FirstEventFragment extends Fragment implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
-    @Bind(R.id.all_day_switch)
-    SwitchCompat allDaySwitch;
-    @Bind(R.id.online_event_switch)
-    SwitchCompat onlineEventSwitch;
-    @Bind(R.id.create_event_title_input)
-    EditText title;
-    @Bind(R.id.add_event_desc)
-    EditText description;
-    @Bind(R.id.create_event_date)
-    EditText startDateInput;
-    @Bind(R.id.create_event_date_end)
-    EditText endDateInput;
-    @Bind(R.id.create_event_time)
-    EditText startTimeInput;
-    @Bind(R.id.create_event_time_end)
-    EditText endTimeInput;
-    @Bind(R.id.create_event_type)
-    MaterialSpinner visibility;
-    @Bind(R.id.placePickerCard)
-    CardView placeCard;
+    @Bind(R.id.all_day_switch) SwitchCompat allDaySwitch;
+    @Bind(R.id.online_event_switch) SwitchCompat onlineEventSwitch;
+    @Bind(R.id.create_event_title_input) EditText title;
+    @Bind(R.id.add_event_desc) EditText description;
+    @Bind(R.id.create_event_date) EditText startDateInput;
+    @Bind(R.id.create_event_date_end) EditText endDateInput;
+    @Bind(R.id.create_event_time) EditText startTimeInput;
+    @Bind(R.id.create_event_time_end) EditText endTimeInput;
+    @Bind(R.id.create_event_type) MaterialSpinner visibility;
+    @Bind(R.id.placePickerCard) CardView placeCard;
+    @Bind(R.id.add_event_url_layout) TextInputLayout url;
 
     private View v;
     private Event newEvent;
@@ -190,6 +182,7 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
         timeTextView.setText(timeFormat.format(now.getTime()));
         timeTextView.setOnClickListener(this);
     }
+
     private void addTimeDialog(View view) {
         final EditText timeTextView = (EditText) v.findViewById(view.getId());
         Calendar mCurrentTime = Calendar.getInstance();
@@ -225,7 +218,8 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
 
         mTimePicker.show();
     }
-    private void addDateDialog(View view){
+
+    private void addDateDialog(View view) {
         final EditText dateTextView = (EditText) v.findViewById(view.getId());
         Calendar mCurrentDate = Calendar.getInstance();
         int mYear = mCurrentDate.get(Calendar.YEAR);
@@ -239,16 +233,15 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
                     dayAfter.set(selectedYear, selectedMonth, selectedDay);
                     startingDate.setTime(dayAfter.getTime());
                     dayAfter.add(Calendar.DAY_OF_MONTH, 1);
-                    endDateInput.setText(getString(R.string.event_date, dayAfter.get(Calendar.DAY_OF_MONTH), dayAfter.get(Calendar.MONTH) +1, dayAfter.get(Calendar.YEAR)));
+                    endDateInput.setText(getString(R.string.event_date, dayAfter.get(Calendar.DAY_OF_MONTH), dayAfter.get(Calendar.MONTH) + 1, dayAfter.get(Calendar.YEAR)));
                 }
-                dateTextView.setText(getString(R.string.event_date, selectedDay, selectedMonth +1, selectedYear));
+                dateTextView.setText(getString(R.string.event_date, selectedDay, selectedMonth + 1, selectedYear));
             }
         }, mYear, mMonth, mDay);
 
-        if(dateTextView.getId() == endDateInput.getId()){
+        if (dateTextView.getId() == endDateInput.getId()) {
             mDatePicker.getDatePicker().setMinDate(startingDate.getTimeInMillis());
-        }
-        else{
+        } else {
             mDatePicker.getDatePicker().setMinDate(new Date().getTime());
         }
         mDatePicker.show();
@@ -284,8 +277,9 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
                     description.getText().toString(),
                     visibilityTypes[visibility.getSelectedItemPosition()],
                     allDaySwitch.isChecked(),
-                    chosenPlace
-                    );
+                    chosenPlace,
+                    onlineEventSwitch.isChecked()
+            );
             Date date = parseDate(startingDate);
             Calendar cal = Calendar.getInstance();
             if (date != null) {
@@ -375,7 +369,7 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        switch (buttonView.getId()){
+        switch (buttonView.getId()) {
             case R.id.all_day_switch:
                 if (isChecked) {
                     startTimeInput.setVisibility(View.INVISIBLE);
@@ -386,17 +380,20 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
                 }
                 break;
             case R.id.online_event_switch:
-                if (isChecked){
+                if (isChecked) {
                     placeCard.setVisibility(View.INVISIBLE);
-                }
-                else{
+                    url.setVisibility(View.VISIBLE);
+                } else {
                     placeCard.setVisibility(View.VISIBLE);
+                    url.setVisibility(View.GONE);
                 }
                 break;
 
         }
     }
-    @Override public void onDestroyView() {
+
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }

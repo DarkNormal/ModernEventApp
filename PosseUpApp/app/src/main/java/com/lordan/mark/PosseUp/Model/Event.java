@@ -54,6 +54,8 @@ public class Event extends BaseObservable implements Parcelable{
 
     @SerializedName("EventAllDay")
     private boolean mAllDay;
+    @SerializedName("EventOnline")
+    private boolean mOnlineEvent;
 
     private transient Calendar startingCal;
     private transient Calendar endingCal;
@@ -103,10 +105,13 @@ public class Event extends BaseObservable implements Parcelable{
         this.eventDesc = eventDescription;
         this.hostEmail = eventHost;
     }
-    public Event(int id, String eventTitle, String eventDescription, String eventVisibility, boolean allDay, Place venue) {
+    public Event(int id, String eventTitle, String eventDescription, String eventVisibility, boolean allDay, Place venue, boolean onlineEvent) {
         this.eventID = id;
-        if(venue != null) {
+        if(venue != null && !onlineEvent) {
             setPlaceDetails(venue);
+        }
+        else{
+            this.mOnlineEvent = true;
         }
         this.eventName = eventTitle;
         this.eventDesc = eventDescription;
