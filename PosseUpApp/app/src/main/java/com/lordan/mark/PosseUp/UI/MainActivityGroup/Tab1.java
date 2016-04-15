@@ -14,6 +14,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -24,6 +25,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,11 +69,16 @@ public class Tab1 extends Fragment{
     @Bind(R.id.event_list_swipe) public SwipeRefreshLayout mSwipeRefreshLayout;
     @Bind(R.id.cardList) public RecyclerView mRecyclerView;
     @Bind(R.id.coordinatorLayout) public CoordinatorLayout mCoordinatorLayout;
+    @Bind(R.id.loading_event_message_holder) public RelativeLayout mLoadingContentHolder;
+    @Bind(R.id.failed_loading_event_message_holder) public RelativeLayout mFailedLoadingContentHolder;
+    @Bind(R.id.try_refresh_button) public AppCompatButton mTryRefreshButton;
     private static final String TAG = "MainActivity - TAB1";
 
     private static final int REQUEST_CODE = 1;
     private CustomAdapter mAdapter;
     private List<Event> mDataset;
+    private RequestQueue queue;
+    private String url = Constants.baseUrl + "api/Events";
 
 
     @Override
@@ -91,6 +98,8 @@ public class Tab1 extends Fragment{
             }
         });
         mRecyclerView.setAdapter(mAdapter);
+        getActivity().setTitle(getString(R.string.tab1));
+
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -105,6 +114,12 @@ public class Tab1 extends Fragment{
         Intent intent = new Intent(getContext(), AddEventActivity.class);
         startActivityForResult(intent, REQUEST_CODE);
     }
+    @OnClick(R.id.try_refresh_button)
+    public void tryRefreshEvents(){
+        mFailedLoadingContentHolder.setVisibility(View.GONE);
+        mLoadingContentHolder.setVisibility(View.VISIBLE);
+        refreshEvents();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -112,6 +127,7 @@ public class Tab1 extends Fragment{
         setHasOptionsMenu(true);
         // Initialize dataset, this data would usually come from a local content provider or
         // remote server.
+        queue = Volley.newRequestQueue(getContext());
         initDataset();
 
     }
@@ -161,9 +177,6 @@ public class Tab1 extends Fragment{
         refreshEvents();
     }
     private void refreshEvents() {
-        RequestQueue queue = Volley.newRequestQueue(getActivity());
-        String url = Constants.baseUrl + "api/Events";
-
         JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -175,6 +188,10 @@ public class Tab1 extends Fragment{
             @Override
             public void onErrorResponse(VolleyError error) {
                 mSwipeRefreshLayout.setRefreshing(false);
+                mLoadingContentHolder.setVisibility(View.GONE);
+                if (mSwipeRefreshLayout.getVisibility() != View.VISIBLE){
+                    mFailedLoadingContentHolder.setVisibility(View.VISIBLE);
+                }
                 NetworkResponse response = error.networkResponse;
                 if(response != null){
                     displaySnack(response.statusCode);
@@ -218,7 +235,7 @@ public class Tab1 extends Fragment{
                 alert.setActionTextColor(Color.YELLOW);
                 break;
             default:
-                alert = Snackbar.make(mFab, "Failed to get Events", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
+                alert = Snackbar.make(mFab, getString(R.string.fail_loading_event), Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         refreshEvents();
@@ -266,6 +283,8 @@ public class Tab1 extends Fragment{
         @Override
         protected void onPostExecute(ArrayList<Event> arrayList) {
             super.onPostExecute(arrayList);
+            mSwipeRefreshLayout.setVisibility(View.VISIBLE);
+            mLoadingContentHolder.setVisibility(View.GONE);
             mDataset.clear();
             mDataset.addAll(arrayList);
             mAdapter.notifyDataSetChanged();

@@ -47,7 +47,10 @@
 
     <string name="facebook_app_id" translatable="false">1543886725935090</string>
 
+    <string name="tab1">Upcoming events</string>
 
+    <string name="loading_event">Loading upcoming events</string>
+    <string name="fail_loading_event">Failed to get events</string>
     <string name="refresh">Refresh</string>
     <string name="create_event">Create</string>
     <string name="image_description">Background</string>

@@ -16,7 +16,6 @@
     <style name="CreateEventStyle" parent="BaseAppTheme">
         <item name="editTextStyle">@style/EditTextStyle</item>
         <item name="android:textColorSecondary">@color/dark_grey</item>
-
         <item name="colorSwitchThumbNormal">#e0e0e0</item>
         <!-- Inactive track color(30% transparency) -->
         <item name="android:colorForeground">#212121</item>
@@ -31,7 +30,6 @@
         <item name="colorControlNormal">#ffffff</item>
         <item name="colorButtonNormal">@color/ColorPrimary</item>
         <item name="toolbarStyle">@style/custom_toolbar</item>
-        <item name="colorAccent">@color/ColorPrimary</item>
         <item name="android:colorBackground">@color/white</item>
         <item name="android:textColorSecondary">@android:color/black</item>
     </style>

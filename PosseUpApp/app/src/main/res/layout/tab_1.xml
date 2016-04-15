@@ -1,14 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/event_list_swipe"
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/loading_event_message_holder"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/loading_events"
+                android:layout_width="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:text="@string/loading_event"/>
+            <ProgressBar
+                android:id="@+id/loading_event_progress_bar"
+                android:theme="@style/LinearProgress"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:indeterminate="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/loading_events"
+                android:layout_alignLeft="@+id/loading_events"
+                android:layout_alignStart="@+id/loading_events"
+                android:layout_alignRight="@+id/loading_events"
+                android:layout_alignEnd="@+id/loading_events" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/failed_loading_event_message_holder"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/failed_loading_events"
+                android:layout_width="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_horizontal"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:text="@string/fail_loading_event"/>
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/try_refresh_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Retry"
+                android:textColor="@color/white"
+                android:layout_below="@+id/failed_loading_events"
+                android:layout_alignLeft="@+id/failed_loading_events"
+                android:layout_alignStart="@+id/failed_loading_events"
+                android:layout_alignRight="@+id/failed_loading_events"
+                android:layout_alignEnd="@+id/failed_loading_events" />
+        </RelativeLayout>
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/event_list_swipe"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="match_parent">
+
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/cardList"
@@ -19,17 +78,17 @@
                 android:background="@color/light_grey"
                 android:scrollbars="vertical" />
         </android.support.v4.widget.SwipeRefreshLayout>
+    </FrameLayout>
+
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/addEvent_Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
+            android:layout_gravity="bottom|end"
             android:clickable="true"
             android:src="@drawable/ic_add"
-            app:backgroundTint="@color/primaryThemeColor"
-            app:layout_anchor="@id/cardList"
-            app:layout_anchorGravity="bottom|right|end"
+            app:backgroundTint="@color/ColorAccent"
             app:layout_behavior="com.lordan.mark.PosseUp.util.FABScrollBehaviour"
             app:borderWidth="0dp"
             app:fabSize="normal"

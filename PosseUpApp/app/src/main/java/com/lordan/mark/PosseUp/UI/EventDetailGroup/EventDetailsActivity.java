@@ -55,7 +55,6 @@ public class EventDetailsActivity extends AbstractActivity implements EventDetai
         Bundle bundle = getIntent().getExtras();
         int eventID = bundle.getInt(EXTRA_EVENT_ID);
         boolean isUserHost = bundle.getBoolean(EXTRA_IS_USER_HOST);
-        //LatLng location = new LatLng(bundle.getDouble("EventLat"), bundle.getDouble("EventLng"));
         if (eventID != -1) {
             Bundle fragmentBundle = new Bundle();
             fragmentBundle.putInt("EventID", eventID);

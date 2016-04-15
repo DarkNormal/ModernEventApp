@@ -139,6 +139,9 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
         }
 
     }
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
+    }
 
     private void changeFragments(Fragment fragment,String tag){
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment, tag).commit();
