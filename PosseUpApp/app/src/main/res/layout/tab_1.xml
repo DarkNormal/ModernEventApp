@@ -13,6 +13,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/cardList"
                 android:layout_width="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/textView2"
                 android:background="@color/light_grey"
@@ -23,14 +24,15 @@
             android:id="@+id/addEvent_Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginBottom="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_gravity="bottom|right"
             android:clickable="true"
             android:src="@drawable/ic_add"
             app:backgroundTint="@color/primaryThemeColor"
+            app:layout_anchor="@id/cardList"
+            app:layout_anchorGravity="bottom|right|end"
+            app:layout_behavior="com.lordan.mark.PosseUp.util.FABScrollBehaviour"
             app:borderWidth="0dp"
             app:fabSize="normal"
-            android:layout_marginRight="@dimen/margin_medium" />
+            android:layout_margin="@dimen/margin_medium" />
 
 </android.support.design.widget.CoordinatorLayout>
