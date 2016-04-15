@@ -1,77 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="24dp"
-    android:layout_marginStart="@dimen/margin_medium"
-    android:layout_marginLeft="@dimen/margin_medium"
-    android:layout_marginEnd="@dimen/margin_medium"
-    android:layout_marginRight="@dimen/margin_medium">
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/create_event_title_wrapper"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:layout_marginTop="24dp">
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/create_event_title_input"
-            android:layout_width="match_parent"
-            android:maxLines="1"
-            android:inputType="textCapSentences"
+        <ImageView
+            android:id="@+id/add_event_time_icon"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingLeft="@dimen/margin_medium"
+            android:paddingEnd="@dimen/margin_medium"
+            android:alpha="0.5"
+            android:paddingRight="@dimen/margin_medium"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/title" />
+            android:src="@drawable/ic_query_builder"/>
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/all_day_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/dark_grey"
+            android:text="@string/all_day"
+            android:layout_toRightOf="@+id/add_event_time_icon"/>
+        <LinearLayout
+            android:id="@+id/add_event_start_date_wrapper"
+            android:layout_width="match_parent"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingLeft="@dimen/margin_medium"
+            android:paddingEnd="@dimen/margin_medium"
+            android:paddingRight="@dimen/margin_medium"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/add_event_time_icon"
+            android:orientation="horizontal">
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/create_event_date_wrapper"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content">
 
-    </android.support.design.widget.TextInputLayout>
-    <android.support.v7.widget.SwitchCompat
-        android:id="@+id/all_day_switch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:text="@string/all_day"
-        android:layout_gravity="end"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/create_event_date_wrapper"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="wrap_content">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/create_event_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/create_event_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:drawableRight="@drawable/ic_caret_down"
+                    android:layout_marginRight="16dp"/>
 
-                android:focusable="false"
-                android:drawableRight="@drawable/ic_caret_down"
-                android:layout_marginRight="16dp"/>
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/create_event_time_wrapper"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content">
 
-        </android.support.design.widget.TextInputLayout>
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/create_event_time_wrapper"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/create_event_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:drawableRight="@drawable/ic_caret_down"
+                    android:layout_marginRight="16dp"/>
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/create_event_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:drawableRight="@drawable/ic_caret_down"
-                android:layout_marginRight="16dp"/>
-
-        </android.support.design.widget.TextInputLayout>
+            </android.support.design.widget.TextInputLayout>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/add_event_end_date_wrapper"
+            android:layout_below="@+id/add_event_start_date_wrapper"
             android:layout_width="match_parent"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingLeft="@dimen/margin_medium"
+            android:paddingEnd="@dimen/margin_medium"
+            android:paddingRight="@dimen/margin_medium"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <android.support.design.widget.TextInputLayout
@@ -86,8 +89,7 @@
                     android:layout_height="wrap_content"
 
                     android:focusable="false"
-                    android:drawableRight="@drawable/ic_caret_down"
-                    android:layout_marginRight="16dp"/>
+                    android:drawableRight="@drawable/ic_caret_down"/>
 
             </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
@@ -101,125 +103,206 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
-                    android:drawableRight="@drawable/ic_caret_down"
-                    android:layout_marginRight="16dp"/>
+                    android:drawableRight="@drawable/ic_caret_down" />
 
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/add_event_desc_wrapper"
-        android:layout_width="match_parent"
-        android:hint="@string/description"
-        android:layout_height="wrap_content">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/add_event_desc"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/create_event_title_wrapper"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingLeft="@dimen/margin_medium"
+            android:paddingEnd="@dimen/margin_medium"
+            android:paddingRight="@dimen/margin_medium"
+            android:layout_below="@+id/add_event_end_date_wrapper"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/create_event_title_input"
+                android:layout_width="match_parent"
+                android:maxLines="1"
+                android:inputType="textCapSentences"
+                android:layout_height="wrap_content"
+                android:hint="@string/title" />
+
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/add_event_desc_wrapper"
+            android:layout_width="match_parent"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingLeft="@dimen/margin_medium"
+            android:paddingEnd="@dimen/margin_medium"
+            android:paddingRight="@dimen/margin_medium"
+            android:layout_below="@+id/create_event_title_wrapper"
+            android:hint="@string/description"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine|textCapSentences"
-            android:drawableRight="@drawable/ic_caret_down"
-            android:layout_marginRight="16dp"/>
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true">
 
-    </android.support.design.widget.TextInputLayout>
-    <fr.ganfra.materialspinner.MaterialSpinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/event_type"
-        android:id="@+id/create_event_type"
-        android:popupBackground="@color/white"
-        android:layout_gravity="end"/>
-    <android.support.v7.widget.SwitchCompat
-        android:id="@+id/online_event_switch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:text="@string/online_event"
-        android:layout_gravity="end"/>
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/add_event_url_layout"
-        android:layout_width="match_parent"
-        android:visibility="gone"
-        android:hint="@string/description"
-        android:layout_height="wrap_content">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/add_event_url"
-            android:layout_width="match_parent"
-
-            android:layout_height="wrap_content"
-            android:inputType="textUri"/>
-
-    </android.support.design.widget.TextInputLayout>
-    <TextView
-        android:id="@+id/add_event_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_image"
-        android:textSize="@dimen/material_text_title"
-        android:clickable="true"
-        android:drawablePadding="@dimen/margin_large"
-        android:drawableEnd="@drawable/ic_camera"
-        android:layout_marginBottom="@dimen/margin_medium"
-        android:drawableRight="@drawable/ic_camera" />
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/placePickerCard"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <RelativeLayout
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/add_event_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/ColorPrimary">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/venue"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerInParent="true"
-                    android:paddingLeft="8dp"
-                    android:textSize="20sp"
-                    android:textColor="@color/white"/>
-            </RelativeLayout>
+                android:inputType="textMultiLine|textCapSentences"/>
 
-            <LinearLayout
+        </android.support.design.widget.TextInputLayout>
+        <android.support.v7.widget.AppCompatSpinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingLeft="@dimen/margin_medium"
+            android:paddingEnd="@dimen/margin_medium"
+            android:paddingRight="@dimen/margin_medium"
+            android:layout_below="@+id/add_event_desc_wrapper"
+            android:entries="@array/event_type"
+            android:id="@+id/create_event_type"
+            android:popupBackground="@color/white"/>
+
+        <ImageView
+            android:id="@+id/location_drawable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingLeft="@dimen/margin_medium"
+            android:layout_below="@+id/create_event_type"
+            android:src="@drawable/ic_place"
+            android:alpha="0.5"/>
+        <TextView
+            android:id="@+id/add_event_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add_location"
+            android:textColor="@color/dark_grey"
+            android:layout_toRightOf="@+id/location_drawable"
+            android:textSize="@dimen/material_text_subhead"
+            android:clickable="true"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingLeft="@dimen/margin_medium"
+            android:paddingEnd="@dimen/margin_medium"
+            android:paddingRight="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_large"
+            android:layout_below="@+id/create_event_type" />
+
+
+        <ImageView
+            android:id="@+id/image_drawable"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingLeft="@dimen/margin_medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_camera"
+            android:layout_below="@+id/add_event_location"
+            android:alpha="0.5"/>
+
+        <TextView
+            android:id="@+id/add_event_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/add_image"
+            android:layout_toRightOf="@+id/image_drawable"
+            android:layout_below="@+id/add_event_location"
+            android:textColor="@color/dark_grey"
+            android:textSize="@dimen/material_text_subhead"
+            android:clickable="true"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingLeft="@dimen/margin_medium"
+            android:paddingEnd="@dimen/margin_medium"
+            android:paddingRight="@dimen/margin_medium"
+            android:layout_alignBottom="@+id/image_drawable" />
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/online_event_switch"
+            android:layout_width="match_parent"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingLeft="@dimen/margin_medium"
+            android:paddingEnd="@dimen/margin_medium"
+            android:paddingRight="@dimen/margin_medium"
+            android:paddingBottom="@dimen/margin_medium"
+            android:paddingTop="@dimen/margin_medium"
+            android:layout_below="@+id/add_event_image"
+            android:layout_height="wrap_content"
+            android:textColor="@color/dark_grey"
+            android:text="@string/online_event"
+            android:layout_gravity="end"/>
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/add_event_url_layout"
+            android:layout_width="match_parent"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingLeft="@dimen/margin_medium"
+            android:paddingEnd="@dimen/margin_medium"
+            android:paddingRight="@dimen/margin_medium"
+            android:paddingBottom="@dimen/margin_large"
+            android:layout_below="@+id/online_event_switch"
+            android:visibility="gone"
+            android:hint="@string/url"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/add_event_url"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:paddingTop="16dp">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:text="@string/current_location"
-                    android:layout_weight="8"/>
-                <TextView
-                    android:id="@+id/event_current_location"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/default_venue_name" />
+                android:layout_height="wrap_content"
+                android:inputType="textUri"/>
 
-            </LinearLayout>
+        </android.support.design.widget.TextInputLayout>
+
+        <!--<android.support.v7.widget.CardView-->
+        <!--android:id="@+id/placePickerCard"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:orientation="vertical">-->
+        <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/ColorPrimary">-->
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/venue"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:paddingLeft="8dp"-->
+        <!--android:textSize="20sp"-->
+        <!--android:textColor="@color/white"/>-->
+        <!--</RelativeLayout>-->
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:paddingTop="16dp">-->
+        <!--<TextView-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:text="@string/current_location"-->
+        <!--android:layout_weight="8"/>-->
+        <!--<TextView-->
+        <!--android:id="@+id/event_current_location"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/default_venue_name" />-->
+
+        <!--</LinearLayout>-->
 
 
 
-        </LinearLayout>
+        <!--</LinearLayout>-->
 
-    </android.support.v7.widget.CardView>
+        <!--</android.support.v7.widget.CardView>-->
 
-    <ImageView
-        android:id="@+id/event_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
-
-
+        <ImageView
+            android:id="@+id/event_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/add_event_url_layout"/>
 
 
 
 
 
-</LinearLayout>
+
+
+    </RelativeLayout>
 </ScrollView>

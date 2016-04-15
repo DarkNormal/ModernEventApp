@@ -16,12 +16,11 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"/>
-        <LinearLayout
+        <FrameLayout
             android:id="@+id/add_event_fragment_holder"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-    </LinearLayout>
+            android:layout_height="match_parent">
+    </FrameLayout>
 
 
     </LinearLayout>

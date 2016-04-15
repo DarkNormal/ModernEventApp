@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
@@ -60,14 +61,15 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
     @Bind(R.id.create_event_date_end) EditText endDateInput;
     @Bind(R.id.create_event_time) EditText startTimeInput;
     @Bind(R.id.create_event_time_end) EditText endTimeInput;
-    @Bind(R.id.create_event_type) MaterialSpinner visibility;
-    @Bind(R.id.placePickerCard) CardView placeCard;
+    @Bind(R.id.create_event_type) AppCompatSpinner visibility;
+    //@Bind(R.id.placePickerCard) CardView placeCard;
     @Bind(R.id.add_event_url_layout) TextInputLayout url;
+    @Bind(R.id.add_event_location) TextView mAddLocation;
 
     private View v;
     private Event newEvent;
     private final int PLACE_PICKER_REQUEST = 10;
-    private TextView chosenLocation, addImage;
+    private TextView addImage;
     private Place chosenPlace;
     private ImageSelectorDialog dialog;
     private ImageView eventImageView;
@@ -81,15 +83,15 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.add_event_basic_details, container, false);
         ButterKnife.bind(this, v);
-        chosenLocation = (TextView) v.findViewById(R.id.event_current_location);
         addImage = (TextView) v.findViewById(R.id.add_event_image);
         addImage.setOnClickListener(this);
         eventImageView = (ImageView) v.findViewById(R.id.event_image);
         visibilityTypes = getResources().getStringArray(R.array.event_type);
         allDaySwitch.setOnCheckedChangeListener(this);
         onlineEventSwitch.setOnCheckedChangeListener(this);
+        mAddLocation.setOnClickListener(this);
         configDateTimeChooser();
-        placeCard.setOnClickListener(this);
+        //placeCard.setOnClickListener(this);
 
 
         return v;
@@ -142,7 +144,7 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
                 if (resultCode == -1) {
                     chosenPlace = PlacePicker.getPlace(getContext(), data);
                     String toastMsg = String.format("%s", chosenPlace.getName());
-                    chosenLocation.setText(toastMsg);
+                    mAddLocation.setText(toastMsg);
                     Toast.makeText(getContext(), toastMsg, Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -346,14 +348,6 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
                 dialog.setTargetFragment(this, 0);
                 dialog.show(fm, "image_selector");
                 break;
-            case R.id.placePickerCard:
-                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-                try {
-                    startActivityForResult(builder.build(getActivity()), PLACE_PICKER_REQUEST);
-                } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
-                    e.printStackTrace();
-                }
-                break;
             case R.id.create_event_date:
             case R.id.create_event_date_end:
                 addDateDialog(v);
@@ -361,7 +355,15 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
             case R.id.create_event_time:
             case R.id.create_event_time_end:
                 addTimeDialog(v);
-
+                break;
+            case R.id.add_event_location:
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                try {
+                    startActivityForResult(builder.build(getActivity()), PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+                break;
             default:
                 break;
         }
@@ -381,10 +383,10 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
                 break;
             case R.id.online_event_switch:
                 if (isChecked) {
-                    placeCard.setVisibility(View.INVISIBLE);
+                    //placeCard.setVisibility(View.INVISIBLE);
                     url.setVisibility(View.VISIBLE);
                 } else {
-                    placeCard.setVisibility(View.VISIBLE);
+                    //placeCard.setVisibility(View.VISIBLE);
                     url.setVisibility(View.GONE);
                 }
                 break;

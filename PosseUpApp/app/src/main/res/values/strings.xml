@@ -49,6 +49,8 @@
 
     <string name="tab1">Upcoming events</string>
 
+    <string name="url">URL</string>
+    <string name="add_location">Add Location</string>
     <string name="loading_event">Loading upcoming events</string>
     <string name="fail_loading_event">Failed to get events</string>
     <string name="refresh">Refresh</string>

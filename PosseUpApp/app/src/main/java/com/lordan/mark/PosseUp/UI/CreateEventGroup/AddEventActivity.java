@@ -26,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.android.volley.Request;
@@ -65,7 +66,7 @@ public class AddEventActivity extends AbstractActivity {
         setupToolbar();
 
         hostEmail = new AzureService().getCurrentEmail(this);
-        LinearLayout fragmentHolder = (LinearLayout) findViewById(R.id.add_event_fragment_holder);
+        FrameLayout fragmentHolder = (FrameLayout) findViewById(R.id.add_event_fragment_holder);
         FragmentManager fragMan = getSupportFragmentManager();
         FragmentTransaction fragTransaction = fragMan.beginTransaction();
         myFrag = new FirstEventFragment();
