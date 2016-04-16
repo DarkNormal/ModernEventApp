@@ -73,10 +73,11 @@ public class Tab1 extends Fragment{
     @Bind(R.id.failed_loading_event_message_holder) public RelativeLayout mFailedLoadingContentHolder;
     @Bind(R.id.try_refresh_button) public AppCompatButton mTryRefreshButton;
     private static final String TAG = "MainActivity - TAB1";
+    private static final String EVENT_LIST = "com.lordan.mark.PosseUp.event_list";
 
     private static final int REQUEST_CODE = 1;
     private CustomAdapter mAdapter;
-    private List<Event> mDataset;
+    private ArrayList<Event> mDataset;
     private RequestQueue queue;
     private String url = Constants.baseUrl + "api/Events";
 
@@ -85,10 +86,10 @@ public class Tab1 extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tab_1, container, false);
         ButterKnife.bind(this, v);
-        v.setTag(TAG);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(layoutManager);
+        if(savedInstanceState != null){
+            switchViews(true);
+        }
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new CustomAdapter(getContext(), mDataset, new CustomItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
@@ -125,11 +126,19 @@ public class Tab1 extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        // Initialize dataset, this data would usually come from a local content provider or
-        // remote server.
         queue = Volley.newRequestQueue(getContext());
-        initDataset();
+        if(savedInstanceState == null) {
+            mDataset = new ArrayList<>();
+            refreshEvents();
+        }
+        else{
+            mDataset = savedInstanceState.getParcelableArrayList(EVENT_LIST);
+        }
 
+    }
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putParcelableArrayList(EVENT_LIST, mDataset);
     }
 
     @Override
@@ -171,11 +180,6 @@ public class Tab1 extends Fragment{
 
         }
     }
-
-    private void initDataset() {
-        mDataset = new ArrayList<>();
-        refreshEvents();
-    }
     private void refreshEvents() {
         JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
@@ -207,6 +211,17 @@ public class Tab1 extends Fragment{
 
 
     }
+    private void switchViews(boolean loadingSuccess){
+        if (loadingSuccess) {
+            mLoadingContentHolder.setVisibility(View.GONE);
+            mSwipeRefreshLayout.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            mLoadingContentHolder.setVisibility(View.GONE);
+            mFailedLoadingContentHolder.setVisibility(View.VISIBLE);
+        }
+    }
     private void displaySnack(int errorCode){
         //displays a custom snackbar based on the error code
         Snackbar alert;
@@ -219,8 +234,6 @@ public class Tab1 extends Fragment{
                         refreshEvents();
                     }
                 });
-
-
                 alert.setActionTextColor(Color.RED);
                 break;
             case 403:
@@ -287,8 +300,7 @@ public class Tab1 extends Fragment{
         @Override
         protected void onPostExecute(ArrayList<Event> arrayList) {
             super.onPostExecute(arrayList);
-            mSwipeRefreshLayout.setVisibility(View.VISIBLE);
-            mLoadingContentHolder.setVisibility(View.GONE);
+            switchViews(true);
             mDataset.clear();
             mDataset.addAll(arrayList);
             mAdapter.notifyDataSetChanged();

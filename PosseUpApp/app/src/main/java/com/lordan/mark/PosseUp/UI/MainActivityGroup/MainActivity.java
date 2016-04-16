@@ -17,6 +17,7 @@ import com.lordan.mark.PosseUp.UI.ProfileGroup.ProfileFragment;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NavUtils;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -50,6 +51,7 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
     public NavigationView navView;
     @Bind(R.id.drawer_layout)
     public DrawerLayout mDrawerLayout;
+    private Fragment content;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,16 +127,28 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
         //Check to see which item was being clicked and perform appropriate action
         switch (menuItem.getItemId()) {
             case R.id.drawer_home:
-                changeFragments(new Tab1(), "TAB1");
+                if(!(content instanceof Tab1)){
+                content = new Tab1();
+                changeFragments(content, "TAB1");
+                }
                 break;
             case R.id.drawer_profile:
-                changeFragments(ProfileFragment.newInstance(true, getCurrentUsername()), "PROFILE_TAB");
+                if(!(content instanceof ProfileFragment)) {
+                    content = ProfileFragment.newInstance(true, getCurrentUsername());
+                    changeFragments(content, "PROFILE_TAB");
+                }
                 break;
             case R.id.drawer_events:
-                changeFragments(EventBreakdownFragment.newInstance(getCurrentUsername()), "BREAKDOWN_TAB");
+                if(!(content instanceof EventBreakdownFragment)) {
+                    content = EventBreakdownFragment.newInstance(getCurrentUsername());
+                    changeFragments(content, "BREAKDOWN_TAB");
+                }
                 break;
             case R.id.drawer_chat:
-                changeFragments(new ChatFragment(), "CHAT_TAB");
+                if(!(content instanceof  ChatFragment)) {
+                    content = new ChatFragment();
+                    changeFragments(content, "CHAT_TAB");
+                }
                 break;
         }
 
