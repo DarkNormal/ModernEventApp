@@ -44,11 +44,17 @@ import com.lordan.mark.PosseUp.AbstractActivity;
 import com.lordan.mark.PosseUp.DataOperations.AzureService;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.Event;
+import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
+import com.lordan.mark.PosseUp.UI.InviteFollowersDialog;
 import com.lordan.mark.PosseUp.VolleyCallback;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -57,12 +63,13 @@ import butterknife.ButterKnife;
 /**
  * Created by Mark on 10/27/2015
  */
-public class AddEventActivity extends AbstractActivity {
+public class AddEventActivity extends AbstractActivity implements InviteFollowersDialog.InviteFollowersDialogListener{
     private FirstEventFragment myFrag;
     private RequestQueue queue;
     private String hostEmail;
     private String eventID;
     private Event newEvent;
+    private String[] mSelectedFollowers;
     @Bind(R.id.add_event_progress_bar) public ProgressBar progressBar;
     @Bind(R.id.coordinatorLayout) public CoordinatorLayout coordinatorLayout;
 
@@ -124,14 +131,22 @@ public class AddEventActivity extends AbstractActivity {
                 newEvent = myFrag.getEvent();
                 if(newEvent != null){
                     newEvent.setHostEmail(hostEmail);
+                    newEvent.setInvitedGuests(mSelectedFollowers);
                     sendEvent(newEvent);
                 }
                 break;
+            case R.id.create_event_invite:
+                inviteFriends();
             default:
                 break;
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onFinishInviteDialog(String[] selectedUsers) {
+        mSelectedFollowers = selectedUsers;
     }
 
     public static class ConfirmExitDialog extends DialogFragment{
@@ -154,6 +169,32 @@ public class AddEventActivity extends AbstractActivity {
             return builder.create();
         }
     }
+    private void inviteFriends(){
+        getUserDetails(new VolleyCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                String[] followers = null;
+                try {
+                    followers = new String[result.getJSONArray("Followers").length()];
+                    for (int i = 0; i < result.getJSONArray("Followers").length(); i++) {
+                        JSONObject jsonObject = result.getJSONArray("Followers").getJSONObject(i);
+                        followers[i] = jsonObject.getString("Username");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                InviteFollowersDialog inviteFriendsDialog = new InviteFollowersDialog();
+                inviteFriendsDialog.setFollowers(followers);
+                inviteFriendsDialog.show(getFragmentManager(), "invite_dialog");
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+        });
+    }
+
     private void sendEvent(Event e){
         progressBar.setVisibility(View.VISIBLE);
         sendEvent(e, new VolleyCallback() {
@@ -211,6 +252,7 @@ public class AddEventActivity extends AbstractActivity {
         try {
             eventObj = new JSONObject(event);
 
+
         } catch (JSONException e1) {
             e1.printStackTrace();
         }
@@ -260,6 +302,24 @@ public class AddEventActivity extends AbstractActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 callback.onError(error);
+            }
+        });
+        queue.add(jsonObjectRequest);
+    }
+
+    private void getUserDetails(final VolleyCallback callback) {
+        String url = Constants.baseUrl + "api/Account/UserInfo/" + new AzureService().getCurrentUsername(this).replace(" ", "%20");
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                callback.onSuccess(response);
+                Log.i("profilefragment", "got response");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("profilefragment", "got error");
+
             }
         });
         queue.add(jsonObjectRequest);

@@ -72,6 +72,11 @@ public class Event extends BaseObservable implements Parcelable{
 
 
 
+    @SerializedName("EventInvitedGuests")
+    private ArrayList<User> invitedGuests;
+
+
+
     @SerializedName("EventVenue")
     private PlaceVenue placeDetails;
 
@@ -248,7 +253,9 @@ public class Event extends BaseObservable implements Parcelable{
     }
 
     public void setAttendees(JSONArray attendees) {
-        this.attendees.clear();
+        if(this.attendees != null){
+            this.attendees.clear();
+        }
         for (int i = 0; i < attendees.length(); i++) {
             try {
                 this.attendees.add(new User(attendees.getJSONObject(i).getString("Username"),attendees.getJSONObject(i).getInt("Id")));
@@ -311,5 +318,17 @@ public class Event extends BaseObservable implements Parcelable{
     }
     public String getLastMessageTimeStamp(){
         return lastMessageTimeStamp;
+    }
+
+    public ArrayList<User> getInvitedGuests() {
+        return invitedGuests;
+    }
+
+    public void setInvitedGuests(String[] invitedGuests) {
+        this.invitedGuests = new ArrayList<>();
+        for (String s: invitedGuests) {
+            this.invitedGuests.add(new User(s));
+        }
+
     }
 }
