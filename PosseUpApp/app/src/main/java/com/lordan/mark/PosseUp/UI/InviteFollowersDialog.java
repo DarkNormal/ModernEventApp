@@ -1,11 +1,13 @@
 package com.lordan.mark.PosseUp.UI;
 
+
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 
+import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
 
 import java.util.ArrayList;
@@ -36,9 +38,9 @@ public class InviteFollowersDialog extends DialogFragment {
                 .setPositiveButton("Invite", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         InviteFollowersDialogListener activity = (InviteFollowersDialogListener) getActivity();
-                        String[] selectedFollowers = new String[mSelectedFollowers.size()];
+                        ArrayList<User> selectedFollowers = new ArrayList<User>();
                         for (int i = 0; i < mSelectedFollowers.size(); i++) {
-                            selectedFollowers[i] =followers[mSelectedFollowers.get(i)];
+                            selectedFollowers.add(new User(followers[mSelectedFollowers.get(i)]));
                         }
                         activity.onFinishInviteDialog(selectedFollowers);
                     }
@@ -51,7 +53,7 @@ public class InviteFollowersDialog extends DialogFragment {
         return builder.create();
     }
     public interface InviteFollowersDialogListener {
-        void onFinishInviteDialog(String[] selectedFollowers);
+        void onFinishInviteDialog(ArrayList<User> selectedFollowers);
     }
     public void setFollowers(String[] followers){
         this.followers = followers;

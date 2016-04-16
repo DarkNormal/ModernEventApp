@@ -58,6 +58,7 @@ import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.NearbyPublishInterface;
 import com.lordan.mark.PosseUp.R;
+import com.lordan.mark.PosseUp.UI.InviteFollowersDialog;
 import com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity;
 import com.lordan.mark.PosseUp.UI.ProfileGroup.ProfileActivity;
 import com.lordan.mark.PosseUp.databinding.FragmentEventDetailsBinding;
@@ -191,7 +192,7 @@ public class EventDetailsFragment extends Fragment implements
                 Toast.makeText(getContext(), "Edit event selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.invite_to_event:
-                Toast.makeText(getContext(), "Invite followers or non-users to event", Toast.LENGTH_SHORT).show();
+                mListener.onInviteFollowers(eventID);
                 return true;
             case R.id.take_attendance:
                 if(isUserHost) {
@@ -288,8 +289,11 @@ public class EventDetailsFragment extends Fragment implements
     }
 
 
+
+
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Event e);
+        void onInviteFollowers(int eventID);
     }
 
     private void getEventDetails(int id) {

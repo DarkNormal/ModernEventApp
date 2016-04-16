@@ -2,8 +2,8 @@ package com.lordan.mark.PosseUp.UI.CreateEventGroup;
 
 
 
+
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 
 import android.support.v4.app.FragmentTransaction;
@@ -46,6 +47,7 @@ import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
+import com.lordan.mark.PosseUp.UI.EventDetailGroup.EventDetailsActivity;
 import com.lordan.mark.PosseUp.UI.InviteFollowersDialog;
 import com.lordan.mark.PosseUp.VolleyCallback;
 
@@ -69,7 +71,7 @@ public class AddEventActivity extends AbstractActivity implements InviteFollower
     private String hostEmail;
     private String eventID;
     private Event newEvent;
-    private String[] mSelectedFollowers;
+    private ArrayList<User> mSelectedFollowers;
     @Bind(R.id.add_event_progress_bar) public ProgressBar progressBar;
     @Bind(R.id.coordinatorLayout) public CoordinatorLayout coordinatorLayout;
 
@@ -125,7 +127,7 @@ public class AddEventActivity extends AbstractActivity implements InviteFollower
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
                 ConfirmExitDialog confirm = new ConfirmExitDialog();
-                confirm.show(fm, "confirm_dialog");
+                confirm.show(getSupportFragmentManager(), "confirm_dialog");
                 break;
             case (R.id.create_event_next):
                 newEvent = myFrag.getEvent();
@@ -145,11 +147,11 @@ public class AddEventActivity extends AbstractActivity implements InviteFollower
     }
 
     @Override
-    public void onFinishInviteDialog(String[] selectedUsers) {
+    public void onFinishInviteDialog(ArrayList<User> selectedUsers) {
         mSelectedFollowers = selectedUsers;
     }
 
-    public static class ConfirmExitDialog extends DialogFragment{
+    public static class ConfirmExitDialog extends DialogFragment {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the Builder class for convenient dialog construction
@@ -170,7 +172,7 @@ public class AddEventActivity extends AbstractActivity implements InviteFollower
         }
     }
     private void inviteFriends(){
-        getUserDetails(new VolleyCallback() {
+        queue.add(getUserDetails(new VolleyCallback() {
             @Override
             public void onSuccess(JSONObject result) {
                 String[] followers = null;
@@ -185,14 +187,25 @@ public class AddEventActivity extends AbstractActivity implements InviteFollower
                 }
                 InviteFollowersDialog inviteFriendsDialog = new InviteFollowersDialog();
                 inviteFriendsDialog.setFollowers(followers);
-                inviteFriendsDialog.show(getFragmentManager(), "invite_dialog");
+                inviteFriendsDialog.show(getSupportFragmentManager(), "invite_dialog");
             }
 
             @Override
             public void onError(VolleyError error) {
-
+                Snackbar alert = Snackbar.make(coordinatorLayout, "Failed to retrieve followers", Snackbar.LENGTH_LONG)
+                        .setAction("Retry", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                inviteFriends();
+                            }
+                        })
+                        .setActionTextColor(Color.YELLOW);
+                View v = alert.getView();
+                TextView textView = (TextView) v.findViewById(android.support.design.R.id.snackbar_text);
+                textView.setTextColor(Color.WHITE);
+                alert.show();
             }
-        });
+        }));
     }
 
     private void sendEvent(Event e){
@@ -307,22 +320,6 @@ public class AddEventActivity extends AbstractActivity implements InviteFollower
         queue.add(jsonObjectRequest);
     }
 
-    private void getUserDetails(final VolleyCallback callback) {
-        String url = Constants.baseUrl + "api/Account/UserInfo/" + new AzureService().getCurrentUsername(this).replace(" ", "%20");
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                callback.onSuccess(response);
-                Log.i("profilefragment", "got response");
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("profilefragment", "got error");
 
-            }
-        });
-        queue.add(jsonObjectRequest);
-    }
 }
 

@@ -324,11 +324,8 @@ public class Event extends BaseObservable implements Parcelable{
         return invitedGuests;
     }
 
-    public void setInvitedGuests(String[] invitedGuests) {
-        this.invitedGuests = new ArrayList<>();
-        for (String s: invitedGuests) {
-            this.invitedGuests.add(new User(s));
-        }
+    public void setInvitedGuests(ArrayList<User> invitedGuests) {
+        this.invitedGuests = invitedGuests;
 
     }
 }

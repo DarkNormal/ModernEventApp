@@ -3,13 +3,17 @@ package com.lordan.mark.PosseUp.UI.EventDetailGroup;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -23,23 +27,29 @@ import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
+import com.lordan.mark.PosseUp.UI.InviteFollowersDialog;
+import com.lordan.mark.PosseUp.VolleyCallback;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * Created by Mark on 07/02/2016
  */
 
 
-public class EventDetailsActivity extends AbstractActivity implements EventDetailsFragment.OnFragmentInteractionListener, UserFragment.OnListFragmentInteractionListener{
+public class EventDetailsActivity extends AbstractActivity implements EventDetailsFragment.OnFragmentInteractionListener, UserFragment.OnListFragmentInteractionListener,
+        InviteFollowersDialog.InviteFollowersDialogListener{
 
 
     private static final String TAG = "EventDetailsActivity";
     private static final String EXTRA_EVENT_ID = "EventDetailsActivity.eventID";
     private static final String EXTRA_IS_USER_HOST = "EventDetailsActivity.isHost";
     private RequestQueue queue;
-
+    private int eventID;
     private final FragmentManager fragmentManager = getSupportFragmentManager();
     public static Intent newIntent(Context context, int eventID, boolean isHost){
         Intent intent = new Intent(context, EventDetailsActivity.class);
@@ -53,7 +63,7 @@ public class EventDetailsActivity extends AbstractActivity implements EventDetai
         queue = Volley.newRequestQueue(this);
         setContentView(R.layout.scrollview_layout);
         Bundle bundle = getIntent().getExtras();
-        int eventID = bundle.getInt(EXTRA_EVENT_ID);
+        eventID = bundle.getInt(EXTRA_EVENT_ID);
         boolean isUserHost = bundle.getBoolean(EXTRA_IS_USER_HOST);
         if (eventID != -1) {
             Bundle fragmentBundle = new Bundle();
@@ -107,6 +117,35 @@ public class EventDetailsActivity extends AbstractActivity implements EventDetai
         fragmentManager.beginTransaction().replace(R.id.fragment_content_holder, fragment).addToBackStack("EventAttendeeList").commit();
 
     }
+
+    @Override
+    public void onInviteFollowers(int eventID) {
+        InviteFollowersDialog inviteFollowersDialog = new InviteFollowersDialog();
+        queue.add(getUserDetails(new VolleyCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                String[] followers = null;
+                try {
+                    followers = new String[result.getJSONArray("Followers").length()];
+                    for (int i = 0; i < result.getJSONArray("Followers").length(); i++) {
+                        JSONObject jsonObject = result.getJSONArray("Followers").getJSONObject(i);
+                        followers[i] = jsonObject.getString("Username");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                InviteFollowersDialog inviteFriendsDialog = new InviteFollowersDialog();
+                inviteFriendsDialog.setFollowers(followers);
+                inviteFriendsDialog.show(getSupportFragmentManager(), "invite_dialog");
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+                //failed to get followers
+            }
+        }));
+    }
+
     @Override
     public void onListFragmentInteraction(User u) {
         checkFriendStatus(u);
@@ -131,6 +170,33 @@ public class EventDetailsActivity extends AbstractActivity implements EventDetai
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(EventDetailsActivity.this, u.getUsername() + " selected, is not friends with you", Toast.LENGTH_SHORT).show();
+            }
+        });
+        queue.add(jsonObjectRequest);
+    }
+
+    @Override
+    public void onFinishInviteDialog(ArrayList<User> selectedFollowers) {
+        JSONArray jsonArray = new JSONArray();
+        String url = Constants.baseUrl + "api/Event/Invite/" + eventID ;
+        for (User u: selectedFollowers) {
+            jsonArray.put(u.getUsername());
+        }
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("Usernames", jsonArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.i(TAG, "success invite");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i(TAG, "fail invite");
             }
         });
         queue.add(jsonObjectRequest);

@@ -4,9 +4,18 @@ import android.content.SharedPreferences;
 
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
+import com.lordan.mark.PosseUp.DataOperations.AzureService;
+import com.lordan.mark.PosseUp.Model.Constants;
+
+import org.json.JSONObject;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -72,5 +81,23 @@ public abstract class AbstractActivity extends AppCompatActivity {
             return prefs.getString("username", null);
         }
         return null;
+    }
+
+    protected JsonObjectRequest getUserDetails(final VolleyCallback callback) {
+        String url = Constants.baseUrl + "api/Account/UserInfo/" + new AzureService().getCurrentUsername(this).replace(" ", "%20");
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                callback.onSuccess(response);
+                Log.i("profilefragment", "got response");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("profilefragment", "got error");
+                callback.onError(error);
+            }
+        });
+        return jsonObjectRequest;
     }
 }
