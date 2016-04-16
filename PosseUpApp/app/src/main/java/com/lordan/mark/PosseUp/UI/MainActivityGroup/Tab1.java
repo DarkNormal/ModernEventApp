@@ -238,6 +238,10 @@ public class Tab1 extends Fragment{
                 alert = Snackbar.make(mFab, getString(R.string.fail_loading_event), Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        if(mFailedLoadingContentHolder.getVisibility() == View.VISIBLE) {
+                            mFailedLoadingContentHolder.setVisibility(View.GONE);
+                            mLoadingContentHolder.setVisibility(View.VISIBLE);
+                        }
                         refreshEvents();
                     }
                 });
