@@ -16,6 +16,14 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"/>
+        <ProgressBar
+            android:id="@+id/add_event_progress_bar"
+            android:theme="@style/LinearProgress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:indeterminate="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
         <FrameLayout
             android:id="@+id/add_event_fragment_holder"
             android:layout_width="match_parent"

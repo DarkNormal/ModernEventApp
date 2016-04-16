@@ -6,7 +6,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="24dp">
+        android:layout_marginTop="@dimen/margin_medium">
 
         <ImageView
             android:id="@+id/add_event_time_icon"
@@ -210,20 +210,6 @@
             android:paddingEnd="@dimen/margin_medium"
             android:paddingRight="@dimen/margin_medium"
             android:layout_alignBottom="@+id/image_drawable" />
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/online_event_switch"
-            android:layout_width="match_parent"
-            android:paddingStart="@dimen/margin_medium"
-            android:paddingLeft="@dimen/margin_medium"
-            android:paddingEnd="@dimen/margin_medium"
-            android:paddingRight="@dimen/margin_medium"
-            android:paddingBottom="@dimen/margin_medium"
-            android:paddingTop="@dimen/margin_medium"
-            android:layout_below="@+id/add_event_image"
-            android:layout_height="wrap_content"
-            android:textColor="@color/dark_grey"
-            android:text="@string/online_event"
-            android:layout_gravity="end"/>
         <android.support.design.widget.TextInputLayout
             android:id="@+id/add_event_url_layout"
             android:layout_width="match_parent"
@@ -232,7 +218,7 @@
             android:paddingEnd="@dimen/margin_medium"
             android:paddingRight="@dimen/margin_medium"
             android:paddingBottom="@dimen/margin_large"
-            android:layout_below="@+id/online_event_switch"
+            android:layout_below="@+id/add_event_image"
             android:visibility="gone"
             android:hint="@string/url"
             android:layout_height="wrap_content">

@@ -3,6 +3,7 @@ package com.lordan.mark.PosseUp.UI.CreateEventGroup;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -12,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.SwitchCompat;
@@ -47,14 +49,12 @@ import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import fr.ganfra.materialspinner.MaterialSpinner;
 
 /**
  * Created by Mark on 14/01/2016
  */
 public class FirstEventFragment extends Fragment implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
     @Bind(R.id.all_day_switch) SwitchCompat allDaySwitch;
-    @Bind(R.id.online_event_switch) SwitchCompat onlineEventSwitch;
     @Bind(R.id.create_event_title_input) EditText title;
     @Bind(R.id.add_event_desc) EditText description;
     @Bind(R.id.create_event_date) EditText startDateInput;
@@ -62,8 +62,6 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
     @Bind(R.id.create_event_time) EditText startTimeInput;
     @Bind(R.id.create_event_time_end) EditText endTimeInput;
     @Bind(R.id.create_event_type) AppCompatSpinner visibility;
-    //@Bind(R.id.placePickerCard) CardView placeCard;
-    @Bind(R.id.add_event_url_layout) TextInputLayout url;
     @Bind(R.id.add_event_location) TextView mAddLocation;
 
     private View v;
@@ -88,7 +86,6 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
         eventImageView = (ImageView) v.findViewById(R.id.event_image);
         visibilityTypes = getResources().getStringArray(R.array.event_type);
         allDaySwitch.setOnCheckedChangeListener(this);
-        onlineEventSwitch.setOnCheckedChangeListener(this);
         mAddLocation.setOnClickListener(this);
         configDateTimeChooser();
         //placeCard.setOnClickListener(this);
@@ -273,35 +270,46 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
                 startingDate = startDateInput.getText().toString() + " " + startTimeInput.getText().toString();
                 endingDate = endDateInput.getText().toString() + " " + endTimeInput.getText().toString();
             }
-
-            newEvent = new Event(0,
-                    title.getText().toString(),
-                    description.getText().toString(),
-                    visibilityTypes[visibility.getSelectedItemPosition()],
-                    allDaySwitch.isChecked(),
-                    chosenPlace,
-                    onlineEventSwitch.isChecked()
-            );
-            Date date = parseDate(startingDate);
-            Calendar cal = Calendar.getInstance();
-            if (date != null) {
-                cal.setTime(date);
+            if(chosenPlace == null){
+                new AlertDialog.Builder(getContext(),R.style.CustomAlertDialogStyle)
+                        .setMessage("Please select a location")
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // continue with delete
+                            }
+                        })
+                        .setCancelable(false)
+                        .show();
             }
-            newEvent.setStartingCal(cal);
-            date = parseDate(endingDate);
-            if (date != null) {
-                cal.setTime(date);
+            else {
+                newEvent = new Event(0,
+                        title.getText().toString(),
+                        description.getText().toString(),
+                        visibilityTypes[visibility.getSelectedItemPosition()],
+                        allDaySwitch.isChecked(),
+                        chosenPlace
+                );
+                Date date = parseDate(startingDate);
+                Calendar cal = Calendar.getInstance();
+                if (date != null) {
+                    cal.setTime(date);
+                }
+                newEvent.setStartingCal(cal);
+                date = parseDate(endingDate);
+                if (date != null) {
+                    cal.setTime(date);
+                }
+                newEvent.setEndingCal(cal);
+                if (eventImage != null) {
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    eventImage.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                    byte[] byteArray = byteArrayOutputStream.toByteArray();
+                    String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                    newEvent.setEventImage(encoded);
+                    byteArray = null;
+                }
+                return newEvent;
             }
-            newEvent.setEndingCal(cal);
-            if (eventImage != null) {
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                eventImage.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-                byte[] byteArray = byteArrayOutputStream.toByteArray();
-                String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
-                newEvent.setEventImage(encoded);
-                byteArray = null;
-            }
-            return newEvent;
         }
         return null;
     }
@@ -381,16 +389,6 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
                     endTimeInput.setVisibility(View.VISIBLE);
                 }
                 break;
-            case R.id.online_event_switch:
-                if (isChecked) {
-                    //placeCard.setVisibility(View.INVISIBLE);
-                    url.setVisibility(View.VISIBLE);
-                } else {
-                    //placeCard.setVisibility(View.VISIBLE);
-                    url.setVisibility(View.GONE);
-                }
-                break;
-
         }
     }
 

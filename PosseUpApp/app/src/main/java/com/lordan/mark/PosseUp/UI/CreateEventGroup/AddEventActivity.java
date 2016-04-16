@@ -28,6 +28,8 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -48,6 +50,9 @@ import com.lordan.mark.PosseUp.VolleyCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 
 /**
  * Created by Mark on 10/27/2015
@@ -57,12 +62,15 @@ public class AddEventActivity extends AbstractActivity {
     private RequestQueue queue;
     private String hostEmail;
     private String eventID;
+    private Event newEvent;
+    @Bind(R.id.add_event_progress_bar) public ProgressBar progressBar;
+    @Bind(R.id.coordinatorLayout) public CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.addevent_layout);
-
+        ButterKnife.bind(this);
         setupToolbar();
 
         hostEmail = new AzureService().getCurrentEmail(this);
@@ -113,7 +121,7 @@ public class AddEventActivity extends AbstractActivity {
                 confirm.show(fm, "confirm_dialog");
                 break;
             case (R.id.create_event_next):
-                Event newEvent = myFrag.getEvent();
+                newEvent = myFrag.getEvent();
                 if(newEvent != null){
                     newEvent.setHostEmail(hostEmail);
                     sendEvent(newEvent);
@@ -147,6 +155,7 @@ public class AddEventActivity extends AbstractActivity {
         }
     }
     private void sendEvent(Event e){
+        progressBar.setVisibility(View.VISIBLE);
         sendEvent(e, new VolleyCallback() {
             @Override
             public void onSuccess(final JSONObject result) {
@@ -156,6 +165,7 @@ public class AddEventActivity extends AbstractActivity {
                 } catch (JSONException e1) {
                     e1.printStackTrace();
                 }
+                progressBar.setVisibility(View.INVISIBLE);
                 String url = Constants.baseUrl + "api/Event/Attend/" + eventID + "?username=" + new AzureService().getCurrentUsername(getApplicationContext());
                 addHostToEventList(url, new VolleyCallback() {
                     @Override
@@ -172,6 +182,7 @@ public class AddEventActivity extends AbstractActivity {
 
                     @Override
                     public void onError(VolleyError error) {
+                        progressBar.setVisibility(View.INVISIBLE);
 
                     }
                 });
@@ -179,7 +190,17 @@ public class AddEventActivity extends AbstractActivity {
 
             @Override
             public void onError(VolleyError error) {
-
+                Snackbar snackbar = Snackbar.make(coordinatorLayout, "Error creating event", Snackbar.LENGTH_SHORT).setAction("RETRY", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        sendEvent(newEvent);
+                    }
+                }).setActionTextColor(Color.YELLOW);
+                View v = snackbar.getView();
+                TextView textView = (TextView) v.findViewById(android.support.design.R.id.snackbar_text);
+                textView.setTextColor(Color.WHITE);
+                progressBar.setVisibility(View.INVISIBLE);
+                snackbar.show();
             }
         });
     }
