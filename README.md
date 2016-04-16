@@ -17,7 +17,6 @@ Used libraries
 [CircularImageView](https://github.com/lopspower/CircularImageView)<br>
 [Picasso](https://github.com/square/picasso)<br>
 [Butterknife](https://github.com/JakeWharton/butterknife)<br>
-[Material Spinner](https://github.com/ganfra/MaterialSpinner)<br>
 [PubNub](https://www.pubnub.com/)<br>
 Facebook SDK (External Login) <br>
 [Fabric - Twitter SDK (Analytics)](https://fabric.io/) <br>
@@ -52,6 +51,6 @@ Rank System - TODO <br>
 Image Storage - Working <br>
 Mobile Analytics - Working <br>
 External Sign-in - Working (Facebook & Twitter) <br>
-Marshmallow Permissions - TODO <br>
+Marshmallow Permissions - Working <br>
 
 
