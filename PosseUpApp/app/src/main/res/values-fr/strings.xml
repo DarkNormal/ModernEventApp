@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_basic_info">
-        Formez des groupes et faire de nouveaux amis, quel que soit l\'événement! Vous pouvez vous joindre à des événements publics, ou créer vos propres séances privées pour vous et vos amis
-    </string>
     <string name="username_field">Nom d\'utilisateur / Email</string>
     <string name="password_field">Mot de passe</string>
     <string name="sign_in_button">S\'inscrire</string>
@@ -15,22 +12,18 @@
     <string name="drawer_profile">Profil</string>
     <string name="closeddrawer">Fermé</string>
     <string name="full_name">Nom complet</string>
-    <string name="hi">Salut</string>
     <string name="menu_sign_out"> Se déconnecter</string>
     <string name="no_account">Créer un compte</string>
     <string name="opendrawer">Ouvert</string>
     <string name="password_code">Code</string>
     <string name="title">Titre</string>
     <string name="unfollow">cesser de suivre </string>
-    <string name="venue">Lieu</string>
-    <string name="visibility">Visibilité</string>
     <string name="view_all">Voir tout</string>
     <string name="refresh">rafraîchir</string>
     <string name="or">ou</string>
     <string name="leave">laisser</string>
     <string name="guests_heading">invités (%1$d)</string>
     <string name="create_event">Créer</string>
-    <string name="current_location">Localisation actuelle</string>
     <string name="description">La description</string>
     <string name="email_field">Email</string>
     <string name="extra_guests">+ %1d invités</string>
@@ -43,14 +36,11 @@
     <string name="camera">caméra</string>
     <string name="delete_event">Supprimer l\'événement</string>
     <string name="drawer_chat"> bavarder</string>
-    <string name="drawer_icon"> icône</string>
     <string name="edit_event"> Modifier l\'événement</string>
     <string name="event_image"> image de l\'événement</string>
     <string name="gallery">Galerie</string>
-    <string name="default_venue_name"> pas encore défini</string>
     <string name="image_description"> Contexte</string>
     <string name="invite">Invitez</string>
-    <string name="online_event">événement en ligne</string>
     <string name="reset_begin"> confirmer</string>
     <string name="reset_info"> Vous recevrez rapidement un message avec un code unique . S\'il vous plaît le coller dans la zone de code ci-dessus , et cliquez sur confirmer pour continuer</string>
     <string name="send"> envoyer</string>

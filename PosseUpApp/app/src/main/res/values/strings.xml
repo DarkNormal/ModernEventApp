@@ -1,9 +1,5 @@
 <resources>
     <string name="app_name" translatable="false">Posse Up</string>
-    <string name="app_basic_info">
-        Form groups and make new friends, whatever the event!
-        You can join in on public events, or create your own private sessions for you and your friends
-    </string>
     <string name="email_field">Email</string>
     <string name="username_field">Username</string>
     <string name="password_field">Password</string>
@@ -18,8 +14,6 @@
 
     <string name="full_name">Full Name</string>
     <string name="already_account">Already have an account? Sign in</string>
-
-    <string name="hi">Hi </string>
 
     <string name="menu_sign_out">Sign out</string>
     <string-array name="event_type">
@@ -37,14 +31,6 @@
     <string name="drawer_events">Events</string>
     <string name="drawer_chat">Chat</string>
 
-    <integer-array name="nav_drawer_icons">
-        <item>@drawable/ic_home_grey</item>
-        <item>@drawable/ic_account_circle_grey</item>
-        <item>@drawable/ic_event_grey</item>
-        <item>@drawable/ic_people_grey</item>
-        <item>@drawable/ic_settings_grey</item>
-    </integer-array>
-
     <string name="facebook_app_id" translatable="false">1543886725935090</string>
 
     <string name="tab1">Upcoming events</string>
@@ -57,20 +43,12 @@
     <string name="create_event">Create</string>
     <string name="image_description">Background</string>
     <string name="event_image">Event image</string>
-    <string name="drawer_icon">Drawer item icon</string>
-    <string name="placeholder" translatable="false">PLACEHOLDER</string>
 
     <!--Create Event strings-->
     <string name="title">Title</string>
     <string name="description">Description</string>
-    <string name="visibility">Visibility</string>
-    <string name="venue">Venue</string>
-    <string name="current_location">Current Location</string>
-    <string name="default_venue_name">Not set</string>
-    <string name="online_event">Online event</string>
     <string name="all_day">All Day</string>
     <string name="event_date" translatable="false">%1$d/%2$d/%3$d</string>
-    <string name="event_time" translatable="false">%1$d:%2$d</string>
     <string name="add_image">Add an event picture</string>
 
 
@@ -84,7 +62,6 @@
     <string name="guests_heading">guests (%1$d)</string>
     <string name="invited_guests_heading">invited (%1$d)</string>
     <string name="extra_guests">+ %1$d guests</string>
-    <string name="extra_invited_guests">+ %1$d more</string>
 
     <string name="follow">follow</string>
     <string name="unfollow">unfollow</string>

@@ -8,11 +8,8 @@
     <color name="white">#fff</color>
     <color name="primaryThemeColor">#FF3366</color>
 
-    <color name="yellow">#FFEB3B</color>
     <color name="dark_grey">#757575</color>
     <color name="light_grey">#E8E8E8</color>
-
-    <color name="blue">#2f8bed</color>
 
 
 </resources>

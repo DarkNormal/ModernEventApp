@@ -19,17 +19,17 @@ import java.util.ArrayList;
  */
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder>{
 
-    private ArrayList<ChatMessage> mDataset;
-    private Context mComtext;
+    private final ArrayList<ChatMessage> mDataset;
+    private final Context mComtext;
     // Provide a reference to the views for each data item
 // Complex data items may need more than one view per item, and
 // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public TextView messageUsername;
-        public TextView messageTimestamp;
-        public TextView messageContent;
-        public CircularImageView chatImage;
+        public final TextView messageUsername;
+        public final TextView messageTimestamp;
+        public final TextView messageContent;
+        public final CircularImageView chatImage;
         public ViewHolder(View v) {
             super(v);
             messageUsername = (TextView) v.findViewById(R.id.message_username);

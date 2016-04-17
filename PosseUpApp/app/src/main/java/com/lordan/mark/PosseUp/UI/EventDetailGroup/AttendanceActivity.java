@@ -2,7 +2,6 @@ package com.lordan.mark.PosseUp.UI.EventDetailGroup;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -31,7 +30,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class AttendanceActivity extends AppCompatActivity implements

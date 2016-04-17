@@ -24,7 +24,6 @@
             android:orientation="vertical"
             android:layout_marginStart="@dimen/margin_huge"
             android:background="@android:color/white"
-            android:id="@+id/linearLayout4"
             android:layout_marginLeft="@dimen/margin_huge">
             <EditText
                 android:layout_width="wrap_content"
@@ -101,7 +100,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/relativeLayout"
             android:layout_marginEnd="@dimen/margin_huge"
             android:layout_marginRight="@dimen/margin_huge">
             <com.mikhaellopez.circularimageview.CircularImageView

@@ -3,8 +3,6 @@ package com.lordan.mark.PosseUp.UI.MainActivityGroup;
 /**
  * Created by Mark on 7/14/2015
  */
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -27,11 +25,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -60,7 +56,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -69,12 +64,18 @@ import butterknife.OnClick;
 
 public class Tab1 extends Fragment{
 
-    @Bind(R.id.addEvent_Button) public FloatingActionButton mFab;
-    @Bind(R.id.event_list_swipe) public SwipeRefreshLayout mSwipeRefreshLayout;
-    @Bind(R.id.cardList) public RecyclerView mRecyclerView;
-    @Bind(R.id.coordinatorLayout) public CoordinatorLayout mCoordinatorLayout;
-    @Bind(R.id.loading_event_message_holder) public RelativeLayout mLoadingContentHolder;
-    @Bind(R.id.failed_loading_event_message_holder) public RelativeLayout mFailedLoadingContentHolder;
+    @Bind(R.id.addEvent_Button)
+    public FloatingActionButton mFab;
+    @Bind(R.id.event_list_swipe)
+    public SwipeRefreshLayout mSwipeRefreshLayout;
+    @Bind(R.id.cardList)
+    public RecyclerView mRecyclerView;
+    @Bind(R.id.coordinatorLayout)
+    public CoordinatorLayout mCoordinatorLayout;
+    @Bind(R.id.loading_event_message_holder)
+    public RelativeLayout mLoadingContentHolder;
+    @Bind(R.id.failed_loading_event_message_holder)
+    public RelativeLayout mFailedLoadingContentHolder;
     @Bind(R.id.try_refresh_button) public AppCompatButton mTryRefreshButton;
     private static final String TAG = "MainActivity - TAB1";
     private static final String EVENT_LIST = "com.lordan.mark.PosseUp.event_list";
@@ -279,7 +280,7 @@ public class Tab1 extends Fragment{
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
-    public class FetchEventsTask extends AsyncTask<JSONArray, Void, ArrayList<Event>>{
+    private class FetchEventsTask extends AsyncTask<JSONArray, Void, ArrayList<Event>>{
 
         @Override
         protected ArrayList<Event> doInBackground(JSONArray... jsonArrays) {

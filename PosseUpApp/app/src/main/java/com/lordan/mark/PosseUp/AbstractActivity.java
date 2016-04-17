@@ -28,19 +28,11 @@ import java.util.regex.Pattern;
 
 public abstract class AbstractActivity extends AppCompatActivity {
 
-    public boolean isValidEmail(String target){
-        if (TextUtils.isEmpty(target)) {
-            return false;
-        } else {
-            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
-        }
+    public boolean isValidEmail(String target) {
+        return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
-    public boolean isValidUsername(String target){
-        if (TextUtils.isEmpty(target)) {
-            return false;
-        } else {
-            return !target.contains("@");
-        }
+    public boolean isValidUsername(String target) {
+        return !TextUtils.isEmpty(target) && !target.contains("@");
     }
 
     public boolean isValidPassword(String target) {

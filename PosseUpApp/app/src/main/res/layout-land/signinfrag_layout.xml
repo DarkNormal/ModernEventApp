@@ -28,7 +28,6 @@
             android:orientation="vertical"
             android:background="#ffffff"
             android:layout_marginStart="63dp"
-            android:id="@+id/linearLayout2"
             android:layout_marginLeft="63dp">
 
             <EditText
@@ -93,7 +92,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginEnd="63dp"
-            android:id="@+id/linearLayout3"
             android:orientation="vertical"
             android:layout_marginLeft="60dp"
             android:layout_marginRight="63dp">
@@ -114,7 +112,6 @@
 
     <TextView
         android:focusableInTouchMode="false"
-        android:id="@+id/forgot_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/margin_small"

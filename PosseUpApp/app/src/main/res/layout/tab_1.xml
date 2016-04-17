@@ -23,7 +23,6 @@
                 android:textColor="@android:color/black"
                 android:text="@string/loading_event"/>
             <ProgressBar
-                android:id="@+id/loading_event_progress_bar"
                 android:theme="@style/LinearProgress"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:indeterminate="true"

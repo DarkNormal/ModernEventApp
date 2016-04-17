@@ -61,7 +61,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{event.eventDesc, default =PLACEHOLDER}"
-                android:id="@+id/textView"
                 android:layout_below="@+id/event_name"
                 android:layout_toRightOf="@+id/space"
                 android:layout_toLeftOf="@+id/spacer"
@@ -89,7 +88,6 @@
                 android:src="@drawable/ic_query_builder"
                 android:layout_marginLeft="@dimen/margin_medium" />
             <TextView
-                android:id="@+id/event_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{event.allDay ? event.allDayStartingCal : event.startingCal, default=PLACEHOLDER}"
@@ -188,7 +186,6 @@
 
             </LinearLayout>
             <Button
-                android:id="@+id/event_invited_guests_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#2196F3"

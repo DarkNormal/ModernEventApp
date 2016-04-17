@@ -2,14 +2,11 @@ package com.lordan.mark.PosseUp.UI.MainActivityGroup;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 
-import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.lordan.mark.PosseUp.AbstractActivity;
 import com.lordan.mark.PosseUp.DataOperations.AzureService;
-import com.lordan.mark.PosseUp.Model.MyHandler;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.UI.EventDetailGroup.UserFragment;
 import com.lordan.mark.PosseUp.R;
@@ -17,7 +14,6 @@ import com.lordan.mark.PosseUp.UI.ProfileGroup.ProfileFragment;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NavUtils;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -27,11 +23,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lordan.mark.PosseUp.UI.SigninGroup.SigninActivity;
-import com.microsoft.windowsazure.messaging.NotificationHub;
-import com.microsoft.windowsazure.notifications.NotificationsManager;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
@@ -147,7 +140,7 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
         }
 
     }
-    public void setActionBarTitle(String title) {
+    private void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
     }
 

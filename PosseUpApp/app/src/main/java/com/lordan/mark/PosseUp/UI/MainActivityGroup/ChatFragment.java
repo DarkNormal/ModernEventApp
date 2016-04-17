@@ -55,7 +55,7 @@ public class ChatFragment extends Fragment {
     private OnChatFragmentInteractionListener mListener;
     private ChatAdapter mAdapter;
     private Pubnub pubnub;
-    private ArrayList<Event> mDataset = new ArrayList<>();
+    private final ArrayList<Event> mDataset = new ArrayList<>();
 
     public ChatFragment() {
         // Required empty public constructor

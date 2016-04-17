@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public class InviteFollowersDialog extends DialogFragment {
     private String[] followers;
-    ArrayList<Integer> mSelectedFollowers = new ArrayList();
+    private final ArrayList<Integer> mSelectedFollowers = new ArrayList();
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
@@ -38,7 +38,7 @@ public class InviteFollowersDialog extends DialogFragment {
                 .setPositiveButton("Invite", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         InviteFollowersDialogListener activity = (InviteFollowersDialogListener) getActivity();
-                        ArrayList<User> selectedFollowers = new ArrayList<User>();
+                        ArrayList<User> selectedFollowers = new ArrayList<>();
                         for (int i = 0; i < mSelectedFollowers.size(); i++) {
                             selectedFollowers.add(new User(followers[mSelectedFollowers.get(i)]));
                         }

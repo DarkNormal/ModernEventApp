@@ -5,6 +5,10 @@
         android:title="@string/invite"
         android:icon="@drawable/ic_person_add"
         app:showAsAction="ifRoom"/>
+    <item android:id="@+id/event_details_chat"
+        android:title="@string/drawer_chat"
+        android:icon="@drawable/ic_chat"
+        app:showAsAction="ifRoom"/>
     <item android:id="@+id/take_attendance"
         android:title="@string/take_attendance"/>
     <item android:id="@+id/edit_event"

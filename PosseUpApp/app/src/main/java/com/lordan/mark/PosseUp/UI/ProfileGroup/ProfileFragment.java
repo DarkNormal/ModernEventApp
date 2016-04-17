@@ -3,7 +3,6 @@ package com.lordan.mark.PosseUp.UI.ProfileGroup;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 import android.util.Log;

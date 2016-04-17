@@ -28,7 +28,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -47,16 +46,13 @@ import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
-import com.lordan.mark.PosseUp.UI.EventDetailGroup.EventDetailsActivity;
 import com.lordan.mark.PosseUp.UI.InviteFollowersDialog;
 import com.lordan.mark.PosseUp.VolleyCallback;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -72,8 +68,10 @@ public class AddEventActivity extends AbstractActivity implements InviteFollower
     private String eventID;
     private Event newEvent;
     private ArrayList<User> mSelectedFollowers;
-    @Bind(R.id.add_event_progress_bar) public ProgressBar progressBar;
-    @Bind(R.id.coordinatorLayout) public CoordinatorLayout coordinatorLayout;
+    @Bind(R.id.add_event_progress_bar)
+    public ProgressBar progressBar;
+    @Bind(R.id.coordinatorLayout)
+    public CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +118,6 @@ public class AddEventActivity extends AbstractActivity implements InviteFollower
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case (android.R.id.home):
-                android.app.FragmentManager fm = getFragmentManager();
                 View view = this.getCurrentFocus();
                 if (view != null) {
                     InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);

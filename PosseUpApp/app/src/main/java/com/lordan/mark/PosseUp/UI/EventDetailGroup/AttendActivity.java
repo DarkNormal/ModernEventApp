@@ -1,6 +1,5 @@
 package com.lordan.mark.PosseUp.UI.EventDetailGroup;
 
-import android.content.Context;
 import android.content.IntentSender;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

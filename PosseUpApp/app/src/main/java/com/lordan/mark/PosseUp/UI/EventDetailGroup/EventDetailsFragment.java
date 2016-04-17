@@ -2,20 +2,15 @@ package com.lordan.mark.PosseUp.UI.EventDetailGroup;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.CalendarContract;
-import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -39,42 +34,26 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.nearby.Nearby;
-import com.google.android.gms.nearby.messages.Message;
-import com.google.android.gms.nearby.messages.NearbyMessagesStatusCodes;
-import com.google.android.gms.nearby.messages.PublishCallback;
-import com.google.android.gms.nearby.messages.PublishOptions;
 import com.google.gson.Gson;
-import com.lordan.mark.PosseUp.DataOperations.Settings;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.Model.User;
-import com.lordan.mark.PosseUp.NearbyPublishInterface;
 import com.lordan.mark.PosseUp.R;
-import com.lordan.mark.PosseUp.UI.InviteFollowersDialog;
-import com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity;
+import com.lordan.mark.PosseUp.UI.MainActivityGroup.ChatActivity;
 import com.lordan.mark.PosseUp.UI.ProfileGroup.ProfileActivity;
+import com.lordan.mark.PosseUp.VolleyCallback;
 import com.lordan.mark.PosseUp.databinding.FragmentEventDetailsBinding;
-import com.lordan.mark.PosseUp.util.NearbyApiUtil;
 import com.mikhaellopez.circularimageview.CircularImageView;
-import com.pubnub.api.Callback;
-import com.pubnub.api.Pubnub;
-import com.pubnub.api.PubnubError;
-import com.pubnub.api.PubnubException;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class EventDetailsFragment extends Fragment implements
         View.OnClickListener{
@@ -91,12 +70,11 @@ public class EventDetailsFragment extends Fragment implements
     private FragmentEventDetailsBinding mBinding;
     private OnFragmentInteractionListener mListener;
     private final int DELETE_EVENT = 5;
-    /**
-     * Tracks if we are currently resolving an error related to Nearby permissions. Used to avoid
-     * duplicate Nearby permission dialogs if the user initiates both subscription and publication
-     * actions without having opted into Nearby.
-     */
-    private boolean mResolvingNearbyPermissionError = false;
+    private ConfirmExitDialog confirm;
+    @Bind(R.id.event_guests_heading)
+    public TextView numGuestsHeading;
+    @Bind(R.id.event_invited_guests_heading)
+    public TextView numInvitedGuestsHeading;
 
     public EventDetailsFragment() {
         // Required empty public constructor
@@ -112,19 +90,29 @@ public class EventDetailsFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_event_details, container, false);
+        v = mBinding.getRoot();
+        ButterKnife.bind(this,v);
+        queue = Volley.newRequestQueue(getContext());
         Bundle bundle = this.getArguments();
         eventID = bundle.getInt("EventID");
         currentUser = bundle.getString("currentUsername");
         isUserHost = bundle.getBoolean("CurrentUserIsHost");
-        if (event != null) {
+        if (savedInstanceState != null) {
+            //probably orientation change
+            event = savedInstanceState.getParcelable("event");
             mBinding.setEvent(event);
             mBinding.setVenue(event.getPlaceDetails());
             Picasso.with(getContext()).load(event.getEventImage()).into(mBinding.eventImageHeader);
+            displayEventUsers();
         } else {
-            mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_event_details, container, false);
-            queue = Volley.newRequestQueue(getContext());
+            if (event == null) {
+                Log.i(TAG, "null savedInstanceState");
+                if (eventID != -1) {
+                    getEventDetails(eventID);
+                }
+            }
         }
-        v = mBinding.getRoot();
         AppCompatImageView directions = mBinding.directionsButton;
         directions.setImageAlpha(128);
         directions.setOnClickListener(this);
@@ -158,33 +146,13 @@ public class EventDetailsFragment extends Fragment implements
         super.onSaveInstanceState(outState);
         outState.putParcelable("event", event);
     }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        if (savedInstanceState != null) {
-            //probably orientation change
-            event = savedInstanceState.getParcelable("event");
-            mBinding.setEvent(event);
-            mBinding.setVenue(event.getPlaceDetails());
-            Picasso.with(getContext()).load(event.getEventImage()).into(mBinding.eventImageHeader);
-            displayEventUsers();
-        } else {
-            if (event == null) {
-                Log.i(TAG, "null savedInstanceState");
-                if (eventID != -1) {
-                    getEventDetails(eventID);
-                }
-            }
-        }
-    }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
         inflater.inflate(R.menu.menu_event_details, menu);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
+        Intent intent;
         switch(item.getItemId()){
             case R.id.delete_event:
                 showDeleteDialog();
@@ -192,16 +160,20 @@ public class EventDetailsFragment extends Fragment implements
             case R.id.edit_event:
                 Toast.makeText(getContext(), "Edit event selected", Toast.LENGTH_SHORT).show();
                 return true;
+            case R.id.event_details_chat:
+                intent = ChatActivity.newIntent(getContext(), event.getEventName(), eventID);
+                startActivity(intent);
+                return true;
             case R.id.invite_to_event:
                 mListener.onInviteFollowers(eventID);
                 return true;
             case R.id.take_attendance:
                 if(isUserHost) {
-                    Intent intent = AttendanceActivity.newIntent(getContext(), eventID,isUserHost, event.getAttendees());
+                    intent = AttendanceActivity.newIntent(getContext(), eventID,isUserHost, event.getAttendees());
                     startActivity(intent);
                 }
                 else{
-                    Intent intent = new Intent(getContext(), AttendActivity.class);
+                    intent = new Intent(getContext(), AttendActivity.class);
                     intent.putExtra("currentUsername", currentUser);
                     startActivity(intent);
 
@@ -288,42 +260,34 @@ public class EventDetailsFragment extends Fragment implements
                 break;
         }
     }
-
-
-
-
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Event e);
         void onInviteFollowers(int eventID);
     }
+    private void getEventDetails(int id){
+        getEventDetailsCall(id, new VolleyCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                FetchEventDetailsTask fetchEventDetailsTask = new FetchEventDetailsTask();
+                fetchEventDetailsTask.execute(result);
+            }
 
-    private void getEventDetails(int id) {
+            @Override
+            public void onError(VolleyError error) {
+            }
+        });
+    }
+    private void getEventDetailsCall(int id, final VolleyCallback callback) {
         String url = Constants.baseUrl + "api/Events/" + id;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Gson gson = new Gson();
-                event = new Event();
-                event = gson.fromJson(response.toString(), Event.class);
-                event.setEndingTime();
-                event.setStartingTime();
-                for (User u : event.getAttendees()) {
-                    if (u.getUsername().equals(currentUser)) {
-                        mBinding.attendButton.setText(getString(R.string.leave));
-                        break;
-                    }
-                }
-                mBinding.setEvent(event);
-                Picasso.with(getContext()).load(event.getEventImage()).into(mBinding.eventImageHeader);
-                displayEventUsers();
-                mBinding.setVenue(event.getPlaceDetails());
-
+                callback.onSuccess(response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("GETEVENTDETAILS", error.toString());
-
+                callback.onError(error);
             }
         });
         queue.add(jsonObjectRequest);
@@ -333,8 +297,6 @@ public class EventDetailsFragment extends Fragment implements
 
         int numberOfGuests = event.getAttendees().size();
         int numberOfInvitedGuests = event.getInvitedGuests().size();
-        TextView numGuestsHeading = (TextView) v.findViewById(R.id.event_guests_heading);
-        TextView numInvitedGuestsHeading = (TextView) v.findViewById(R.id.event_invited_guests_heading);
         numInvitedGuestsHeading.setText(getString(R.string.invited_guests_heading, numberOfInvitedGuests));
         numGuestsHeading.setText(getString(R.string.guests_heading, numberOfGuests));
         if (numberOfGuests > 4) {
@@ -386,13 +348,8 @@ public class EventDetailsFragment extends Fragment implements
         }
     }
 
-    public interface VolleyCallback {
-        void onSuccess(JSONObject result);
-        void onError(VolleyError error);
-    }
-
     private void showDeleteDialog(){
-        ConfirmExitDialog confirm = new ConfirmExitDialog();
+        confirm = new ConfirmExitDialog();
         confirm.setTargetFragment(this, DELETE_EVENT);
         confirm.show(getFragmentManager(), "confirm_dialog");
     }
@@ -418,7 +375,7 @@ public class EventDetailsFragment extends Fragment implements
         }
     }
 
-    public void interactEvent(final boolean attend) {
+    private void interactEvent(final boolean attend) {
         String url = Constants.baseUrl;
         if (attend) {
             url += "api/Event/Attend/" + eventID + "?username=" + currentUser;
@@ -443,8 +400,7 @@ public class EventDetailsFragment extends Fragment implements
             }
         });
     }
-
-    public void interactEvent(String url, final VolleyCallback callback) {
+    private void interactEvent(String url, final VolleyCallback callback) {
 
         url = url.replace(" ", "%20");
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
@@ -489,5 +445,38 @@ public class EventDetailsFragment extends Fragment implements
             }
         });
         queue.add(jsonObjectRequest);
+    }
+    private class FetchEventDetailsTask extends AsyncTask<JSONObject, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(JSONObject... jsonObjects) {
+            boolean isUserAttending = false;
+            final JSONObject response = jsonObjects[0];
+            Gson gson = new Gson();
+            event = new Event();
+            event = gson.fromJson(response.toString(), Event.class);
+            event.setEndingTime();
+            event.setStartingTime();
+            mBinding.setEvent(event);
+            mBinding.setVenue(event.getPlaceDetails());
+            for (User u : event.getAttendees()) {
+                if (u.getUsername().equals(currentUser)) {
+                    isUserAttending = true;
+                    break;
+                }
+            }
+            return isUserAttending;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isUserAttending) {
+            super.onPostExecute(isUserAttending);
+            Picasso.with(getContext()).load(event.getEventImage()).into(mBinding.eventImageHeader);
+            if(isUserAttending){
+                mBinding.attendButton.setText(getString(R.string.leave));
+            }
+            displayEventUsers();
+
+        }
     }
 }

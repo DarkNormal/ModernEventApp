@@ -27,7 +27,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     private static final String TAG = "CustomAdapter";
     private final CustomItemClickListener listener;
     private final List<Event> mDataSet;
-    private Context mContext;
+    private final Context mContext;
 
     /**
      * Provide a reference to the type of views that you are using (custom ViewHolder)

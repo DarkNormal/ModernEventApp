@@ -78,28 +78,12 @@ public class User  extends BaseObservable implements Parcelable{
     }
 
 
-
-    public int getUserID() {
-        return userID;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
-    }
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     @Bindable
@@ -117,9 +101,6 @@ public class User  extends BaseObservable implements Parcelable{
         return location;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
     @Bindable
     public ArrayList<User> getFollowers() {
         return followers;
@@ -154,18 +135,6 @@ public class User  extends BaseObservable implements Parcelable{
 
     public String getProfileImage() {
         return profileImage;
-    }
-
-    public void setProfileImage(String profileImage) {
-        this.profileImage = profileImage;
-    }
-
-    public boolean isFriend() {
-        return isFriend;
-    }
-
-    public void setFriend(boolean friend) {
-        isFriend = friend;
     }
 
     @Override

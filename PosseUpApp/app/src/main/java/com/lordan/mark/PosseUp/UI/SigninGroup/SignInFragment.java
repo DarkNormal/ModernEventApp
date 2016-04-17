@@ -71,12 +71,18 @@ import butterknife.ButterKnife;
  */
 public class SignInFragment extends Fragment implements View.OnClickListener {
     private View detailsView;
-    @Bind(R.id.username_signin) EditText username;
-    @Bind(R.id.password) EditText password;
-    @Bind(R.id.login_button) LoginButton facebookLoginButton;
-    @Bind(R.id.twitter_login_button) TwitterLoginButton twitterLoginButton;
-    @Bind(R.id.signup_text)  TextView signUp;
-    @Bind(R.id.signin_button) Button signInButton;
+    @Bind(R.id.username_signin)
+    public EditText username;
+    @Bind(R.id.password)
+    public EditText password;
+    @Bind(R.id.login_button)
+    public LoginButton facebookLoginButton;
+    @Bind(R.id.twitter_login_button)
+    public TwitterLoginButton twitterLoginButton;
+    @Bind(R.id.signup_text)
+    public TextView signUp;
+    @Bind(R.id.signin_button)
+    public Button signInButton;
     private RequestQueue queue;
 
     private ProgressDialog mProgressDialog;
@@ -407,9 +413,9 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
          }
 
          @SerializedName("Provider")
-         private String Provider;
+         private final String Provider;
          @SerializedName("ExternalAccessToken")
-        private String Token;
+        private final String Token;
 
     }
     @Override public void onDestroyView() {

@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_basic_info">
-        Gruppen bilden und neue Freunde , unabhängig von der Veranstaltung!
-        Sie können in bei öffentlichen Veranstaltungen zu überprüfen, oder erstellen Sie Ihre eigene private Treffen für Sie und Ihre Freunde
-    </string>
     <string name="username_field">Benutzernamen / Email</string>
     <string name="password_field">Passwort</string>
     <string name="sign_in_button">Anmelden</string>
@@ -16,22 +12,18 @@
     <string name="drawer_profile">Profil</string>
     <string name="closeddrawer">Abgeschlossen</string>
     <string name="full_name">Vollständiger Name</string>
-    <string name="hi">Hallo</string>
     <string name="menu_sign_out">Ausloggen</string>
     <string name="no_account">Ein Konto erstellen</string>
     <string name="opendrawer">Eröffnet</string>
     <string name="password_code">Code</string>
     <string name="title">Titel</string>
     <string name="unfollow">stoppen folgende </string>
-    <string name="venue">Tagungsort</string>
-    <string name="visibility">Sichtweite</string>
     <string name="view_all">sehen Sie alle</string>
     <string name="refresh">erfrischen</string>
     <string name="or">oder</string>
     <string name="leave">verlassen</string>
     <string name="guests_heading">Gäste (%1$d)</string>
     <string name="create_event">Erstellen</string>
-    <string name="current_location">aktueller Standort</string>
     <string name="description">Beschreibung</string>
     <string name="email_field">Email</string>
     <string name="extra_guests">+ %1d Gäste</string>
@@ -44,14 +36,11 @@
     <string name="camera">Kamera</string>
     <string name="delete_event"> Ereignis löschen</string>
     <string name="drawer_chat"> Konversation</string>
-    <string name="drawer_icon">Symbol</string>
     <string name="edit_event"> ändern event</string>
     <string name="event_image">Ereignisbild</string>
     <string name="gallery"> Galerie</string>
-    <string name="default_venue_name"> nicht eingestellt</string>
     <string name="image_description">Hintergrund</string>
     <string name="invite">einladen</string>
-    <string name="online_event">Online-Event</string>
     <string name="reset_begin"> bestätigen</string>
     <string name="reset_info"> Sie werden in Kürze eine Email mit einem eindeutigen Code erhalten . Bitte fügen Sie ihn in den Code-Bereich oben , und klicken Sie auf bestätigen , um fortzufahren</string>
     <string name="send"> senden</string>

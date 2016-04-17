@@ -127,7 +127,6 @@
             android:layout_weight="1" />
         <TextView
 
-            android:id="@+id/forgot_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/margin_small"

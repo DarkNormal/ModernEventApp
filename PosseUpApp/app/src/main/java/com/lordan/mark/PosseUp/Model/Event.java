@@ -14,7 +14,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -127,7 +126,7 @@ public class Event extends BaseObservable implements Parcelable{
         return placeDetails;
     }
 
-    public void setPlaceDetails(Place placeDetails) {
+    private void setPlaceDetails(Place placeDetails) {
         this.placeDetails = new PlaceVenue(placeDetails.getName().toString(), placeDetails.getAddress().toString(), placeDetails.getLatLng(),
                 placeDetails.getPlaceTypes(), placeDetails.getRating());
     }
@@ -157,10 +156,10 @@ public class Event extends BaseObservable implements Parcelable{
         return eventDesc;
     }
 
-    public void setStartDateTime(Calendar startDateTime) {
+    private void setStartDateTime(Calendar startDateTime) {
         this.startDateTime = Constants.formatter.format(startDateTime.getTime());
     }
-    public void setEndDateTime(Calendar endDateTime) {
+    private void setEndDateTime(Calendar endDateTime) {
         this.endDateTime = Constants.formatter.format(endDateTime.getTime());
     }
 

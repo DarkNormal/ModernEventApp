@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.lordan.mark.PosseUp.DataOperations.AzureService;
@@ -32,7 +31,7 @@ public class ChatActivity extends AppCompatActivity {
     private static final String EVENT_NAME = "com.marklordan.posseup.event_name";
     private static final String EVENT_ID = "com.marklordan.posseup.event_id";
     private Pubnub pubnub;
-    private ArrayList<ChatMessage> chatLog = new ArrayList<>();
+    private final ArrayList<ChatMessage> chatLog = new ArrayList<>();
     private MessageAdapter adapter;
     private RecyclerView chat;
     private String eventID;

@@ -18,18 +18,18 @@ import java.util.ArrayList;
  * Created by Mark on 03/04/2016.
  */
 public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.ViewHolder> {
-    private ArrayList<User> mDataset;
-    private boolean[] isHere;
-    private CustomItemClickListener listener;
-    private Context context;
+    private final ArrayList<User> mDataset;
+    private final boolean[] isHere;
+    private final CustomItemClickListener listener;
+    private final Context context;
 
 // Provide a reference to the views for each data item
 // Complex data items may need more than one view per item, and
 // you provide access to all the views for a data item in a view holder
 public static class ViewHolder extends RecyclerView.ViewHolder {
     // each data item is just a string in this case
-    public TextView mTextView;
-    public AppCompatCheckBox checkBox;
+    public final TextView mTextView;
+    public final AppCompatCheckBox checkBox;
 
     public ViewHolder(View v) {
         super(v);

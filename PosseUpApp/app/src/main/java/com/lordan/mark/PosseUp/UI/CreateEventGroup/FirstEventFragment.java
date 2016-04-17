@@ -10,12 +10,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatSpinner;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -23,7 +21,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -54,15 +51,24 @@ import butterknife.ButterKnife;
  * Created by Mark on 14/01/2016
  */
 public class FirstEventFragment extends Fragment implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
-    @Bind(R.id.all_day_switch) SwitchCompat allDaySwitch;
-    @Bind(R.id.create_event_title_input) EditText title;
-    @Bind(R.id.add_event_desc) EditText description;
-    @Bind(R.id.create_event_date) EditText startDateInput;
-    @Bind(R.id.create_event_date_end) EditText endDateInput;
-    @Bind(R.id.create_event_time) EditText startTimeInput;
-    @Bind(R.id.create_event_time_end) EditText endTimeInput;
-    @Bind(R.id.create_event_type) AppCompatSpinner visibility;
-    @Bind(R.id.add_event_location) TextView mAddLocation;
+    @Bind(R.id.all_day_switch)
+    public SwitchCompat allDaySwitch;
+    @Bind(R.id.create_event_title_input)
+    public EditText title;
+    @Bind(R.id.add_event_desc)
+    public EditText description;
+    @Bind(R.id.create_event_date)
+    public EditText startDateInput;
+    @Bind(R.id.create_event_date_end)
+    public EditText endDateInput;
+    @Bind(R.id.create_event_time)
+    public EditText startTimeInput;
+    @Bind(R.id.create_event_time_end)
+    public EditText endTimeInput;
+    @Bind(R.id.create_event_type)
+    public AppCompatSpinner visibility;
+    @Bind(R.id.add_event_location)
+    public TextView mAddLocation;
 
     private View v;
     private Event newEvent;
@@ -75,7 +81,7 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
     private Bitmap eventImage;
     private static final int CAMERA_OPTION = 11, GALLERY_OPTION = 12;
     private String[] visibilityTypes;
-    private Calendar startingDate = Calendar.getInstance();
+    private final Calendar startingDate = Calendar.getInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

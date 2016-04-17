@@ -20,16 +20,15 @@ public class SimpleSectionedRecyclerViewAdapter extends RecyclerView.Adapter<Rec
     private static final int SECTION_TYPE = 0;
 
     private boolean mValid = true;
-    private int mSectionResourceId;
-    private int mTextResourceId;
-    private RecyclerView.Adapter mBaseAdapter;
-    private SparseArray<Section> mSections = new SparseArray<>();
+    private final int mSectionResourceId;
+    private final int mTextResourceId;
+    private final RecyclerView.Adapter mBaseAdapter;
+    private final SparseArray<Section> mSections = new SparseArray<>();
 
 
     public SimpleSectionedRecyclerViewAdapter(Context context, int sectionResourceId, int textResourceId,
                                               RecyclerView.Adapter baseAdapter) {
 
-        LayoutInflater mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mSectionResourceId = sectionResourceId;
         mTextResourceId = textResourceId;
         mBaseAdapter = baseAdapter;
@@ -65,7 +64,7 @@ public class SimpleSectionedRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
     public static class SectionViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView title;
+        public final TextView title;
 
         public SectionViewHolder(View view,int mTextResourceId) {
             super(view);
@@ -102,9 +101,9 @@ public class SimpleSectionedRecyclerViewAdapter extends RecyclerView.Adapter<Rec
 
 
     public static class Section {
-        int firstPosition;
+        final int firstPosition;
         int sectionedPosition;
-        CharSequence title;
+        final CharSequence title;
 
         public Section(int firstPosition, CharSequence title) {
             this.firstPosition = firstPosition;
@@ -150,7 +149,7 @@ public class SimpleSectionedRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         return position + offset;
     }
 
-    public int sectionedPositionToPosition(int sectionedPosition) {
+    private int sectionedPositionToPosition(int sectionedPosition) {
         if (isSectionHeaderPosition(sectionedPosition)) {
             return RecyclerView.NO_POSITION;
         }
@@ -165,7 +164,7 @@ public class SimpleSectionedRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         return sectionedPosition + offset;
     }
 
-    public boolean isSectionHeaderPosition(int position) {
+    private boolean isSectionHeaderPosition(int position) {
         return mSections.get(position) != null;
     }
 

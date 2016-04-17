@@ -18,7 +18,7 @@ public class NearbyApiUtil {
 
     private static final String TAG = NearbyApiUtil.class.getSimpleName();
 
-    public static final String TYPE_NERD = "nerd";
+    private static final String TYPE_NERD = "nerd";
 
     public static final String TYPE_BEACON = "beacon";
 

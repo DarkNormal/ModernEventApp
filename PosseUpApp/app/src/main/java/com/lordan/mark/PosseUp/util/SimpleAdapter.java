@@ -23,8 +23,8 @@ import java.util.List;
 public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleViewHolder> {
 
     private final Context mContext;
-    private List<Event> mData;
-    private CustomItemClickListener listener;
+    private final List<Event> mData;
+    private final CustomItemClickListener listener;
 
     public void add(Event e,int position) {
         position = position == -1 ? getItemCount()  : position;

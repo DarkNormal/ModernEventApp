@@ -19,18 +19,18 @@ import java.util.ArrayList;
  * Created by Mark on 04/04/2016.
  */
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
-    private ArrayList<Event> mDataset;
-    private Context mComtext;
-    private CustomItemClickListener listener;
+    private final ArrayList<Event> mDataset;
+    private final Context mComtext;
+    private final CustomItemClickListener listener;
     // Provide a reference to the views for each data item
 // Complex data items may need more than one view per item, and
 // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public TextView mTextView;
-        public CircularImageView chatImage;
-        public TextView lastMessage;
-        public TextView lastMessageTimeStamp;
+        public final TextView mTextView;
+        public final CircularImageView chatImage;
+        public final TextView lastMessage;
+        public final TextView lastMessageTimeStamp;
         public ViewHolder(View v) {
             super(v);
             mTextView = (TextView) v.findViewById(R.id.recycler_chat_title);

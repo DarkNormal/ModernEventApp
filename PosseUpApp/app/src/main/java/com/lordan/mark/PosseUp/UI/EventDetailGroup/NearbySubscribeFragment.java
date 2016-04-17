@@ -27,9 +27,9 @@ import com.google.android.gms.nearby.messages.MessageListener;
 import com.google.android.gms.nearby.messages.NearbyMessagesStatusCodes;
 import com.google.android.gms.nearby.messages.SubscribeCallback;
 import com.google.android.gms.nearby.messages.SubscribeOptions;
+import com.lordan.mark.PosseUp.DataOperations.Settings;
 import com.lordan.mark.PosseUp.UI.MainActivityGroup.CustomItemClickListener;
 import com.lordan.mark.PosseUp.util.NearbyAdapter;
-import com.lordan.mark.PosseUp.DataOperations.Settings;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.NearbySubscribeInterface;
@@ -76,10 +76,10 @@ public class NearbySubscribeFragment extends Fragment implements
     private LinearLayoutManager mLayoutManager;
 
     @Bind(R.id.start_attendance_tracking)
-    AppCompatButton nearbyButton;
+    public AppCompatButton nearbyButton;
 
     @Bind(R.id.nearby_progress_bar)
-    ProgressBar nearbyProgressBar;
+    public ProgressBar nearbyProgressBar;
     @Bind(R.id.add_to_confirmed_list)
     AppCompatButton confirmButton;
 

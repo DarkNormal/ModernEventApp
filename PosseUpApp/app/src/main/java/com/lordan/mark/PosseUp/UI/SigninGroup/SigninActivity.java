@@ -21,7 +21,8 @@ import butterknife.ButterKnife;
  */
 public class SigninActivity extends AbstractActivity {
 
-    @Bind(R.id.fragmentHolder) LinearLayout fragmentHolder;
+    @Bind(R.id.fragmentHolder)
+    public LinearLayout fragmentHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
