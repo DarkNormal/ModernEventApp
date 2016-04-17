@@ -90,20 +90,10 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
                 R.string.closeddrawer  /* "close drawer" description for accessibility */
         ) {
             public void onDrawerClosed(View view) {
-                try {
-                    mActionBar.setTitle(mTitle);
-                }catch(NullPointerException npe){
-                    Log.e(TAG, "MActionBar null onDrawerClosed");
-                }
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             public void onDrawerOpened(View drawerView) {
-                try {
-                    mActionBar.setTitle(mDrawerTitle);
-                }catch(NullPointerException npe){
-                    Log.e(TAG, "MActionBar null onDrawerOpened");
-                }
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
@@ -127,24 +117,28 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
         //Check to see which item was being clicked and perform appropriate action
         switch (menuItem.getItemId()) {
             case R.id.drawer_home:
+                mTitle = getString(R.string.tab1);
                 if(!(content instanceof Tab1)){
                 content = new Tab1();
                 changeFragments(content, "TAB1");
                 }
                 break;
             case R.id.drawer_profile:
+                mTitle = getString(R.string.drawer_profile);
                 if(!(content instanceof ProfileFragment)) {
                     content = ProfileFragment.newInstance(true, getCurrentUsername());
                     changeFragments(content, "PROFILE_TAB");
                 }
                 break;
             case R.id.drawer_events:
+                mTitle = "Events Overview";
                 if(!(content instanceof EventBreakdownFragment)) {
                     content = EventBreakdownFragment.newInstance(getCurrentUsername());
                     changeFragments(content, "BREAKDOWN_TAB");
                 }
                 break;
             case R.id.drawer_chat:
+                mTitle = "Chat";
                 if(!(content instanceof  ChatFragment)) {
                     content = new ChatFragment();
                     changeFragments(content, "CHAT_TAB");
@@ -159,6 +153,7 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
 
     private void changeFragments(Fragment fragment,String tag){
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment, tag).commit();
+        setActionBarTitle(mTitle.toString());
     }
 
 

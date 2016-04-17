@@ -83,7 +83,7 @@ public class Tab1 extends Fragment{
     private CustomAdapter mAdapter;
     private ArrayList<Event> mDataset;
     private RequestQueue queue;
-    private String url = Constants.baseUrl + "api/Events";
+    private String url;
 
 
     @Override
@@ -103,7 +103,6 @@ public class Tab1 extends Fragment{
             }
         });
         mRecyclerView.setAdapter(mAdapter);
-        getActivity().setTitle(getString(R.string.tab1));
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -188,6 +187,7 @@ public class Tab1 extends Fragment{
         }
     }
     private void refreshEvents() {
+        url = Constants.baseUrl + "api/Event/All/Public/" + new AzureService().getCurrentUsername(getContext()).replace(" ", "%20") + "/Invite";
         JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
