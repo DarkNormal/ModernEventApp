@@ -158,6 +158,46 @@
                 android:paddingStart="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_medium"/>
         </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/invited_guests_holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:layout_marginTop="1dp"
+            android:layout_below="@+id/event_location_group">
+            <TextView
+                android:id="@+id/event_invited_guests_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/dark_grey"
+                android:textAllCaps="true"
+                android:paddingTop="@dimen/margin_medium"
+                android:textSize="@dimen/material_text_button"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginLeft="@dimen/margin_medium" />
+            <LinearLayout
+                android:id="@+id/event_invited_guests_pictures"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/event_invited_guests_heading"
+                android:layout_marginTop="@dimen/margin_tiny"
+                android:layout_marginBottom="@dimen/margin_tiny"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:orientation="horizontal"
+                android:layout_marginLeft="@dimen/margin_medium">
+
+            </LinearLayout>
+            <Button
+                android:id="@+id/event_invited_guests_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#2196F3"
+                android:text="@string/view_all"
+                style="?android:attr/borderlessButtonStyle"
+                android:background="@android:color/transparent"
+                android:layout_below="@+id/event_invited_guests_pictures"
+                />
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/attendee_holder"
@@ -165,7 +205,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:layout_marginTop="1dp"
-            android:layout_below="@+id/event_location_group">
+            android:layout_below="@+id/invited_guests_holder">
             <TextView
                 android:id="@+id/event_guests_heading"
                 android:layout_width="wrap_content"

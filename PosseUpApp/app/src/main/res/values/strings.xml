@@ -82,7 +82,9 @@
     <string name="rsvp" translatable="false">rsvp</string>
     <string name="leave">leave</string>
     <string name="guests_heading">guests (%1$d)</string>
+    <string name="invited_guests_heading">invited (%1$d)</string>
     <string name="extra_guests">+ %1$d guests</string>
+    <string name="extra_invited_guests">+ %1$d more</string>
 
     <string name="follow">follow</string>
     <string name="unfollow">unfollow</string>

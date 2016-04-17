@@ -74,6 +74,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class EventDetailsFragment extends Fragment implements
         View.OnClickListener{
@@ -168,7 +169,7 @@ public class EventDetailsFragment extends Fragment implements
             mBinding.setEvent(event);
             mBinding.setVenue(event.getPlaceDetails());
             Picasso.with(getContext()).load(event.getEventImage()).into(mBinding.eventImageHeader);
-            displayAttendeeList();
+            displayEventUsers();
         } else {
             if (event == null) {
                 Log.i(TAG, "null savedInstanceState");
@@ -314,7 +315,7 @@ public class EventDetailsFragment extends Fragment implements
                 }
                 mBinding.setEvent(event);
                 Picasso.with(getContext()).load(event.getEventImage()).into(mBinding.eventImageHeader);
-                displayAttendeeList();
+                displayEventUsers();
                 mBinding.setVenue(event.getPlaceDetails());
 
             }
@@ -328,31 +329,47 @@ public class EventDetailsFragment extends Fragment implements
         queue.add(jsonObjectRequest);
     }
 
-    private void displayAttendeeList() {
+    private void displayEventUsers() {
 
         int numberOfGuests = event.getAttendees().size();
+        int numberOfInvitedGuests = event.getInvitedGuests().size();
         TextView numGuestsHeading = (TextView) v.findViewById(R.id.event_guests_heading);
+        TextView numInvitedGuestsHeading = (TextView) v.findViewById(R.id.event_invited_guests_heading);
+        numInvitedGuestsHeading.setText(getString(R.string.invited_guests_heading, numberOfInvitedGuests));
         numGuestsHeading.setText(getString(R.string.guests_heading, numberOfGuests));
         if (numberOfGuests > 4) {
-            displayAttendee(4);
+            displayUsers(4, event.getAttendees(), true);
             TextView extraGuests = new TextView(getContext());
             extraGuests.setText(getString(R.string.extra_guests, numberOfGuests - 4));
         } else {
-            displayAttendee(numberOfGuests);
+            displayUsers(numberOfGuests, event.getAttendees(), true);
+        }
+        if (numberOfInvitedGuests > 4) {
+            displayUsers(4, event.getInvitedGuests(), false);
+            TextView extraInvitedGuests = new TextView(getContext());
+            extraInvitedGuests.setText(getString(R.string.extra_guests, numberOfGuests - 4));
+        } else {
+            displayUsers(numberOfInvitedGuests, event.getInvitedGuests(), false);
         }
 
 
     }
 
-    private void displayAttendee(final int loopVar) {
-        LinearLayout attendeeHolder = (LinearLayout) v.findViewById(R.id.event_details_pictures);
+    private void displayUsers(final int loopVar, final ArrayList<User> mDataset, boolean isGuests) {
+        LinearLayout attendeeHolder;
+        if(isGuests) {
+            attendeeHolder = (LinearLayout) v.findViewById(R.id.event_details_pictures);
+        }
+        else{
+            attendeeHolder  = (LinearLayout) v.findViewById(R.id.event_invited_guests_pictures);
+        }
         attendeeHolder.removeAllViews();
         int pixelsDP = Math.round(convertPixelsToDp(55));
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(pixelsDP, pixelsDP);
         for (int i = 0; i < loopVar; i++) {
             CircularImageView attendee = new CircularImageView(getContext());
             final int position = i;
-            Picasso.with(getContext()).load(event.getAttendees().get(position).getProfileImage()).into(attendee);
+            Picasso.with(getContext()).load(mDataset.get(position).getProfileImage()).into(attendee);
             attendee.setScaleType(ImageView.ScaleType.FIT_CENTER);
             attendee.setLayoutParams(layoutParams);
 
@@ -361,7 +378,7 @@ public class EventDetailsFragment extends Fragment implements
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getActivity(), ProfileActivity.class);
-                    intent.putExtra("username", event.getAttendees().get(position).getUsername());
+                    intent.putExtra("username", mDataset.get(position).getUsername());
                     startActivity(intent);
                 }
             });

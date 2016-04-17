@@ -3,10 +3,13 @@ package com.lordan.mark.PosseUp.UI.MainActivityGroup;
 /**
  * Created by Mark on 7/14/2015
  */
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -24,6 +27,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -112,6 +116,9 @@ public class Tab1 extends Fragment{
     }
     @OnClick(R.id.addEvent_Button)
     public void addEvent(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            //TODO animation
+        }
         Intent intent = new Intent(getContext(), AddEventActivity.class);
         startActivityForResult(intent, REQUEST_CODE);
     }
