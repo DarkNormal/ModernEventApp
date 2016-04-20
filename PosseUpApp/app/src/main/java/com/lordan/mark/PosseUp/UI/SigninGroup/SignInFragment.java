@@ -35,6 +35,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.LoginEvent;
+import com.crashlytics.android.answers.SignUpEvent;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -270,6 +273,9 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onSuccess(JSONObject result) {
                 mProgressDialog.dismiss();
+                Answers.getInstance().logLogin(new LoginEvent()
+                        .putMethod("Facebook")
+                        .putSuccess(true));
                 saveRetrievedData(2,result);
             }
 
@@ -314,6 +320,9 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                Answers.getInstance().logLogin(new LoginEvent()
+                        .putMethod("Custom")
+                        .putSuccess(true));
                 saveRetrievedData(2,json);
 
             }

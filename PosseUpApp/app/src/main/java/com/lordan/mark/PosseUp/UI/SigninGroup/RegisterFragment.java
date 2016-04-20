@@ -32,6 +32,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.SignUpEvent;
 import com.lordan.mark.PosseUp.DataOperations.AzureService;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.User;
@@ -222,6 +224,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
                 }
                 mProgressDialog.dismiss();
                 Intent intent = new Intent(getActivity(), MainActivity.class);
+                Answers.getInstance().logSignUp(new SignUpEvent()
+                        .putMethod("Custom")
+                        .putSuccess(true));
                 startActivity(intent);
                 getActivity().finish();
             }
