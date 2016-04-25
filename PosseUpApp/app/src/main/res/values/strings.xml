@@ -33,12 +33,12 @@
 
     <string name="facebook_app_id" translatable="false">1543886725935090</string>
 
-    <string name="tab1">Upcoming events</string>
+    <string name="tab1" translatable="false">Upcoming events</string>
 
-    <string name="url">URL</string>
-    <string name="add_location">Add Location</string>
-    <string name="loading_event">Loading upcoming events</string>
-    <string name="fail_loading_event">Failed to get events</string>
+    <string name="url" translatable="false">URL</string>
+    <string name="add_location" translatable="false">Add Location</string>
+    <string name="loading_event" translatable="false">Loading upcoming events</string>
+    <string name="fail_loading_event" translatable="false">Failed to get events</string>
     <string name="refresh">Refresh</string>
     <string name="create_event">Create</string>
     <string name="image_description">Background</string>
@@ -60,7 +60,7 @@
     <string name="rsvp" translatable="false">rsvp</string>
     <string name="leave">leave</string>
     <string name="guests_heading">guests (%1$d)</string>
-    <string name="invited_guests_heading">invited (%1$d)</string>
+    <string name="invited_guests_heading" translatable="false">invited (%1$d)</string>
     <string name="extra_guests">+ %1$d guests</string>
 
     <string name="follow">follow</string>
