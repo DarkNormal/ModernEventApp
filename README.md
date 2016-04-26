@@ -10,7 +10,9 @@ The source code for this can be found on GitHub [here](https://github.com/DarkNo
 
 Posse Up is available on the Play Store (currently in closed Beta, create an issue to receive an invite)
 
-
+Kotlin
+-----------
+[Kotlin](https://github.com/JetBrains/kotlin) is a statically-typed programming language that runs on the Java Virtual Machine. It is an open-source language which I am using for my testing for Android.
 
 Used libraries
 -----------
