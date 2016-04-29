@@ -110,10 +110,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
             if(profileImage != null) {
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 profileImage.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-                byte[] byteArray = byteArrayOutputStream .toByteArray();
+                byte[] byteArray = byteArrayOutputStream.toByteArray();
                 String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
-                jsonBody.put("ProfileImage", encoded);
-                byteArray = null;
+                jsonBody.put("ProfileImageURL", encoded);
             }
         } catch (JSONException e) {
             e.printStackTrace();
