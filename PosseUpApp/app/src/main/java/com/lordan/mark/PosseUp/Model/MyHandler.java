@@ -14,7 +14,6 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 
 import com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity;
-import com.lordan.mark.PosseUp.UI.StartActivity;
 import com.microsoft.windowsazure.notifications.NotificationsHandler;
 
 
@@ -23,7 +22,7 @@ public class MyHandler extends NotificationsHandler {
     NotificationCompat.Builder builder;
     private Context ctx;
 
-    static public StartActivity startActivity;
+
 
     @Override
     public void onReceive(Context context, Bundle bundle) {

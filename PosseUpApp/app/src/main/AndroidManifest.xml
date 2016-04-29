@@ -25,20 +25,16 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".UI.StartActivity"
-            android:label="@string/app_name"
-            android:theme="@style/fullscreenStartPage">
+            android:name=".UI.SigninGroup.SigninActivity"
+            android:label="Posse Up"
+            android:theme="@style/TranslucentStatusBar"
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".UI.SigninGroup.SigninActivity"
-            android:label="Posse Up"
-            android:theme="@style/TranslucentStatusBar"
-            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".UI.EventDetailGroup.EventDetailsActivity"
             android:theme="@style/AppTheme">

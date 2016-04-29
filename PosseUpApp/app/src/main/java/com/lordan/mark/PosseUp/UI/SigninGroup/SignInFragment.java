@@ -73,7 +73,6 @@ import butterknife.ButterKnife;
  * Created by Mark on 10/10/2015
  */
 public class SignInFragment extends Fragment implements View.OnClickListener {
-    private View detailsView;
     @Bind(R.id.username_signin)
     public EditText username;
     @Bind(R.id.password)
@@ -101,8 +100,8 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        detailsView = inflater.inflate(R.layout.signinfrag_layout, container, false);
-        ButterKnife.bind(this, detailsView);
+        View v = inflater.inflate(R.layout.signinfrag_layout, container, false);
+        ButterKnife.bind(this, v);
         queue = Volley.newRequestQueue(getActivity());
 
         facebookLoginButton.setReadPermissions("user_friends", "email");
@@ -125,7 +124,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
         });
         signUp.setOnClickListener(this);
 
-        return detailsView;
+        return v;
     }
 
     private void enableSignIn(){
@@ -201,7 +200,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    private void login(final EditText username, final EditText password) {
+    private void login() {
         mProgressDialog = getmProgressDialog();
         mProgressDialog.show();
         String url = Constants.baseUrl + "api/Account/TokenLogin";
@@ -409,7 +408,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
-                login(username, password);
+                login();
                 break;
 
 

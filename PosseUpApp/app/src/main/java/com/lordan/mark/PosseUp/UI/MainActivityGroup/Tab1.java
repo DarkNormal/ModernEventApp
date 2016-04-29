@@ -192,14 +192,18 @@ public class Tab1 extends Fragment{
         JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                mSwipeRefreshLayout.setRefreshing(false);
+                if(mSwipeRefreshLayout != null) {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
                 FetchEventsTask task = new FetchEventsTask();
                 task.execute(response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mSwipeRefreshLayout.setRefreshing(false);
+                if(mSwipeRefreshLayout != null) {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
                 mLoadingContentHolder.setVisibility(View.GONE);
                 if (mSwipeRefreshLayout.getVisibility() != View.VISIBLE){
                     mFailedLoadingContentHolder.setVisibility(View.VISIBLE);
@@ -221,8 +225,10 @@ public class Tab1 extends Fragment{
     }
     private void switchViews(boolean loadingSuccess){
         if (loadingSuccess) {
-            mLoadingContentHolder.setVisibility(View.GONE);
-            mSwipeRefreshLayout.setVisibility(View.VISIBLE);
+            if(mLoadingContentHolder != null && mSwipeRefreshLayout != null) {
+                mLoadingContentHolder.setVisibility(View.GONE);
+                mSwipeRefreshLayout.setVisibility(View.VISIBLE);
+            }
         }
         else
         {

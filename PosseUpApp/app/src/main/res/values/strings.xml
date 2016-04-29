@@ -80,4 +80,8 @@
 
     <string name="write_message">Write a message</string>
     <string name="send">Send</string>
+
+    <string name="SENDER_ID">851010273767</string>
+    <string name="hubName">PosseUp-Notifications</string>
+    <string name="hubListenConnectionString">Endpoint=sb://posseup-notificationhub.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=ULoYyvlyIcvWKY1XFmUYB8OGNTOfzIKHT11m1AukTuc=</string>
 </resources>

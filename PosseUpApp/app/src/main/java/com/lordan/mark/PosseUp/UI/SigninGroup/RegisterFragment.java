@@ -50,6 +50,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by Mark on 9/30/2015
  */
@@ -57,11 +60,13 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
 
     private ProgressDialog mProgressDialog; //dialog used for all Volley requests
     private RequestQueue queue;             //Volley queue
-    private View view;
-    private EditText email;
+    @Bind(R.id.email_signup) EditText email;
+    @Bind(R.id.username_register) EditText username;
+    @Bind(R.id.password_signup) EditText password;
+    @Bind(R.id.signup_button) Button signup;
     private ImageSelectorDialog dialog;
     private static final String TAG ="RegisterFrag";
-    private ImageView profiler;
+    @Bind(R.id.profiler) ImageView profiler;
     private Bitmap profileImage;
     private AzureService az;
     private static final int CAMERA_OPTION = 11, GALLERY_OPTION = 12;
@@ -69,49 +74,26 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        view = inflater.inflate(R.layout.register_layout, container, false);
-        profiler = (ImageView) view.findViewById(R.id.profiler);
+        View v = inflater.inflate(R.layout.register_layout, container, false);
+        ButterKnife.bind(this, v);
         if (savedInstanceState != null) {
             profileImage = savedInstanceState.getParcelable("profileImage");
             if(profileImage != null) {
                 profiler.setImageBitmap(profileImage);
             }
         }
-
-        email = (EditText) view.findViewById(R.id.email_signup);
-        Drawable[] leftDrawable = email.getCompoundDrawables();
-        leftDrawable[0].setAlpha(128);
-        Button signup = (Button) view.findViewById(R.id.signup_button);
+        email.getCompoundDrawables()[0].setAlpha(128);
         queue = Volley.newRequestQueue(getContext());       //instantiate Volley queue
-        signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditText username = (EditText) view.findViewById(R.id.username_register);
-
-                EditText password = (EditText) view.findViewById(R.id.password_signup);
-
-                if (validateDetails(username, email, password)) {
-                    registerUser(username, email, password);     //begin registration process
-                }
-
-            }
-        });
-        TextView backToSignIn = (TextView) view.findViewById(R.id.signin_text);
-        backToSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
-        });
-        FloatingActionButton addImage = (FloatingActionButton) view.findViewById(R.id.addImage_Button);
+        signup.setOnClickListener(this);
+        TextView backToSignIn = ButterKnife.findById(v,R.id.signin_text);
+        backToSignIn.setOnClickListener(this);
+        FloatingActionButton addImage = ButterKnife.findById(v,R.id.addImage_Button);
         addImage.setOnClickListener(this);
 
-        return view;
+        return v;
     }
 
-
-
-    private void registerUser(final EditText username, final EditText email, EditText password) {
+    private void registerUser() {
 
         //TODO
         //can now convert to JSONObject easier via Gson
@@ -180,7 +162,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
 
     }
 
-    private boolean validateDetails(EditText username, EditText email, EditText password) {
+    private boolean validateDetails() {
         boolean proceedRegister1, proceedRegister2, proceedRegister3;
         if (!((SigninActivity)getActivity()).isValidUsername(username.getText().toString())) {
             username.setError("Invalid username, cannot be empty and cannot contain @");
@@ -217,11 +199,11 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
                     e.printStackTrace();
                 }
                 try {
-                    AzureService az = new AzureService();
                     az.saveUserData(getContext(), json.getString("access_token"), json.getString("userName"), json.getString("email"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                az = null;
                 mProgressDialog.dismiss();
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 Answers.getInstance().logSignUp(new SignUpEvent()
@@ -298,6 +280,15 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         switch (v.getId()){
             case R.id.addImage_Button:
                 getProfileImage();
+                break;
+            case R.id.signin_text:
+                getActivity().getSupportFragmentManager().popBackStack();
+                break;
+            case R.id.signup_button:
+                if (validateDetails()) {
+                    registerUser();     //begin registration process
+                }
+                break;
         }
     }
 
@@ -379,6 +370,13 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         if(profileImage != null) {
             savedInstanceState.putParcelable("profileImage", profileImage);
         }
+    }
+
+    @Override public void onDestroyView() {
+        super.onDestroyView();
+        profileImage.recycle();
+        profiler.setImageBitmap(null);
+        ButterKnife.unbind(this);
     }
 
 }
