@@ -55,7 +55,8 @@
         <item name="colorAccent">@color/ColorPrimary</item>
     </style>
 
-    <style name="TranslucentStatusBar" parent="AppTheme"></style>
+    <style name="TranslucentStatusBar" parent="AppTheme">
+    </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

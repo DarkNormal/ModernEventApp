@@ -32,7 +32,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
         return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
     public boolean isValidUsername(String target) {
-        return !TextUtils.isEmpty(target) && !target.contains("@");
+        return !TextUtils.isEmpty(target) && !target.contains("@") && !target.contains(" ");
     }
 
     public boolean isValidPassword(String target) {

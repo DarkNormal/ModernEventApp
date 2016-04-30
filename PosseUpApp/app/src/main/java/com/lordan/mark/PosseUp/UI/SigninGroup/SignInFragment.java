@@ -5,10 +5,13 @@ package com.lordan.mark.PosseUp.UI.SigninGroup;
 import android.app.ProgressDialog;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.view.ContextThemeWrapper;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -21,6 +24,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +46,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.gson.Gson;
@@ -281,7 +286,33 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onError(VolleyError error) {
                 mProgressDialog.dismiss();
-                System.out.println("No Token recieved");
+                NetworkResponse networkResponse = null;
+                try{
+                    networkResponse = error.networkResponse;
+                }
+                catch(Exception e){
+
+                }
+                if(networkResponse != null) {
+                    switch (networkResponse.statusCode){
+                        case 400:
+                            if(new String(networkResponse.data).contains("is already taken")){
+                                Log.e(TAG,"Username taken");
+                                retryExternalLogin(jsonBody);
+                            }
+                            break;
+                        case 403:
+                        case 500:
+                            LoginManager.getInstance().logOut();
+                            Toast.makeText(getContext(), "Unable to contact Posse Up servers, please try again in a moment", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                }
+                else{
+                    LoginManager.getInstance().logOut();
+                    Toast.makeText(getContext(), "Unable to contact Posse Up servers, please try again in a moment", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }
@@ -357,6 +388,57 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
         };
         queue.add(req);
 
+    }
+    private void retryExternalLogin(final JSONObject jsonObject){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(new ContextThemeWrapper(getContext(), R.style.CustomAlertDialogStyle));
+
+        //AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+
+        // Setting Dialog Title
+        alertDialog.setTitle("Facebook username");
+
+        // Setting Dialog Message
+        alertDialog.setMessage("Please enter a username for Posse Up");
+        final EditText input = new EditText(getContext());
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+        alertDialog.setView(input);
+
+        // Setting Positive "Yes" Button
+        alertDialog.setPositiveButton("Retry",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int which) {
+                    }
+                });
+        // Setting Negative "NO" Button
+        alertDialog.setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        LoginManager.getInstance().logOut();
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog dialog = alertDialog.create();
+        dialog.show();
+        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!TextUtils.isEmpty(input.getText())) {
+                    try {
+                        jsonObject.put("Name", input.getText().toString());
+                        dialog.dismiss();
+                        loginExternal(jsonObject);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else{
+                    input.setError("Enter a username");
+                }
+            }
+        });
     }
 
     private String trimMessage(String json, String key) {

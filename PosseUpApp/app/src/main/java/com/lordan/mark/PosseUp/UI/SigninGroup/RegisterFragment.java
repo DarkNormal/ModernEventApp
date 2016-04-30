@@ -164,7 +164,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
     private boolean validateDetails() {
         boolean proceedRegister1, proceedRegister2, proceedRegister3;
         if (!((SigninActivity)getActivity()).isValidUsername(username.getText().toString())) {
-            username.setError("Invalid username, cannot be empty and cannot contain @");
+            username.setError("Invalid username, cannot be empty and cannot contain @ or spaces");
             proceedRegister1 = false;
         }
         else proceedRegister1 = true;

@@ -6,10 +6,6 @@
         <item name="colorAccent">@color/ColorPrimary</item>
     </style>
 
-    <style name="PagerSlidingTabStripStyle" parent="">
-        <item name="android:textColorPrimary">#8a140e</item>
-    </style>
-
     <style name="fullscreenStartPage" parent="@style/Theme.AppCompat.Light">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>

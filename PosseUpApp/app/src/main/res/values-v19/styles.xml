@@ -4,7 +4,6 @@
     <style name="TranslucentStatusBar" parent="AppTheme">
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
-        <item name="android:textColorPrimary">#ff0101</item>
     </style>
 
 
