@@ -65,7 +65,6 @@ public class AddEventActivity extends AbstractActivity implements InviteFollower
     private FirstEventFragment myFrag;
     private RequestQueue queue;
     private String hostEmail;
-    private String eventID;
     private Event newEvent;
     private ArrayList<User> mSelectedFollowers;
     @Bind(R.id.add_event_progress_bar)
@@ -85,9 +84,11 @@ public class AddEventActivity extends AbstractActivity implements InviteFollower
         FragmentManager fragMan = getSupportFragmentManager();
         FragmentTransaction fragTransaction = fragMan.beginTransaction();
         myFrag = new FirstEventFragment();
-        if(fragmentHolder != null) {
-            fragTransaction.add(fragmentHolder.getId(), myFrag, "add_event_basic");
-            fragTransaction.commit();
+        if(savedInstanceState == null) {
+            if (fragmentHolder != null) {
+                fragTransaction.add(fragmentHolder.getId(), myFrag, "add_event_basic");
+                fragTransaction.commit();
+            }
         }
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         queue = Volley.newRequestQueue(this);
