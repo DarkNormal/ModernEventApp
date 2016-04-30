@@ -94,9 +94,6 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
         allDaySwitch.setOnCheckedChangeListener(this);
         mAddLocation.setOnClickListener(this);
         configDateTimeChooser();
-        //placeCard.setOnClickListener(this);
-
-
         return v;
     }
 
@@ -153,8 +150,6 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
                 break;
         }
     }
-
-
     private void configDateTimeChooser() {
         //true if a day is to be added
         configDateChooser(startDateInput, false);
@@ -164,12 +159,6 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
         configTimeChooser(endTimeInput);
 
     }
-
-    /*
-    *
-    *
-    *
-    */
     private void configDateChooser(final EditText dateTextView, final boolean addDay) {
         Calendar today = Calendar.getInstance();
         SimpleDateFormat format = new SimpleDateFormat("d/M/y");
@@ -194,7 +183,7 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
         int hour = mCurrentTime.get(Calendar.HOUR_OF_DAY);
         int minute = mCurrentTime.get(Calendar.MINUTE);
         TimePickerDialog mTimePicker;
-        mTimePicker = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+        mTimePicker = new TimePickerDialog(getActivity(), R.style.datepicker, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                 boolean addZeroHour = false;
@@ -231,7 +220,7 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
         int mMonth = mCurrentDate.get(Calendar.MONTH);
         int mDay = mCurrentDate.get(Calendar.DAY_OF_MONTH);
         DatePickerDialog mDatePicker;
-        mDatePicker = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+        mDatePicker = new DatePickerDialog(getActivity(), R.style.datepicker, new DatePickerDialog.OnDateSetListener() {
             public void onDateSet(DatePicker datepicker, int selectedYear, int selectedMonth, int selectedDay) {
                 if (dateTextView.getId() == startDateInput.getId()) {
                     Calendar dayAfter = Calendar.getInstance();

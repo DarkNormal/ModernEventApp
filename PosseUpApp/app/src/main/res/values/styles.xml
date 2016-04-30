@@ -55,6 +55,12 @@
         <item name="colorAccent">@color/ColorPrimary</item>
     </style>
 
+    <style name="datepicker" parent="Theme.AppCompat.Light.Dialog">
+    <item name="colorPrimary">@color/ColorPrimary</item>
+    <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
+    <item name="colorAccent">@color/ColorPrimary</item>
+    </style>
+
     <style name="TranslucentStatusBar" parent="AppTheme">
     </style>
 

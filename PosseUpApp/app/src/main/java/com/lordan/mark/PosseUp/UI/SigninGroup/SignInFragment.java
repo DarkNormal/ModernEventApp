@@ -248,6 +248,10 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
                             Toast.makeText(getActivity(), "An unknown error occurred", Toast.LENGTH_SHORT).show();
                     }
                 }
+                else{
+                    Toast.makeText(getContext(), "Unable to contact Posse Up servers, please try again in a moment", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
