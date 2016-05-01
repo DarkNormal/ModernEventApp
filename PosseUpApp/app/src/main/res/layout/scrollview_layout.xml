@@ -23,7 +23,9 @@
         android:id="@+id/scrolling_toolbar"
         android:layout_width="match_parent"
         android:background="@color/ColorPrimary"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
+        app:titleTextColor="@color/white"
+        android:minHeight="?actionBarSize"
         app:layout_scrollFlags="scroll|enterAlways"/>
 
     </android.support.design.widget.AppBarLayout>
