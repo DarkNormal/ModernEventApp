@@ -28,7 +28,6 @@ import com.lordan.mark.PosseUp.Model.Friendship;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
 
-import com.lordan.mark.PosseUp.UI.EventDetailGroup.EventDetailsActivity;
 import com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity;
 import com.lordan.mark.PosseUp.VolleyCallback;
 import com.lordan.mark.PosseUp.databinding.AccountProfileLayoutBinding;
@@ -159,12 +158,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
             public void onErrorResponse(VolleyError error) {
                 if(error.networkResponse != null){
                     if(error.networkResponse.statusCode == 401){
-                        try {
-                            ((MainActivity) getActivity()).signOut();
-                        }
-                        catch (Exception e){
-
-                        }
+                        ((MainActivity) getActivity()).signOut();
                     }
                 }
                 Log.e("profilefragment", "got error");
@@ -281,12 +275,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
             public void onErrorResponse(VolleyError error) {
                 if(error.networkResponse != null){
                     if(error.networkResponse.statusCode == 401){
-                        try {
-                            ((MainActivity) getActivity()).signOut();
-                        }
-                        catch (Exception e){
-
-                        }
+                        ((MainActivity) getActivity()).signOut();
                     }
                 }
                 Log.e("profilefragment", "friend error");

@@ -73,7 +73,6 @@ public class NearbySubscribeFragment extends Fragment implements
     private static final String ARG_SECTION_NUMBER = "section_number";
     private static final String ARG_ATTENDEE_LIST = "attendee_list";
     private GoogleApiClient mGoogleApiClient;
-    private LinearLayoutManager mLayoutManager;
 
     @Bind(R.id.start_attendance_tracking)
     public AppCompatButton nearbyButton;
@@ -116,9 +115,9 @@ public class NearbySubscribeFragment extends Fragment implements
         View rootView = inflater.inflate(R.layout.fragment_attendance, container, false);
         ButterKnife.bind(this, rootView);
         final RecyclerView nearbyDevicesListView = (RecyclerView) rootView.findViewById(R.id.nearby_devices_list_view);
-        mLayoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         nearbyDevicesListView.setLayoutManager(mLayoutManager);
-        mNearbyDevicesArrayAdapter = new NearbyAdapter(getContext(), attendeeList,isHere, new CustomItemClickListener() {
+        mNearbyDevicesArrayAdapter = new NearbyAdapter( attendeeList,isHere, new CustomItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
                 AppCompatCheckBox checkBox = (AppCompatCheckBox) v.findViewById(R.id.attendee_present_checkbox);

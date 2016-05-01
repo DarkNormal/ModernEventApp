@@ -87,7 +87,6 @@ public class Tab1 extends Fragment{
     private CustomAdapter mAdapter;
     private ArrayList<Event> mDataset;
     private RequestQueue queue;
-    private String url;
     private SignOutInterface signOutInterface;
 
 
@@ -192,7 +191,7 @@ public class Tab1 extends Fragment{
         }
     }
     private void refreshEvents() {
-        url = Constants.baseUrl + "api/Event/All/Public/" + new AzureService().getCurrentUsername(getContext()).replace(" ", "%20") + "/Invite";
+        String url = Constants.baseUrl + "api/Event/All/Public/" + new AzureService().getCurrentUsername(getContext()).replace(" ", "%20") + "/Invite";
         JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {

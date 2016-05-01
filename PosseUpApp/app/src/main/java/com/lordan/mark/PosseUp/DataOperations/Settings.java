@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-/**
+/*
  * Created by Mark on 03/04/2016.
  */
 public class Settings {

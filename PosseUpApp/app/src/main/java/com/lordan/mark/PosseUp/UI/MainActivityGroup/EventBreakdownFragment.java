@@ -52,7 +52,6 @@ public class EventBreakdownFragment extends Fragment {
     private SimpleAdapter mAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private List<SimpleSectionedRecyclerViewAdapter.Section> sections;
-    private View v;
     private static final String EXTRA_USERNAME = "EventBreakdownFragment.username";
 
     public static Fragment newInstance(String username){
@@ -65,7 +64,7 @@ public class EventBreakdownFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        v = inflater.inflate(R.layout.tab_3,container,false);
+        View v = inflater.inflate(R.layout.tab_3, container, false);
 
         eventRecycler = (RecyclerView) v.findViewById(R.id.eventsRecycler);
         eventRecycler.setHasFixedSize(true);

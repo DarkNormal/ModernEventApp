@@ -71,13 +71,10 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
     public TextView mAddLocation;
 
     private View v;
-    private Event newEvent;
     private final int PLACE_PICKER_REQUEST = 10;
-    private TextView addImage;
     private Place chosenPlace;
     private ImageSelectorDialog dialog;
     private ImageView eventImageView;
-    private final String TAG = "FirstEventFragment";
     private Bitmap eventImage;
     private static final int CAMERA_OPTION = 11, GALLERY_OPTION = 12;
     private String[] visibilityTypes;
@@ -87,7 +84,7 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.add_event_basic_details, container, false);
         ButterKnife.bind(this, v);
-        addImage = (TextView) v.findViewById(R.id.add_event_image);
+        TextView addImage = (TextView) v.findViewById(R.id.add_event_image);
         addImage.setOnClickListener(this);
         eventImageView = (ImageView) v.findViewById(R.id.event_image);
         visibilityTypes = getResources().getStringArray(R.array.event_type);
@@ -104,6 +101,7 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
             case 0:
                 dialog.dismiss();
                 if (resultCode == CAMERA_OPTION) {
+                    String TAG = "FirstEventFragment";
                     Log.i(TAG, "got the result from the dialog");
 
                     Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -277,7 +275,7 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
                         .show();
             }
             else {
-                newEvent = new Event(0,
+                Event newEvent = new Event(0,
                         title.getText().toString(),
                         description.getText().toString(),
                         visibilityTypes[visibility.getSelectedItemPosition()],

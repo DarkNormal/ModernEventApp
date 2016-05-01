@@ -38,11 +38,8 @@ public class MainActivity extends AbstractActivity implements
         ChatFragment.OnChatFragmentInteractionListener{
 
 
-    private final String TAG = "MainActivity";
     private ActionBarDrawerToggle mDrawerToggle;
-    private CharSequence mDrawerTitle;
     private CharSequence mTitle;
-    private ActionBar mActionBar;
     @Bind(R.id.drawer_nav_view)
     public NavigationView navView;
     @Bind(R.id.drawer_layout)
@@ -57,11 +54,13 @@ public class MainActivity extends AbstractActivity implements
         Toolbar mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(mToolbar);
 
+        CharSequence mDrawerTitle;
         mTitle = mDrawerTitle = getTitle();
         try{
-            mActionBar = getSupportActionBar();
+            ActionBar mActionBar = getSupportActionBar();
         }
         catch(NullPointerException npe){
+            String TAG = "MainActivity";
             Log.e(TAG, "ActionBar null");
         }
 

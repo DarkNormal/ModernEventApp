@@ -14,7 +14,7 @@
         style="?android:attr/borderlessButtonStyle"
         android:background="@android:color/transparent"
         android:layout_centerHorizontal="true"
-        android:text="broadcast"
+        android:text="@string/broadcast"
         android:layout_height="wrap_content" />
 
 </RelativeLayout>

@@ -11,7 +11,7 @@ import com.lordan.mark.PosseUp.Model.User;
 
 import java.nio.charset.Charset;
 
-/**
+/*
  * Created by Mark on 03/04/2016.
  */
 public class NearbyApiUtil {
@@ -20,15 +20,10 @@ public class NearbyApiUtil {
 
     private static final String TYPE_NERD = "nerd";
 
-    public static final String TYPE_BEACON = "beacon";
-
     private NearbyApiUtil() {
         // static class
     }
 
-    // The Strategy for our Nearby messages.  The defaults are to allow messages to be exchanged
-    // over any distance for 5 minutes. Other options are listed here:
-    // https://developers.google.com/android/reference/com/google/android/gms/nearby/messages/Strategy
     public static final Strategy MESSAGE_STRATEGY = new Strategy.Builder()
             .setTtlSeconds(Strategy.TTL_SECONDS_DEFAULT)
             .setDiscoveryMode(Strategy.DISCOVERY_MODE_DEFAULT)

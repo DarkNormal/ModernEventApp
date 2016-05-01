@@ -2,7 +2,7 @@ package com.lordan.mark.PosseUp.Model;
 
 import java.util.Calendar;
 
-/**
+/*
  * Created by Mark on 06/04/2016.
  */
 public class ChatMessage {

@@ -37,8 +37,6 @@ implements NearbyPublishInterface,
     private GoogleApiClient mGoogleApiClient;
     private NearbyPublishInterface nearbyInterface;
     private String currentUser;
-    private AppCompatButton broadcastButton;
-    private Message mDeviceMessage = null;
     private static final String TAG = "Attend Activity";
     // Tracks if we are currently resolving an error related to Nearby permissions. Used to avoid
     // duplicate Nearby permission dialogs if the user initiates both subscription and publication
@@ -57,7 +55,7 @@ implements NearbyPublishInterface,
                 .addOnConnectionFailedListener(this)
                 .build();
         nearbyInterface = this;
-        broadcastButton = (AppCompatButton) findViewById(R.id.broadcast);
+        AppCompatButton broadcastButton = (AppCompatButton) findViewById(R.id.broadcast);
         broadcastButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,7 +72,7 @@ implements NearbyPublishInterface,
         super.onStart();
 
         AzureService az = new AzureService();
-         mDeviceMessage = DeviceMessage.newNearbyMessage(InstanceID.getInstance(this).getId(), az.getCurrentUsername(this));
+        Message mDeviceMessage = DeviceMessage.newNearbyMessage(InstanceID.getInstance(this).getId(), az.getCurrentUsername(this));
         if (!mGoogleApiClient.isConnected()) {
             mGoogleApiClient.connect();
         }

@@ -3,7 +3,6 @@ package com.lordan.mark.PosseUp.UI.EventDetailGroup;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
@@ -50,7 +49,6 @@ public class AttendanceActivity extends AbstractActivity implements
      */
 
     private static final String TAG = "AttendanceActivity";
-    private SectionsPagerAdapter mSectionsPagerAdapter;
     private static final String EXTRA_EVENT_ID = "EventID";
     private static final String EXTRA_CURRENT_USER_IS_HOST = "EventIsHost";
     private static final String EXTRA_EVENT_ATTENDEES= "EventAttendees";
@@ -58,10 +56,6 @@ public class AttendanceActivity extends AbstractActivity implements
     private RequestQueue queue;
 
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-    private ViewPager mViewPager;
     private ArrayList<User> attendeeList;
 
     public static Intent newIntent(Context context, int eventID, boolean isCurrentUserHost, ArrayList<User> attendees){
@@ -85,10 +79,13 @@ public class AttendanceActivity extends AbstractActivity implements
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        /*
+      The {@link ViewPager} that will host the section contents.
+     */
+        ViewPager mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -96,13 +93,6 @@ public class AttendanceActivity extends AbstractActivity implements
 
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_attendance, menu);
-        return true;
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

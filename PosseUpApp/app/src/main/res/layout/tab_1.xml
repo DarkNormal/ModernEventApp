@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -52,7 +51,7 @@
                 android:id="@+id/try_refresh_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Retry"
+                android:text="@string/retry"
                 android:textColor="@color/white"
                 android:layout_below="@+id/failed_loading_events"
                 android:layout_alignLeft="@+id/failed_loading_events"

@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal">
 
     <com.mikhaellopez.circularimageview.CircularImageView
@@ -18,7 +17,6 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/text_margin"
-        tools:text="@string/placeholder"
         android:textAppearance="?attr/textAppearanceListItem"
         android:textColor="@android:color/black"
         android:layout_weight="3"

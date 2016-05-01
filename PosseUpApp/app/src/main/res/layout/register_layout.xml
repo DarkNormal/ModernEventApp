@@ -110,7 +110,9 @@
         android:layout_height="wrap_content"
         android:text="@string/sign_up"
         android:id="@+id/signup_button"
+        android:alpha="0.5"
         android:background="#FF3366"
+        android:enabled="false"
         android:textColor="#FFF8F8"
         android:typeface="normal" />
 </LinearLayout>

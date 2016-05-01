@@ -41,7 +41,6 @@ import com.android.volley.toolbox.Volley;
 
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.LoginEvent;
-import com.crashlytics.android.answers.SignUpEvent;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -295,7 +294,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
                     networkResponse = error.networkResponse;
                 }
                 catch(Exception e){
-
+                    Log.i(TAG, "Null network response");
                 }
                 if(networkResponse != null) {
                     switch (networkResponse.statusCode){

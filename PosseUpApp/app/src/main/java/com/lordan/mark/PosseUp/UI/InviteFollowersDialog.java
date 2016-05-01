@@ -12,12 +12,12 @@ import com.lordan.mark.PosseUp.R;
 
 import java.util.ArrayList;
 
-/**
+/*
  * Created by Mark on 16/04/2016.
  */
 public class InviteFollowersDialog extends DialogFragment {
     private String[] followers;
-    private final ArrayList<Integer> mSelectedFollowers = new ArrayList();
+    private final ArrayList<Integer> mSelectedFollowers = new ArrayList<>();
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction

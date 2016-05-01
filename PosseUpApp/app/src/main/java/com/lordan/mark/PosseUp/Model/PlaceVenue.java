@@ -46,23 +46,9 @@ public class PlaceVenue extends BaseObservable implements Parcelable{
        this.venueRating = venueRating;
    }
 
-   public double getVenueRating() {
-
-       return venueRating;
-   }
-
-   public void setVenueRating(double venueRating) {
-       this.venueRating = venueRating;
-   }
-
     @Bindable
    public String getVenueName() {
        return venueName;
-   }
-
-   public void setVenueName(String venueName) {
-        notifyPropertyChanged(BR.venueName);
-       this.venueName = venueName;
    }
 
 
@@ -71,26 +57,8 @@ public class PlaceVenue extends BaseObservable implements Parcelable{
        return venueAddress;
    }
 
-   public void setVenueAddress(String venueAddress) {
-        notifyPropertyChanged(BR.venueAddress);
-       this.venueAddress = venueAddress;
-   }
-
-   public LatLng getVenueLocation() {
+    public LatLng getVenueLocation() {
        return new LatLng(venueLocationLat, venueLocationLng);
-   }
-
-   public void setVenueLocation(LatLng venueLocation) {
-       this.venueLocationLat = venueLocation.latitude;
-       this.venueLocationLng = venueLocation.longitude;
-   }
-
-   public List<Integer> getVenueType() {
-       return venueType;
-   }
-
-   public void setVenueType(List<Integer> venueType) {
-       this.venueType = venueType;
    }
 
 

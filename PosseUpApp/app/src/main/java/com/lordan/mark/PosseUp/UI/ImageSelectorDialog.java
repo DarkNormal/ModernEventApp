@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.lordan.mark.PosseUp.R;
 
-/**
+/*
  * Created by Mark on 31/03/2016.
  */
 public class ImageSelectorDialog extends DialogFragment {

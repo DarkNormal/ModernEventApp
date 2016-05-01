@@ -4,13 +4,15 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -82,6 +84,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
                 profiler.setImageBitmap(profileImage);
             }
         }
+        username.addTextChangedListener(getTextWatcher());
+        password.addTextChangedListener(getTextWatcher());
+        email.addTextChangedListener(getTextWatcher());
         email.getCompoundDrawables()[0].setAlpha(128);
         queue = Volley.newRequestQueue(getContext());       //instantiate Volley queue
         signup.setOnClickListener(this);
@@ -159,6 +164,28 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         jrequest.setRetryPolicy(new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(jrequest);
 
+    }
+    private TextWatcher getTextWatcher(){
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                enableSignup();
+            }
+        };
+    }
+    private void enableSignup(){
+        if(!TextUtils.isEmpty(username.getText()) && !TextUtils.isEmpty(password.getText()) && !TextUtils.isEmpty(email.getText())){
+            signup.setEnabled(true);
+            signup.setAlpha(1.0f);
+        }
+        else if(signup.getAlpha() != 0.5f){
+            signup.setEnabled(false);
+            signup.setAlpha(0.5f);
+        }
     }
 
     private boolean validateDetails() {
@@ -373,9 +400,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
 
     @Override public void onDestroyView() {
         super.onDestroyView();
-        if(profileImage != null) {
-            profileImage.recycle();
-        }
         profiler.setImageBitmap(null);
         ButterKnife.unbind(this);
     }

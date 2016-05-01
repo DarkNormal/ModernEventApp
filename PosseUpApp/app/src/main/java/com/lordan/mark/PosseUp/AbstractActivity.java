@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -17,6 +18,8 @@ import com.lordan.mark.PosseUp.Model.Constants;
 
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -77,7 +80,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
 
     protected JsonObjectRequest getUserDetails(final VolleyCallback callback) {
         String url = Constants.baseUrl + "api/Account/UserInfo/" + new AzureService().getCurrentUsername(this).replace(" ", "%20");
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        return new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 callback.onSuccess(response);
@@ -89,7 +92,14 @@ public abstract class AbstractActivity extends AppCompatActivity {
                 Log.e("profilefragment", "got error");
                 callback.onError(error);
             }
-        });
-        return jsonObjectRequest;
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "bearer " + new AzureService().getToken(getApplicationContext()));
+
+                return params;
+            }
+        };
     }
 }

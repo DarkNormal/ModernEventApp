@@ -125,15 +125,7 @@
             android:layout_width="0dp"
             android:layout_height="20dp"
             android:layout_weight="1" />
-        <TextView
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingStart="@dimen/margin_small"
-            android:text="@string/forgot_password"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="#FFF8F8"
-            android:paddingBottom="@dimen/margin_medium" />
 
 
     </LinearLayout>

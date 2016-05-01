@@ -14,16 +14,15 @@ import com.lordan.mark.PosseUp.UI.MainActivityGroup.CustomItemClickListener;
 
 import java.util.ArrayList;
 
-/**
+/*
  * Created by Mark on 03/04/2016.
  */
 public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.ViewHolder> {
     private final ArrayList<User> mDataset;
     private final boolean[] isHere;
     private final CustomItemClickListener listener;
-    private final Context context;
 
-// Provide a reference to the views for each data item
+    // Provide a reference to the views for each data item
 // Complex data items may need more than one view per item, and
 // you provide access to all the views for a data item in a view holder
 public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -39,11 +38,10 @@ public static class ViewHolder extends RecyclerView.ViewHolder {
 }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public NearbyAdapter(Context context, ArrayList<User> myDataset, boolean[] isHere, CustomItemClickListener listener) {
+    public NearbyAdapter(ArrayList<User> myDataset, boolean[] isHere, CustomItemClickListener listener) {
         mDataset = myDataset;
         this.isHere = isHere;
         this.listener = listener;
-        this.context = context;
     }
 
     // Create new views (invoked by the layout manager)

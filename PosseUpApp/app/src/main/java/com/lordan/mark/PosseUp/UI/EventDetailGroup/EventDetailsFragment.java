@@ -43,7 +43,6 @@ import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.MainActivityGroup.ChatActivity;
-import com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity;
 import com.lordan.mark.PosseUp.UI.ProfileGroup.ProfileActivity;
 import com.lordan.mark.PosseUp.VolleyCallback;
 import com.lordan.mark.PosseUp.databinding.FragmentEventDetailsBinding;
@@ -76,7 +75,6 @@ public class EventDetailsFragment extends Fragment implements
     private FragmentEventDetailsBinding mBinding;
     private OnFragmentInteractionListener mListener;
     private final int DELETE_EVENT = 5;
-    private ConfirmExitDialog confirm;
     @Bind(R.id.event_guests_heading)
     public TextView numGuestsHeading;
     @Bind(R.id.event_invited_guests_heading)
@@ -374,7 +372,7 @@ public class EventDetailsFragment extends Fragment implements
     }
 
     private void showDeleteDialog(){
-        confirm = new ConfirmExitDialog();
+        ConfirmExitDialog confirm = new ConfirmExitDialog();
         confirm.setTargetFragment(this, DELETE_EVENT);
         confirm.show(getFragmentManager(), "confirm_dialog");
     }
@@ -533,12 +531,14 @@ public class EventDetailsFragment extends Fragment implements
         @Override
         protected void onPostExecute(Boolean isUserAttending) {
             super.onPostExecute(isUserAttending);
-            Picasso.with(getContext()).load(event.getEventImage()).into(mBinding.eventImageHeader);
-            if(isUserAttending){
-                mBinding.attendButton.setText(getString(R.string.leave));
-            }
-            displayEventUsers();
+            if(isAdded()) {
+                Picasso.with(getContext()).load(event.getEventImage()).into(mBinding.eventImageHeader);
+                if (isUserAttending) {
+                    mBinding.attendButton.setText(getString(R.string.leave));
+                }
+                displayEventUsers();
 
+            }
         }
     }
 }

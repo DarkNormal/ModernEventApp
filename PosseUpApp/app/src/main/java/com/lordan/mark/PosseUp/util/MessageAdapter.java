@@ -14,7 +14,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-/**
+/*
  * Created by Mark on 04/04/2016.
  */
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder>{
