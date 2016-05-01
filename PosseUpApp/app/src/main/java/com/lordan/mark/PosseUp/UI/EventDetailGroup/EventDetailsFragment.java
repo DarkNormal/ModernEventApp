@@ -50,6 +50,7 @@ import com.lordan.mark.PosseUp.databinding.FragmentEventDetailsBinding;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -507,6 +508,17 @@ public class EventDetailsFragment extends Fragment implements
             event = gson.fromJson(response.toString(), Event.class);
             event.setEndingTime();
             event.setStartingTime();
+            try {
+                JSONArray invitedGuests = response.getJSONArray("EventInvitedGuests");
+                ArrayList<User> invited = new ArrayList<>();
+                for (int i = 0; i < invitedGuests.length(); i++) {
+                    User invitedGuest = new Gson().fromJson(invitedGuests.getJSONObject(i).getJSONObject("User").toString(), User.class);
+                    invited.add(invitedGuest);
+                }
+                event.setInvitedGuests(invited);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             mBinding.setEvent(event);
             mBinding.setVenue(event.getPlaceDetails());
             for (User u : event.getAttendees()) {
