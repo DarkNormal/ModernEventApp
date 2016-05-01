@@ -20,8 +20,7 @@ import android.support.test.espresso.matcher.ViewMatchers.withText
  */
 @RunWith(AndroidJUnit4::class)
 class SignInActivityTest {
-    @Rule @JvmField
-    public val main = ActivityTestRule(SigninActivity::class.java)
+    @Rule @JvmField val main = ActivityTestRule(SigninActivity::class.java)
 
     @Test
     fun launchMainActivity() {

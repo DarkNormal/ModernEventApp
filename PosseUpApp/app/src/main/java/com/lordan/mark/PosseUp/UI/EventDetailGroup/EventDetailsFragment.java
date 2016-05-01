@@ -28,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -36,11 +37,13 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
+import com.lordan.mark.PosseUp.DataOperations.AzureService;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.Event;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.MainActivityGroup.ChatActivity;
+import com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity;
 import com.lordan.mark.PosseUp.UI.ProfileGroup.ProfileActivity;
 import com.lordan.mark.PosseUp.VolleyCallback;
 import com.lordan.mark.PosseUp.databinding.FragmentEventDetailsBinding;
@@ -51,6 +54,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -263,6 +268,7 @@ public class EventDetailsFragment extends Fragment implements
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Event e);
         void onInviteFollowers(int eventID);
+        void unautorized();
     }
     private void getEventDetails(int id){
         getEventDetailsCall(id, new VolleyCallback() {
@@ -274,6 +280,11 @@ public class EventDetailsFragment extends Fragment implements
 
             @Override
             public void onError(VolleyError error) {
+                if(error.networkResponse != null){
+                    if(error.networkResponse.statusCode == 401){
+                       mListener.unautorized();
+                    }
+                }
             }
         });
     }
@@ -287,9 +298,22 @@ public class EventDetailsFragment extends Fragment implements
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error.networkResponse != null){
+                    if(error.networkResponse.statusCode == 401){
+                        mListener.unautorized();
+                    }
+                }
                 callback.onError(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "bearer " + new AzureService().getToken(getContext()));
+
+                return params;
+            }
+        };
         queue.add(jsonObjectRequest);
     }
 
@@ -419,9 +443,22 @@ public class EventDetailsFragment extends Fragment implements
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error.networkResponse != null){
+                    if(error.networkResponse.statusCode == 401){
+                        mListener.unautorized();
+                    }
+                }
                 Log.e(TAG, error.toString());
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "bearer " + new AzureService().getToken(getContext()));
+
+                return params;
+            }
+        };
         queue.add(jsonObjectRequest);
     }
 
@@ -441,9 +478,22 @@ public class EventDetailsFragment extends Fragment implements
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error.networkResponse != null){
+                    if(error.networkResponse.statusCode == 401){
+                        mListener.unautorized();
+                    }
+                }
                 callback.onError(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "bearer " + new AzureService().getToken(getContext()));
+
+                return params;
+            }
+        };
         queue.add(jsonObjectRequest);
     }
     private class FetchEventDetailsTask extends AsyncTask<JSONObject, Void, Boolean> {

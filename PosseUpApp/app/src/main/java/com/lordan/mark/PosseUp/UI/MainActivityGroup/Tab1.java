@@ -29,6 +29,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -56,6 +57,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -85,6 +88,7 @@ public class Tab1 extends Fragment{
     private ArrayList<Event> mDataset;
     private RequestQueue queue;
     private String url;
+    private SignOutInterface signOutInterface;
 
 
     @Override
@@ -218,7 +222,15 @@ public class Tab1 extends Fragment{
                     Log.e(TAG, "Volley refresh events error");
                 }
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "bearer " + new AzureService().getToken(getContext()));
+
+                return params;
+            }
+        };
         queue.add(jsonRequest);
 
 
@@ -242,10 +254,10 @@ public class Tab1 extends Fragment{
         switch (errorCode){
             case 401:
                 //Unauthorized - token probably gone
-                alert = Snackbar.make(mFab, "Authentication Failed", Snackbar.LENGTH_LONG).setAction("REFRESH", new View.OnClickListener() {
+                alert = Snackbar.make(mFab, "Authentication Failed", Snackbar.LENGTH_LONG).setAction("Sign in", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        refreshEvents();
+                        ((MainActivity)getActivity()).signOut();
                     }
                 });
                 alert.setActionTextColor(Color.RED);
@@ -256,7 +268,6 @@ public class Tab1 extends Fragment{
                 alert = Snackbar.make(mFab, "Service Unavailable", Snackbar.LENGTH_LONG).setAction("RETRY", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //TODO refresh token
                     }
                 });
                 alert.setActionTextColor(Color.YELLOW);
@@ -280,6 +291,11 @@ public class Tab1 extends Fragment{
         TextView textView = (TextView) v.findViewById(android.support.design.R.id.snackbar_text);
         textView.setTextColor(Color.WHITE);
         alert.show();
+    }
+
+
+    public interface SignOutInterface {
+        void signOut();
     }
 
     @Override public void onDestroyView() {

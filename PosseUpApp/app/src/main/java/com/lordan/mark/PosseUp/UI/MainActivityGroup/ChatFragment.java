@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -34,6 +35,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -188,13 +191,24 @@ public class ChatFragment extends Fragment {
                 NetworkResponse response = error.networkResponse;
                 if(response != null){
                     Log.e(TAG, response.statusCode + " " + response.toString());
+                    if(response.statusCode == 401){
+                        ((MainActivity)getActivity()).signOut();
+                    }
                 }
                 else{
                     Log.e(TAG, "Volley refresh events error");
                 }
 
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "bearer " + new AzureService().getToken(getContext()));
+
+                return params;
+            }
+        };
         queue.add(jsonRequest);
 
 

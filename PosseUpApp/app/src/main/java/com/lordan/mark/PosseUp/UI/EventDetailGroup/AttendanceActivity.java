@@ -16,12 +16,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.lordan.mark.PosseUp.AbstractActivity;
+import com.lordan.mark.PosseUp.DataOperations.AzureService;
 import com.lordan.mark.PosseUp.Model.Constants;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
@@ -31,8 +34,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-public class AttendanceActivity extends AppCompatActivity implements
+public class AttendanceActivity extends AbstractActivity implements
         NearbySubscribeFragment.OnNearbyFragmentInteractionListener{
 
     /**
@@ -161,10 +166,10 @@ public class AttendanceActivity extends AppCompatActivity implements
             return null;
         }
     }
-    private void confirmUsers(ArrayList<User> confirmedAttendees, boolean[] isHere){
+    private void confirmUsers(ArrayList<User> confirmedAttendees, boolean[] isHere) {
         JSONArray arr = new JSONArray();
-        for(int i =0; i < confirmedAttendees.size(); i++){
-            if(isHere[i]){
+        for (int i = 0; i < confirmedAttendees.size(); i++) {
+            if (isHere[i]) {
                 arr.put(confirmedAttendees.get(i).getUsername());
             }
         }
@@ -181,7 +186,7 @@ public class AttendanceActivity extends AppCompatActivity implements
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    if(response.getBoolean("success")){
+                    if (response.getBoolean("success")) {
                         Toast.makeText(AttendanceActivity.this, "Attendees confirmed", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
@@ -191,9 +196,22 @@ public class AttendanceActivity extends AppCompatActivity implements
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if (error.networkResponse != null) {
+                    if (error.networkResponse.statusCode == 401) {
+                        signOutOfAccount();
+                    }
+                }
                 Log.i(TAG, "got error");
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "bearer " + new AzureService().getToken(getApplicationContext()));
+
+                return params;
+            }
+        };
         queue.add(jsonObjectRequest);
     }
 }

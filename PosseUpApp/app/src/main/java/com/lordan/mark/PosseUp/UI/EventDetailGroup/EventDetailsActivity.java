@@ -102,6 +102,7 @@ public class EventDetailsActivity extends AbstractActivity implements EventDetai
     }
 
 
+
     @Override
     public void onFragmentInteraction(Event e) {
 
@@ -138,6 +139,11 @@ public class EventDetailsActivity extends AbstractActivity implements EventDetai
                 //failed to get followers
             }
         }));
+    }
+
+    @Override
+    public void unautorized() {
+        signOutOfAccount();
     }
 
     @Override

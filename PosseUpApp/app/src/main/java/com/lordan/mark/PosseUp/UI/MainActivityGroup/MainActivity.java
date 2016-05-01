@@ -32,7 +32,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends AbstractActivity implements ProfileFragment.OnFragmentInteractionListener, UserFragment.OnListFragmentInteractionListener, ChatFragment.OnChatFragmentInteractionListener{
+public class MainActivity extends AbstractActivity implements
+        ProfileFragment.OnFragmentInteractionListener,
+        UserFragment.OnListFragmentInteractionListener,
+        ChatFragment.OnChatFragmentInteractionListener{
 
 
     private final String TAG = "MainActivity";
@@ -169,7 +172,7 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
         int id = item.getItemId();
 
         if (id == R.id.sign_out_menu) {
-            signOut();
+            signOutOfAccount();
             startActivity(new Intent(MainActivity.this, SigninActivity.class));
             finish();
             return true;
@@ -177,6 +180,7 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
 
         return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     public void onFragmentInteraction(User u, String viewType) {
@@ -195,5 +199,9 @@ public class MainActivity extends AbstractActivity implements ProfileFragment.On
     @Override
     public void onChatFragmentInteraction(Uri uri) {
 
+    }
+
+    public void signOut(){
+        signOutOfAccount();
     }
 }

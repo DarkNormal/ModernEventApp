@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 
@@ -27,6 +28,8 @@ import com.lordan.mark.PosseUp.Model.Friendship;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.R;
 
+import com.lordan.mark.PosseUp.UI.EventDetailGroup.EventDetailsActivity;
+import com.lordan.mark.PosseUp.UI.MainActivityGroup.MainActivity;
 import com.lordan.mark.PosseUp.VolleyCallback;
 import com.lordan.mark.PosseUp.databinding.AccountProfileLayoutBinding;
 import com.squareup.picasso.Picasso;
@@ -35,6 +38,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Mark on 31/01/2016
@@ -152,10 +157,28 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error.networkResponse != null){
+                    if(error.networkResponse.statusCode == 401){
+                        try {
+                            ((MainActivity) getActivity()).signOut();
+                        }
+                        catch (Exception e){
+
+                        }
+                    }
+                }
                 Log.e("profilefragment", "got error");
 
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "bearer " + new AzureService().getToken(getContext()));
+
+                return params;
+            }
+        };
         queue.add(jsonObjectRequest);
     }
 
@@ -256,10 +279,28 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error.networkResponse != null){
+                    if(error.networkResponse.statusCode == 401){
+                        try {
+                            ((MainActivity) getActivity()).signOut();
+                        }
+                        catch (Exception e){
+
+                        }
+                    }
+                }
                 Log.e("profilefragment", "friend error");
 
             }
-        });
+        })
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "bearer " + new AzureService().getToken(getContext()));
+
+                return params;
+            }};
         queue.add(jsonObjectRequest);
     }
     private void setFollowButtonText(String textToSet){

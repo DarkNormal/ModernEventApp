@@ -47,7 +47,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
         return matcher.matches();
     }
 
-    protected void signOut(){       //logout user completely, remove all login information
+    protected void signOutOfAccount(){       //logout user completely, remove all login information
         SharedPreferences settings = getSharedPreferences("PosseUpData", MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
         editor.remove("access_token");

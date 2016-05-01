@@ -25,8 +25,7 @@ import android.support.test.espresso.matcher.ViewMatchers.withText
  */
 @RunWith(AndroidJUnit4::class)
 class MainActivityTest {
-    @Rule @JvmField
-    public val main = ActivityTestRule<MainActivity>(MainActivity::class.java)
+    @Rule @JvmField val main = ActivityTestRule<MainActivity>(MainActivity::class.java)
 
     @Test
     fun launchMainActivity() {

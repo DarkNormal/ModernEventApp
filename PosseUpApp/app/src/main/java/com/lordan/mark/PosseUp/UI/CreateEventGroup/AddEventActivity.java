@@ -234,6 +234,11 @@ public class AddEventActivity extends AbstractActivity implements InviteFollower
 
                     @Override
                     public void onError(VolleyError error) {
+                        if(error.networkResponse != null){
+                            if(error.networkResponse.statusCode == 401){
+                                signOutOfAccount();
+                            }
+                        }
                         progressBar.setVisibility(View.INVISIBLE);
 
                     }
@@ -277,6 +282,11 @@ public class AddEventActivity extends AbstractActivity implements InviteFollower
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("Create Event Error", "");
+                if(error.networkResponse != null){
+                    if(error.networkResponse.statusCode == 401){
+                        signOutOfAccount();
+                    }
+                }
                 callback.onError(error);
             }
         });

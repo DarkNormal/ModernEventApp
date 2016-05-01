@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -37,7 +38,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EventBreakdownFragment extends Fragment {
 
@@ -148,11 +151,24 @@ public class EventBreakdownFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                if(error.networkResponse != null){
+                    if(error.networkResponse.statusCode == 401){
+                        ((MainActivity)getActivity()).signOut();
+                    }
+                }
                 mSwipeRefreshLayout.setRefreshing(false);
                 Log.e(TAG, "got error");
 
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "bearer " + new AzureService().getToken(getContext()));
+
+                return params;
+            }
+        };
         queue.add(jsonObjectRequest);
     }
     public interface VolleyCallback{

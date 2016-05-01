@@ -373,7 +373,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
 
     @Override public void onDestroyView() {
         super.onDestroyView();
-        profileImage.recycle();
+        if(profileImage != null) {
+            profileImage.recycle();
+        }
         profiler.setImageBitmap(null);
         ButterKnife.unbind(this);
     }
