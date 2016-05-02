@@ -15,7 +15,6 @@
             app:titleTextColor="@color/white"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
-
     <include layout="@layout/content_chat" />
 
 </LinearLayout>

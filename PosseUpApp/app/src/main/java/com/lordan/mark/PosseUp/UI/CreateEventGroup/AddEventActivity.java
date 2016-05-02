@@ -31,6 +31,7 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -49,10 +50,13 @@ import com.lordan.mark.PosseUp.R;
 import com.lordan.mark.PosseUp.UI.InviteFollowersDialog;
 import com.lordan.mark.PosseUp.VolleyCallback;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -135,8 +139,8 @@ public class AddEventActivity extends AbstractActivity implements InviteFollower
                     sendEvent(newEvent);
                 }
                 break;
-            case R.id.create_event_invite:
-                inviteFriends();
+//            case R.id.create_event_invite:
+                //inviteFriends();
             default:
                 break;
 
@@ -267,8 +271,6 @@ public class AddEventActivity extends AbstractActivity implements InviteFollower
         JSONObject eventObj = new JSONObject();
         try {
             eventObj = new JSONObject(event);
-
-
         } catch (JSONException e1) {
             e1.printStackTrace();
         }
@@ -289,7 +291,15 @@ public class AddEventActivity extends AbstractActivity implements InviteFollower
                 }
                 callback.onError(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "bearer " + new AzureService().getToken(getApplicationContext()));
+
+                return params;
+            }
+        };
         queue.add(jsonObjectRequest);
     }
     private void addHostToEventList(String url, final VolleyCallback callback){
@@ -324,7 +334,15 @@ public class AddEventActivity extends AbstractActivity implements InviteFollower
             public void onErrorResponse(VolleyError error) {
                 callback.onError(error);
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("Authorization", "bearer " + new AzureService().getToken(getApplicationContext()));
+
+                return params;
+            }
+        };
         queue.add(jsonObjectRequest);
     }
 

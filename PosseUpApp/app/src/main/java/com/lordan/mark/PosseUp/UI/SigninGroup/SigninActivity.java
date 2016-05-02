@@ -38,8 +38,7 @@ public class SigninActivity extends AbstractActivity {
 
     private Handler mHandler = new Handler();
     private static final String TAG = "SignInActivity";
-    private GoogleCloudMessaging gcm;
-    private NotificationHub hub;
+
     @Bind(R.id.fragmentHolder)
     public LinearLayout fragmentHolder;
 
@@ -49,7 +48,7 @@ public class SigninActivity extends AbstractActivity {
         super.onCreate(savedInstanceState);
         TwitterAuthConfig authConfig = new TwitterAuthConfig("1IYKulpvPMfNOTX88TGMMB5KZ", "Ozzrm0w697wRB5F2E8GzYVfjRcBBw1fy35GMpEUo89MTfjqKvH");
         Fabric.with(getApplicationContext(), new Crashlytics(), new Twitter(authConfig));
-        setupGcm();
+
         setContentView(R.layout.signin_layout);
         ButterKnife.bind(this);
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -106,28 +105,7 @@ public class SigninActivity extends AbstractActivity {
         //myFrag.onActivityResult(requestCode,resultCode,data);
     }
 
-    private void setupGcm() {
 
-        NotificationsManager.handleNotifications(this, getString(R.string.SENDER_ID), MyHandler.class);
-        gcm = GoogleCloudMessaging.getInstance(this);
-        hub = new NotificationHub(getString(R.string.hubName), getString(R.string.hubListenConnectionString), this);
-        registerWithNotificationHubs();
-    }
-    @SuppressWarnings("unchecked")
-    private void registerWithNotificationHubs() {
-        new AsyncTask() {
-            @Override
-            protected Object doInBackground(Object... params) {
-                try {
-                    String regid = gcm.register(getString(R.string.SENDER_ID));
-                    Log.i(TAG,"Registered Successfully - RegID: " + hub.register(regid, getCurrentEmail()).getRegistrationId());
-                } catch (Exception e) {
-                    Log.e(TAG, "GCM register exception");
-                }
-                return null;
-            }
-        }.execute(null, null, null);
-    }
     @Override
     public void onDestroy() {
         super.onDestroy();

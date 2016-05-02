@@ -200,7 +200,7 @@ public class EventDetailsActivity extends AbstractActivity implements EventDetai
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.i(TAG, "fail invite");
+                //Log.i(TAG, "fail invite");
             }
         }){
             @Override

@@ -2,11 +2,14 @@ package com.lordan.mark.PosseUp.UI.MainActivityGroup;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.lordan.mark.PosseUp.AbstractActivity;
 import com.lordan.mark.PosseUp.DataOperations.AzureService;
+import com.lordan.mark.PosseUp.Model.MyHandler;
 import com.lordan.mark.PosseUp.Model.User;
 import com.lordan.mark.PosseUp.UI.EventDetailGroup.UserFragment;
 import com.lordan.mark.PosseUp.R;
@@ -25,6 +28,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.lordan.mark.PosseUp.UI.SigninGroup.SigninActivity;
+import com.microsoft.windowsazure.messaging.NotificationHub;
+import com.microsoft.windowsazure.notifications.NotificationsManager;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
@@ -40,6 +45,9 @@ public class MainActivity extends AbstractActivity implements
 
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mTitle;
+    private GoogleCloudMessaging gcm;
+    private String regID = null;
+    private NotificationHub hub;
     @Bind(R.id.drawer_nav_view)
     public NavigationView navView;
     @Bind(R.id.drawer_layout)
@@ -98,6 +106,7 @@ public class MainActivity extends AbstractActivity implements
         if (savedInstanceState == null) {
             navView.getMenu().performIdentifierAction(R.id.drawer_home, 0);
         }
+        setupGcm();
     }
 
     private void selectDrawerItem(MenuItem menuItem) {
@@ -199,8 +208,44 @@ public class MainActivity extends AbstractActivity implements
     public void onChatFragmentInteraction(Uri uri) {
 
     }
+    private void setupGcm() {
 
+        NotificationsManager.handleNotifications(this, getString(R.string.SENDER_ID), MyHandler.class);
+        gcm = GoogleCloudMessaging.getInstance(this);
+        hub = new NotificationHub(getString(R.string.hubName), getString(R.string.hubListenConnectionString), this);
+        registerWithNotificationHubs();
+    }
+    @SuppressWarnings("unchecked")
+    private void registerWithNotificationHubs() {
+        new AsyncTask() {
+            @Override
+            protected Object doInBackground(Object... params) {
+                try {
+                    String regid = gcm.register(getString(R.string.SENDER_ID));
+                    regID = hub.register(regid, getCurrentEmail()).getRegistrationId();
+                    Log.i("MainActivity","Registered Successfully - RegID: " + regID);
+                } catch (Exception e) {
+                    Log.e("MainActivity", "GCM register exception");
+                }
+                return null;
+            }
+        }.execute(null, null, null);
+    }
+
+    @SuppressWarnings("unchecked")
     public void signOut(){
+        new AsyncTask() {
+            @Override
+            protected Object doInBackground(Object... params) {
+                try {
+                    hub.unregister();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+        }.execute(null, null, null);
+
         signOutOfAccount();
     }
 }

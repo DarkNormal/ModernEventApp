@@ -31,6 +31,7 @@
         <item name="colorButtonNormal">@color/ColorPrimary</item>
         <item name="toolbarStyle">@style/custom_toolbar</item>
         <item name="android:colorBackground">@color/white</item>
+        <item name="android:windowBackground">@color/white</item>
         <item name="android:textColorSecondary">@android:color/black</item>
     </style>
 
