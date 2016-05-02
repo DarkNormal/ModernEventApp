@@ -197,12 +197,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.user_followers:
-                mListener.onFragmentInteraction(user, "followers");
+                //mListener.onFragmentInteraction(user, "followers");
                 break;
             case R.id.user_events:
                 break;
             case R.id.user_following:
-                mListener.onFragmentInteraction(user, "following");
+                //mListener.onFragmentInteraction(user, "following");
                 break;
             case R.id.follow_button:
                 follow(mBinding.followButton.getText().toString());
