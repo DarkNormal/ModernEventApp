@@ -403,6 +403,7 @@ public class SignInFragment extends Fragment implements View.OnClickListener {
         // Setting Dialog Message
         alertDialog.setMessage("Please enter a username for Posse Up");
         final EditText input = new EditText(getContext());
+        input.setTextColor(0);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);

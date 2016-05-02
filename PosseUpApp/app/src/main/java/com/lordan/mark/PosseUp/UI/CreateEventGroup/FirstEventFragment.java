@@ -91,6 +91,12 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
         allDaySwitch.setOnCheckedChangeListener(this);
         mAddLocation.setOnClickListener(this);
         configDateTimeChooser();
+        if(savedInstanceState != null){
+            eventImage = savedInstanceState.getParcelable("eventImage");
+            if(eventImage != null){
+                eventImageView.setImageBitmap(eventImage);
+            }
+        }
         return v;
     }
 
@@ -234,7 +240,7 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
         if (dateTextView.getId() == endDateInput.getId()) {
             mDatePicker.getDatePicker().setMinDate(startingDate.getTimeInMillis());
         } else {
-            mDatePicker.getDatePicker().setMinDate(new Date().getTime());
+            mDatePicker.getDatePicker().setMinDate(System.currentTimeMillis() -1000);
         }
         mDatePicker.show();
     }
@@ -382,6 +388,15 @@ public class FirstEventFragment extends Fragment implements View.OnClickListener
                     endTimeInput.setVisibility(View.VISIBLE);
                 }
                 break;
+        }
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        if(eventImage != null) {
+            savedInstanceState.putParcelable("eventImage", eventImage);
         }
     }
 
